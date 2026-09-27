@@ -1,0 +1,303 @@
+/* =========================
+   RESET
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   HALAMAN
+========================= */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #faf8f3;
+    color: #294936;
+}
+
+
+/* =========================
+   LINK
+========================= */
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+    height: 72px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 60px;
+
+    background-color: #f8dfe0;
+}
+
+
+/* LOGO + NAMA */
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo img {
+    width: 60px;
+    height: 45px;
+    object-fit : contain;
+}
+
+.logo span {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 28px;
+    font-weight: 800;
+
+    background: linear-gradient(
+        90deg,
+        #202a27 0%,
+        #202a27 45%,
+        #7da486 60%,
+        #6f9a79 100%
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+/* MENU */
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+
+    list-style: none;
+
+    margin: 0;
+    padding: 0;
+}
+
+.nav-menu li {
+    display: flex;
+    align-items: center;
+}
+
+.nav-menu a {
+    font-size: 14px;
+}
+
+
+/* TOMBOL MASUK */
+
+.btn-login {
+    padding: 10px 25px;
+
+    border-radius: 20px;
+
+    background-color: #a8bca5;
+    color: white;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    max-width: 1100px;
+    margin: 0 auto;
+
+    padding: 60px 40px 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 60px;
+}
+
+.hero-content {
+    width: 50%;
+}
+
+.hero-label {
+    display: inline-block;
+
+    padding: 6px 12px;
+    margin-bottom: 20px;
+
+    border-radius: 20px;
+
+    background-color: #e6eee3;
+
+    font-size: 10px;
+    font-weight: bold;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.05;
+
+    margin-bottom: 25px;
+}
+
+.hero-description {
+    font-size: 14px;
+    line-height: 1.7;
+
+    color: #777;
+
+    margin-bottom: 25px;
+}
+
+
+/* =========================
+   TOMBOL BOOKING
+========================= */
+
+.btn-booking {
+    display: inline-block;
+
+    padding: 12px 20px;
+
+    border-radius: 7px;
+
+    background-color: #294936;
+    color: white;
+
+    font-size: 13px;
+}
+
+
+/* =========================
+   GAMBAR HERO
+========================= */
+
+.hero-image img{
+    width: 350px;
+    height: 450px;
+    object-fit: cover;
+    border-radius: 150px 15px 15px 15px;
+}
+
+.hero-image {
+    flex: 1;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+
+/* =========================
+   STATISTIK
+========================= */
+
+.statistics {
+    max-width: 1100px;
+    margin: 0 auto;
+
+    padding: 20px 40px 50px;
+
+    display: flex;
+    gap: 70px;
+}
+
+.stat-item h2 {
+    font-size: 20px;
+    margin-bottom: 5px;
+}
+
+.stat-item p {
+    font-size: 11px;
+    color: #777;
+}
+
+
+/* =========================
+   LAYANAN
+========================= */
+
+.services {
+    max-width: 1100px;
+    margin: 0 auto;
+
+    padding: 50px 40px;
+
+    text-align: center;
+
+    background-color: white;
+}
+
+.section-label {
+    font-size: 10px;
+    font-weight: bold;
+
+    color: #789477;
+
+    margin-bottom: 10px;
+}
+
+.services h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.services > p:last-child {
+    color: #777;
+    font-size: 13px;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    padding: 30px;
+
+    text-align: center;
+
+    font-size: 12px;
+
+    color: #777;
+}
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    min-height: auto;
+}
+
+.hero {
+    min-height: auto;
+    padding: 30px 0 10px;
+}
+
+.statistics {
+    padding: 15px 0;
+}
+
+footer {
+    padding: 10px 0;
+    margin-top: 10px;
+}
