@@ -48,7 +48,7 @@ a {
 }
 
 
-/* LOGO + NAMA */
+/* LOGO */
 
 .logo {
     display: flex;
@@ -59,7 +59,7 @@ a {
 .logo img {
     width: 60px;
     height: 45px;
-    object-fit : contain;
+    object-fit: contain;
 }
 
 .logo span {
@@ -80,6 +80,7 @@ a {
     background-clip: text;
 }
 
+
 /* MENU */
 
 .nav-menu {
@@ -88,9 +89,6 @@ a {
     gap: 35px;
 
     list-style: none;
-
-    margin: 0;
-    padding: 0;
 }
 
 .nav-menu li {
@@ -107,7 +105,6 @@ a {
 
 .btn-login {
     padding: 10px 25px;
-
     border-radius: 20px;
 
     background-color: #a8bca5;
@@ -125,7 +122,7 @@ a {
     max-width: 1100px;
     margin: 0 auto;
 
-    padding: 60px 40px 30px;
+    padding: 30px 0 10px;
 
     display: flex;
     align-items: center;
@@ -191,18 +188,21 @@ a {
    GAMBAR HERO
 ========================= */
 
-.hero-image img{
-    width: 350px;
-    height: 450px;
-    object-fit: cover;
-    border-radius: 150px 15px 15px 15px;
-}
-
 .hero-image {
     flex: 1;
+
     display: flex;
     justify-content: flex-end;
     align-items: center;
+}
+
+.hero-image img {
+    width: 350px;
+    height: 450px;
+
+    object-fit: cover;
+
+    border-radius: 150px 15px 15px 15px;
 }
 
 
@@ -214,7 +214,7 @@ a {
     max-width: 1100px;
     margin: 0 auto;
 
-    padding: 20px 40px 50px;
+    padding: 15px 0;
 
     display: flex;
     gap: 70px;
@@ -271,7 +271,8 @@ a {
 ========================= */
 
 footer {
-    padding: 30px;
+    padding: 10px 0;
+    margin-top: 10px;
 
     text-align: center;
 
@@ -279,25 +280,224 @@ footer {
 
     color: #777;
 }
-html, body {
-    margin: 0;
-    padding: 0;
+
+
+/* =========================
+   LOGIN
+========================= */
+
+.login-page {
+    display: none;
+
+    position: fixed;
+    inset: 0;
+
+    background-color: #faf8f3;
+
+    justify-content: center;
+    align-items: center;
+
+    z-index: 999;
 }
 
-main {
-    min-height: auto;
+.login-page.show {
+    display: flex;
 }
 
-.hero {
-    min-height: auto;
-    padding: 30px 0 10px;
+
+/* CARD LOGIN */
+
+.login-box {
+    width: 580px;
+
+    padding: 34px 42px;
+
+    background-color: white;
+
+    border-radius: 16px;
+
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-.statistics {
-    padding: 15px 0;
+
+/* JUDUL */
+
+.login-box h1 {
+    margin-bottom: 8px;
+
+    font-size: 32px;
+    line-height: 1.2;
+
+    color: #294936;
 }
 
-footer {
-    padding: 10px 0;
-    margin-top: 10px;
+.login-box > p {
+    margin-bottom: 24px;
+
+    color: #777;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   GOOGLE
+========================= */
+
+.google-btn {
+    width: 100%;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #eeeeee;
+    color: #666;
+
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.google-btn:hover {
+    background-color: #e8e8e8;
+}
+
+
+/* LOGO GOOGLE */
+
+.google-icon {
+    font-size: 25px;
+    font-weight: bold;
+
+    background: conic-gradient(
+        from -45deg,
+        #4285f4 0deg 90deg,
+        #34a853 90deg 180deg,
+        #fbbc05 180deg 270deg,
+        #ea4335 270deg 360deg
+    );
+
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+
+/* =========================
+   PEMISAH
+========================= */
+
+.divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    margin: 18px 0;
+
+    color: #777;
+
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.divider::before,
+.divider::after {
+    content: "";
+
+    flex: 1;
+
+    height: 1px;
+
+    background-color: #d5d5d5;
+}
+
+
+/* =========================
+   INPUT
+========================= */
+
+.login-box label {
+    display: block;
+
+    margin: 12px 0 6px;
+
+    color: #3f4b45;
+
+    font-size: 14px;
+}
+
+.login-box input {
+    width: 100%;
+    height: 46px;
+
+    padding: 0 14px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #eeeeee;
+
+    color: #444;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.login-box input:focus {
+    box-shadow: 0 0 0 2px #a8bca5;
+}
+
+
+/* =========================
+   PASSWORD
+========================= */
+
+.password {
+    position: relative;
+}
+
+.password input {
+    padding-right: 40px;
+}
+
+.password span {
+    position: absolute;
+
+    right: 14px;
+    top: 12px;
+
+    color: #888;
+
+    cursor: pointer;
+}
+
+
+/* =========================
+   TOMBOL LOGIN
+========================= */
+
+.login-btn {
+    width: 100%;
+    height: 46px;
+
+    margin-top: 24px;
+
+    border: none;
+    border-radius: 10px;
+
+    background-color: #789b7d;
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+}
+
+.login-btn:hover {
+    background-color: #6f9174;
 }

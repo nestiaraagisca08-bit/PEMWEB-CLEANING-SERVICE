@@ -22,8 +22,8 @@
         <nav class="navbar">
 
             <div class="logo">
-                 <img src="Images/Logo griya Resik.png" alt="Logo GriyaResik">
-                 <span>GriyaResik</span>
+                <img src="Images/Logo griya Resik.png" alt="Logo GriyaResik">
+                <span>GriyaResik</span>
             </div>
 
             <ul class="nav-menu">
@@ -33,7 +33,7 @@
                 <li><a href="#">Status Pemesanan</a></li>
             </ul>
 
-            <a href="#" class="btn-login">
+            <a href="#" class="btn-login" id="loginBtn">
                 Masuk
             </a>
 
@@ -45,6 +45,7 @@
     <main>
 
         <section class="hero">
+
             <div class="hero-content">
 
                 <p class="hero-label">
@@ -72,11 +73,12 @@
 
             <div class="hero-image">
 
-                <img src="images/rumah rapi.png"alt="Rumah yang bersih">
+                <img src="images/rumah rapi.png" alt="Rumah yang bersih">
 
             </div>
 
         </section>
+
 
         <!-- STATISTIK -->
         <section class="statistics">
@@ -128,6 +130,75 @@
         </p>
 
     </footer>
+
+
+    <!-- LOGIN -->
+    <section class="login-page" id="loginPage">
+
+        <div class="login-box">
+
+            <h1>Selamat Datang</h1>
+
+            <p>
+                Masuk ke akun Anda untuk melanjutkan
+            </p>
+
+
+            <!-- GOOGLE -->
+            <button class="google-btn" type="button">
+                <span class="google-icon">G</span>
+                Masuk dengan Google
+            </button>
+
+
+            <!-- PEMISAH -->
+            <div class="divider">
+                <span>ATAU LANJUTKAN DENGAN EMAIL</span>
+            </div>
+
+
+            <!-- EMAIL -->
+            <label for="email">
+                Alamat Email / ID Pengguna
+            </label>
+
+            <input
+                type="text"
+                id="email"
+                placeholder="Masukkan email atau ID pengguna"
+            >
+
+
+            <!-- PASSWORD -->
+            <label for="password">
+                Masukkan Password
+            </label>
+
+            <div class="password">
+
+                <input
+                    type="password"
+                    id="password"
+                    placeholder="Masukkan password"
+                >
+
+                <span></span>
+
+            </div>
+
+
+            <!-- TOMBOL LOGIN -->
+            <button class="login-btn" type="button">
+                Masuk ke Akun
+            </button>
+
+        </div>
+
+    </section>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="script.js"></script>
 
 </body>
 
