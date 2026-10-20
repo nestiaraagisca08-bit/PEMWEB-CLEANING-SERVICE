@@ -1,6 +1,19 @@
+
 /* =========================
-   RESET
+   RESET & WARNA
 ========================= */
+
+:root {
+    --green: #193e2f;
+    --green-dark: #173b2c;
+    --sage: #789477;
+    --soft: #F8F5F0;
+    --pink: #FAE9E9;
+    --text: #1d352b;
+    --muted: #758078;
+    --border: #e9eae6;
+    --white: #ffffff;
+}
 
 * {
     margin: 0;
@@ -8,496 +21,1222 @@
     box-sizing: border-box;
 }
 
-
-/* =========================
-   HALAMAN
-========================= */
-
-body {
-    font-family: Arial, sans-serif;
-    background-color: #faf8f3;
-    color: #294936;
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 25px;
 }
 
-
-/* =========================
-   LINK
-========================= */
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: var(--soft);
+    color: var(--text);
+    font-size: 13px;
+}
 
 a {
     text-decoration: none;
     color: inherit;
 }
 
+img {
+    display: block;
+    max-width: 100%;
+}
 
 /* =========================
    NAVBAR
 ========================= */
 
-.navbar {
+.header {
     width: 100%;
-    height: 72px;
+    background: var(--pink);
+}
 
+.navbar {
+    max-width: 1100px;
+    min-height: 82px;
+    margin: 0 auto;
+    padding: 0 25px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    padding: 0 60px;
-
-    background-color: #f8dfe0;
+    gap: 25px;
 }
-
-
-/* LOGO */
 
 .logo {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 7px;
+    flex-shrink: 0;
 }
 
 .logo img {
-    width: 60px;
-    height: 45px;
+    width: 38px;
+    height: 38px;
     object-fit: contain;
 }
 
 .logo span {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 28px;
+    font-size: 22px;
     font-weight: 800;
-
-    background: linear-gradient(
-        90deg,
-        #202a27 0%,
-        #202a27 45%,
-        #7da486 60%,
-        #6f9a79 100%
-    );
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text);
 }
-
-
-/* MENU */
 
 .nav-menu {
     display: flex;
     align-items: center;
-    gap: 35px;
-
+    gap: 4px;
+    padding: 4px;
     list-style: none;
-}
-
-.nav-menu li {
-    display: flex;
-    align-items: center;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 25px;
 }
 
 .nav-menu a {
-    font-size: 14px;
+    display: block;
+    padding: 8px 14px;
+    border-radius: 20px;
+    font-size: 11px;
+    color: #46534a;
+    white-space: nowrap;
+    transition: 0.2s;
 }
 
+.nav-menu a:hover {
+    background: #e4eee4;
+}
 
-/* TOMBOL MASUK */
+.nav-menu a.active {
+    background: var(--green);
+    color: #fff;
+}
 
 .btn-login {
-    padding: 10px 25px;
+    padding: 8px 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid #dfe5dc;
     border-radius: 20px;
-
-    background-color: #a8bca5;
-    color: white;
-
-    font-size: 14px;
+    background: #fff;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
 }
 
+.user-icon {
+    font-size: 15px;
+}
 
 /* =========================
    HERO
 ========================= */
 
 .hero {
-    max-width: 1100px;
+    max-width: 1000px;
     margin: 0 auto;
-
-    padding: 30px 0 10px;
-
-    display: flex;
+    padding: 25px 25px 0;
+    display: grid;
+    grid-template-columns: 1fr 0.82fr;
     align-items: center;
-    justify-content: space-between;
-
-    gap: 60px;
+    gap: 45px;
 }
 
 .hero-content {
-    width: 50%;
+    min-width: 0;
+    padding-top: 8px;
+}
+
+.hero-label,
+.section-label {
+    display: inline-block;
+    padding: 5px 11px;
+    border-radius: 20px;
+    background: #e7eee4;
+    color: #58735c;
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 0.35px;
 }
 
 .hero-label {
     display: inline-block;
+    margin-bottom: 16px;
+}
 
-    padding: 6px 12px;
-    margin-bottom: 20px;
-
-    border-radius: 20px;
-
-    background-color: #e6eee3;
-
-    font-size: 10px;
-    font-weight: bold;
+.hero-label span {
+    color: #c98b6b;
 }
 
 .hero h1 {
-    font-size: 48px;
+    margin: 8px 0 16px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: clamp(34px, 3.8vw, 800px);
+    font-weight: 800;
     line-height: 1.05;
-
-    margin-bottom: 25px;
+    letter-spacing: -1.5px;
+    color: var(--green);
 }
 
 .hero-description {
-    font-size: 14px;
+    max-width: 420px;
+    margin-bottom: 24px;
+    color: #667069;
+    font-size: 12px;
     line-height: 1.7;
-
-    color: #777;
-
-    margin-bottom: 25px;
 }
 
-
-/* =========================
-   TOMBOL BOOKING
-========================= */
-
-.btn-booking {
-    display: inline-block;
-
-    padding: 12px 20px;
-
-    border-radius: 7px;
-
-    background-color: #294936;
-    color: white;
-
-    font-size: 13px;
+.btn-primary {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px 16px;
+    border-radius: 9px;
+    background: var(--green);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    box-shadow: 0 5px 10px rgba(25, 62, 47, 0.12);
+    transition: 0.2s;
 }
 
-
-/* =========================
-   GAMBAR HERO
-========================= */
+.btn-primary:hover {
+    background: #28563f;
+    transform: translateY(-1px);
+}
 
 .hero-image {
-    flex: 1;
-
     display: flex;
     justify-content: flex-end;
-    align-items: center;
 }
 
 .hero-image img {
-    width: 350px;
-    height: 450px;
-
+    width: 100%;
+    max-width: 360px;
+    height: 420px;
     object-fit: cover;
-
-    border-radius: 150px 15px 15px 15px;
+    object-position: center;
+    border-radius: 105px 8px 8px 8px;
 }
-
 
 /* =========================
    STATISTIK
 ========================= */
 
 .statistics {
-    max-width: 1100px;
-    margin: 0 auto;
-
-    padding: 15px 0;
-
-    display: flex;
-    gap: 70px;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    margin: 20px 0 0;
+    padding-top: 15px;
+    border-top: 1px solid #ecece7;
 }
 
 .stat-item h2 {
-    font-size: 20px;
-    margin-bottom: 5px;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
 }
 
 .stat-item p {
+    margin-top: 6px;
+    color: #788079;
     font-size: 11px;
-    color: #777;
+    line-height: 1.5;
 }
 
+.star {
+    color: #f0a12a;
+}
 
 /* =========================
-   LAYANAN
+   SECTION UMUM
+========================= */
+
+.section {
+    width: 100%;
+    padding: 48px max(30px, calc((100% - 1000px) / 2));
+}
+
+.section-heading {
+    max-width: 600px;
+    margin: 0 auto 32px;
+    text-align: center;
+}
+
+.section-heading .section-label {
+    margin-bottom: 11px;
+}
+
+.section-heading h2,
+.room-heading h2 {
+    margin-bottom: 10px;
+    color: var(--green);
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.8px;
+    line-height: 1.25;
+}
+
+.section-heading > p:last-child {
+    max-width: 540px;
+    margin: 0 auto;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+}
+
+/* =========================
+   KARTU PAKET
 ========================= */
 
 .services {
-    max-width: 1100px;
-    margin: 0 auto;
-
-    padding: 50px 40px;
-
+    padding-top: 36px;
+    padding-bottom: 48px;
+    background: #fff;
+}
+.services .section-heading {
+    max-width: 600px;
+    margin: 0 auto 32px;
     text-align: center;
-
-    background-color: white;
+}
+.service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 16px;
+}
+.service-card {
+    position: relative;
+    min-width: 0;
+    padding: 20px 19px 17px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: #fff;
+}
+.service-card.featured {
+    border: 1.5px solid var(--green);
+    box-shadow: 0 8px 18px rgba(25, 62, 47, 0.08);
+}
+.service-icon {
+    width: 30px;
+    height: 30px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9px;
+    background: #e8eee5;
+    color: var(--green);
+    font-size: 18px;
+}
+.dark-icon {
+    background: var(--green);
+    color: #fff;
+}
+.popular-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    width: 150px;
+    padding: 7px 12px;
+    transform: translateX(-50%);
+    border-radius: 20px;
+    background: var(--green);
+    color: #fff;
+    text-align: center;
+    font-size: 8px;
+    line-height: 1.35;
+    font-weight: 800;
+}
+.intensive-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 5px 8px;
+    border-radius: 15px;
+    background: #f8e9e2;
+    color: #96684e;
+    font-size: 7px;
+    font-weight: 800;
+}
+.service-card h3 {
+    margin-bottom: 7px;
+    color: #202b25;
+    font-size: 16px;
+    font-weight: 800;
+}
+.service-description {
+    min-height: 57px;
+    margin-bottom: 11px;
+    color: #778078;
+    font-size: 10px;
+    line-height: 1.65;
+}
+.service-features {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-bottom: 17px;
+    list-style: none;
+}
+.service-features li {
+    position: relative;
+    padding-left: 17px;
+    color: #4f5e54;
+    font-size: 9px;
+    line-height: 1.5;
+}
+.service-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 11px;
+    height: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #7b9a80;
+    border-radius: 50%;
+    color: var(--green);
+    font-size: 7px;
+    font-weight: 800;
 }
 
-.section-label {
+.service-price {
+    margin-top: auto;
+    padding-top: 13px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    border-top: 1px solid #f0f0ec;
+}
+
+.service-price > span {
+    color: #818981;
+    font-size: 9px;
+}
+
+.service-price strong {
+    color: var(--green);
+    font-size: 22px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.service-price small {
+    color: #768077;
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0;
+}
+
+.btn-service {
+    margin-top: 12px;
+    padding: 10px;
+    display: block;
+    border-radius: 7px;
+    background: #f1f2f3;
+    color: #425348;
+    text-align: center;
     font-size: 10px;
-    font-weight: bold;
+    font-weight: 700;
+    transition: 0.2s;
+}
 
-    color: #789477;
+.btn-service:hover {
+    background: #e4eae2;
+}
 
+.featured-button {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(25, 62, 47, 0.12);
+}
+
+.featured-button:hover {
+    background: #28563f;
+}
+
+/* =========================
+   BANNER SPESIALIS
+========================= */
+
+.special-section {
+    padding: 18px 25px 0;
+    background: #fff;
+}
+
+.special-banner {
+    max-width: 1000px;
+    min-height: 100px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    border-radius: 14px;
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 7px 14px rgba(25, 62, 47, 0.12);
+}
+
+.special-icon {
+    width: 39px;
+    height: 39px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #79d7a8;
+    font-size: 20px;
+}
+
+.special-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.special-label,
+.cta-label {
+    display: inline-block;
+    margin-bottom: 5px;
+    color: #79d7a8;
+    font-size: 8px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.special-content h2 {
+    margin-bottom: 5px;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.special-content p {
+    color: #d3ded5;
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+.btn-special {
+    flex-shrink: 0;
+    padding: 11px 15px;
+    border-radius: 7px;
+    background: #f9eee7;
+    color: var(--green);
+    font-size: 9px;
+    font-weight: 800;
+}
+
+/* =========================
+   KARTU RUANGAN
+========================= */
+
+.rooms {
+    max-width: none;
+    padding-top: 32px;
+    padding-bottom: 38px;
+    background: #fff;
+}
+
+.room-heading {
+    max-width: 1000px;
+    margin: 0 auto 22px;
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.room-heading .section-label {
     margin-bottom: 10px;
 }
 
-.services h2 {
-    font-size: 28px;
+.room-heading h2 {
+    margin: 0;
+    font-size: 20px;
+}
+
+.all-rooms {
+    padding-bottom: 3px;
+    color: var(--green);
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.room-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+}
+
+.room-card {
+    min-width: 0;
+    padding: 13px;
+    border: 1px solid #e9eae6;
+    border-radius: 12px;
+    background: #fcfbf9;
+}
+
+.room-icon {
+    width: 27px;
+    height: 27px;
+    margin-bottom: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.blue {
+    background: #dff0ff;
+    color: #2481b7;
+}
+
+.yellow {
+    background: #fff0c7;
+    color: #b78122;
+}
+
+.mint {
+    background: #d8f8e8;
+    color: #198e68;
+}
+
+.purple {
+    background: #f0e1ff;
+    color: #9a55ca;
+}
+
+.room-card h3 {
+    margin-bottom: 7px;
+    font-size: 11px;
+    font-weight: 800;
+    line-height: 1.45;
+}
+
+.room-card > p {
+    min-height: 38px;
+    margin-bottom: 11px;
+    color: #7a817b;
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+.room-price {
+    padding-top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    border-top: 1px solid #efefeb;
+}
+
+.room-price span {
+    color: #828981;
+    font-size: 9px;
+}
+
+.room-price strong {
+    color: var(--green);
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* =========================
+   LANGKAH PEMESANAN
+========================= */
+
+.process-section {
+    max-width: none;
+    padding-top: 38px;
+    padding-bottom: 38px;
+    background: #fff;
+}
+
+.process-section .section-heading {
+    margin-bottom: 33px;
+}
+
+.process-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 25px;
+}
+
+.process-card {
+    text-align: center;
+}
+
+.process-number {
+    width: 38px;
+    height: 38px;
+    margin: 0 auto 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #cbd9c9;
+    border-radius: 50%;
+    background: #edf2e9;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.process-number.current {
+    background: var(--green);
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(25, 62, 47, 0.12);
+}
+
+.process-card h3 {
+    margin-bottom: 8px;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.process-card p {
+    color: #788078;
+    font-size: 9px;
+    line-height: 1.7;
+}
+
+/* =========================
+   ULASAN PELANGGAN
+========================= */
+
+.reviews {
+    max-width: none;
+    padding-top: 32px;
+    padding-bottom: 32px;
+    background: var(--soft);
+}
+
+.reviews .section-heading {
+    margin-bottom: 28px;
+}
+
+.review-grid {
+    max-width: 1000px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.review-card {
+    min-width: 0;
+    padding: 19px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #e9eae6;
+    border-radius: 13px;
+    background: #fff;
+}
+
+.review-stars {
+    margin-bottom: 12px;
+    color: #f0a12a;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.review-text {
+    flex: 1;
+    min-height: 83px;
     margin-bottom: 15px;
+    color: #59645c;
+    font-size: 10px;
+    font-style: italic;
+    line-height: 1.7;
 }
 
-.services > p:last-child {
-    color: #777;
-    font-size: 13px;
+.review-person {
+    padding-top: 12px;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    border-top: 1px solid #f0f0ec;
 }
 
+.avatar {
+    width: 27px;
+    height: 27px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: #e8eee5;
+    color: var(--green);
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.review-person div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.review-person strong {
+    font-size: 9px;
+}
+
+.review-person small {
+    color: #828981;
+    font-size: 8px;
+}
+
+/* =========================
+   CTA BOOKING
+========================= */
+
+.booking-banner {
+    max-width: none;
+    min-height: 145px;
+    padding: 30px max(30px, calc((100% - 1000px) / 2));
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+    background: var(--green);
+    color: #fff;
+}
+
+.cta-label {
+    padding: 5px 10px;
+    border-radius: 15px;
+    background: rgba(73, 167, 123, 0.25);
+}
+
+.booking-banner h2 {
+    margin-bottom: 7px;
+    font-size: 19px;
+    line-height: 1.4;
+}
+
+.booking-banner p {
+    color: #d6e1d8;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+.btn-cta {
+    flex-shrink: 0;
+    padding: 12px 18px;
+    border-radius: 7px;
+    background: #f9eee7;
+    color: var(--green);
+    text-align: center;
+    font-size: 10px;
+    font-weight: 800;
+    transition: 0.2s;
+}
+
+.btn-cta:hover {
+    background: #fff;
+    transform: translateY(-1px);
+}
 
 /* =========================
    FOOTER
 ========================= */
 
-footer {
-    padding: 10px 0;
-    margin-top: 10px;
+.footer {
+    padding: 30px 25px 15px;
+    background: #f8e9e3;
+    color: #304337;
+}
 
-    text-align: center;
+.footer-main {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-bottom: 25px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1.15fr 1fr;
+    gap: 28px;
+}
 
+.footer-logo {
+    margin-bottom: 13px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.footer-logo-mark {
+    width: 25px;
+    height: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px;
+    background: var(--green);
+    color: #fff;
     font-size: 12px;
-
-    color: #777;
+    font-weight: 800;
 }
 
-
-/* =========================
-   LOGIN
-========================= */
-
-.login-page {
-    display: none;
-
-    position: fixed;
-    inset: 0;
-
-    background-color: #faf8f3;
-
-    justify-content: center;
-    align-items: center;
-
-    z-index: 999;
-}
-
-.login-page.show {
-    display: flex;
-}
-
-
-/* CARD LOGIN */
-
-.login-box {
-    width: 580px;
-
-    padding: 34px 42px;
-
-    background-color: white;
-
-    border-radius: 16px;
-
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-}
-
-
-/* JUDUL */
-
-.login-box h1 {
-    margin-bottom: 8px;
-
-    font-size: 32px;
-    line-height: 1.2;
-
-    color: #294936;
-}
-
-.login-box > p {
-    margin-bottom: 24px;
-
-    color: #777;
-
+.footer-logo strong {
+    font-family: 'Baloo 2', sans-serif;
     font-size: 16px;
+    font-weight: 800;
 }
 
+.footer-brand > p {
+    max-width: 230px;
+    color: #7b776f;
+    font-size: 9px;
+    line-height: 1.8;
+}
 
-/* =========================
-   GOOGLE
-========================= */
+.footer-column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+}
 
-.google-btn {
-    width: 100%;
-    height: 46px;
+.footer-column h3 {
+    margin-bottom: 4px;
+    font-size: 9px;
+    font-weight: 800;
+}
 
+.footer-column a,
+.footer-column p,
+.footer-column strong {
+    color: #77766e;
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+.footer-column strong {
+    color: var(--green);
+}
+
+.footer-column a:hover {
+    color: var(--green);
+}
+
+.service-status {
+    margin-top: 2px;
+    padding: 6px 9px;
+    border-radius: 20px;
+    background: #fff;
+    color: #4b7559;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.footer-bottom {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding-top: 15px;
     display: flex;
     align-items: center;
-    justify-content: center;
-    gap: 10px;
-
-    border: none;
-    border-radius: 10px;
-
-    background-color: #eeeeee;
-    color: #666;
-
-    font-size: 16px;
-    cursor: pointer;
+    justify-content: space-between;
+    gap: 15px;
+    border-top: 1px solid #eadbd5;
 }
 
-.google-btn:hover {
-    background-color: #e8e8e8;
+.footer-bottom p,
+.footer-bottom a {
+    color: #8a847b;
+    font-size: 8px;
 }
 
-
-/* LOGO GOOGLE */
-
-.google-icon {
-    font-size: 25px;
-    font-weight: bold;
-
-    background: conic-gradient(
-        from -45deg,
-        #4285f4 0deg 90deg,
-        #34a853 90deg 180deg,
-        #fbbc05 180deg 270deg,
-        #ea4335 270deg 360deg
-    );
-
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-
-/* =========================
-   PEMISAH
-========================= */
-
-.divider {
+.footer-bottom div {
     display: flex;
-    align-items: center;
-    gap: 10px;
-
-    margin: 18px 0;
-
-    color: #777;
-
-    font-size: 11px;
-    white-space: nowrap;
-}
-
-.divider::before,
-.divider::after {
-    content: "";
-
-    flex: 1;
-
-    height: 1px;
-
-    background-color: #d5d5d5;
+    flex-wrap: wrap;
+    gap: 17px;
 }
 
 
 /* =========================
-   INPUT
+   TAMPILAN AWAL DESKTOP
+   Menjaga hero, statistik, dan judul katalog proporsional
 ========================= */
+@media (min-width: 901px) {
+    .header {
+        background: var(--pink);
+    }
 
-.login-box label {
-    display: block;
+    .hero {
+        padding-top: 0;
+        padding-bottom: 0;
+    }
 
-    margin: 12px 0 6px;
+    .statistics {
+        margin: 20px 0 0;
+    }
 
-    color: #3f4b45;
-
-    font-size: 14px;
+    .services {
+        padding-top: 36px;
+    }
 }
-
-.login-box input {
-    width: 100%;
-    height: 46px;
-
-    padding: 0 14px;
-
-    border: none;
-    border-radius: 10px;
-
-    background-color: #eeeeee;
-
-    color: #444;
-
-    font-size: 15px;
-
-    outline: none;
-}
-
-.login-box input:focus {
-    box-shadow: 0 0 0 2px #a8bca5;
-}
-
 
 /* =========================
-   PASSWORD
+   RESPONSIVE
 ========================= */
 
-.password {
-    position: relative;
+@media (min-width: 1400px) {
+    .hero {
+        max-width: 1100px;
+    }
+
+    .hero-image img {
+        max-width: 1000px;
+        height: 420px;
+    }
 }
 
-.password input {
-    padding-right: 40px;
+@media (max-width: 900px) {
+    .navbar {
+        padding: 12px 25px;
+        gap: 12px;
+    }
+
+    .nav-menu {
+        gap: 0;
+    }
+
+    .nav-menu a {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .hero {
+        gap: 30px;
+        padding: 0 30px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .hero-image img {
+        max-width: 320px;
+        height: 380px;
+    }
+
+    .section {
+        padding-left: 25px;
+        padding-right: 25px;
+    }
+
+    .service-grid {
+        gap: 11px;
+    }
+
+    .service-card {
+        padding: 17px 13px;
+    }
+
+    .service-price strong {
+        font-size: 18px;
+    }
+
+    .room-grid,
+    .process-grid,
+    .review-grid {
+        gap: 12px;
+    }
+
+    .footer-main {
+        gap: 18px;
+    }
 }
 
-.password span {
-    position: absolute;
+@media (max-width: 650px) {
+    .navbar {
+        flex-wrap: wrap;
+        padding: 12px 18px;
+    }
 
-    right: 14px;
-    top: 12px;
+    .logo span {
+        font-size: 17px;
+    }
 
-    color: #888;
+    .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 
-    cursor: pointer;
+    .nav-menu a {
+        padding: 8px 10px;
+        font-size: 10px;
+    }
+
+    .btn-login {
+        margin-left: auto;
+    }
+
+    .hero {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 24px 22px 0;
+    }
+
+    .hero h1 {
+        font-size: 36px;
+    }
+
+    .hero-image {
+        justify-content: center;
+    }
+
+    .hero-image img {
+        max-width: 100%;
+        height: 340px;
+    }
+
+    .statistics {
+        width: calc(100% - 44px);
+        max-width: 500px;
+        margin: 0 auto 15px;
+        padding-top: 14px;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .stat-item h2 {
+        font-size: 24px;
+    }
+
+    .stat-item p {
+        font-size: 11px;
+    }
+
+    .section {
+        padding: 38px 20px;
+    }
+
+    .section-heading h2,
+    .room-heading h2 {
+        font-size: 22px;
+    }
+
+    .service-grid {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .service-card {
+        padding: 22px;
+    }
+
+    .service-description {
+        min-height: 0;
+    }
+
+    .special-section {
+        padding: 15px 18px 0;
+    }
+
+    .special-banner {
+        align-items: flex-start;
+        flex-wrap: wrap;
+        padding: 20px;
+    }
+
+    .special-content {
+        flex-basis: calc(100% - 55px);
+    }
+
+    .btn-special {
+        margin-left: 53px;
+    }
+
+    .room-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .all-rooms {
+        white-space: normal;
+    }
+
+    .room-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .process-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        row-gap: 25px;
+    }
+
+    .review-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .review-text {
+        min-height: 0;
+    }
+
+    .booking-banner {
+        padding: 30px 22px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .footer-main {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px 18px;
+    }
+
+    .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }
 
+@media (max-width: 380px) {
+    .hero h1 {
+        font-size: 31px;
+    }
 
-/* =========================
-   TOMBOL LOGIN
-========================= */
+    .room-grid,
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
 
-.login-btn {
-    width: 100%;
-    height: 46px;
+    .statistics {
+        grid-template-columns: 1fr 1fr;
+    }
 
-    margin-top: 24px;
-
-    border: none;
-    border-radius: 10px;
-
-    background-color: #789b7d;
-    color: white;
-
-    font-size: 16px;
-
-    cursor: pointer;
+    .footer-main {
+        grid-template-columns: 1fr;
+    }
 }
 
-.login-btn:hover {
-    background-color: #6f9174;
+/* Jarak hero dari navbar */
+@media (min-width: 651px) {
+    .hero {
+        padding-top: 100px !important;
+    }
 }
+
