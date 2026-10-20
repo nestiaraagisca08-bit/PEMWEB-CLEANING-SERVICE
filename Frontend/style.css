@@ -48,6 +48,9 @@ img {
 ========================= */
 
 .header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
     width: 100%;
     background: var(--pink);
 }
@@ -136,13 +139,13 @@ img {
 ========================= */
 
 .hero {
-    max-width: 1000px;
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 25px 25px 0;
+    padding: 55px 25px 35px;
     display: grid;
     grid-template-columns: 1fr 0.82fr;
     align-items: center;
-    gap: 45px;
+    gap: 35px;
 }
 
 .hero-content {
@@ -155,9 +158,9 @@ img {
     display: inline-block;
     padding: 5px 11px;
     border-radius: 20px;
-    background: #e7eee4;
+    background: #FAE9E9;
     color: #58735c;
-    font-size: 9px;
+    font-size: 15px;
     font-weight: 800;
     letter-spacing: 0.35px;
 }
@@ -174,7 +177,7 @@ img {
 .hero h1 {
     margin: 8px 0 16px;
     font-family: 'Inter', Arial, sans-serif;
-    font-size: clamp(34px, 3.8vw, 800px);
+    font-size: clamp(34px, 3.8vw, 58px);
     font-weight: 800;
     line-height: 1.05;
     letter-spacing: -1.5px;
@@ -211,13 +214,16 @@ img {
 
 .hero-image {
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
+    align-items: center;
+    margin-left: 0;
 }
 
 .hero-image img {
+    display: block;
     width: 100%;
-    max-width: 360px;
-    height: 420px;
+    max-width: 500px;
+    height: 540px;
     object-fit: cover;
     object-position: center;
     border-radius: 105px 8px 8px 8px;
@@ -298,7 +304,7 @@ img {
 .services {
     padding-top: 36px;
     padding-bottom: 48px;
-    background: #fff;
+    background: var(--soft);
 }
 .services .section-heading {
     max-width: 600px;
@@ -310,6 +316,12 @@ img {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     align-items: stretch;
     gap: 16px;
+
+    backround: #fff;
+    padding: 0 16px 48px;
+    width: 100%;
+    max-width: 1032px;
+    margin: 0 auto;
 }
 .service-card {
     position: relative;
@@ -467,86 +479,12 @@ img {
 }
 
 /* =========================
-   BANNER SPESIALIS
-========================= */
-
-.special-section {
-    padding: 18px 25px 0;
-    background: #fff;
-}
-
-.special-banner {
-    max-width: 1000px;
-    min-height: 100px;
-    margin: 0 auto;
-    padding: 20px 24px;
-    display: flex;
-    align-items: center;
-    gap: 14px;
-    border-radius: 14px;
-    background: var(--green);
-    color: #fff;
-    box-shadow: 0 7px 14px rgba(25, 62, 47, 0.12);
-}
-
-.special-icon {
-    width: 39px;
-    height: 39px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    border-radius: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    color: #79d7a8;
-    font-size: 20px;
-}
-
-.special-content {
-    flex: 1;
-    min-width: 0;
-}
-
-.special-label,
-.cta-label {
-    display: inline-block;
-    margin-bottom: 5px;
-    color: #79d7a8;
-    font-size: 8px;
-    font-weight: 800;
-    letter-spacing: 0.5px;
-}
-
-.special-content h2 {
-    margin-bottom: 5px;
-    font-size: 13px;
-    line-height: 1.4;
-}
-
-.special-content p {
-    color: #d3ded5;
-    font-size: 9px;
-    line-height: 1.6;
-}
-
-.btn-special {
-    flex-shrink: 0;
-    padding: 11px 15px;
-    border-radius: 7px;
-    background: #f9eee7;
-    color: var(--green);
-    font-size: 9px;
-    font-weight: 800;
-}
-
-/* =========================
    KARTU RUANGAN
 ========================= */
 
 .rooms {
     max-width: none;
-    padding-top: 32px;
+    padding-top: 20px;
     padding-bottom: 38px;
     background: #fff;
 }
@@ -561,12 +499,14 @@ img {
 }
 
 .room-heading .section-label {
-    margin-bottom: 10px;
+    margin-bottom: 14px;
+    padding: 4px 10px;
+    font-size: 12px;
 }
 
 .room-heading h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 18px;
 }
 
 .all-rooms {
@@ -669,6 +609,7 @@ img {
     padding-top: 38px;
     padding-bottom: 38px;
     background: #fff;
+    border-top: 1px solid #e9eae6;
 }
 
 .process-section .section-heading {
@@ -970,273 +911,5 @@ img {
     display: flex;
     flex-wrap: wrap;
     gap: 17px;
-}
-
-
-/* =========================
-   TAMPILAN AWAL DESKTOP
-   Menjaga hero, statistik, dan judul katalog proporsional
-========================= */
-@media (min-width: 901px) {
-    .header {
-        background: var(--pink);
-    }
-
-    .hero {
-        padding-top: 0;
-        padding-bottom: 0;
-    }
-
-    .statistics {
-        margin: 20px 0 0;
-    }
-
-    .services {
-        padding-top: 36px;
-    }
-}
-
-/* =========================
-   RESPONSIVE
-========================= */
-
-@media (min-width: 1400px) {
-    .hero {
-        max-width: 1100px;
-    }
-
-    .hero-image img {
-        max-width: 1000px;
-        height: 420px;
-    }
-}
-
-@media (max-width: 900px) {
-    .navbar {
-        padding: 12px 25px;
-        gap: 12px;
-    }
-
-    .nav-menu {
-        gap: 0;
-    }
-
-    .nav-menu a {
-        padding: 8px 10px;
-        font-size: 10px;
-    }
-
-    .hero {
-        gap: 30px;
-        padding: 0 30px;
-    }
-
-    .hero h1 {
-        font-size: 34px;
-    }
-
-    .hero-image img {
-        max-width: 320px;
-        height: 380px;
-    }
-
-    .section {
-        padding-left: 25px;
-        padding-right: 25px;
-    }
-
-    .service-grid {
-        gap: 11px;
-    }
-
-    .service-card {
-        padding: 17px 13px;
-    }
-
-    .service-price strong {
-        font-size: 18px;
-    }
-
-    .room-grid,
-    .process-grid,
-    .review-grid {
-        gap: 12px;
-    }
-
-    .footer-main {
-        gap: 18px;
-    }
-}
-
-@media (max-width: 650px) {
-    .navbar {
-        flex-wrap: wrap;
-        padding: 12px 18px;
-    }
-
-    .logo span {
-        font-size: 17px;
-    }
-
-    .nav-menu {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
-    }
-
-    .nav-menu a {
-        padding: 8px 10px;
-        font-size: 10px;
-    }
-
-    .btn-login {
-        margin-left: auto;
-    }
-
-    .hero {
-        grid-template-columns: 1fr;
-        gap: 25px;
-        padding: 24px 22px 0;
-    }
-
-    .hero h1 {
-        font-size: 36px;
-    }
-
-    .hero-image {
-        justify-content: center;
-    }
-
-    .hero-image img {
-        max-width: 100%;
-        height: 340px;
-    }
-
-    .statistics {
-        width: calc(100% - 44px);
-        max-width: 500px;
-        margin: 0 auto 15px;
-        padding-top: 14px;
-        display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
-    }
-
-    .stat-item h2 {
-        font-size: 24px;
-    }
-
-    .stat-item p {
-        font-size: 11px;
-    }
-
-    .section {
-        padding: 38px 20px;
-    }
-
-    .section-heading h2,
-    .room-heading h2 {
-        font-size: 22px;
-    }
-
-    .service-grid {
-        grid-template-columns: 1fr;
-        gap: 22px;
-    }
-
-    .service-card {
-        padding: 22px;
-    }
-
-    .service-description {
-        min-height: 0;
-    }
-
-    .special-section {
-        padding: 15px 18px 0;
-    }
-
-    .special-banner {
-        align-items: flex-start;
-        flex-wrap: wrap;
-        padding: 20px;
-    }
-
-    .special-content {
-        flex-basis: calc(100% - 55px);
-    }
-
-    .btn-special {
-        margin-left: 53px;
-    }
-
-    .room-heading {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .all-rooms {
-        white-space: normal;
-    }
-
-    .room-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .process-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        row-gap: 25px;
-    }
-
-    .review-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .review-text {
-        min-height: 0;
-    }
-
-    .booking-banner {
-        padding: 30px 22px;
-        align-items: flex-start;
-        flex-direction: column;
-    }
-
-    .footer-main {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 25px 18px;
-    }
-
-    .footer-bottom {
-        align-items: flex-start;
-        flex-direction: column;
-    }
-}
-
-@media (max-width: 380px) {
-    .hero h1 {
-        font-size: 31px;
-    }
-
-    .room-grid,
-    .process-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .statistics {
-        grid-template-columns: 1fr 1fr;
-    }
-
-    .footer-main {
-        grid-template-columns: 1fr;
-    }
-}
-
-/* Jarak hero dari navbar */
-@media (min-width: 651px) {
-    .hero {
-        padding-top: 100px !important;
-    }
 }
 
