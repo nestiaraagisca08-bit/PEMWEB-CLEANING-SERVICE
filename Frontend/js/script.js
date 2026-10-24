@@ -5,6 +5,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const serviceBtns = document.querySelectorAll(".btn-service");
     const ctaBtn = document.querySelector(".btn-cta");
 
+    // TAMPILKAN NAMA PENGGUNA SETELAH LOGIN
+    const savedUser = JSON.parse(
+        sessionStorage.getItem("griyaresikUser") || "null"
+    );
+
+    const userName = document.getElementById("userName");
+
+    if (savedUser && userName) {
+        userName.textContent = savedUser.name;
+    }
+
     // DETEKSI HALAMAN SETELAH LOGIN
     const namaHalaman = decodeURIComponent(
     window.location.pathname.split("/").pop()

@@ -13,6 +13,7 @@ const passwordError = document.getElementById("passwordError");
 const submitBtn = document.getElementById("submitBtn");
 const loginMessage = document.getElementById("loginMessage");
 
+
 // Menampilkan pesan
 function showMessage(element, message) {
   element.textContent = message;
@@ -71,8 +72,8 @@ form.addEventListener("submit", async (event) => {
       "griyaresikUser",
       JSON.stringify(data.user)
     );
-
-    window.location.href = "index.html";
+    
+    window.location.href = "Beranda after login.html";
   } catch (error) {
     console.error("Login error:", error);
     showMessage(
@@ -147,9 +148,9 @@ async function handleGoogleLogin(response) {
     sessionStorage.setItem(
       "griyaresikUser",
       JSON.stringify(data.user)
-    );
-
-    window.location.href = "index.html";
+  );
+  
+  window.location.href = "Beranda after login.html";
   } catch (error) {
     console.error("Google Login error:", error);
     showMessage(
@@ -158,6 +159,8 @@ async function handleGoogleLogin(response) {
     );
   }
 }
+
+
 
 // Jalankan Google Login
 initializeGoogleLogin();

@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GriyaResik | Cleaning Service</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,21 +16,25 @@
     <!-- NAVBAR -->
     <header class="header">
         <nav class="navbar">
-            <a href="#beranda" class="logo">
-                <img src="images/Logo griya Resik.png" alt="Logo GriyaResik">
-                <span>GriyaResik</span>
-            </a>
+            
+        <a href="#beranda" class="logo">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <span class="logo-text"><span class="logo-griya">Griya</span><span class="logo-resik">Resik</span></span>
+        </a>
 
-            <ul class="nav-menu">
-                <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#" class="login-link">Layanan</a></li>
-                <li><a href="#" class="login-link">Booking</a></li>
-                <li><a href="#" class="login-link">Status Pemesanan</a></li>
-            </ul>
+            
+        <ul class="nav-menu">
+             <li><a href="Beranda after login.html" class="active">Beranda</a></li>
+             <li><a href="Layanan.html">Layanan</a></li>
+             <li><a href="booking.html">Booking</a></li>
+             <li><a href="my-bookings.html">Status Pemesanan</a></li>
+        </ul>
 
-            <a href="login.html" class="btn-login">
-                <span class="user-icon">♙</span> Masuk / Akun
-            </a>
+        <a href="profile.html" class="btn-login">
+            <span class="user-icon">♙</span>
+            <span id="userName">Akun Saya</span>
+        </a>
+
         </nav>
     </header>
 
@@ -71,7 +75,7 @@
             </div>
 
             <div class="hero-image">
-                <img src="images/rumah rapi.png" alt="Interior rumah bersih dan nyaman">
+                <img src="../images/rumah rapi.png" alt="Interior rumah bersih dan nyaman">
             </div>
         </section>
 
@@ -280,7 +284,7 @@
                 <h2>Siap Rasakan Rumah yang Lebih Segar &amp; Nyaman?</h2>
                 <p>Booking dalam 2 menit, mitra kebersihan profesional kami siap datang tepat waktu.</p>
             </div>
-            <a href="login.html" class="btn-cta">Jadwalkan Sekarang</a>
+            <a href="booking.html" class="btn-cta">Jadwalkan Sekarang</a>
         </section>
 
         <div id="status"></div>
@@ -330,6 +334,6 @@
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script src="../js/script.js"></script>
 </body>
 </html>

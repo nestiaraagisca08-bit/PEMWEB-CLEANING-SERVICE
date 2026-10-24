@@ -28,6 +28,7 @@ function validateForm() {
   clearErrors();
 
   let valid = true;
+
   const name = nameInput.value.trim();
   const email = emailInput.value.trim();
   const password = passwordInput.value;
@@ -89,39 +90,44 @@ form.addEventListener("submit", async (event) => {
   registerMessage.textContent = "";
 
   try {
-    const response = await fetch(
-      `${API_URL}/api/auth/register`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          name: nameInput.value.trim(),
-          email: emailInput.value.trim(),
-          password: passwordInput.value
-        })
-      }
-    );
+    const response = await fetch(`${API_URL}/api/auth/register`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        name: nameInput.value.trim(),
+        email: emailInput.value.trim(),
+        password: passwordInput.value
+      })
+    });
 
     const result = await response.json();
 
     if (!response.ok) {
-      throw new Error(
-        result.message || "Pendaftaran gagal."
-      );
+      throw new Error(result.message || "Pendaftaran gagal.");
     }
 
     registerMessage.style.color = "#2e7d32";
     registerMessage.textContent =
       result.message || "Registrasi berhasil.";
 
-    form.reset();
+    // Jika backend mengembalikan data pengguna,
+    // simpan sesi lalu masuk ke beranda setelah login.
+    if (result.user) {
+      sessionStorage.setItem(
+        "griyaresikUser",
+        JSON.stringify(result.user)
+      );
 
-    // Berpindah ke halaman login setelah berhasil.
-    setTimeout(() => {
-      window.location.href = "login.html";
-    }, 1200);
+      window.location.href = "Beranda after login.html";
+    } else {
+      // Jika backend hanya mengembalikan pesan sukses,
+      // pengguna perlu login terlebih dahulu.
+      setTimeout(() => {
+        window.location.href = "login.html";
+      }, 1200);
+    }
 
   } catch (error) {
     console.error("Kesalahan registrasi:", error);
