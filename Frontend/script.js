@@ -1,49 +1,75 @@
-document.addEventListener("DOMContentLoaded", function () {
-    const navLinks = document.querySelectorAll('.nav-menu a[href^="#"]');
 
-    // Menandai menu aktif ketika diklik
+document.addEventListener("DOMContentLoaded", function () {
+    const navLinks = document.querySelectorAll(".nav-menu a");
+    const loginBtn = document.querySelector(".btn-login");
+    const bookingBtn = document.querySelector(".btn-primary");
+    const serviceBtns = document.querySelectorAll(".btn-service");
+    const ctaBtn = document.querySelector(".btn-cta");
+
+    // NAVBAR MENU AKTIF
     navLinks.forEach(function (link) {
-        link.addEventListener("click", function () {
+        const namaMenu = link.textContent.trim().toLowerCase();
+
+        // Atur tujuan menu
+        if (namaMenu === "beranda") {
+            link.href = "#beranda";
+        } else {
+            link.href = "login.html";
+        }
+
+        // Aksi ketika menu diklik
+        link.addEventListener("click", function (event) {
+            // Hapus warna aktif dari semua menu
             navLinks.forEach(function (item) {
                 item.classList.remove("active");
             });
 
+            // Tambahkan warna aktif pada menu yang diklik
             link.classList.add("active");
+
+            if (namaMenu === "beranda") {
+                event.preventDefault();
+
+                const beranda = document.getElementById("beranda");
+
+                if (beranda) {
+                    beranda.scrollIntoView({
+                        behavior: "smooth"
+                    });
+                }
+            } else {
+                event.preventDefault();
+                window.location.href = "login.html";
+            }
         });
     });
 
-    // Menyesuaikan menu aktif dengan bagian halaman yang terlihat
-    const sections = Array.from(navLinks)
-        .map(function (link) {
-            const targetId = link.getAttribute("href");
-            return targetId ? document.querySelector(targetId) : null;
-        })
-        .filter(Boolean);
+    // BERANDA AKTIF SAAT HALAMAN PERTAMA DIBUKA
+    const berandaLink = Array.from(navLinks).find(function (link) {
+        return link.textContent.trim().toLowerCase() === "beranda";
+    });
 
-    if ("IntersectionObserver" in window && sections.length > 0) {
-        const observer = new IntersectionObserver(
-            function (entries) {
-                entries.forEach(function (entry) {
-                    if (!entry.isIntersecting) return;
+    if (berandaLink) {
+        berandaLink.classList.add("active");
+    }
 
-                    const activeHref = "#" + entry.target.id;
+    // TOMBOL MASUK / AKUN
+    if (loginBtn) {
+        loginBtn.href = "login.html";
+    }
 
-                    navLinks.forEach(function (link) {
-                        link.classList.toggle(
-                            "active",
-                            link.getAttribute("href") === activeHref
-                        );
-                    });
-                });
-            },
-            {
-                rootMargin: "-20% 0px -65% 0px",
-                threshold: 0
-            }
-        );
+    // TOMBOL BOOKING SEKARANG DI HERO
+    if (bookingBtn) {
+        bookingBtn.href = "login.html";
+    }
 
-        sections.forEach(function (section) {
-            observer.observe(section);
-        });
+    // TOMBOL PILIH LAYANAN
+    serviceBtns.forEach(function (button) {
+        button.href = "login.html";
+    });
+
+    // TOMBOL JADWALKAN SEKARANG
+    if (ctaBtn) {
+        ctaBtn.href = "login.html";
     }
 });
