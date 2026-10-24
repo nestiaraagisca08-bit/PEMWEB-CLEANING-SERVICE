@@ -1,0 +1,1396 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Layanan | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* RESET */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #193e2f;
+            --green-light: #e8eee5;
+            --pink: #FAE9E9;
+            --cream: #fffdfa;
+            --text: #1d352b;
+            --muted: #758078;
+            --border: #e9eae6;
+        }
+
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            background: #fff;
+            color: var(--text);
+            line-height: 1.5;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        button, input {
+            font: inherit;
+        }
+
+        button, a {
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        /* HEADER */
+    
+/* HEADER */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+    background: var(--pink);
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+.navbar {
+    max-width: 1100px;
+    min-height: 65px;
+    margin: 0 auto;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.logo .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logo .logo-griya {
+    color: #292929;
+}
+
+.logo .logo-resik {
+    color: #789477;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    list-style: none;
+    background: rgba(255, 255, 255, 0.55);
+    border-radius: 25px;
+}
+
+.nav-menu a {
+    display: block;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-size: 13px;
+    color: #344054;
+    white-space: nowrap;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-menu a:hover {
+    background: #e4eee4;
+}
+
+.nav-menu a.active {
+    background: var(--green);
+    color: #ffffff;
+}
+
+.btn-login {
+    padding: 8px 13px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    border: 1px solid #dfe5dc;
+    border-radius: 20px;
+    background: #ffffff;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.user-icon {
+    font-size: 15px;
+}
+
+        /* KONTEN UTAMA */
+        .container {
+            width: min(100% - 48px, 1120px);
+            margin: auto;
+        }
+
+        .catalog {
+            padding: 42px 0 55px;
+        }
+
+        .catalog-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: end;
+            gap: 20px;
+            padding-bottom: 22px;
+            margin-bottom: 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .eyebrow {
+            color: #789077;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .catalog-heading h1 {
+            color: var(--green);
+            font-size: clamp(24px, 3vw, 32px);
+            line-height: 1.25;
+            margin-bottom: 8px;
+        }
+
+        .catalog-heading p {
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .view-label {
+            flex-shrink: 0;
+            border: 1px solid var(--border);
+            padding: 10px 15px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--green);
+            background: white;
+        }
+
+        /* GRID KARTU RUANGAN */
+        .room-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+            margin-top: 0;
+        }
+
+        .room-card {
+            padding: 24px 22px 18px;
+            border: 1px solid var(--border);
+            border-radius: 21px;
+            background: var(--cream);
+            min-width: 0;
+            box-shadow: 0 1px 2px rgba(30, 50, 35, .02);
+        }
+
+        .room-heading {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            margin-bottom: 17px;
+        }
+
+        .room-number {
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            background: var(--green);
+            color: white;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .room-title {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .room-title h2 {
+            font-size: 17px;
+            line-height: 1.3;
+            margin-bottom: 3px;
+        }
+
+        .room-title p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .package-label {
+            flex-shrink: 0;
+            background: var(--green-light);
+            color: var(--green);
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* HARGA PAKET */
+        .price-row {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 6px;
+            padding: 6px;
+            background: white;
+            border: 1px solid #f0ece8;
+            border-radius: 14px;
+            margin-bottom: 14px;
+        }
+
+        .price-option {
+            padding: 10px 4px;
+            border-radius: 10px;
+            text-align: center;
+            background: #f8f8f7;
+        }
+
+        .price-option.standard {
+            background: #f1f6f0;
+            border: 1px solid #d6e2d4;
+        }
+
+        .price-option.deep {
+            background: #faf1ec;
+        }
+
+        .price-option span {
+            display: block;
+            color: #7d8279;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 3px;
+        }
+
+        .price-option strong {
+            color: var(--green);
+            font-size: 12px;
+            white-space: nowrap;
+        }
+
+        /* RINCIAN PEKERJAAN */
+        .package-detail {
+            border: 1px solid var(--border);
+            background: white;
+            padding: 11px 12px;
+            border-radius: 11px;
+            margin-top: 8px;
+        }
+
+        .package-detail h3 {
+            font-size: 11px;
+            margin-bottom: 5px;
+            color: var(--green);
+        }
+
+        .package-detail h3::before {
+            content: "";
+            display: inline-block;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #aaa39d;
+            margin-right: 6px;
+        }
+
+        .package-detail.standard {
+            border-color: #dce6da;
+        }
+
+        .package-detail.standard h3::before {
+            background: #83a080;
+        }
+
+        .package-detail.deep {
+            border-color: #f5e8df;
+        }
+
+        .package-detail.deep h3::before {
+            background: #f5a000;
+        }
+
+        .package-detail p {
+            font-size: 11px;
+            color: #77716c;
+            line-height: 1.65;
+        }
+
+        .room-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            border-top: 1px solid #f0ece8;
+            padding-top: 13px;
+            margin-top: 14px;
+        }
+
+        .duration {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .book-room {
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .book-room:hover {
+            text-decoration: underline;
+        }
+
+        /* CUSTOM ROOM */
+        .custom-section {
+            padding: 35px;
+            border: 1px solid #f1d9d1;
+            border-radius: 22px;
+            background: linear-gradient(135deg, #fbf1ed, #fffdfb);
+            margin-bottom: 55px;
+        }
+
+        .custom-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            align-items: start;
+            gap: 30px;
+        }
+
+        .pill {
+            display: inline-block;
+            background: white;
+            color: var(--green);
+            border-radius: 20px;
+            padding: 6px 12px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-bottom: 18px;
+        }
+
+        .custom-info h2 {
+            color: var(--green);
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        .custom-info > p {
+            color: #77716c;
+            font-size: 13px;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: white;
+        }
+
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            text-align: center;
+            min-width: 330px;
+        }
+
+        .price-table caption {
+            padding: 13px;
+            text-align: left;
+            background: #f8f7f5;
+            font-weight: 700;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .price-table th,
+        .price-table td {
+            padding: 12px 9px;
+            border-bottom: 1px solid #f0eeeb;
+        }
+
+        .price-table th {
+            color: var(--green);
+        }
+
+        .price-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .example {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 12px;
+            margin-top: 14px;
+            font-size: 11px;
+            color: #77716c;
+        }
+
+        .example strong {
+            color: var(--green);
+        }
+
+        /* KALKULATOR */
+        .calculator {
+            padding: 24px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            box-shadow: 0 12px 30px rgba(40, 50, 40, .06);
+        }
+
+        .calculator-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding-bottom: 17px;
+            border-bottom: 1px solid #f0eeeb;
+            margin-bottom: 20px;
+        }
+
+        .calculator-heading h3 {
+            font-size: 16px;
+        }
+
+        .calculator-heading span {
+            background: #e7fbf1;
+            color: #16865d;
+            border-radius: 20px;
+            padding: 6px 9px;
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .form-group {
+            margin-bottom: 17px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .form-group input {
+            width: 100%;
+            border: 1px solid #dedbd7;
+            border-radius: 10px;
+            padding: 11px 12px;
+            outline: none;
+        }
+
+        .form-group input:focus {
+            border-color: #6f9679;
+            box-shadow: 0 0 0 3px #eaf1e9;
+        }
+
+        .presets {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 9px;
+        }
+
+        .preset {
+            border: 0;
+            background: #f4f3f1;
+            border-radius: 7px;
+            padding: 6px 9px;
+            cursor: pointer;
+            font-size: 10px;
+            color: #625e58;
+        }
+
+        .preset:hover {
+            background: var(--green-light);
+        }
+
+        .choice-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 7px;
+        }
+
+        .choice {
+            position: relative;
+        }
+
+        .choice input {
+            position: absolute;
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .choice label {
+            display: grid;
+            place-items: center;
+            min-height: 43px;
+            padding: 8px 5px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: 11px;
+            margin: 0;
+        }
+
+        .choice input:checked + label {
+            border-color: var(--green);
+            background: var(--green-light);
+            color: var(--green);
+            font-weight: 700;
+        }
+
+        .choice input:focus-visible + label {
+            outline: 2px solid #83a080;
+        }
+
+        .price-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            padding: 14px;
+            margin: 18px 0;
+            background: #f8f7f5;
+            border-radius: 12px;
+        }
+
+        .price-result span {
+            color: #77716c;
+            font-size: 12px;
+        }
+
+        .price-result strong {
+            color: var(--green);
+            font-size: 18px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            padding: 14px 18px;
+            background: var(--green);
+            color: white;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: .2s;
+        }
+
+        .btn:hover {
+            background: #193927;
+            transform: translateY(-1px);
+        }
+
+        .notice {
+            color: #77716c;
+            font-size: 11px;
+            margin-top: 10px;
+            line-height: 1.6;
+        }
+
+        /* CTA */
+        .cta {
+            background: var(--green);
+            color: white;
+            padding: 35px 24px;
+        }
+
+        .cta-inner {
+            max-width: 1120px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 25px;
+        }
+
+        .cta h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .cta p {
+            color: #c5d3c9;
+            font-size: 13px;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            flex-shrink: 0;
+            padding: 14px 24px;
+            border-radius: 10px;
+            background: #fff0e9;
+            color: var(--green);
+            font-weight: 700;
+            font-size: 12px;
+        }
+
+        /* FOOTER */
+        .footer {
+            background: #fbede7;
+            padding: 40px 24px 18px;
+        }
+
+        .footer-grid {
+            max-width: 1120px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: 1.2fr 1fr 1fr 1fr;
+            gap: 35px;
+        }
+
+        .footer-brand {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--green);
+            margin-bottom: 12px;
+        }
+
+        .footer-grid h3 {
+            color: var(--green);
+            font-size: 11px;
+            margin-bottom: 13px;
+        }
+
+        .footer-grid p,
+        .footer-grid li,
+        .footer-grid a {
+            color: #77716c;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .footer-grid ul {
+            list-style: none;
+        }
+
+        .footer-grid a:hover {
+            color: var(--green);
+        }
+
+        .whatsapp {
+            display: inline-block;
+            color: var(--green) !important;
+            font-weight: 700;
+            margin-top: 5px;
+        }
+
+        .footer-bottom {
+            max-width: 1120px;
+            margin: 28px auto 0;
+            padding-top: 17px;
+            border-top: 1px solid #eadbd5;
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .footer-bottom p,
+        .footer-bottom a {
+            color: #89817b;
+            font-size: 10px;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 18px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 850px) {
+            .navbar {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .logo {
+                margin-right: auto;
+            }
+
+            .nav-menu {
+                order: 3;
+                width: 100%;
+                justify-content: center;
+                overflow-x: auto;
+            }
+
+            .nav-menu a {
+                padding: 9px 12px;
+                font-size: 12px;
+            }
+
+            .room-grid {
+                gap: 12px;
+            }
+
+            .room-card {
+                padding: 18px 15px;
+            }
+
+            .room-heading {
+                flex-wrap: wrap;
+            }
+
+            .package-label {
+                margin-left: 45px;
+            }
+
+            .custom-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 560px) {
+            .container {
+                width: min(100% - 28px, 1120px);
+            }
+
+            .navbar {
+                padding: 12px 14px;
+                gap: 10px;
+            }
+
+            .logo {
+                font-size: 20px;
+            }
+
+            .nav-menu {
+                gap: 0;
+            }
+
+            .nav-menu a {
+                padding: 9px 10px;
+                font-size: 11px;
+            }
+
+            .catalog {
+                padding-top: 28px;
+            }
+
+            .catalog-heading {
+                align-items: start;
+            }
+
+            .catalog-heading h1 {
+                font-size: 25px;
+            }
+
+            .catalog-heading p {
+                line-height: 1.7;
+            }
+
+            .view-label {
+                display: none;
+            }
+
+            .room-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .room-card {
+                padding: 20px 16px;
+            }
+
+            .room-heading {
+                flex-wrap: nowrap;
+            }
+
+            .room-title h2 {
+                font-size: 16px;
+            }
+
+            .package-label {
+                margin-left: auto;
+                font-size: 9px;
+                padding: 5px 7px;
+            }
+
+            .price-option strong {
+                font-size: 11px;
+            }
+
+            .custom-section {
+                padding: 20px 14px;
+                margin-bottom: 35px;
+            }
+
+            .custom-info h2 {
+                font-size: 23px;
+            }
+
+            .calculator {
+                padding: 17px 13px;
+            }
+
+            .calculator-heading {
+                align-items: start;
+                flex-direction: column;
+            }
+
+            .choice-grid {
+                gap: 5px;
+            }
+
+            .choice label {
+                font-size: 10px;
+            }
+
+            .cta-inner {
+                align-items: stretch;
+                flex-direction: column;
+            }
+
+            .cta h2 {
+                font-size: 22px;
+            }
+
+            .btn-cta {
+                text-align: center;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 25px;
+            }
+
+            .footer-bottom {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <nav class="navbar">
+            <a href="#beranda" class="logo">
+                <img src="images/Logo griya Resik.png" alt="Logo GriyaResik">
+                <span class="logo-text"><span class="logo-griya">Griya</span><span class="logo-resik">Resik</span></span>
+            </a>
+
+
+            <ul class="nav-menu">
+                <li><a href="Beranda after login.html">Beranda</a></li>
+                <li><a href="Layanan.html" class="active">Layanan</a></li>
+                <li><a href="booking.html">Booking</a></li>
+                <li><a href="my-bookings.html">Status Pemesanan</a></li>
+            </ul>
+
+            <a href="profile.html" class="btn-login">
+                <span class="user-icon">♙</span> Pengaturan Akun
+            </a>
+        </nav>
+    </header>
+
+    <!-- KATALOG LAYANAN -->
+    <main>
+        <section class="catalog">
+            <div class="container">
+
+                <div class="catalog-heading">
+                    <div>
+                        <div class="eyebrow">KATALOG LENGKAP</div>
+                        <h1>Daftar Layanan & Detail Per Ruangan</h1>
+                        <p>Pilih paket ruangan atau gunakan kalkulator untuk melihat rincian cakupan dan harga.</p>
+                    </div>
+
+                    <div class="view-label">▦ &nbsp; Kartu Ruangan</div>
+                </div>
+
+                <div class="room-grid" id="roomGrid"></div>
+
+            </div>
+        </section>
+
+        <!-- RUANGAN CUSTOM -->
+        <section class="container">
+            <div class="custom-section">
+                <div class="custom-grid">
+
+                    <div class="custom-info">
+                        <span class="pill">＋ &nbsp; FLEKSIBEL & TRANSPARAN</span>
+                        <h2>Ruangan Lainnya (Custom)</h2>
+                        <p>
+                            Untuk ruangan yang tidak tersedia di daftar utama,
+                            masukkan nama ruangan dan luas ruangan. Harga ditentukan
+                            berdasarkan ukuran dan paket yang dipilih.
+                        </p>
+
+                        <div class="table-wrap">
+                            <table class="price-table">
+                                <caption>TABEL TARIF LUAS VS PAKET</caption>
+                                <thead>
+                                    <tr>
+                                        <th>Luas</th>
+                                        <th>Basic</th>
+                                        <th>Standard</th>
+                                        <th>Deep</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>&lt; 10 m²</strong></td>
+                                        <td>Rp 50.000</td>
+                                        <td>Rp 75.000</td>
+                                        <td>Rp 105.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>10–20 m²</strong></td>
+                                        <td>Rp 60.000</td>
+                                        <td>Rp 90.000</td>
+                                        <td>Rp 125.000</td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>&gt; 20 m²</strong></td>
+                                        <td>Rp 75.000</td>
+                                        <td>Rp 110.000</td>
+                                        <td>Rp 150.000</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="example">
+                            Contoh: Ruang Musik, luas 15 m², paket Deep →
+                            harga <strong>Rp 125.000</strong>.
+                        </div>
+                    </div>
+
+                    <div class="calculator">
+                        <div class="calculator-heading">
+                            <h3>▣ &nbsp; Kalkulator Simulasi Instan</h3>
+                            <span>Estimasi Real-time</span>
+                        </div>
+
+                        <form id="customForm">
+                            <div class="form-group">
+                                <label for="roomName">NAMA RUANGAN CUSTOM</label>
+                                <input type="text" id="roomName"
+                                    placeholder="Contoh: Ruang Musik" required>
+
+                                <div class="presets">
+                                    <button class="preset" type="button" data-name="Ruang Musik">Ruang Musik</button>
+                                    <button class="preset" type="button" data-name="Musholla">Musholla</button>
+                                    <button class="preset" type="button" data-name="Home Gym">Home Gym</button>
+                                    <button class="preset" type="button" data-name="Walk-in Closet">Walk-in Closet</button>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>PILIH LUAS RUANGAN</label>
+                                <div class="choice-grid">
+                                    <div class="choice">
+                                        <input type="radio" id="area1" name="area" value="0" checked>
+                                        <label for="area1">&lt; 10 m²</label>
+                                    </div>
+                                    <div class="choice">
+                                        <input type="radio" id="area2" name="area" value="1">
+                                        <label for="area2">10–20 m²</label>
+                                    </div>
+                                    <div class="choice">
+                                        <input type="radio" id="area3" name="area" value="2">
+                                        <label for="area3">&gt; 20 m²</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>PILIH TINGKAT PAKET</label>
+                                <div class="choice-grid">
+                                    <div class="choice">
+                                        <input type="radio" id="basic" name="package" value="0" checked>
+                                        <label for="basic">Basic</label>
+                                    </div>
+                                    <div class="choice">
+                                        <input type="radio" id="standard" name="package" value="1">
+                                        <label for="standard">Standard</label>
+                                    </div>
+                                    <div class="choice">
+                                        <input type="radio" id="deep" name="package" value="2">
+                                        <label for="deep">Deep</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="price-result">
+                                <span>Estimasi harga</span>
+                                <strong id="customPrice">Rp 50.000</strong>
+                            </div>
+
+                            <button type="submit" class="btn">＋ &nbsp; Tambah ke Booking</button>
+
+                            <p class="notice">
+                                Harga di atas merupakan estimasi untuk simulasi.
+                                Pastikan nama ruangan dan paket sudah sesuai sebelum melanjutkan.
+                            </p>
+                        </form>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta">
+            <div class="cta-inner">
+                <div>
+                    <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+                    <p>Booking dalam 2 menit, mitra kebersihan profesional kami siap datang tepat waktu.</p>
+                </div>
+                <a href="booking.html" class="btn-cta">Jadwalkan Sekarang</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-grid">
+            <div>
+                <div class="footer-brand">▣ GriyaResik</div>
+                <p>
+                    Solusi praktis dan terpercaya untuk hunian yang bersih,
+                    rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+                </p>
+            </div>
+
+            <div>
+                <h3>LAYANAN UTAMA</h3>
+                <ul>
+                    <li><a href="#roomGrid">Basic Home Cleaning</a></li>
+                    <li><a href="#roomGrid">Standard Room Cleaning</a></li>
+                    <li><a href="#roomGrid">Deep Cleaning Menyeluruh</a></li>
+                    <li><a href="#customForm">Ruangan Lainnya (Custom)</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h3>OPERASIONAL</h3>
+                <p>Senin–Minggu: 07.00–19.00 WIB</p>
+                <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+                <a class="whatsapp" href="https://wa.me/6281234567890">
+                    +62 812-3456-7890
+                </a>
+            </div>
+
+            <div>
+                <h3>WILAYAH LAYANAN</h3>
+                <p>
+                    Tersedia di Jabodetabek, Bandung, Surabaya, dan sekitarnya.
+                </p>
+                <p>● Siap Melayani 7 Hari Seminggu</p>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2025 GriyaResik Indonesia. Seluruh hak cipta dilindungi undang-undang.</p>
+            <div class="footer-links">
+                <a href="#">Syarat & Ketentuan</a>
+                <a href="#">Kebijakan Privasi</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DATA KATALOG 11 RUANGAN
+        const rooms = [
+            {
+                name: "Kamar Tidur",
+                desc: "Ruang Istirahat & Pribadi",
+                prices: [50000, 80000, 120000],
+                time: "45–90 menit",
+                details: [
+                    "Sapu, pel, lap meja, lap furnitur, bersihkan debu, rapikan tempat tidur, area sekitar tempat tidur, tempat sampah, sudut mudah dijangkau.",
+                    "Semua Basic + vacuum seluruh lantai, vacuum karpet, kaca/cermin, lemari luar, bawah furnitur mudah dijangkau, sudut/sela, kursi/sofa, detail area tempat tidur.",
+                    "Semua Standard + deep vacuum karpet, vacuum kasur, bantal, guling, sofa/kursi, kolong tempat tidur, sela furnitur, kusen/sela jendela, noda membandel, detail seluruh kamar."
+                ]
+            },
+            {
+                name: "Ruang Tamu",
+                desc: "Area Utama Kunjungan Keluarga",
+                prices: [50000, 85000, 130000],
+                time: "50–90 menit",
+                details: [
+                    "Sapu, pel, lap meja, lap furnitur, debu, sampah, area utama.",
+                    "Basic + vacuum lantai, vacuum karpet, vacuum ringan sofa, kaca/cermin, sudut, detail furnitur, bawah furnitur mudah dijangkau.",
+                    "Standard + deep vacuum sofa/karpet, sela dan bawah sofa, detail meja/furnitur, noda membandel, seluruh sudut, area sulit dijangkau."
+                ]
+            },
+            {
+                name: "Dapur (Kitchen)",
+                desc: "Area Persiapan Makanan",
+                prices: [55000, 90000, 145000],
+                time: "60–120 menit",
+                details: [
+                    "Sapu, pel, lap meja dapur, lap permukaan, debu/kotoran ringan, sampah.",
+                    "Basic + kompor, wastafel, backsplash, kabinet luar, area sekitar peralatan, minyak ringan, sudut.",
+                    "Standard + deep cleaning kompor, kerak, deep cleaning wastafel, kabinet dalam yang kosong, sela kabinet, minyak membandel, belakang/bawah peralatan yang terjangkau, detail seluruh dapur."
+                ]
+            },
+            {
+                name: "Kamar Mandi",
+                desc: "Anti Kerak & Bakteri",
+                prices: [50000, 80000, 120000],
+                time: "45–90 menit",
+                details: [
+                    "Sapu, pel, toilet, wastafel, permukaan, sampah.",
+                    "Basic + sikat lantai, shower, kaca/cermin, dinding, detail toilet, noda ringan, sudut.",
+                    "Standard + kerak membandel, deep toilet, deep shower, deep wastafel, sela lantai, sudut sulit, detail seluruh kamar mandi."
+                ]
+            },
+            {
+                name: "Ruang Makan",
+                desc: "Dining Room Bersih & Rapi",
+                prices: [50000, 80000, 115000],
+                time: "35–75 menit",
+                details: [
+                    "Sapu & pel, lap meja makan, lap kursi, debu, sampah.",
+                    "Basic + vacuum lantai, kaca, furnitur, sudut, area bawah meja mudah dijangkau.",
+                    "Standard + vacuum karpet, kursi/sofa, kolong meja, sela furnitur, detail rak, seluruh area, area sulit."
+                ]
+            },
+            {
+                name: "Ruang Kerja (Home Office)",
+                desc: "Fokus Bersih Bebas Debu",
+                prices: [50000, 80000, 115000],
+                time: "35–75 menit",
+                details: [
+                    "Sapu & pel, lap meja kerja, debu, lap furnitur, sampah, area utama.",
+                    "Basic + vacuum lantai, kursi, kaca, rak luar, sudut, detail meja/furnitur.",
+                    "Standard + vacuum karpet, kursi/sofa, kolong meja, sela furnitur, detail rak, seluruh area kerja, area sulit."
+                ]
+            },
+            {
+                name: "Ruang Belajar",
+                desc: "Kenyamanan Belajar Anak",
+                prices: [50000, 80000, 115000],
+                time: "35–75 menit",
+                details: [
+                    "Sapu & pel, lap meja, debu, lap furnitur, sampah.",
+                    "Basic + vacuum lantai, rak luar, kursi, kaca, sudut, detail furnitur.",
+                    "Standard + vacuum karpet, kursi, detail rak, sela furnitur, kolong meja, area sulit."
+                ]
+            },
+            {
+                name: "Ruang Laundry",
+                desc: "Area Mesin Cuci & Penjemuran",
+                prices: [50000, 80000, 115000],
+                time: "35–75 menit",
+                details: [
+                    "Sapu & pel, lap permukaan, debu, sampah.",
+                    "Basic + lap mesin cuci luar, wastafel, vacuum, sudut, area sekitar peralatan.",
+                    "Standard + detail mesin cuci, bawah mesin, sela mesin, kerak, detail lantai/sudut/area sulit."
+                ]
+            },
+            {
+                name: "Teras Rumah",
+                desc: "Area Outdoor Depan & Belakang",
+                prices: [50000, 70000, 100000],
+                time: "30–60 menit",
+                details: [
+                    "Menyapu, mengepel, lap permukaan, debu/kotoran ringan, sampah.",
+                    "Basic + pintu, kaca, furnitur, sudut.",
+                    "Standard + detail lantai, noda membandel, sela-sela, sudut, area sulit."
+                ]
+            },
+            {
+                name: "Garasi / Carport",
+                desc: "Area Parkir Kendaraan",
+                prices: [50000, 80000, 115000],
+                time: "40–75 menit",
+                details: [
+                    "Menyapu, mengepel area sesuai, debu, area utama, sampah ringan.",
+                    "Basic + detail lantai, sudut, lap permukaan, noda ringan, area bawah mudah dijangkau.",
+                    "Standard + detail lantai, bercak/noda membandel, sudut, sela, area sulit."
+                ]
+            },
+            {
+                name: "Gudang Penyimpanan",
+                desc: "Storage & Barang Koleksi",
+                prices: [55000, 90000, 140000],
+                time: "45–90 menit",
+                details: [
+                    "Menyapu, mengepel, debu, sampah ringan, area utama mudah dijangkau.",
+                    "Basic + vacuum, rak, sudut, permukaan, area yang mudah terlewat.",
+                    "Standard + detail rak, vacuum sela, area sulit, debu/kotoran berat, detail lantai/sudut."
+                ]
+            }
+        ];
+
+        const packageNames = ["Basic", "Standard", "Deep"];
+        const roomGrid = document.getElementById("roomGrid");
+
+        function rupiah(value) {
+            return "Rp " + value.toLocaleString("id-ID");
+        }
+
+        // MENAMPILKAN SEMUA KARTU RUANGAN
+        rooms.forEach((room, index) => {
+            const card = document.createElement("article");
+            card.className = "room-card";
+
+            const priceHTML = room.prices.map((price, i) => `
+                <div class="price-option ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}">
+                    <span>${packageNames[i].toUpperCase()}</span>
+                    <strong>${rupiah(price)}</strong>
+                </div>
+            `).join("");
+
+            const detailHTML = room.details.map((detail, i) => `
+                <div class="package-detail ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}">
+                    <h3>Paket ${packageNames[i]}:</h3>
+                    <p>${detail}</p>
+                </div>
+            `).join("");
+
+            card.innerHTML = `
+                <div class="room-heading">
+                    <div class="room-number">${String(index + 1).padStart(2, "0")}</div>
+                    <div class="room-title">
+                        <h2>${room.name}</h2>
+                        <p>${room.desc}</p>
+                    </div>
+                    <span class="package-label">3 Pilihan Paket</span>
+                </div>
+
+                <div class="price-row">${priceHTML}</div>
+                ${detailHTML}
+
+                <div class="room-footer">
+                    <span class="duration">Estimasi kerja: ${room.time}</span>
+                    <a class="book-room"
+                       href="booking.html?room=${encodeURIComponent(room.name)}">
+                       Booking Ruangan Ini →
+                    </a>
+                </div>
+            `;
+
+            roomGrid.appendChild(card);
+        });
+
+        // KALKULATOR HARGA CUSTOM
+        const customPrices = [
+            [50000, 75000, 105000],
+            [60000, 90000, 125000],
+            [75000, 110000, 150000]
+        ];
+
+        const customPrice = document.getElementById("customPrice");
+        const roomName = document.getElementById("roomName");
+
+        function updateCustomPrice() {
+            const area = Number(
+                document.querySelector('input[name="area"]:checked').value
+            );
+
+            const selectedPackage = Number(
+                document.querySelector('input[name="package"]:checked').value
+            );
+
+            customPrice.textContent = rupiah(customPrices[area][selectedPackage]);
+        }
+
+        document.querySelectorAll('input[name="area"], input[name="package"]')
+            .forEach(input => input.addEventListener("change", updateCustomPrice));
+
+        document.querySelectorAll(".preset").forEach(button => {
+            button.addEventListener("click", () => {
+                roomName.value = button.dataset.name;
+                roomName.focus();
+            });
+        });
+
+        // TAMBAH CUSTOM KE HALAMAN BOOKING
+        document.getElementById("customForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const name = roomName.value.trim();
+
+            if (!name) {
+                alert("Silakan isi nama ruangan terlebih dahulu.");
+                roomName.focus();
+                return;
+            }
+
+            const area = Number(
+                document.querySelector('input[name="area"]:checked').value
+            );
+
+            const selectedPackage = Number(
+                document.querySelector('input[name="package"]:checked').value
+            );
+
+            const areaLabels = ["< 10 m²", "10–20 m²", "> 20 m²"];
+            const price = customPrices[area][selectedPackage];
+
+            const params = new URLSearchParams({
+                room: name,
+                area: areaLabels[area],
+                package: packageNames[selectedPackage],
+                price: price
+            });
+
+            window.location.href = "booking.html?" + params.toString();
+        });
+
+        updateCustomPrice();
+    </script>
+
+</body>
+</html>

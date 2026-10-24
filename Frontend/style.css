@@ -81,11 +81,19 @@ img {
     object-fit: contain;
 }
 
-.logo span {
+.logo .logo-text {
     font-family: 'Baloo 2', sans-serif;
     font-size: 22px;
     font-weight: 800;
-    color: var(--text);
+    white-space: nowrap;
+}
+
+.logo .logo-griya {
+    color: #292929;
+}
+
+.logo .logo-resik {
+    color: #789477;
 }
 
 .nav-menu {
