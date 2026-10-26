@@ -77,6 +77,13 @@ function getTotal() {
 
 function updateSummary() {
     const roomName = selectedRoom === null ? "Belum dipilih" : rooms[selectedRoom].name;
+    const selectedRoomText = document.getElementById("selectedRoomText");
+
+if (selectedRoomText) {
+    selectedRoomText.textContent = selectedRoom === null
+        ? "Pilih ruangan terlebih dahulu"
+        : "Ruangan terpilih: " + roomName;
+}
     const packageName = selectedPackage ? packageNames[{Basic:0,Standard:1,Deep:2}[selectedPackage]] : "Belum dipilih";
 
     document.getElementById("sumRoom").textContent = roomName;
@@ -116,7 +123,7 @@ const stepTitles = [
 ];
 
 const stepDescriptions = [
-    "Pilih ruangan yang ingin Anda jadwalkan pembersihannya. Anda dapat memulai dari satu ruangan.",
+    "Pilih satu ruangan yang ingin Anda jadwalkan pembersihannya. Anda dapat menambahkan ruangan lain setelah langkah ini dengan rekomendasi formula ramah lingkungan.",
     "Tentukan paket sesuai kebutuhan dan tingkat kebersihan yang diinginkan.",
     "Pilih layanan tambahan bila dibutuhkan dan tuliskan instruksi khusus.",
     "Periksa ruangan, paket, tambahan layanan, serta total estimasi.",
@@ -147,7 +154,17 @@ function renderStep() {
     document.getElementById("stepDescription").textContent = stepDescriptions[currentStep];
     document.getElementById("eyebrow").textContent = stepEyebrows[currentStep];
 
-    document.getElementById("backBtn").disabled = currentStep === 0;
+    const selectionInfo = document.querySelector(".navigation-buttons .selection-info");
+
+    if (selectionInfo) {
+        selectionInfo.style.display = currentStep === 0 ? "flex" : "none";
+    }
+    const backBtn = document.getElementById("backBtn");
+
+    if (backBtn) {
+    backBtn.style.display = currentStep > 0 ? "inline-block" : "none";
+    }
+
     document.getElementById("nextBtn").textContent =
         currentStep === 4 ? "Konfirmasi Booking ✓" :
         currentStep === 3 ? "Lanjut: Alamat & Biodata →" :
@@ -158,27 +175,25 @@ function renderStep() {
     updateSummary();
 }
 
-document.getElementById("backBtn").addEventListener("click", () => {
-    if (currentStep > 0) {
-        currentStep--;
-        renderStep();
-        window.scrollTo({top:0, behavior:"smooth"});
-    }
-});
+const nextBtn = document.getElementById("nextBtn");
 
-document.getElementById("nextBtn").addEventListener("click", () => {
+nextBtn.addEventListener("click", () => {
+    // Validasi pilihan ruangan pada langkah pertama
     if (currentStep === 0 && selectedRoom === null) {
-        alert("Pilih ruangan terlebih dahulu, ya.");
+        alert("Pilih ruangan terlebih dahulu, ya!");
         return;
     }
 
+    // Validasi pilihan paket pada langkah kedua
     if (currentStep === 1 && selectedPackage === null) {
-        alert("Pilih jenis pembersihan terlebih dahulu, ya.");
+        alert("Pilih jenis pembersihan terlebih dahulu, ya!");
         return;
     }
 
+    // Proses konfirmasi booking pada langkah kelima
     if (currentStep === 4) {
         const form = document.getElementById("bookingForm");
+
         if (!form.reportValidity()) return;
 
         const booking = {
@@ -198,20 +213,48 @@ document.getElementById("nextBtn").addEventListener("click", () => {
         };
 
         try {
-            const bookings = JSON.parse(localStorage.getItem("griyaResikBookings") || "[]");
+            const bookings = JSON.parse(
+                localStorage.getItem("griyaResikBookings") || "[]"
+            );
+
             bookings.push(booking);
-            localStorage.setItem("griyaResikBookings", JSON.stringify(bookings));
+
+            localStorage.setItem(
+                "griyaResikBookings",
+                JSON.stringify(bookings)
+            );
+
             alert("Booking berhasil dicatat! Nomor pesanan: " + booking.id);
             window.location.href = "my-bookings.html";
         } catch (error) {
             alert("Booking belum dapat disimpan di browser. Silakan coba lagi.");
         }
+
         return;
     }
 
+    // Pindah ke langkah berikutnya
     currentStep++;
     renderStep();
-    window.scrollTo({top:0, behavior:"smooth"});
+
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+});
+
+const backBtn = document.getElementById("backBtn");
+
+backBtn.addEventListener("click", () => {
+    if (currentStep > 0) {
+        currentStep--;
+        renderStep();
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
 });
 
 const today = new Date();

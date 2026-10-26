@@ -694,7 +694,32 @@
             font-weight: 800;
             color: var(--green);
             margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 12px;
         }
+
+        .footer-logo-icon {
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border-radius: 7px;
+            background-color: #204b38;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+}
+
+            .footer-logo-text {
+            color: #204b38;
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 21px;
+            font-weight: 600;
+}
 
         .footer-grid h3 {
             color: var(--green);
@@ -921,7 +946,7 @@
     <header class="header">
         <nav class="navbar">
             <a href="#beranda" class="logo">
-                <img src="images/Logo griya Resik.png" alt="Logo GriyaResik">
+                <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
                 <span class="logo-text"><span class="logo-griya">Griya</span><span class="logo-resik">Resik</span></span>
             </a>
 
@@ -1103,11 +1128,14 @@
     <footer class="footer">
         <div class="footer-grid">
             <div>
-                <div class="footer-brand">▣ GriyaResik</div>
-                <p>
-                    Solusi praktis dan terpercaya untuk hunian yang bersih,
-                    rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
-                </p>
+    <div class="footer-brand">
+        <span class="footer-logo-icon">G</span>
+        <span class="footer-logo-text">GriyaResik</span>
+    </div>
+    <p>
+        Solusi praktis dan terpercaya untuk hunian yang bersih,
+        rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+    </p>
             </div>
 
             <div>
