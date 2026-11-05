@@ -1,0 +1,922 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin | GriyaResik</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        /* =========================
+           RESET & GLOBAL
+        ========================= */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #168b68;
+            --primary-dark: #107453;
+            --primary-light: #e8f6f0;
+            --background: #f5f8f6;
+            --white: #ffffff;
+            --text: #26352f;
+            --muted: #84918b;
+            --border: #e8eeeb;
+            --orange: #f4a340;
+            --red: #e75b5b;
+            --blue: #4c8ed9;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+        }
+
+        /* =========================
+           LAYOUT
+        ========================= */
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* =========================
+           SIDEBAR
+        ========================= */
+        .sidebar {
+            width: 250px;
+            background: var(--white);
+            border-right: 1px solid var(--border);
+            padding: 25px 18px;
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            transition: transform 0.3s ease;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            margin-bottom: 40px;
+        }
+
+        .logo img {
+            width: 43px;
+            height: 43px;
+            object-fit: contain;
+        }
+
+        .logo-text {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 23px;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .sidebar-title {
+            font-size: 11px;
+            font-weight: 700;
+            color: #a3aea8;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0 12px;
+            margin-bottom: 12px;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 7px;
+        }
+
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #718078;
+            transition: 0.2s;
+        }
+
+        .menu-item:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .menu-item.active {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .logout-btn {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 13px 14px;
+            border-radius: 10px;
+            color: var(--red);
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.2s;
+        }
+
+        .logout-btn:hover {
+            background: #fff0f0;
+        }
+
+        /* =========================
+           MAIN CONTENT
+        ========================= */
+        .main-content {
+            margin-left: 250px;
+            width: calc(100% - 250px);
+            padding: 28px 35px;
+        }
+
+        /* =========================
+           TOPBAR
+        ========================= */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .topbar h1 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            background: var(--white);
+            padding: 9px 15px;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            width: 38px;
+            height: 38px;
+            background: var(--primary-light);
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+        }
+
+        .profile-info h4 {
+            font-size: 12px;
+            margin-bottom: 3px;
+        }
+
+        .profile-info p {
+            font-size: 11px;
+            color: var(--muted);
+        }
+
+        .menu-toggle {
+            display: none;
+            border: none;
+            background: var(--white);
+            font-size: 23px;
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+
+        /* =========================
+           WELCOME CARD
+        ========================= */
+        .welcome-card {
+            background: linear-gradient(110deg, #168b68, #36ae83);
+            border-radius: 18px;
+            padding: 28px 32px;
+            color: var(--white);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+            overflow: hidden;
+        }
+
+        .welcome-card h2 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 25px;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card p {
+            font-size: 13px;
+            line-height: 1.7;
+            opacity: 0.9;
+        }
+
+        .welcome-icon {
+            font-size: 65px;
+            opacity: 0.9;
+        }
+
+        /* =========================
+           STATISTICS
+        ========================= */
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .section-heading h2 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 21px;
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 20px;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .stat-icon {
+            width: 43px;
+            height: 43px;
+            border-radius: 11px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .icon-green {
+            background: #e5f7ef;
+        }
+
+        .icon-orange {
+            background: #fff2df;
+        }
+
+        .icon-blue {
+            background: #e9f2ff;
+        }
+
+        .icon-red {
+            background: #ffeded;
+        }
+
+        .stat-card h3 {
+            font-size: 27px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            font-size: 12px;
+            color: var(--muted);
+        }
+
+        .stat-description {
+            font-size: 11px;
+            color: var(--primary);
+            margin-top: 12px;
+        }
+
+        /* =========================
+           CONTENT GRID
+        ========================= */
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 20px;
+        }
+
+        .panel {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            min-width: 0;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .panel-header h3 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 19px;
+        }
+
+        .view-all {
+            color: var(--primary);
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        /* =========================
+           TABLE
+        ========================= */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            white-space: nowrap;
+        }
+
+        th {
+            text-align: left;
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+            padding: 13px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            font-size: 12px;
+            padding: 15px 10px;
+            border-bottom: 1px solid #f0f3f1;
+        }
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: #fff3df;
+            color: #d58a22;
+        }
+
+        .status-process {
+            background: #e8f1ff;
+            color: #4c83c8;
+        }
+
+        .status-completed {
+            background: #e5f7ef;
+            color: #168b68;
+        }
+
+        .empty-state {
+            text-align: center;
+            color: var(--muted);
+            padding: 35px 10px;
+            font-size: 12px;
+        }
+
+        /* =========================
+           QUICK MENU
+        ========================= */
+        .quick-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .quick-item {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 14px;
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            transition: 0.2s;
+        }
+
+        .quick-item:hover {
+            border-color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        .quick-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-light);
+            color: var(--primary);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 18px;
+        }
+
+        .quick-info h4 {
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+
+        .quick-info p {
+            font-size: 10px;
+            color: var(--muted);
+        }
+
+        /* =========================
+           FOOTER
+        ========================= */
+        .footer {
+            text-align: center;
+            padding: 25px 0 5px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* =========================
+           RESPONSIVE
+        ========================= */
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 22px 18px;
+            }
+
+            .menu-toggle {
+                display: block;
+            }
+
+            .topbar h1 {
+                font-size: 22px;
+            }
+
+            .welcome-card {
+                padding: 23px;
+            }
+
+            .welcome-card h2 {
+                font-size: 21px;
+            }
+
+            .welcome-icon {
+                font-size: 45px;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-profile {
+                padding: 7px;
+            }
+
+            .profile-info {
+                display: none;
+            }
+
+            .welcome-icon {
+                display: none;
+            }
+
+            .main-content {
+                padding: 18px 13px;
+            }
+
+            .panel {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="admin-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <span class="logo-text">GriyaResik</span>
+        </div>
+
+        <p class="sidebar-title">Menu Utama</p>
+
+        <nav class="sidebar-menu">
+
+            <a href="dashboard.html" class="menu-item active">
+                <span class="menu-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="kelola_layanan.html" class="menu-item">
+                <span class="menu-icon">✦</span>
+                Kelola Layanan
+            </a>
+
+            <a href="data_customer.html" class="menu-item">
+                <span class="menu-icon">♙</span>
+                Data Customer
+            </a>
+
+            <a href="booking.html" class="menu-item">
+                <span class="menu-icon">▤</span>
+                Pemesanan
+            </a>
+
+            <a href="jadwal.html" class="menu-item">
+                <span class="menu-icon">▦</span>
+                Jadwal
+            </a>
+
+            <a href="pembayaran.html" class="menu-item">
+                <span class="menu-icon">▣</span>
+                Pembayaran
+            </a>
+
+            <a href="laporan.html" class="menu-item">
+                <span class="menu-icon">▥</span>
+                Laporan
+            </a>
+
+            <a href="pengaturan.html" class="menu-item">
+                <span class="menu-icon">⚙</span>
+                Pengaturan
+            </a>
+
+        </nav>
+
+        <div class="sidebar-bottom">
+            <a href="#" class="logout-btn" id="logoutBtn">
+                <span class="menu-icon">↪</span>
+                Logout
+            </a>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main-content">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="topbar-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+
+                <div>
+                    <h1>Dashboard</h1>
+                    <p>Selamat datang di halaman admin GriyaResik.</p>
+                </div>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-avatar" id="profileAvatar">A</div>
+
+                <div class="profile-info">
+                    <h4 id="adminName">Administrator</h4>
+                    <p>Admin</p>
+                </div>
+            </div>
+
+        </header>
+
+
+        <!-- WELCOME CARD -->
+        <section class="welcome-card">
+
+            <div>
+                <h2>Halo, Admin! 👋</h2>
+                <p>
+                    Selamat datang di dashboard GriyaResik.<br>
+                    Kelola layanan dan pantau aktivitas pemesanan
+                    pelanggan melalui halaman ini.
+                </p>
+            </div>
+
+            <div class="welcome-icon">🏡</div>
+
+        </section>
+
+
+        <!-- STATISTICS -->
+        <section>
+
+            <div class="section-heading">
+                <div>
+                    <h2>Ringkasan Bisnis</h2>
+                    <p>Informasi aktivitas GriyaResik</p>
+                </div>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon icon-green">▤</div>
+                    </div>
+
+                    <h3 id="totalBooking">—</h3>
+                    <p>Total Pemesanan</p>
+                    <div class="stat-description">Seluruh pemesanan</div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon icon-orange">◷</div>
+                    </div>
+
+                    <h3 id="pendingBooking">—</h3>
+                    <p>Menunggu Konfirmasi</p>
+                    <div class="stat-description">Pemesanan pending</div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon icon-blue">✓</div>
+                    </div>
+
+                    <h3 id="completedBooking">—</h3>
+                    <p>Pemesanan Selesai</p>
+                    <div class="stat-description">Layanan telah selesai</div>
+                </div>
+
+
+                <div class="stat-card">
+                    <div class="stat-top">
+                        <div class="stat-icon icon-red">♙</div>
+                    </div>
+
+                    <h3 id="totalCustomer">—</h3>
+                    <p>Total Customer</p>
+                    <div class="stat-description">Pelanggan terdaftar</div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT GRID -->
+        <section class="content-grid">
+
+            <!-- RECENT BOOKING -->
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h3>Pemesanan Terbaru</h3>
+                    <a href="booking.html" class="view-all">Lihat Semua →</a>
+                </div>
+
+                <div class="table-wrapper">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>ID Booking</th>
+                                <th>Customer</th>
+                                <th>Layanan</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="recentBookingTable">
+
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    Data pemesanan akan ditampilkan setelah
+                                    dashboard terhubung dengan backend.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- QUICK MENU -->
+            <div class="panel">
+
+                <div class="panel-header">
+                    <h3>Akses Cepat</h3>
+                </div>
+
+                <div class="quick-menu">
+
+                    <a href="layanan.html" class="quick-item">
+                        <div class="quick-icon">✦</div>
+
+                        <div class="quick-info">
+                            <h4>Kelola Layanan</h4>
+                            <p>Tambah dan ubah layanan cleaning</p>
+                        </div>
+                    </a>
+
+
+                    <a href="booking.html" class="quick-item">
+                        <div class="quick-icon">▤</div>
+
+                        <div class="quick-info">
+                            <h4>Kelola Pemesanan</h4>
+                            <p>Lihat dan kelola pesanan customer</p>
+                        </div>
+                    </a>
+
+
+                    <a href="customer.html" class="quick-item">
+                        <div class="quick-icon">♙</div>
+
+                        <div class="quick-info">
+                            <h4>Data Customer</h4>
+                            <p>Lihat daftar pelanggan</p>
+                        </div>
+                    </a>
+
+
+                    <a href="laporan.html" class="quick-item">
+                        <div class="quick-icon">▥</div>
+
+                        <div class="quick-info">
+                            <h4>Laporan</h4>
+                            <p>Lihat rekap aktivitas bisnis</p>
+                        </div>
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+        <footer class="footer">
+            © 2026 GriyaResik. All Rights Reserved.
+        </footer>
+
+    </main>
+
+</div>
+
+
+<script>
+    // =========================
+    // SIDEBAR MOBILE
+    // =========================
+
+    const sidebar = document.getElementById("sidebar");
+    const menuToggle = document.getElementById("menuToggle");
+
+    menuToggle.addEventListener("click", function () {
+        sidebar.classList.toggle("show");
+    });
+
+
+    // =========================
+    // ADMIN PROFILE
+    // =========================
+
+    const storedUser = sessionStorage.getItem("griyaresikUser");
+
+    if (storedUser) {
+        try {
+            const user = JSON.parse(storedUser);
+
+            const name = user.name || user.nama || "Administrator";
+
+            document.getElementById("adminName").textContent = name;
+            document.getElementById("profileAvatar").textContent =
+                name.charAt(0).toUpperCase();
+
+        } catch (error) {
+            console.error("Gagal membaca data user:", error);
+        }
+    }
+
+
+    // =========================
+    // LOGOUT
+    // =========================
+
+    document.getElementById("logoutBtn").addEventListener("click", function (event) {
+        event.preventDefault();
+
+        const confirmation = confirm("Apakah kamu yakin ingin logout?");
+
+        if (confirmation) {
+            sessionStorage.removeItem("griyaresikUser");
+
+            // Jika menggunakan token di sessionStorage,
+            // hapus juga token saat logout.
+            sessionStorage.removeItem("token");
+
+            window.location.href = "../login.html";
+        }
+    });
+
+</script>
+
+</body>
+</html>

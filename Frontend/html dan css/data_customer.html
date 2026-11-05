@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Data Customer | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #168b6b;
+            --green-dark: #126d55;
+            --green-light: #e7f5ef;
+            --background: #f4f8f5;
+            --text: #193e2f;
+            --muted: #82938b;
+            --border: #e5ece7;
+            --white: #ffffff;
+            --red: #f04444;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 268px;
+            background: white;
+            border-right: 1px solid var(--border);
+            position: fixed;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 25px 19px;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px;
+            margin-bottom: 38px;
+        }
+
+        .logo img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+        }
+
+        .logo span {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 25px;
+            font-weight: 800;
+            color: var(--green-dark);
+        }
+
+        .menu-label {
+            color: #a0aaa5;
+            font-size: 12px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            padding: 0 12px;
+            margin-bottom: 10px;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .menu a {
+            text-decoration: none;
+            color: #63736b;
+            padding: 16px 17px;
+            border-radius: 13px;
+            font-size: 14px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: var(--green-light);
+            color: var(--green);
+        }
+
+        .menu-icon {
+            width: 18px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .logout {
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+            padding-top: 20px;
+        }
+
+        .logout button {
+            width: 100%;
+            text-align: left;
+            background: transparent;
+            border: none;
+            color: var(--red);
+            font-weight: 600;
+            padding: 14px 16px;
+            border-radius: 10px;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 268px;
+            width: calc(100% - 268px);
+            padding: 30px 38px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 28px;
+        }
+
+        .topbar h1 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 30px;
+            font-weight: 800;
+        }
+
+        .topbar p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .admin-badge {
+            background: white;
+            padding: 11px 17px;
+            border-radius: 12px;
+            border: 1px solid var(--border);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* SUMMARY */
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 22px;
+        }
+
+        .summary-icon {
+            width: 43px;
+            height: 43px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: var(--green-light);
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .summary-card h2 {
+            font-size: 27px;
+            margin-bottom: 4px;
+        }
+
+        .summary-card p {
+            font-size: 13px;
+            color: var(--muted);
+        }
+
+        /* CONTENT */
+
+        .content-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 25px;
+        }
+
+        .content-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 22px;
+        }
+
+        .content-heading h2 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 23px;
+        }
+
+        .content-heading p {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 3px;
+        }
+
+        .btn-refresh {
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        .btn-refresh:hover {
+            background: var(--green-dark);
+        }
+
+        /* FILTER */
+
+        .filter-area {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-box,
+        .filter-select {
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 9px;
+            padding: 11px 14px;
+            outline: none;
+            color: var(--text);
+            font-size: 13px;
+        }
+
+        .search-box {
+            width: 300px;
+        }
+
+        .search-box:focus,
+        .filter-select:focus {
+            border-color: var(--green);
+        }
+
+        /* TABLE */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 750px;
+        }
+
+        th {
+            text-align: left;
+            padding: 15px 12px;
+            font-size: 12px;
+            color: #82938b;
+            font-weight: 700;
+            background: #f9fbf9;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--green-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--green-dark);
+            overflow: hidden;
+        }
+
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .customer-name {
+            font-weight: 700;
+            color: var(--text);
+        }
+
+        .customer-email {
+            font-size: 11px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .method {
+            display: inline-block;
+            padding: 6px 11px;
+            border-radius: 30px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .method.google {
+            background: #fff0ef;
+            color: #d95b50;
+        }
+
+        .method.email {
+            background: #eaf2ff;
+            color: #3775c8;
+        }
+
+        .btn-detail {
+            border: none;
+            background: #e7f5ef;
+            color: var(--green-dark);
+            padding: 8px 13px;
+            border-radius: 7px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .btn-detail:hover {
+            background: #d6eee2;
+        }
+
+        .message-row {
+            text-align: center;
+            padding: 35px;
+            color: var(--muted);
+        }
+
+        .message-row.error {
+            color: #d94b4b;
+        }
+
+        /* MODAL DETAIL */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 35, 26, .45);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 200;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 470px;
+            background: white;
+            border-radius: 17px;
+            padding: 28px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .modal-header h2 {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 24px;
+        }
+
+        .close-btn {
+            border: none;
+            background: #f1f5f2;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+
+        .profile-detail {
+            text-align: center;
+            padding: 15px 0 25px;
+        }
+
+        .profile-avatar {
+            width: 85px;
+            height: 85px;
+            margin: 0 auto 13px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green-dark);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 28px;
+            font-weight: 800;
+            overflow: hidden;
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-detail h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+
+        .profile-detail p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .detail-list {
+            border-top: 1px solid var(--border);
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 13px;
+        }
+
+        .detail-item span:first-child {
+            color: var(--muted);
+        }
+
+        .detail-item strong {
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .modal-footer {
+            margin-top: 22px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-close {
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 11px 20px;
+            border-radius: 9px;
+            font-weight: 700;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1000px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main {
+                margin-left: 220px;
+                width: calc(100% - 220px);
+                padding: 25px;
+            }
+
+            .summary {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 700px) {
+            .sidebar {
+                width: 75px;
+                padding: 20px 10px;
+            }
+
+            .logo {
+                justify-content: center;
+                padding: 0;
+            }
+
+            .logo img {
+                width: 43px;
+            }
+
+            .logo span,
+            .menu-label,
+            .menu a span:last-child,
+            .logout span {
+                display: none;
+            }
+
+            .menu a {
+                justify-content: center;
+                padding: 15px 5px;
+            }
+
+            .menu-icon {
+                font-size: 19px;
+            }
+
+            .main {
+                margin-left: 75px;
+                width: calc(100% - 75px);
+                padding: 20px 14px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-badge {
+                display: none;
+            }
+
+            .content-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .filter-area {
+                flex-direction: column;
+            }
+
+            .search-box,
+            .filter-select {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+    <div class="logo">
+        <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+        <span>GriyaResik</span>
+    </div>
+
+    <div class="menu-label">MENU UTAMA</div>
+
+    <nav class="menu">
+
+        <a href="dashboard_admin.html">
+            <span class="menu-icon">▦</span>
+            <span>Dashboard</span>
+        </a>
+
+        <a href="kelola_layanan.html">
+            <span class="menu-icon">✦</span>
+            <span>Kelola Layanan</span>
+        </a>
+
+        <a href="data_customer.html" class="active">
+            <span class="menu-icon">♟</span>
+            <span>Data Customer</span>
+        </a>
+
+        <a href="pemesanan.html">
+            <span class="menu-icon">▤</span>
+            <span>Pemesanan</span>
+        </a>
+
+        <a href="jadwal.html">
+            <span class="menu-icon">▦</span>
+            <span>Jadwal</span>
+        </a>
+
+        <a href="pembayaran.html">
+            <span class="menu-icon">▣</span>
+            <span>Pembayaran</span>
+        </a>
+
+        <a href="laporan.html">
+            <span class="menu-icon">▥</span>
+            <span>Laporan</span>
+        </a>
+
+        <a href="pengaturan.html">
+            <span class="menu-icon">⚙</span>
+            <span>Pengaturan</span>
+        </a>
+
+    </nav>
+
+    <div class="logout">
+        <button type="button" id="logoutBtn">
+            <span>➜ &nbsp; Logout</span>
+        </button>
+    </div>
+
+</aside>
+
+
+<!-- MAIN CONTENT -->
+<main class="main">
+
+    <div class="topbar">
+        <div>
+            <h1>Data Customer</h1>
+            <p>Kelola dan lihat informasi pelanggan GriyaResik.</p>
+        </div>
+
+        <div class="admin-badge">
+            ✦ Administrator
+        </div>
+    </div>
+
+
+    <!-- SUMMARY -->
+    <section class="summary">
+
+        <div class="summary-card">
+            <div class="summary-icon">♟</div>
+            <h2 id="totalCustomer">—</h2>
+            <p>Total Customer</p>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">🌐</div>
+            <h2 id="googleCustomer">—</h2>
+            <p>Customer Google</p>
+        </div>
+
+        <div class="summary-card">
+            <div class="summary-icon">✉</div>
+            <h2 id="emailCustomer">—</h2>
+            <p>Customer Email</p>
+        </div>
+
+    </section>
+
+
+    <!-- CUSTOMER TABLE -->
+    <section class="content-card">
+
+        <div class="content-heading">
+
+            <div>
+                <h2>Daftar Customer</h2>
+                <p>Informasi pelanggan yang telah terdaftar di GriyaResik.</p>
+            </div>
+
+            <button class="btn-refresh" id="refreshBtn">
+                ↻ Refresh Data
+            </button>
+
+        </div>
+
+
+        <!-- SEARCH AND FILTER -->
+        <div class="filter-area">
+
+            <input
+                type="text"
+                class="search-box"
+                id="searchInput"
+                placeholder="Cari nama atau email customer..."
+            >
+
+            <select class="filter-select" id="methodFilter">
+                <option value="all">Semua Metode Registrasi</option>
+                <option value="google">Google</option>
+                <option value="email">Email</option>
+            </select>
+
+        </div>
+
+
+        <!-- TABLE -->
+        <div class="table-wrap">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>NO</th>
+                        <th>CUSTOMER</th>
+                        <th>ID CUSTOMER</th>
+                        <th>METODE REGISTRASI</th>
+                        <th>AKSI</th>
+                    </tr>
+                </thead>
+
+                <tbody id="customerTable">
+
+                    <tr>
+                        <td colspan="5" class="message-row">
+                            Memuat data customer...
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- MODAL DETAIL CUSTOMER -->
+<div class="modal-overlay" id="detailModal">
+
+    <div class="modal">
+
+        <div class="modal-header">
+            <h2>Detail Customer</h2>
+            <button class="close-btn" id="closeModal">×</button>
+        </div>
+
+        <div class="profile-detail">
+
+            <div class="profile-avatar" id="detailAvatar">
+                GR
+            </div>
+
+            <h3 id="detailName">Nama Customer</h3>
+            <p id="detailEmail">email@example.com</p>
+
+        </div>
+
+        <div class="detail-list">
+
+            <div class="detail-item">
+                <span>ID Customer</span>
+                <strong id="detailId">-</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Nama Lengkap</span>
+                <strong id="detailFullName">-</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Email</span>
+                <strong id="detailEmailValue">-</strong>
+            </div>
+
+            <div class="detail-item">
+                <span>Metode Registrasi</span>
+                <strong id="detailMethod">-</strong>
+            </div>
+
+        </div>
+
+        <div class="modal-footer">
+            <button class="btn-close" id="closeDetailBtn">
+                Tutup
+            </button>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script src="../js/data_customer.js"></script>
+
+</body>
+</html>
