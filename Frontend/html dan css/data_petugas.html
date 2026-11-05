@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Petugas | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #f5f7fb;
+            color: #263238;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #123f35;
+            position: fixed;
+            left: 0;
+            top: 0;
+            padding: 25px 18px;
+            color: white;
+            overflow-y: auto;
+            z-index: 100;
+            transition: .3s;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 35px;
+        }
+
+        .brand img {
+            width: 43px;
+            height: 43px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .brand h2 {
+            font-size: 19px;
+        }
+
+        .brand span {
+            color: #b6e3ca;
+        }
+
+        .menu-title {
+            font-size: 11px;
+            color: #a9c8bb;
+            margin: 20px 10px 10px;
+            text-transform: uppercase;
+        }
+
+        .menu a {
+            display: block;
+            padding: 12px 14px;
+            color: #dcebe4;
+            text-decoration: none;
+            border-radius: 9px;
+            margin-bottom: 5px;
+            font-size: 13px;
+            transition: .2s;
+        }
+
+        .menu a:hover,
+        .menu a.active {
+            background: #286b56;
+            color: white;
+        }
+
+        .logout {
+            margin-top: 25px;
+            border-top: 1px solid #37685b;
+            padding-top: 20px;
+        }
+
+        .logout a {
+            color: #ffd2d2;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            margin-left: 250px;
+            padding: 30px;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            gap: 15px;
+        }
+
+        .topbar h1 {
+            font-size: 25px;
+            color: #174c3e;
+        }
+
+        .topbar p {
+            color: #89949b;
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .admin-profile {
+            background: white;
+            padding: 10px 16px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 2px 10px #00000008;
+            font-size: 13px;
+        }
+
+        .admin-avatar {
+            width: 35px;
+            height: 35px;
+            background: #d8eee3;
+            color: #174c3e;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+        }
+
+        /* STATISTIK */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 22px;
+            border-radius: 13px;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        .stat-card p {
+            font-size: 13px;
+            color: #849099;
+        }
+
+        .stat-card h2 {
+            font-size: 27px;
+            color: #174c3e;
+            margin-top: 8px;
+        }
+
+        /* TOOLBAR */
+        .toolbar {
+            background: white;
+            padding: 20px;
+            border-radius: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .filters {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #dce3e8;
+            border-radius: 8px;
+            outline: none;
+            font-size: 13px;
+            background: white;
+        }
+
+        input:focus,
+        select:focus,
+        textarea:focus {
+            border-color: #2c8064;
+        }
+
+        .search {
+            width: 240px;
+        }
+
+        .filter {
+            width: 175px;
+        }
+
+        button {
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            border-radius: 8px;
+            padding: 11px 17px;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: #17664f;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #104c3b;
+        }
+
+        .btn-edit {
+            background: #e5f0ff;
+            color: #2865a6;
+            padding: 7px 11px;
+        }
+
+        .btn-delete {
+            background: #ffe8e8;
+            color: #c34242;
+            padding: 7px 11px;
+        }
+
+        /* TABEL */
+        .table-card {
+            background: white;
+            border-radius: 13px;
+            padding: 20px;
+            box-shadow: 0 3px 12px #00000008;
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            align-items: center;
+        }
+
+        .table-header h3 {
+            color: #174c3e;
+            font-size: 16px;
+        }
+
+        .table-header span {
+            font-size: 12px;
+            color: #89949b;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            padding: 13px;
+            font-size: 12px;
+            color: #849099;
+            background: #f8faf9;
+        }
+
+        td {
+            padding: 14px 13px;
+            border-bottom: 1px solid #edf0f2;
+            font-size: 12px;
+        }
+
+        .person {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .person-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: #e0efe8;
+            color: #17664f;
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .person-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .person strong {
+            display: block;
+            color: #263238;
+        }
+
+        .person small {
+            color: #929da3;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 10px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .active {
+            background: #e0f5e9;
+            color: #21824c;
+        }
+
+        .inactive {
+            background: #ffe7e7;
+            color: #c34b4b;
+        }
+
+        .available {
+            background: #e3f1ff;
+            color: #2871ae;
+        }
+
+        .busy {
+            background: #fff0d9;
+            color: #b47a20;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .empty {
+            text-align: center;
+            padding: 35px;
+            color: #929da3;
+        }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: #00000070;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 200;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            width: 100%;
+            max-width: 650px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .modal-header h2 {
+            color: #174c3e;
+            font-size: 19px;
+        }
+
+        .close {
+            background: #f1f3f4;
+            padding: 7px 11px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 7px;
+        }
+
+        .full {
+            grid-column: 1 / -1;
+        }
+
+        .helper {
+            font-size: 11px;
+            color: #89949b;
+            margin-top: 6px;
+        }
+
+        .package-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .package-options label {
+            border: 1px solid #dce3e8;
+            padding: 10px 13px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .package-options input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: #edf0f2;
+            color: #53616a;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* RESPONSIVE */
+        @media(max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px;
+            }
+
+            .mobile-toggle {
+                display: block;
+                background: #17664f;
+                color: white;
+                margin-bottom: 12px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media(max-width: 600px) {
+            .stats {
+                grid-template-columns: 1fr;
+            }
+
+            .admin-profile {
+                display: none;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .full {
+                grid-column: auto;
+            }
+
+            .search,
+            .filter {
+                width: 100%;
+            }
+
+            .filters {
+                width: 100%;
+            }
+
+            .toolbar {
+                align-items: stretch;
+            }
+
+            .toolbar > button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <h2>Griya<span>Resik</span></h2>
+        </div>
+
+        <p class="menu-title">Menu Utama</p>
+
+        <nav class="menu">
+            <a href="dashboard_admin.html">Dashboard</a>
+            <a href="kelola_layanan.html">Kelola Layanan</a>
+            <a href="data_customer.html">Data Customer</a>
+            <a href="data_petugas.html" class="active">Data Petugas</a>
+            <a href="pemesanan.html">Pemesanan</a>
+            <a href="jadwal.html">Jadwal</a>
+            <a href="pembayaran.html">Pembayaran</a>
+            <a href="laporan.html">Laporan</a>
+            <a href="pengaturan.html">Pengaturan</a>
+        </nav>
+
+        <div class="logout">
+            <a href="#" id="logoutBtn">Keluar</a>
+        </div>
+
+    </aside>
+
+
+    <!-- KONTEN UTAMA -->
+    <main class="main">
+
+        <div class="topbar">
+
+            <div>
+                <button class="mobile-toggle" id="mobileToggle">
+                    ☰
+                </button>
+
+                <h1>Data Petugas Kebersihan</h1>
+
+                <p>
+                    Kelola informasi dan wilayah operasional petugas GriyaResik.
+                </p>
+            </div>
+
+            <div class="admin-profile">
+                <div class="admin-avatar" id="adminAvatar">A</div>
+                <span id="adminName">Administrator</span>
+            </div>
+
+        </div>
+
+
+        <!-- STATISTIK -->
+        <section class="stats">
+
+            <div class="stat-card">
+                <p>Total Petugas</p>
+                <h2 id="totalPetugas">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Petugas Aktif</p>
+                <h2 id="petugasAktif">0</h2>
+            </div>
+
+            <div class="stat-card">
+                <p>Petugas Tersedia</p>
+                <h2 id="petugasTersedia">0</h2>
+            </div>
+
+        </section>
+
+
+        <!-- PENCARIAN DAN FILTER -->
+        <section class="toolbar">
+
+            <div class="filters">
+
+                <input
+                    type="text"
+                    id="searchInput"
+                    class="search"
+                    placeholder="Cari nama atau email..."
+                >
+
+                <select id="regionFilter" class="filter">
+                    <option value="">Semua Wilayah</option>
+                    <option value="SB">Surabaya Barat</option>
+                    <option value="ST">Surabaya Timur</option>
+                    <option value="SU">Surabaya Utara</option>
+                    <option value="SS">Surabaya Selatan</option>
+                    <option value="SP">Surabaya Pusat</option>
+                </select>
+
+                <select id="statusFilter" class="filter">
+                    <option value="">Semua Status</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Nonaktif">Nonaktif</option>
+                </select>
+
+            </div>
+
+            <button class="btn-primary" id="addBtn">
+                + Tambah Petugas
+            </button>
+
+        </section>
+
+
+        <!-- TABEL PETUGAS -->
+        <section class="table-card">
+
+            <div class="table-header">
+                <h3>Daftar Petugas</h3>
+                <span id="resultCount">0 petugas ditemukan</span>
+            </div>
+
+            <div class="table-wrapper">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Petugas</th>
+                            <th>Nomor HP</th>
+                            <th>Wilayah</th>
+                            <th>Kemampuan Paket</th>
+                            <th>Status</th>
+                            <th>Ketersediaan</th>
+                            <th>Aksi</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="staffTableBody"></tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- MODAL TAMBAH / EDIT PETUGAS -->
+    <div class="modal-overlay" id="staffModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2 id="modalTitle">Tambah Petugas</h2>
+
+                <button class="close" id="closeModal">
+                    ✕
+                </button>
+
+            </div>
+
+
+            <form id="staffForm">
+
+                <input type="hidden" id="staffId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap *</label>
+                        <input
+                            type="text"
+                            id="name"
+                            required
+                            placeholder="Nama lengkap petugas"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            required
+                            placeholder="nama@email.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Nomor HP *</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            required
+                            placeholder="08xxxxxxxxxx"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="photo">Foto Petugas (URL)</label>
+                        <input
+                            type="url"
+                            id="photo"
+                            placeholder="https://..."
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="address">Alamat Lengkap *</label>
+                        <textarea
+                            id="address"
+                            rows="3"
+                            required
+                            placeholder="Masukkan alamat petugas"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="region">Wilayah Operasional *</label>
+
+                        <select id="region" required>
+                            <option value="">Pilih Wilayah</option>
+                            <option value="SB">Surabaya Barat</option>
+                            <option value="ST">Surabaya Timur</option>
+                            <option value="SU">Surabaya Utara</option>
+                            <option value="SS">Surabaya Selatan</option>
+                            <option value="SP">Surabaya Pusat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status Petugas *</label>
+
+                        <select id="status" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Nonaktif">Nonaktif</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+
+                        <label>Kemampuan Paket Cleaning *</label>
+
+                        <div class="package-options">
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="packages"
+                                    value="Basic"
+                                >
+                                Basic
+                            </label>
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="packages"
+                                    value="Standard"
+                                >
+                                Standard
+                            </label>
+
+                            <label>
+                                <input
+                                    type="checkbox"
+                                    name="packages"
+                                    value="Deep"
+                                >
+                                Deep
+                            </label>
+
+                        </div>
+
+                        <p class="helper">
+                            Pilih minimal dua paket. Kombinasi Basic + Deep
+                            saja tidak diperbolehkan.
+                        </p>
+
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="availability">
+                            Ketersediaan Petugas *
+                        </label>
+
+                        <select id="availability" required>
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Sedang Bertugas">
+                                Sedang Bertugas
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="btn-cancel"
+                        id="cancelBtn"
+                    >
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Simpan Petugas
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- JAVASCRIPT TERPISAH -->
+    <script src="../js/data_petugas.js"></script>
+
+</body>
+</html>

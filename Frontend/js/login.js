@@ -18,6 +18,35 @@ const loginMessage = document.getElementById("loginMessage");
 function showMessage(element, message) {
   element.textContent = message;
 }
+// Mengarahkan pengguna berdasarkan role dari database
+function redirectByRole(user) {
+  if (!user || !user.role) {
+    showMessage(
+      loginMessage,
+      "Role akun tidak ditemukan. Silakan hubungi admin."
+    );
+    return;
+  }
+
+  if (user.role === "admin") {
+    window.location.href = "dashboard_admin.html";
+  } 
+  else if (user.role === "customer") {
+    window.location.href = "Beranda after login.html";
+  } 
+  else if (user.role === "staff") {
+    showMessage(
+      loginMessage,
+      "Halaman petugas belum tersedia."
+    );
+  } 
+  else {
+    showMessage(
+      loginMessage,
+      "Role akun tidak dikenali."
+    );
+  }
+}
 
 // LOGIN EMAIL DAN PASSWORD
 form.addEventListener("submit", async (event) => {
@@ -73,7 +102,7 @@ form.addEventListener("submit", async (event) => {
       JSON.stringify(data.user)
     );
     
-    window.location.href = "Beranda after login.html";
+    redirectByRole(data.user);
   } catch (error) {
     console.error("Login error:", error);
     showMessage(
@@ -148,9 +177,9 @@ async function handleGoogleLogin(response) {
     sessionStorage.setItem(
       "griyaresikUser",
       JSON.stringify(data.user)
-  );
-  
-  window.location.href = "Beranda after login.html";
+    );
+    
+    redirectByRole(data.user);
   } catch (error) {
     console.error("Google Login error:", error);
     showMessage(
