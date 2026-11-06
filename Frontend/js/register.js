@@ -1,5 +1,7 @@
-
 const API_URL = "http://localhost:3000";
+
+// GANTI dengan Client ID yang sama seperti login.js
+const GOOGLE_CLIENT_ID = "312360754155-ub7nf17c1p6vo9n69dsjaoj5odrucval.apps.googleusercontent.com";
 
 const form = document.getElementById("registerForm");
 const nameInput = document.getElementById("name");
@@ -53,11 +55,7 @@ function validateForm() {
     showError(passwordInput, "passwordError", "Password wajib diisi.");
     valid = false;
   } else if (password.length < 8) {
-    showError(
-      passwordInput,
-      "passwordError",
-      "Password minimal 8 karakter."
-    );
+    showError(passwordInput, "passwordError", "Password minimal 8 karakter.");
     valid = false;
   }
 
@@ -80,6 +78,7 @@ function validateForm() {
   return valid;
 }
 
+// REGISTRASI EMAIL
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
@@ -112,9 +111,8 @@ form.addEventListener("submit", async (event) => {
     registerMessage.textContent =
       result.message || "Registrasi berhasil.";
 
-    // Jika backend mengembalikan data pengguna,
-    // simpan sesi lalu masuk ke beranda setelah login.
-    if (result.user) {
+    if (result.token && result.user) {
+      sessionStorage.setItem("token", result.token);
       sessionStorage.setItem(
         "griyaresikUser",
         JSON.stringify(result.user)
@@ -122,8 +120,6 @@ form.addEventListener("submit", async (event) => {
 
       window.location.href = "Beranda after login.html";
     } else {
-      // Jika backend hanya mengembalikan pesan sukses,
-      // pengguna perlu login terlebih dahulu.
       setTimeout(() => {
         window.location.href = "login.html";
       }, 1200);
@@ -133,15 +129,92 @@ form.addEventListener("submit", async (event) => {
     console.error("Kesalahan registrasi:", error);
 
     registerMessage.style.color = "#c0392b";
+    registerMessage.textContent =
+      error instanceof TypeError
+        ? "Tidak dapat terhubung ke server. Periksa backend."
+        : error.message;
 
-    if (error instanceof TypeError) {
-      registerMessage.textContent =
-        "Tidak dapat terhubung ke server. Periksa backend dan koneksi API.";
-    } else {
-      registerMessage.textContent = error.message;
-    }
   } finally {
     registerBtn.disabled = false;
     registerBtn.textContent = "Daftar Sekarang";
   }
 });
+
+// LOGIN / REGISTRASI GOOGLE
+function handleGoogleRegister(response) {
+  registerMessage.textContent = "Menghubungkan akun Google...";
+  registerMessage.style.color = "#555";
+
+  fetch(`${API_URL}/api/auth/google`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      credential: response.credential
+    })
+  })
+    .then(async (res) => {
+      const result = await res.json();
+
+      if (!res.ok) {
+        throw new Error(result.message || "Registrasi Google gagal.");
+      }
+
+      if (!result.token || !result.user) {
+        throw new Error("Backend tidak mengirim token atau data pengguna.");
+      }
+
+      sessionStorage.setItem("token", result.token);
+      sessionStorage.setItem(
+        "griyaresikUser",
+        JSON.stringify(result.user)
+      );
+
+      registerMessage.style.color = "#2e7d32";
+      registerMessage.textContent = "Berhasil masuk dengan Google.";
+
+      window.location.href = "Beranda after login.html";
+    })
+    .catch((error) => {
+      console.error("Google registration error:", error);
+
+      registerMessage.style.color = "#c0392b";
+      registerMessage.textContent = error.message;
+    });
+}
+
+// TAMPILKAN TOMBOL GOOGLE
+function initializeGoogleButton() {
+  if (!window.google || !window.google.accounts) {
+    setTimeout(initializeGoogleButton, 300);
+    return;
+  }
+
+  if (
+    !GOOGLE_CLIENT_ID ||
+    GOOGLE_CLIENT_ID === "GANTI_DENGAN_GOOGLE_CLIENT_ID"
+  ) {
+    console.error("Google Client ID belum diisi.");
+    registerMessage.textContent = "Konfigurasi Google belum lengkap.";
+    return;
+  }
+
+  google.accounts.id.initialize({
+    client_id: GOOGLE_CLIENT_ID,
+    callback: handleGoogleRegister
+  });
+
+  google.accounts.id.renderButton(
+    document.getElementById("googleBtn"),
+    {
+      theme: "outline",
+      size: "large",
+      shape: "rectangular",
+      text: "signup_with",
+      width: 300
+    }
+  );
+}
+
+window.addEventListener("load", initializeGoogleButton);

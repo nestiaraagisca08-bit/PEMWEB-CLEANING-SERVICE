@@ -1,17 +1,14 @@
 // ==================================================
-// GRIYARESIK - DATA PETUGAS KEBERSIHAN
+// GRIYARESIK - DATA PETUGAS
+// TERHUBUNG DENGAN POSTGRESQL
 // ==================================================
 
-const STORAGE_KEY = "griyaresikStaff";
 
-let staffList = [];
+// ==================================================
+// 1. KONFIGURASI
+// ==================================================
 
-try {
-    staffList = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-} catch (error) {
-    console.error("Gagal membaca data petugas:", error);
-    staffList = [];
-}
+const API_URL = "http://localhost:3000/api/admin/workers";
 
 const regionNames = {
     SB: "Surabaya Barat",
@@ -21,53 +18,142 @@ const regionNames = {
     SP: "Surabaya Pusat"
 };
 
+let staffList = [];
+let user = null;
+
+
+// ==================================================
+// 2. AMBIL ELEMEN HTML
+// ==================================================
+
 const tableBody = document.getElementById("staffTableBody");
 const modal = document.getElementById("staffModal");
 const form = document.getElementById("staffForm");
 
+const adminNameElement = document.getElementById("adminName");
+const adminAvatarElement = document.getElementById("adminAvatar");
+
 
 // ==================================================
-// 1. CEK LOGIN ADMIN
+// 3. CEK LOGIN DAN ROLE ADMIN
 // ==================================================
-
-let user = null;
 
 try {
-    user = JSON.parse(sessionStorage.getItem("griyaresikUser"));
+    user = JSON.parse(
+        sessionStorage.getItem("griyaresikUser")
+    );
 } catch (error) {
     console.error("Data pengguna tidak valid:", error);
 }
 
-if (!user) {
+const token = sessionStorage.getItem("token");
+
+if (!user || !token) {
+    alert("Silakan login terlebih dahulu.");
     window.location.href = "login.html";
+} else if (user.role !== "admin") {
+    alert("Halaman ini hanya dapat diakses administrator.");
+    window.location.href = "Beranda after login.html";
 } else {
-    const adminName =
+    const name =
         user.name ||
         user.nama ||
         user.fullName ||
         "Administrator";
 
-    document.getElementById("adminName").textContent = adminName;
-
-    document.getElementById("adminAvatar").textContent =
-        adminName.charAt(0).toUpperCase();
+    adminNameElement.textContent = name;
+    adminAvatarElement.textContent = name.charAt(0).toUpperCase();
 }
 
 
 // ==================================================
-// 2. SIMPAN DATA
+// 4. FUNGSI REQUEST API
 // ==================================================
 
-function saveData() {
-    localStorage.setItem(
-        STORAGE_KEY,
-        JSON.stringify(staffList)
-    );
+async function apiRequest(url, options = {}) {
+    const response = await fetch(url, {
+        ...options,
+
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`,
+            ...(options.headers || {})
+        }
+    });
+
+    let result;
+
+    try {
+        result = await response.json();
+    } catch {
+        result = {};
+    }
+
+    if (response.status === 401) {
+        sessionStorage.removeItem("token");
+        sessionStorage.removeItem("griyaresikUser");
+
+        alert("Sesi login telah berakhir. Silakan login kembali.");
+
+        window.location.href = "login.html";
+
+        throw new Error("Sesi login berakhir.");
+    }
+
+    if (response.status === 403) {
+        alert("Akses ditolak. Halaman ini khusus administrator.");
+
+        window.location.href = "Beranda after login.html";
+
+        throw new Error("Akses administrator ditolak.");
+    }
+
+    if (!response.ok) {
+        throw new Error(
+            result.message || "Terjadi kesalahan pada server."
+        );
+    }
+
+    return result;
 }
 
 
 // ==================================================
-// 3. TAMPILKAN DATA PETUGAS
+// 5. AMBIL DATA PETUGAS DARI DATABASE
+// ==================================================
+
+async function loadStaff() {
+    tableBody.innerHTML = `
+        <tr>
+            <td colspan="7" class="empty">
+                Memuat data petugas...
+            </td>
+        </tr>
+    `;
+
+    try {
+        const result = await apiRequest(API_URL);
+
+        staffList = result.workers || [];
+
+        renderStaff();
+
+    } catch (error) {
+        console.error("Gagal mengambil data:", error);
+
+        tableBody.innerHTML = `
+            <tr>
+                <td colspan="7" class="empty">
+                    ${escapeHTML(error.message)}
+                </td>
+            </tr>
+        `;
+    }
+}
+
+
+// ==================================================
+// 6. TAMPILKAN DATA PETUGAS
 // ==================================================
 
 function renderStaff() {
@@ -83,15 +169,18 @@ function renderStaff() {
         document.getElementById("statusFilter").value;
 
     const filteredStaff = staffList.filter(staff => {
+
         const matchKeyword =
-            staff.name.toLowerCase().includes(keyword) ||
-            staff.email.toLowerCase().includes(keyword);
+            String(staff.name || "").toLowerCase().includes(keyword) ||
+            String(staff.email || "").toLowerCase().includes(keyword);
 
         const matchRegion =
-            !selectedRegion || staff.region === selectedRegion;
+            !selectedRegion ||
+            staff.region === selectedRegion;
 
         const matchStatus =
-            !selectedStatus || staff.status === selectedStatus;
+            !selectedStatus ||
+            staff.status === selectedStatus;
 
         return matchKeyword && matchRegion && matchStatus;
     });
@@ -107,41 +196,65 @@ function renderStaff() {
             </tr>
         `;
     } else {
+
         filteredStaff.forEach(staff => {
-            const initial = staff.name.charAt(0).toUpperCase();
+
+            const initial = String(staff.name || "P")
+                .charAt(0)
+                .toUpperCase();
 
             const photo = staff.photo
                 ? `<img src="${escapeHTML(staff.photo)}" alt="Foto Petugas">`
                 : initial;
 
             const statusClass =
-                staff.status === "Aktif" ? "active" : "inactive";
+                staff.status === "Aktif"
+                    ? "active"
+                    : "inactive";
 
             const availabilityClass =
                 staff.availability === "Tersedia"
                     ? "available"
                     : "busy";
 
+            const packages = Array.isArray(staff.packages)
+                ? staff.packages
+                : [];
+
             const row = document.createElement("tr");
 
             row.innerHTML = `
                 <td>
                     <div class="person">
+
                         <div class="person-avatar">
                             ${photo}
                         </div>
+
                         <div>
-                            <strong>${escapeHTML(staff.name)}</strong>
-                            <small>${escapeHTML(staff.email)}</small>
+                            <strong>
+                                ${escapeHTML(staff.name)}
+                            </strong>
+
+                            <small>
+                                ${escapeHTML(staff.email || "-")}
+                            </small>
                         </div>
+
                     </div>
                 </td>
 
-                <td>${escapeHTML(staff.phone)}</td>
+                <td>
+                    ${escapeHTML(staff.phone || "-")}
+                </td>
 
-                <td>${regionNames[staff.region] || "-"}</td>
+                <td>
+                    ${escapeHTML(regionNames[staff.region] || "-")}
+                </td>
 
-                <td>${staff.packages.map(escapeHTML).join(", ")}</td>
+                <td>
+                    ${packages.map(escapeHTML).join(", ")}
+                </td>
 
                 <td>
                     <span class="badge ${statusClass}">
@@ -157,15 +270,21 @@ function renderStaff() {
 
                 <td>
                     <div class="actions">
-                        <button class="btn-edit"
-                            onclick="editStaff(${staff.id})">
+
+                        <button
+                            class="btn-edit"
+                            onclick="editStaff(${Number(staff.id)})"
+                        >
                             Edit
                         </button>
 
-                        <button class="btn-delete"
-                            onclick="deleteStaff(${staff.id})">
+                        <button
+                            class="btn-delete"
+                            onclick="deleteStaff(${Number(staff.id)})"
+                        >
                             Hapus
                         </button>
+
                     </div>
                 </td>
             `;
@@ -182,10 +301,11 @@ function renderStaff() {
 
 
 // ==================================================
-// 4. STATISTIK PETUGAS
+// 7. STATISTIK PETUGAS
 // ==================================================
 
 function updateStatistics() {
+
     const total = staffList.length;
 
     const active = staffList.filter(
@@ -199,13 +319,15 @@ function updateStatistics() {
     ).length;
 
     document.getElementById("totalPetugas").textContent = total;
+
     document.getElementById("petugasAktif").textContent = active;
+
     document.getElementById("petugasTersedia").textContent = available;
 }
 
 
 // ==================================================
-// 5. MODAL TAMBAH DAN EDIT
+// 8. MODAL TAMBAH DAN EDIT
 // ==================================================
 
 function openModal() {
@@ -213,6 +335,7 @@ function openModal() {
 }
 
 function closeModal() {
+
     modal.classList.remove("show");
 
     form.reset();
@@ -223,35 +346,52 @@ function closeModal() {
         "Tambah Petugas";
 }
 
-document.getElementById("addBtn").addEventListener("click", () => {
-    form.reset();
 
-    document.getElementById("staffId").value = "";
+// Tombol tambah
 
-    document.getElementById("modalTitle").textContent =
-        "Tambah Petugas";
+document.getElementById("addBtn")
+    .addEventListener("click", () => {
 
-    openModal();
-});
+        form.reset();
+
+        document.getElementById("staffId").value = "";
+
+        document.getElementById("modalTitle").textContent =
+            "Tambah Petugas";
+
+        openModal();
+    });
+
+
+// Tombol tutup
 
 document.getElementById("closeModal")
     .addEventListener("click", closeModal);
 
+
+// Tombol batal
+
 document.getElementById("cancelBtn")
     .addEventListener("click", closeModal);
 
+
+// Klik area luar modal
+
 modal.addEventListener("click", event => {
+
     if (event.target === modal) {
         closeModal();
     }
+
 });
 
 
 // ==================================================
-// 6. VALIDASI PAKET CLEANING
+// 9. VALIDASI PAKET CLEANING
 // ==================================================
 
 function getSelectedPackages() {
+
     return Array.from(
         document.querySelectorAll(
             'input[name="packages"]:checked'
@@ -259,9 +399,15 @@ function getSelectedPackages() {
     ).map(input => input.value);
 }
 
+
 function validatePackages(packages) {
+
     if (packages.length < 2) {
-        alert("Petugas harus memiliki minimal dua kemampuan paket.");
+
+        alert(
+            "Petugas harus memiliki minimal dua kemampuan paket."
+        );
+
         return false;
     }
 
@@ -270,6 +416,7 @@ function validatePackages(packages) {
         packages.includes("Basic") &&
         packages.includes("Deep")
     ) {
+
         alert(
             "Kombinasi Basic + Deep saja tidak diperbolehkan. " +
             "Petugas harus memiliki kemampuan Standard."
@@ -283,39 +430,25 @@ function validatePackages(packages) {
 
 
 // ==================================================
-// 7. TAMBAH DAN EDIT PETUGAS
+// 10. TAMBAH DAN EDIT PETUGAS
 // ==================================================
 
-form.addEventListener("submit", function(event) {
+form.addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
     const id = document.getElementById("staffId").value;
+
     const packages = getSelectedPackages();
 
     if (!validatePackages(packages)) return;
 
-    const email = document
-        .getElementById("email")
-        .value.trim()
-        .toLowerCase();
-
-    // Cek email duplikat
-    const duplicateEmail = staffList.some(staff =>
-        staff.email.toLowerCase() === email &&
-        String(staff.id) !== String(id)
-    );
-
-    if (duplicateEmail) {
-        alert("Email tersebut sudah digunakan oleh petugas lain.");
-        return;
-    }
-
     const staffData = {
-        id: id ? Number(id) : Date.now(),
 
         name: document.getElementById("name").value.trim(),
 
-        email: email,
+        email: document.getElementById("email")
+            .value.trim().toLowerCase(),
 
         phone: document.getElementById("phone").value.trim(),
 
@@ -330,90 +463,158 @@ form.addEventListener("submit", function(event) {
         status: document.getElementById("status").value,
 
         availability: document.getElementById("availability").value
+
     };
 
-    if (id) {
-        const index = staffList.findIndex(
-            staff => staff.id === Number(id)
-        );
+    const submitButton = form.querySelector(
+        'button[type="submit"]'
+    );
 
-        if (index !== -1) {
-            staffList[index] = staffData;
+    submitButton.disabled = true;
+
+    submitButton.textContent = "Menyimpan...";
+
+    try {
+
+        if (id) {
+
+            // UPDATE DATA
+
+            await apiRequest(`${API_URL}/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(staffData)
+            });
+
+            alert("Data petugas berhasil diperbarui.");
+
+        } else {
+
+            // TAMBAH DATA
+
+            await apiRequest(API_URL, {
+                method: "POST",
+                body: JSON.stringify(staffData)
+            });
+
+            alert("Petugas berhasil ditambahkan.");
         }
-    } else {
-        staffList.push(staffData);
+
+        closeModal();
+
+        await loadStaff();
+
+    } catch (error) {
+
+        console.error("Gagal menyimpan petugas:", error);
+
+        alert(error.message);
+
+    } finally {
+
+        submitButton.disabled = false;
+
+        submitButton.textContent = "Simpan Petugas";
     }
 
-    saveData();
-    renderStaff();
-    closeModal();
-
-    alert(
-        id
-            ? "Data petugas berhasil diperbarui."
-            : "Petugas berhasil ditambahkan."
-    );
 });
 
 
 // ==================================================
-// 8. EDIT PETUGAS
+// 11. EDIT PETUGAS
 // ==================================================
 
-function editStaff(id) {
+window.editStaff = function(id) {
+
     const staff = staffList.find(
-        item => item.id === id
+        item => Number(item.id) === Number(id)
     );
 
-    if (!staff) return;
+    if (!staff) {
+
+        alert("Data petugas tidak ditemukan.");
+
+        return;
+    }
 
     document.getElementById("staffId").value = staff.id;
-    document.getElementById("name").value = staff.name;
-    document.getElementById("email").value = staff.email;
-    document.getElementById("phone").value = staff.phone;
-    document.getElementById("photo").value = staff.photo || "";
-    document.getElementById("address").value = staff.address;
-    document.getElementById("region").value = staff.region;
-    document.getElementById("status").value = staff.status;
+
+    document.getElementById("name").value =
+        staff.name || "";
+
+    document.getElementById("email").value =
+        staff.email || "";
+
+    document.getElementById("phone").value =
+        staff.phone || "";
+
+    document.getElementById("photo").value =
+        staff.photo || "";
+
+    document.getElementById("address").value =
+        staff.address || "";
+
+    document.getElementById("region").value =
+        staff.region || "";
+
+    document.getElementById("status").value =
+        staff.status || "Aktif";
+
     document.getElementById("availability").value =
-        staff.availability;
+        staff.availability || "Tersedia";
+
+    const packages = Array.isArray(staff.packages)
+        ? staff.packages
+        : [];
 
     document.querySelectorAll('input[name="packages"]')
         .forEach(input => {
-            input.checked = staff.packages.includes(input.value);
+
+            input.checked = packages.includes(input.value);
+
         });
 
     document.getElementById("modalTitle").textContent =
         "Edit Data Petugas";
 
     openModal();
-}
+};
 
 
 // ==================================================
-// 9. HAPUS PETUGAS
+// 12. HAPUS PETUGAS
 // ==================================================
 
-function deleteStaff(id) {
+window.deleteStaff = async function(id) {
+
     const confirmation = confirm(
         "Apakah kamu yakin ingin menghapus data petugas ini?"
     );
 
     if (!confirmation) return;
 
-    staffList = staffList.filter(
-        staff => staff.id !== id
-    );
+    try {
 
-    saveData();
-    renderStaff();
+        await apiRequest(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
 
-    alert("Data petugas berhasil dihapus.");
-}
+        alert("Data petugas berhasil dihapus.");
+
+        await loadStaff();
+
+    } catch (error) {
+
+        console.error("Gagal menghapus petugas:", error);
+
+        alert(error.message);
+
+    }
+
+};
 
 
 // ==================================================
-// 10. PENCARIAN DAN FILTER
+// 13. PENCARIAN DAN FILTER
 // ==================================================
 
 document.getElementById("searchInput")
@@ -427,11 +628,12 @@ document.getElementById("statusFilter")
 
 
 // ==================================================
-// 11. LOGOUT
+// 14. LOGOUT
 // ==================================================
 
 document.getElementById("logoutBtn")
     .addEventListener("click", function(event) {
+
         event.preventDefault();
 
         const confirmation = confirm(
@@ -441,40 +643,69 @@ document.getElementById("logoutBtn")
         if (!confirmation) return;
 
         sessionStorage.removeItem("griyaresikUser");
+
         sessionStorage.removeItem("token");
 
         window.location.href = "login.html";
+
     });
 
 
 // ==================================================
-// 12. SIDEBAR RESPONSIVE
+// 15. SIDEBAR RESPONSIVE
 // ==================================================
 
-document.getElementById("mobileToggle")
-    .addEventListener("click", function() {
-        document.getElementById("sidebar")
-            .classList.toggle("show");
-    });
+const mobileToggle = document.getElementById("mobileToggle");
+
+const sidebar = document.getElementById("sidebar");
+
+mobileToggle.addEventListener("click", function() {
+
+    sidebar.classList.toggle("show");
+
+});
 
 
 // ==================================================
-// 13. KEAMANAN TAMPILAN TEKS
+// 16. ESCAPE HTML
 // ==================================================
 
 function escapeHTML(value) {
+
     return String(value ?? "").replace(/[&<>"']/g, char => ({
+
         "&": "&amp;",
+
         "<": "&lt;",
+
         ">": "&gt;",
+
         '"': "&quot;",
+
         "'": "&#039;"
+
     })[char]);
+
 }
 
 
 // ==================================================
-// 14. TAMPILKAN DATA SAAT HALAMAN DIBUKA
+// 17. TUTUP SIDEBAR KETIKA KONTEN DIKLIK
 // ==================================================
 
-renderStaff();
+document.querySelector(".main").addEventListener("click", function() {
+
+    if (window.innerWidth <= 900) {
+
+        sidebar.classList.remove("show");
+
+    }
+
+});
+
+
+// ==================================================
+// 18. TAMPILKAN DATA AWAL
+// ==================================================
+
+loadStaff();

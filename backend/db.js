@@ -9,12 +9,18 @@ const pool = new Pool({
     password: process.env.DB_PASSWORD,
 });
 
-pool.connect()
+// Tes koneksi database
+pool.query("SELECT NOW()")
     .then(() => {
         console.log("Database PostgreSQL berhasil terhubung!");
     })
     .catch((err) => {
         console.error("Koneksi database gagal:", err.message);
     });
+
+// Menangani error koneksi idle
+pool.on("error", (err) => {
+    console.error("Database pool error:", err.message);
+});
 
 module.exports = pool;

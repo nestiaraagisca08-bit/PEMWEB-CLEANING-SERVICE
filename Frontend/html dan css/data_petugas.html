@@ -1,32 +1,41 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Data Petugas | GriyaResik</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="../images/Logo griya Resik.png">
 
     <style>
+         html {
+            overflow-y: scroll;
+        }
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Inter', sans-serif;
         }
 
         body {
-            background: #f5f7fb;
+            background: #f7f8f5;
             color: #263238;
         }
 
-        /* SIDEBAR */
+        /* ================= SIDEBAR ================= */
+
         .sidebar {
             width: 250px;
             height: 100vh;
-            background: #123f35;
+            background: #193e2f;
             position: fixed;
             left: 0;
             top: 0;
@@ -35,25 +44,30 @@
             overflow-y: auto;
             z-index: 100;
             transition: .3s;
+            display: flex;
+            flex-direction: column;
         }
 
         .brand {
             display: flex;
             align-items: center;
             gap: 10px;
-            margin-bottom: 35px;
+            padding: 0 10px 30px;
+            margin-bottom: 0;
+            border-bottom: 1px solid rgba(255,255,255,.15);
         }
 
         .brand img {
-            width: 43px;
-            height: 43px;
+            width: 40px;
+            height: 40px;
             object-fit: contain;
             background: white;
             border-radius: 10px;
         }
 
         .brand h2 {
-            font-size: 19px;
+            font-size: 22px;
+            font-weight: 800;
         }
 
         .brand span {
@@ -61,123 +75,235 @@
         }
 
         .menu-title {
-            font-size: 11px;
-            color: #a9c8bb;
-            margin: 20px 10px 10px;
+            font-size: 10px;
+            color: #a9c0b1;
+            margin: 0;
+            padding: 25px 12px 12px;
             text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+
+        .menu {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
 
         .menu a {
-            display: block;
+            display: flex;
+            align-items: center;
+            gap: 13px;
             padding: 12px 14px;
             color: #dcebe4;
             text-decoration: none;
-            border-radius: 9px;
-            margin-bottom: 5px;
-            font-size: 13px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 500;
             transition: .2s;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
         }
 
         .menu a:hover,
         .menu a.active {
-            background: #286b56;
+            background: #3b6253;
             color: white;
         }
 
         .logout {
-            margin-top: 25px;
-            border-top: 1px solid #37685b;
-            padding-top: 20px;
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 15px;
         }
 
         .logout a {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 14px;
             color: #ffd2d2;
+            text-decoration: none;
+            font-size: 12px;
+            border-radius: 8px;
         }
 
-        /* MAIN CONTENT */
+        .logout a:hover {
+            background: #ffffff15;
+        }
+
+        /* ================= MAIN ================= */
+
         .main {
             margin-left: 250px;
-            padding: 30px;
+            padding: 28px 32px;
+            min-height: 100vh;
         }
+
+        /* ================= TOPBAR ================= */
 
         .topbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 25px;
-            gap: 15px;
+            margin-bottom: 30px;
+            gap: 20px;
         }
 
         .topbar h1 {
             font-size: 25px;
-            color: #174c3e;
+            color: #193e2f;
+            font-weight: 700;
+            margin-bottom: 5px;
         }
 
         .topbar p {
-            color: #89949b;
-            font-size: 13px;
-            margin-top: 5px;
+            color: #758078;
+            font-size: 12px;
         }
 
         .admin-profile {
             background: white;
-            padding: 10px 16px;
-            border-radius: 10px;
+            padding: 8px 14px;
+            border-radius: 12px;
+            border: 1px solid #e9eae6;
             display: flex;
             align-items: center;
-            gap: 10px;
-            box-shadow: 0 2px 10px #00000008;
-            font-size: 13px;
+            gap: 11px;
+            white-space: nowrap;
         }
 
         .admin-avatar {
-            width: 35px;
-            height: 35px;
-            background: #d8eee3;
-            color: #174c3e;
+            width: 37px;
+            height: 37px;
+            background: #e8eee5;
+            color: #193e2f;
             border-radius: 50%;
             display: grid;
             place-items: center;
             font-weight: 700;
+            font-size: 16px;
         }
 
-        /* STATISTIK */
+        .admin-info span {
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .admin-info small {
+            display: block;
+            color: #849099;
+            font-size: 10px;
+            font-weight: 400;
+            margin-top: 4px;
+        }
+
+        .mobile-toggle {
+            display: none;
+        }
+
+        /* ================= STATISTIK ================= */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            color: #193e2f;
+            font-size: 16px;
+            font-weight: 700;
+        }
+
+        .section-heading span {
+            color: #89949b;
+            font-size: 11px;
+        }
+
         .stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
         }
 
         .stat-card {
             background: white;
-            padding: 22px;
-            border-radius: 13px;
-            box-shadow: 0 3px 12px #00000008;
+            padding: 19px;
+            border-radius: 15px;
+            border: 1px solid #e9ede7;
+            box-shadow: none;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
         }
 
         .stat-card p {
-            font-size: 13px;
+            font-size: 11px;
             color: #849099;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+        }
+
+        .icon-total {
+            background: #e8f2e9;
+        }
+
+        .icon-active {
+            background: #e7efff;
+        }
+
+        .icon-available {
+            background: #fff0e6;
         }
 
         .stat-card h2 {
-            font-size: 27px;
-            color: #174c3e;
-            margin-top: 8px;
+            font-size: 25px;
+            color: #193e2f;
+            margin-top: 0;
+            margin-bottom: 5px;
+            font-weight: 700;
         }
 
-        /* TOOLBAR */
+        .stat-card small {
+            display: block;
+            color: #9aa39f;
+            font-size: 10px;
+            margin-top: 0;
+        }
+
+        /* ================= TOOLBAR ================= */
+
         .toolbar {
             background: white;
-            padding: 20px;
-            border-radius: 13px;
+            padding: 18px;
+            border-radius: 15px;
+            border: 1px solid #e9ede7;
             display: flex;
             justify-content: space-between;
             align-items: center;
             gap: 12px;
             flex-wrap: wrap;
             margin-bottom: 20px;
+            box-shadow: none;
         }
 
         .filters {
@@ -191,63 +317,76 @@
         textarea {
             width: 100%;
             padding: 11px 12px;
-            border: 1px solid #dce3e8;
-            border-radius: 8px;
+            border: 1px solid #dce3e0;
+            border-radius: 9px;
             outline: none;
-            font-size: 13px;
+            font-size: 12px;
             background: white;
+            color: #263238;
         }
 
         input:focus,
         select:focus,
         textarea:focus {
             border-color: #2c8064;
+            box-shadow: 0 0 0 3px #2c806410;
         }
 
         .search {
-            width: 240px;
+            width: 270px;
         }
 
         .filter {
-            width: 175px;
+            width: 190px;
         }
 
         button {
             border: none;
             cursor: pointer;
-            font-size: 13px;
-            border-radius: 8px;
+            font-size: 12px;
+            border-radius: 9px;
             padding: 11px 17px;
             font-weight: 600;
+            transition: .2s;
         }
 
         .btn-primary {
-            background: #17664f;
+            background: #193e2f;
             color: white;
         }
 
         .btn-primary:hover {
-            background: #104c3b;
+            background: #286b56;
         }
 
         .btn-edit {
             background: #e5f0ff;
             color: #2865a6;
-            padding: 7px 11px;
+            padding: 8px 11px;
+        }
+
+        .btn-edit:hover {
+            background: #d5e7ff;
         }
 
         .btn-delete {
             background: #ffe8e8;
             color: #c34242;
-            padding: 7px 11px;
+            padding: 8px 11px;
         }
 
-        /* TABEL */
+        .btn-delete:hover {
+            background: #ffdada;
+        }
+
+        /* ================= TABLE ================= */
+
         .table-card {
             background: white;
-            border-radius: 13px;
-            padding: 20px;
-            box-shadow: 0 3px 12px #00000008;
+            border-radius: 15px;
+            padding: 21px;
+            border: 1px solid #e9ede7;
+            box-shadow: none;
         }
 
         .table-header {
@@ -255,15 +394,16 @@
             justify-content: space-between;
             margin-bottom: 20px;
             align-items: center;
+            gap: 10px;
         }
 
         .table-header h3 {
-            color: #174c3e;
-            font-size: 16px;
+            color: #193e2f;
+            font-size: 14px;
         }
 
         .table-header span {
-            font-size: 12px;
+            font-size: 11px;
             color: #89949b;
         }
 
@@ -279,16 +419,22 @@
 
         th {
             text-align: left;
-            padding: 13px;
-            font-size: 12px;
+            padding: 14px 13px;
+            font-size: 11px;
             color: #849099;
             background: #f8faf9;
+            white-space: nowrap;
+            font-weight: 600;
         }
 
         td {
-            padding: 14px 13px;
+            padding: 15px 13px;
             border-bottom: 1px solid #edf0f2;
             font-size: 12px;
+        }
+
+        tbody tr:hover {
+            background: #fbfcfa;
         }
 
         .person {
@@ -298,8 +444,8 @@
         }
 
         .person-avatar {
-            width: 37px;
-            height: 37px;
+            width: 39px;
+            height: 39px;
             border-radius: 50%;
             background: #e0efe8;
             color: #17664f;
@@ -319,37 +465,39 @@
         .person strong {
             display: block;
             color: #263238;
+            font-size: 12px;
         }
 
         .person small {
             color: #929da3;
+            font-size: 10px;
         }
 
         .badge {
             display: inline-block;
-            padding: 5px 9px;
+            padding: 6px 10px;
             border-radius: 20px;
             font-size: 10px;
             font-weight: 600;
             white-space: nowrap;
         }
 
-        .active {
+        .badge.active {
             background: #e0f5e9;
             color: #21824c;
         }
 
-        .inactive {
+        .badge.inactive {
             background: #ffe7e7;
             color: #c34b4b;
         }
 
-        .available {
+        .badge.available {
             background: #e3f1ff;
             color: #2871ae;
         }
 
-        .busy {
+        .badge.busy {
             background: #fff0d9;
             color: #b47a20;
         }
@@ -361,11 +509,12 @@
 
         .empty {
             text-align: center;
-            padding: 35px;
+            padding: 40px;
             color: #929da3;
         }
 
-        /* MODAL */
+        /* ================= MODAL ================= */
+
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -387,25 +536,27 @@
             max-width: 650px;
             max-height: 90vh;
             overflow-y: auto;
-            border-radius: 15px;
-            padding: 25px;
+            border-radius: 17px;
+            padding: 27px;
+            box-shadow: 0 15px 50px #00000020;
         }
 
         .modal-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 22px;
+            margin-bottom: 24px;
         }
 
         .modal-header h2 {
-            color: #174c3e;
+            color: #193e2f;
             font-size: 19px;
         }
 
         .close {
             background: #f1f3f4;
-            padding: 7px 11px;
+            padding: 8px 11px;
+            color: #53616a;
         }
 
         .form-grid {
@@ -422,7 +573,8 @@
             display: block;
             font-size: 12px;
             font-weight: 600;
-            margin-bottom: 7px;
+            margin-bottom: 8px;
+            color: #394a43;
         }
 
         .full {
@@ -432,7 +584,8 @@
         .helper {
             font-size: 11px;
             color: #89949b;
-            margin-top: 6px;
+            margin-top: 8px;
+            line-height: 1.5;
         }
 
         .package-options {
@@ -444,10 +597,16 @@
         .package-options label {
             border: 1px solid #dce3e8;
             padding: 10px 13px;
-            border-radius: 8px;
+            border-radius: 9px;
             cursor: pointer;
             font-size: 12px;
             font-weight: 500;
+        }
+
+        .package-options label:has(input:checked) {
+            border-color: #17664f;
+            background: #edf7f1;
+            color: #17664f;
         }
 
         .package-options input {
@@ -459,7 +618,7 @@
             display: flex;
             justify-content: flex-end;
             gap: 10px;
-            margin-top: 20px;
+            margin-top: 22px;
         }
 
         .btn-cancel {
@@ -467,11 +626,18 @@
             color: #53616a;
         }
 
-        .mobile-toggle {
-            display: none;
+        .btn-cancel:hover {
+            background: #dfe4e6;
         }
 
-        /* RESPONSIVE */
+        /* ================= RESPONSIVE ================= */
+
+        @media(max-width: 1100px) {
+            .stats {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
         @media(max-width: 900px) {
             .sidebar {
                 transform: translateX(-100%);
@@ -483,24 +649,28 @@
 
             .main {
                 margin-left: 0;
-                padding: 20px;
+                padding: 20px 15px;
             }
 
             .mobile-toggle {
-                display: block;
-                background: #17664f;
+                display: inline-block;
+                background: #193e2f;
                 color: white;
                 margin-bottom: 12px;
-            }
-
-            .stats {
-                grid-template-columns: 1fr 1fr;
             }
         }
 
         @media(max-width: 600px) {
             .stats {
                 grid-template-columns: 1fr;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            .topbar h1 {
+                font-size: 21px;
             }
 
             .admin-profile {
@@ -531,6 +701,18 @@
             .toolbar > button {
                 width: 100%;
             }
+
+            .modal {
+                padding: 18px;
+            }
+
+            .modal-actions button {
+                flex: 1;
+            }
+
+            .section-heading span {
+                display: none;
+            }
         }
     </style>
 </head>
@@ -545,31 +727,71 @@
             <h2>Griya<span>Resik</span></h2>
         </div>
 
-        <p class="menu-title">Menu Utama</p>
+        <p class="menu-title">MENU UTAMA</p>
 
         <nav class="menu">
-            <a href="dashboard_admin.html">Dashboard</a>
-            <a href="kelola_layanan.html">Kelola Layanan</a>
-            <a href="data_customer.html">Data Customer</a>
-            <a href="data_petugas.html" class="active">Data Petugas</a>
-            <a href="pemesanan.html">Pemesanan</a>
-            <a href="jadwal.html">Jadwal</a>
-            <a href="pembayaran.html">Pembayaran</a>
-            <a href="laporan.html">Laporan</a>
-            <a href="pengaturan.html">Pengaturan</a>
+
+            <a href="dashboard_admin.html">
+                <span class="menu-icon">▦</span>
+                Dashboard
+            </a>
+
+            <a href="kelola_layanan.html">
+                <span class="menu-icon">🧹</span>
+                Kelola Layanan
+            </a>
+
+            <a href="data_customer.html">
+                <span class="menu-icon">👥</span>
+                Data Customer
+            </a>
+
+            <a href="data_petugas.html" class="active">
+                <span class="menu-icon">🧑‍🔧</span>
+                Data Petugas
+            </a>
+
+            <a href="pemesanan.html">
+                <span class="menu-icon">📋</span>
+                Pemesanan
+            </a>
+
+            <a href="jadwal.html">
+                <span class="menu-icon">📅</span>
+                Jadwal
+            </a>
+
+            <a href="pembayaran.html">
+                <span class="menu-icon">💳</span>
+                Pembayaran
+            </a>
+
+            <a href="laporan.html">
+                <span class="menu-icon">📊</span>
+                Laporan
+            </a>
+
+            <a href="pengaturan.html">
+                <span class="menu-icon">⚙️</span>
+                Pengaturan
+            </a>
+
         </nav>
 
         <div class="logout">
-            <a href="#" id="logoutBtn">Keluar</a>
+            <a href="#" id="logoutBtn">
+                <span>↪</span>
+                Logout
+            </a>
         </div>
 
     </aside>
 
-
-    <!-- KONTEN UTAMA -->
+    <!-- MAIN CONTENT -->
     <main class="main">
 
-        <div class="topbar">
+        <!-- TOPBAR -->
+        <header class="topbar">
 
             <div>
                 <button class="mobile-toggle" id="mobileToggle">
@@ -584,33 +806,64 @@
             </div>
 
             <div class="admin-profile">
+
                 <div class="admin-avatar" id="adminAvatar">A</div>
-                <span id="adminName">Administrator</span>
+
+                <div class="admin-info">
+                    <span id="adminName">Administrator</span>
+                    <small>Admin GriyaResik</small>
+                </div>
+
             </div>
 
-        </div>
+        </header>
 
+        <!-- HEADING STATISTIK -->
+        <div class="section-heading">
+            <h2>Ringkasan Petugas</h2>
+            <span>Statistik petugas GriyaResik</span>
+        </div>
 
         <!-- STATISTIK -->
         <section class="stats">
 
             <div class="stat-card">
-                <p>Total Petugas</p>
+                <div class="stat-top">
+                    <p>Total Petugas</p>
+                    <div class="stat-icon icon-total">🧑‍🔧</div>
+                </div>
+
                 <h2 id="totalPetugas">0</h2>
+                <small>Seluruh petugas terdaftar</small>
             </div>
 
             <div class="stat-card">
-                <p>Petugas Aktif</p>
+                <div class="stat-top">
+                    <p>Petugas Aktif</p>
+                    <div class="stat-icon icon-active">✅</div>
+                </div>
+
                 <h2 id="petugasAktif">0</h2>
+                <small>Petugas dengan status aktif</small>
             </div>
 
             <div class="stat-card">
-                <p>Petugas Tersedia</p>
+                <div class="stat-top">
+                    <p>Petugas Tersedia</p>
+                    <div class="stat-icon icon-available">🟢</div>
+                </div>
+
                 <h2 id="petugasTersedia">0</h2>
+                <small>Petugas yang siap menerima pekerjaan</small>
             </div>
 
         </section>
 
+        <!-- HEADING DAFTAR -->
+        <div class="section-heading">
+            <h2>Manajemen Petugas</h2>
+            <span>Kelola data petugas kebersihan</span>
+        </div>
 
         <!-- PENCARIAN DAN FILTER -->
         <section class="toolbar">
@@ -647,7 +900,6 @@
 
         </section>
 
-
         <!-- TABEL PETUGAS -->
         <section class="table-card">
 
@@ -659,7 +911,6 @@
             <div class="table-wrapper">
 
                 <table>
-
                     <thead>
                         <tr>
                             <th>Petugas</th>
@@ -672,8 +923,13 @@
                         </tr>
                     </thead>
 
-                    <tbody id="staffTableBody"></tbody>
-
+                    <tbody id="staffTableBody">
+                        <tr>
+                            <td colspan="7" class="empty">
+                                Memuat data petugas...
+                            </td>
+                        </tr>
+                    </tbody>
                 </table>
 
             </div>
@@ -682,22 +938,18 @@
 
     </main>
 
-
     <!-- MODAL TAMBAH / EDIT PETUGAS -->
     <div class="modal-overlay" id="staffModal">
 
         <div class="modal">
 
             <div class="modal-header">
-
                 <h2 id="modalTitle">Tambah Petugas</h2>
 
-                <button class="close" id="closeModal">
+                <button type="button" class="close" id="closeModal">
                     ✕
                 </button>
-
             </div>
-
 
             <form id="staffForm">
 
@@ -777,7 +1029,6 @@
                     </div>
 
                     <div class="form-group full">
-
                         <label>Kemampuan Paket Cleaning *</label>
 
                         <div class="package-options">
@@ -815,7 +1066,6 @@
                             Pilih minimal dua paket. Kombinasi Basic + Deep
                             saja tidak diperbolehkan.
                         </p>
-
                     </div>
 
                     <div class="form-group full">
@@ -832,7 +1082,6 @@
                     </div>
 
                 </div>
-
 
                 <div class="modal-actions">
 
@@ -856,8 +1105,7 @@
 
     </div>
 
-
-    <!-- JAVASCRIPT TERPISAH -->
+    <!-- JAVASCRIPT PETUGAS -->
     <script src="../js/data_petugas.js"></script>
 
 </body>
