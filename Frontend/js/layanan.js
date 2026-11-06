@@ -132,14 +132,20 @@
         }
 
         // MENAMPILKAN SEMUA KARTU RUANGAN
+        let selectedRoom = null;
+        let selectedPackageIndex = null;
+
         rooms.forEach((room, index) => {
             const card = document.createElement("article");
             card.className = "room-card";
 
             const priceHTML = room.prices.map((price, i) => `
-                <div class="price-option ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}">
-                    <span>${packageNames[i].toUpperCase()}</span>
-                    <strong>${rupiah(price)}</strong>
+                <div class="price-option ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}"
+                     data-package-index="${i}"
+                     role="button"
+                     tabindex="0">
+                     <span>${packageNames[i].toUpperCase()}</span>
+                     <strong>${rupiah(price)}</strong>
                 </div>
             `).join("");
 
@@ -165,14 +171,68 @@
 
                 <div class="room-footer">
                     <span class="duration">Estimasi kerja: ${room.time}</span>
-                    <a class="book-room"
-                       href="booking.html?room=${encodeURIComponent(room.name)}">
-                       Booking Ruangan Ini →
+                    <a class="book-room" href="#">
+                        Booking Ruangan Ini →
                     </a>
                 </div>
             `;
 
-            roomGrid.appendChild(card);
+roomGrid.appendChild(card);
+
+// PILIH SATU PAKET UNTUK SELURUH RUANGAN
+const priceOptions = card.querySelectorAll(".price-option");
+
+priceOptions.forEach(option => {
+    option.addEventListener("click", () => {
+        const packageIndex = Number(option.dataset.packageIndex);
+
+        // Jika paket yang sama diklik lagi, batalkan pilihan
+        if (selectedRoom === index && selectedPackageIndex === packageIndex) {
+            selectedRoom = null;
+            selectedPackageIndex = null;
+
+            document.querySelectorAll(".price-option").forEach(item => {
+                item.classList.remove("selected");
+            });
+
+            return;
+        }
+
+        // Hapus pilihan sebelumnya di seluruh kartu
+        document.querySelectorAll(".price-option").forEach(item => {
+            item.classList.remove("selected");
+        });
+
+        // Simpan pilihan baru
+        selectedRoom = index;
+        selectedPackageIndex = packageIndex;
+
+        option.classList.add("selected");
+    });
+});
+
+// BOOKING RUANGAN DAN PAKET TERPILIH
+const bookButton = card.querySelector(".book-room");
+
+bookButton.addEventListener("click", (event) => {
+    event.preventDefault();
+
+        if (selectedRoom !== index || selectedPackageIndex === null) {
+            alert("Silakan pilih paket untuk ruangan ini terlebih dahulu.");
+            return;
+        }
+
+        const params = new URLSearchParams({
+            room: room.name,
+            package: packageNames[selectedPackageIndex],
+            price: room.prices[selectedPackageIndex],
+            prices: JSON.stringify(room.prices),
+            details: JSON.stringify(room.details),
+            time: room.time
+        });
+
+        window.location.href = "booking.html?" + params.toString();
+            });
         });
 
         // KALKULATOR HARGA CUSTOM
@@ -234,7 +294,8 @@
                 room: name,
                 area: areaLabels[area],
                 package: packageNames[selectedPackage],
-                price: price
+                price: price,
+                prices: JSON.stringify(customPrices[area])
             });
 
             window.location.href = "booking.html?" + params.toString();

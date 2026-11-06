@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GriyaResik | Cleaning Service</title>
 
-    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="../beranda after login.css">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,21 +16,25 @@
     <!-- NAVBAR -->
     <header class="header">
         <nav class="navbar">
-            <a href="#beranda" class="logo">
-                <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
-                <span>GriyaResik</span>
-            </a>
+            
+        <a href="#beranda" class="logo">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <span class="logo-text"><span class="logo-griya">Griya</span><span class="logo-resik">Resik</span></span>
+        </a>
 
-            <ul class="nav-menu">
-                <li><a href="#beranda">Beranda</a></li>
-                <li><a href="#" class="login-link">Layanan</a></li>
-                <li><a href="#" class="login-link">Booking</a></li>
-                <li><a href="#" class="login-link">Status Pemesanan</a></li>
-            </ul>
+            
+        <ul class="nav-menu">
+             <li><a href="Beranda after login.html" class="active">Beranda</a></li>
+             <li><a href="Layanan.html">Layanan</a></li>
+             <li><a href="booking.html">Booking</a></li>
+             <li><a href="my-bookings.html">Status Pemesanan</a></li>
+        </ul>
 
-            <a href="login.html" class="btn-login">
-                <span class="user-icon">♙</span> Masuk / Akun
-            </a>
+        <a href="profile.html" class="btn-login">
+            <span class="user-icon">♙</span>
+            <span id="userName">Masuk / Daftar</span>
+        </a>
+
         </nav>
     </header>
 
@@ -276,59 +280,76 @@
         <!-- CTA BOOKING -->
         <section class="booking-banner" id="booking">
             <div>
-                <span class="cta-label">RESERVASI MUDAH &amp; CEPAT</span>
                 <h2>Siap Rasakan Rumah yang Lebih Segar &amp; Nyaman?</h2>
                 <p>Booking dalam 2 menit, mitra kebersihan profesional kami siap datang tepat waktu.</p>
             </div>
-            <a href="login.html" class="btn-cta">Jadwalkan Sekarang</a>
+            <a href="booking.html" class="btn-cta">Jadwalkan Sekarang</a>
         </section>
 
         <div id="status"></div>
     </main>
-w3
+
     <!-- FOOTER -->
-    <footer class="footer">
-        <div class="footer-main">
-            <div class="footer-brand">
-                <a href="#beranda" class="footer-logo">
-                    <span class="footer-logo-mark">G</span>
-                    <strong>GriyaResik</strong>
-                </a>
-                <p>Solusi praktis dan terpercaya untuk hunian yang bersih, rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.</p>
-            </div>
+<footer class="footer">
+    <div class="footer-main">
 
-            <div class="footer-column">
-                <h3>LAYANAN UTAMA</h3>
-                <a href="#layanan">Basic Cleaning</a>
-                <a href="#layanan">Standard Cleaning</a>
-                <a href="#layanan">Deep Cleaning Kamar Mandi</a>
-                <a href="#layanan">Hydro Vacuum Tungau Kasur</a>
-                <a href="#layanan">Pembersihan Pasca Renovasi</a>
-            </div>
+        <div class="footer-brand">
+            <a href="#beranda" class="footer-logo">
+                <span class="footer-logo-mark">G</span>
+                <strong>GriyaResik</strong>
+            </a>
 
-            <div class="footer-column">
-                <h3>OPERASIONAL</h3>
-                <p>Senin – Minggu: 07.00 – 19.00 WIB</p>
-                <strong>Pusat Bantuan WhatsApp:</strong>
-                <a href="https://wa.me/6281234567890">+62 812-3456-7890 (24 Jam)</a>
-            </div>
-
-            <div class="footer-column">
-                <h3>WILAYAH LAYANAN</h3>
-                <p>Tersedia di Jabodetabek, Bandung, Surabaya, dan sekitarnya.</p>
-                <span class="service-status">● Siap Melayani 7 Hari Seminggu</span>
-            </div>
+            <p>
+                Solusi praktis dan terpercaya untuk hunian yang
+                bersih, rapi, dan menyehatkan bagi seluruh keluarga
+                di Indonesia.
+            </p>
         </div>
 
-        <div class="footer-bottom">
-            <p>© 2025 GriyaResik Indonesia. Seluruh hak cipta dilindungi undang-undang.</p>
-            <div>
-                <a href="#">Syarat &amp; Ketentuan</a>
-                <a href="#">Kebijakan Privasi</a>
-                <a href="#">Mitra GriyaResik</a>
-            </div>
+        <div class="footer-column">
+            <h3>LAYANAN UTAMA</h3>
+            <a href="#layanan">Basic Cleaning</a>
+            <a href="#layanan">Standard Cleaning</a>
+            <a href="#layanan">Deep Cleaning Kamar Mandi</a>
+            <a href="#layanan">Hydro Vacuum Tungau Kasur</a>
+            <a href="#layanan">Pembersihan Pasca Renovasi</a>
         </div>
-    </footer>
+
+        <div class="footer-column">
+            <h3>OPERASIONAL</h3>
+            <p>Senin – Minggu: 07.00 – 19.00 WIB</p>
+            <strong>Pusat Bantuan WhatsApp:</strong>
+            <a href="https://wa.me/6281234567890">
+                +62 812-3456-7890 (24 Jam)
+            </a>
+        </div>
+
+        <div class="footer-column">
+            <h3>WILAYAH LAYANAN</h3>
+            <p>
+                Tersedia di Jabodetabek, Bandung, Surabaya,
+                dan sekitarnya.
+            </p>
+            <span class="service-status">
+                ● Siap Melayani 7 Hari Seminggu
+            </span>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            © 2025 GriyaResik Indonesia. Seluruh hak cipta
+            dilindungi undang-undang.
+        </p>
+
+        <div>
+            <a href="#">Syarat &amp; Ketentuan</a>
+            <a href="#">Kebijakan Privasi</a>
+            <a href="#">Mitra GriyaResik</a>
+        </div>
+    </div>
+</footer>
 
     <script src="../js/script.js"></script>
 </body>
