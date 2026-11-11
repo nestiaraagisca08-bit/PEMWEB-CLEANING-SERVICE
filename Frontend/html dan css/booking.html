@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -721,6 +720,86 @@ button, input, select, textarea {
     resize: vertical;
 }
 
+.cleaner-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
+    width: 100%;
+    margin-top: 12px;
+}
+
+.cleaner-card {
+    display: flex !important;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 3px;
+    min-height: 105px;
+    padding: 8px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+}
+
+.cleaner-card input[type="radio"] {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    margin-bottom: 2px;
+    border: none;
+    border-radius: 50%;
+    background: transparent;
+    box-shadow: none;
+    accent-color: var(--green);
+}
+
+.cleaner-card input[type="radio"]:focus {
+    box-shadow: none;
+}
+
+.cleaner-emoji {
+    font-size: 22px;
+    line-height: 1.2;
+}
+
+.cleaner-card strong {
+    color: var(--green);
+    font-size: 11px;
+}
+
+.cleaner-card small {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.cleaner-card:has(input:checked) {
+    border: 1.5px solid var(--green);
+    background: #f1fbf2;
+}
+
+@media (max-width: 560px) {
+    .cleaner-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.cleaner-heading {
+    display: block;
+    margin: 25px 0 5px;
+    color: var(--green);
+    font-family: inherit;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+.cleaner-notice {
+    margin: 0;
+    font-size: 12px;
+}
+
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
@@ -728,48 +807,73 @@ button, input, select, textarea {
     box-shadow: 0 0 0 2px var(--green-light);
 }
 
-.summary-card {
+/* CATATAN KHUSUS & PREFERENSI MITRA */
+.special-note-card {
+    width: 100%;
     margin-top: 22px;
-    padding: 18px;
+    padding: 28px;
+    background: #ffffff;
     border: 1px solid var(--border);
-    border-radius: 12px;
-    background: white;
+    border-radius: 16px;
 }
 
-.summary-card h3 {
-    margin-bottom: 10px;
-    font-size: 15px;
+.special-note-heading h2 {
+    color: var(--green);
+    font-size: 20px;
+    font-weight: 700;
 }
 
-.summary-line {
+.special-note-heading p {
+    margin-top: 2px;
+    color: #505650;
+    font-size: 13px;
+}
+
+.special-note-divider {
+    margin: 12px 0 28px;
+    border-top: 1px solid #dcebdd;
+}
+
+.special-note-label {
     display: flex;
     justify-content: space-between;
     gap: 12px;
-    padding: 8px 0;
-    border-bottom: 1px solid #f0f0ec;
-    font-size: 11px;
+    margin-bottom: 8px;
 }
 
-.summary-line span {
+.special-note-label label {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.special-note-label span {
     color: var(--muted);
+    font-size: 12px;
 }
 
-.summary-line strong {
-    text-align: right;
-}
-
-.summary-total {
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding-top: 15px;
-    color: var(--green);
+.special-note-card textarea {
+    width: 100%;
+    min-height: 145px;
+    padding: 16px;
+    border: 1px solid #dcebdd;
+    border-radius: 13px;
+    background: #e1f7e6;
+    color: var(--text);
+    font: inherit;
     font-size: 13px;
-    font-weight: 800;
+    resize: vertical;
+    outline: none;
 }
 
-.summary-total strong {
-    font-size: 20px;
+.special-note-card textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--green-light);
+}
+
+.special-note-info {
+    margin-top: 14px;
+    color: #505650;
+    font-size: 12px;
 }
 
 /* NAVIGASI BOOKING */
@@ -1267,6 +1371,183 @@ button, input, select, textarea {
     }
 }
 
+
+/* =====================================
+   KARTU RINGKASAN UMUM
+   Digunakan Step 3, Step 4, dan Step 5
+===================================== */
+
+.summary-card {
+    margin-top: 22px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e8e1d7;
+    border-radius: 14px;
+}
+
+.summary-card h3 {
+    margin-bottom: 12px;
+    color: var(--green);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.summary-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 9px 0;
+    border-bottom: 1px solid #eeeae4;
+    font-size: 12px;
+}
+
+.summary-line span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.summary-line strong {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.summary-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 14px;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.summary-total strong {
+    font-size: 20px;
+}
+
+
+/* =====================================
+   DESAIN KHUSUS STEP 4
+   RINGKASAN & TOTAL PESANAN
+===================================== */
+
+/* Kartu utama */
+.booking-step[data-step="3"] .summary-card {
+    margin-top: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8e1d7;
+    border-radius: 17px;
+    box-shadow: 0 2px 5px rgba(35, 50, 40, 0.04);
+}
+
+/* Header Ringkasan Layanan */
+.booking-step[data-step="3"] .summary-card h3 {
+    margin: 0;
+    padding: 19px 26px;
+    background: #f5f8f5;
+    color: var(--green);
+    font-size: 18px;
+    font-weight: 700;
+    border-bottom: 1px solid #eee9e1;
+}
+
+/* Detail pesanan */
+.booking-step[data-step="3"] .summary-line {
+    padding: 14px 26px;
+    gap: 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeae4;
+}
+
+/* Label informasi */
+.booking-step[data-step="3"] .summary-line span {
+    color: #737b8b;
+    font-size: 13px;
+}
+
+/* Isi informasi */
+.booking-step[data-step="3"] .summary-line strong {
+    color: #182230;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+}
+
+/* Area total estimasi */
+.booking-step[data-step="3"] .summary-total {
+    padding: 19px 26px;
+    margin: 0;
+    background: #faf8f4;
+    color: #182230;
+}
+
+/* Label total dan keterangan */
+.booking-step[data-step="3"] .summary-total > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.booking-step[data-step="3"] .summary-total span {
+    color: #182230;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="3"] .summary-total small {
+    color: #737b8b;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Nominal harga */
+.booking-step[data-step="3"] .summary-total strong {
+    color: var(--green);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+    .booking-step[data-step="3"] .summary-card h3 {
+        padding: 16px 17px;
+        font-size: 16px;
+    }
+
+    .booking-step[data-step="3"] .summary-line {
+        padding: 12px 17px;
+        gap: 10px;
+    }
+
+    .booking-step[data-step="3"] .summary-line span,
+    .booking-step[data-step="3"] .summary-line strong {
+        font-size: 11px;
+    }
+
+    .booking-step[data-step="3"] .summary-total {
+        padding: 16px 17px;
+    }
+
+    .booking-step[data-step="3"] .summary-total span {
+        font-size: 14px;
+    }
+
+    .booking-step[data-step="3"] .summary-total small {
+        font-size: 10px;
+    }
+
+    .booking-step[data-step="3"] .summary-total strong {
+        font-size: 23px;
+    }
+}
+
 </style>
 </head>
 
@@ -1345,7 +1626,6 @@ button, input, select, textarea {
                     <small>Konfirmasi final</small>
                 </div>
             </div>
-        </div>
     </section>
 
    <!-- FORM BOOKING -->
@@ -1538,11 +1818,122 @@ button, input, select, textarea {
                 </label>
             </div>
 
-            <div class="form-card" style="margin-top:18px">
-                <div class="form-group">
-                    <label for="notes">Catatan tambahan</label>
-                    <textarea id="notes" placeholder="Contoh: area prioritas, kondisi ruangan, atau instruksi khusus"></textarea>
-                </div>
+                <!-- ADD-ON TAMBAHAN -->
+<div class="section-heading" style="margin-top:25px;">
+    <h2>Layanan Tambahan Lainnya</h2>
+    <p>Pilih layanan tambahan sesuai kebutuhan kebersihan ruangan.</p>
+</div>
+
+<div class="addon-list">
+
+    <label class="addon-card">
+        <input type="checkbox" name="addon"
+               value="35000" data-name="Disinfektan Fogging Herbal">
+
+        <div class="addon-info">
+            <strong>Disinfektan Fogging Herbal</strong>
+            <p>Perawatan tambahan untuk membantu menjaga kebersihan udara dan permukaan ruangan.</p>
+        </div>
+
+        <span class="addon-price">+Rp 35.000</span>
+    </label>
+
+    <label class="addon-card">
+        <input type="checkbox" name="addon"
+               value="25000" data-name="Detailing Kulkas & Microwave">
+
+        <div class="addon-info">
+            <strong>Detailing Kulkas & Microwave</strong>
+            <p>Pembersihan bagian dalam dan luar peralatan sesuai kondisi serta keterjangkauan area.</p>
+        </div>
+
+        <span class="addon-price">+Rp 25.000</span>
+    </label>
+
+    <label class="addon-card">
+        <input type="checkbox" name="addon"
+               value="45000" data-name="Hydro-Vacuum Sofa 2-3 Seater">
+
+        <div class="addon-info">
+            <strong>Hydro-Vacuum Sofa 2–3 Seater</strong>
+            <p>Pembersihan sofa menggunakan metode penyedotan basah untuk membantu mengangkat kotoran.</p>
+        </div>
+
+        <span class="addon-price">+Rp 45.000</span>
+    </label>
+
+    <label class="addon-card">
+        <input type="checkbox" name="addon"
+               value="30000" data-name="Pembersihan Karpet Ekstra">
+
+        <div class="addon-info">
+            <strong>Pembersihan Karpet Ekstra</strong>
+            <p>Pembersihan tambahan pada karpet untuk membantu mengangkat debu dan kotoran.</p>
+        </div>
+
+        <span class="addon-price">+Rp 30.000</span>
+    </label>
+
+</div>
+
+<div class="form-group">
+    <h2 class="cleaner-heading">Preferensi Mitra Cleaner</h2>
+
+    <p class="notice cleaner-notice">
+        Preferensi mitra disesuaikan dengan ketersediaan petugas pada jadwal pemesanan.
+    </p>
+
+    <div class="cleaner-options">
+        <label class="cleaner-card">
+            <input type="radio" name="cleanerPreference" value="Wanita">
+            <span class="cleaner-emoji">👩🏻‍🔧</span>
+            <strong>Wanita</strong>
+            <small>Mitra cleaner wanita</small>
+        </label>
+
+        <label class="cleaner-card">
+            <input type="radio" name="cleanerPreference" value="Pria">
+            <span class="cleaner-emoji">👨🏻‍🔧</span>
+            <strong>Pria</strong>
+            <small>Mitra cleaner pria</small>
+        </label>
+
+        <label class="cleaner-card">
+            <input type="radio" name="cleanerPreference" value="Bebas" checked>
+            <span class="cleaner-emoji">👩🏻‍🔧👨🏻‍🔧</span>
+            <strong>Bebas</strong>
+            <small>Mitra tersedia</small>
+        </label>
+    </div>
+    <!-- CATATAN KHUSUS & PREFERENSI MITRA -->
+<div class="special-note-card">
+
+    <div class="special-note-heading">
+        <div>
+            <h2>☷ Catatan Khusus & Preferensi Mitra</h2>
+            <p>Pastikan kenyamanan privasi keluarga Anda terjaga optimal</p>
+        </div>
+    </div>
+
+    <div class="special-note-divider"></div>
+
+    <div class="special-note-label">
+        <label for="notes">Instruksi Khusus Untuk Cleaner</label>
+        <span>Maks. 300 karakter</span>
+    </div>
+
+    <textarea
+        id="notes"
+        maxlength="300"
+        placeholder="Tuliskan instruksi khusus untuk mitra cleaner..."
+    ></textarea>
+
+    <p class="special-note-info">
+        ⓘ Mitra kami membawa chemical berstandar hypoallergenic & ramah hewan peliharaan secara default.
+    </p>
+
+</div>
+</div>
             </div>
         </section>
 
@@ -1571,10 +1962,25 @@ button, input, select, textarea {
                     <span>Estimasi durasi</span>
                     <strong id="sumDuration">35–75 menit</strong>
                 </div>
+                <div class="summary-line">
+                <span>Preferensi Mitra Cleaner</span>
+                <strong id="sumCleaner">Bebas</strong>
+                </div>
+                <div class="summary-line">
+                <span>Instruksi khusus</span>
+                <strong id="sumNotes">Belum ada instruksi khusus</strong>
+                </div>
+
+                
                 <div class="summary-total">
-                    <span>Total estimasi</span>
+                    <div>
+                        <span>Total estimasi</span>
+                        <small>Termasuk pajak & peralatan standar sanitasi</small>
+                    </div>
+
                     <strong id="sumTotal">Rp 0</strong>
                 </div>
+
             </div>
         </section>
 
@@ -1587,34 +1993,74 @@ button, input, select, textarea {
 
             <div class="form-card">
                 <div class="form-grid">
-                    <div class="form-group">
-                        <label for="customerName">Nama lengkap *</label>
-                        <input type="text" id="customerName" required placeholder="Nama sesuai identitas">
-                    </div>
 
-                    <div class="form-group">
-                        <label for="time">Waktu kedatangan *</label>
-                        <select id="time" required>
-                            <option value="">Pilih waktu</option>
-                            <option value="07:00">07.00 WIB</option>
-                            <option value="09:00">09.00 WIB</option>
-                            <option value="11:00">11.00 WIB</option>
-                            <option value="13:00">13.00 WIB</option>
-                            <option value="15:00">15.00 WIB</option>
-                            <option value="17:00">17.00 WIB</option>
-                        </select>
-                    </div>
+    <!-- NAMA PELANGGAN -->
+    <div class="form-group">
+        <label for="customerName">Nama lengkap *</label>
+        <input
+            type="text"
+            id="customerName"
+            required
+            placeholder="Nama sesuai identitas"
+        >
+    </div>
 
-                    <div class="form-group full">
-                        <label for="payment">Metode pembayaran *</label>
-                        <select id="payment" required>
-                            <option value="">Pilih metode pembayaran</option>
-                            <option value="Tunai">Tunai</option>
-                            <option value="Transfer bank">Transfer bank</option>
-                            <option value="E-wallet">E-wallet</option>
-                        </select>
-                    </div>
-                </div>
+    <!-- NOMOR TELEPON -->
+    <div class="form-group">
+        <label for="phone">Nomor telepon / WhatsApp *</label>
+        <input
+            type="tel"
+            id="phone"
+            required
+            placeholder="Contoh: 081234567890"
+        >
+    </div>
+
+    <!-- TANGGAL PEMESANAN -->
+    <div class="form-group">
+        <label for="date">Tanggal pemesanan *</label>
+        <input
+            type="date"
+            id="date"
+            required
+        >
+    </div>
+
+    <!-- WAKTU KEDATANGAN -->
+    <div class="form-group">
+        <label for="time">Waktu kedatangan *</label>
+        <select id="time" required>
+            <option value="">Pilih waktu</option>
+            <option value="07:00">07.00 WIB</option>
+            <option value="09:00">09.00 WIB</option>
+            <option value="11:00">11.00 WIB</option>
+            <option value="13:00">13.00 WIB</option>
+            <option value="15:00">15.00 WIB</option>
+            <option value="17:00">17.00 WIB</option>
+        </select>
+    </div>
+
+    <!-- ALAMAT LENGKAP -->
+    <div class="form-group full">
+        <label for="address">Alamat lengkap *</label>
+        <textarea
+            id="address"
+            required
+            placeholder="Masukkan nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, dan patokan lokasi."
+        ></textarea>
+    </div>
+
+    <!-- METODE PEMBAYARAN -->
+    <div class="form-group full">
+        <label for="payment">Metode pembayaran *</label>
+        <select id="payment" required>
+            <option value="">Pilih metode pembayaran</option>
+            <option value="Tunai">Tunai</option>
+            <option value="Transfer bank">Transfer bank</option>
+            <option value="E-wallet">E-wallet</option>
+        </select>
+    </div>
+</div>
 
                 <p class="notice">Dengan mengonfirmasi, Anda menyetujui detail pemesanan yang ditampilkan.</p>
             </div>
@@ -1628,6 +2074,10 @@ button, input, select, textarea {
                 <div class="summary-line">
                     <span>Jadwal</span>
                     <strong id="finalSchedule">Belum dipilih</strong>
+                </div>
+                <div class="summary-line">
+                    <span>Preferensi Mitra Cleaner</span>
+                    <strong id="finalCleaner">Bebas</strong>
                 </div>
                 <div class="summary-total">
                     <span>Total estimasi</span>

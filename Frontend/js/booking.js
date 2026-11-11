@@ -159,7 +159,7 @@ const rooms = [
     },
     {
         name: "Ruangan Kustom",
-        icon: "🌳",
+        icon: "🛋️",
         desc: "Musholla, studio, gym, balkon",
         meta: "Kebutuhan spesifik",
         label: "Kustom",
@@ -366,6 +366,59 @@ function updateSummary() {
             : "35–75 menit";
 
     document.getElementById("sumTotal").textContent = rupiah(getTotal());
+    const cleanerSelected = document.querySelector(
+    'input[name="cleanerPreference"]:checked'
+    );
+
+    const sumCleaner = document.getElementById("sumCleaner");
+
+    if (sumCleaner) {
+        sumCleaner.textContent = cleanerSelected
+            ? cleanerSelected.value
+            : "Bebas";
+    }
+    const notesInput = document.getElementById("notes");
+    const sumNotes = document.getElementById("sumNotes");
+
+    if (sumNotes) {
+    sumNotes.textContent = notesInput
+        ? notesInput.value.trim() || "Belum ada instruksi khusus"
+        : "Belum ada instruksi khusus";
+    }
+
+    // UPDATE RINCIAN RUANGAN SAAT INI
+const detailRoomNow = document.getElementById("detailRoomNow");
+const detailPackageNow = document.getElementById("detailPackageNow");
+const detailDurationNow = document.getElementById("detailDurationNow");
+const detailBasePriceNow = document.getElementById("detailBasePriceNow");
+const detailAddonPriceNow = document.getElementById("detailAddonPriceNow");
+const detailSubtotalNow = document.getElementById("detailSubtotalNow");
+
+if (detailRoomNow) {
+    detailRoomNow.textContent = roomName;
+}
+
+if (detailPackageNow) {
+    detailPackageNow.textContent = packageName;
+}
+
+if (detailDurationNow) {
+    detailDurationNow.textContent = selectedPackage && selectedRoom !== null
+        ? rooms[selectedRoom].time
+        : "-";
+}
+
+if (detailBasePriceNow) {
+    detailBasePriceNow.textContent = rupiah(getBasePrice());
+}
+
+if (detailAddonPriceNow) {
+    detailAddonPriceNow.textContent = rupiah(getAddonTotal());
+}
+
+if (detailSubtotalNow) {
+    detailSubtotalNow.textContent = rupiah(getTotal());
+}
 
     document.getElementById("finalService").textContent =
         roomName + " — " + packageName;
@@ -425,9 +478,14 @@ document.getElementById("finalSchedule").textContent =
     }
 }
 
-document.querySelectorAll('input[name="addon"], #date, #time').forEach(input => {
+document.querySelectorAll('input[name="addon"], input[name="cleanerPreference"], #date, #time, #notes').forEach(input => {
     input.addEventListener("change", updateSummary);
 });
+const notesInput = document.getElementById("notes");
+
+if (notesInput) {
+    notesInput.addEventListener("input", updateSummary);
+}
 
 const stepTitles = [
     "Pilih Ruangan yang Ingin Dibersihkan",
@@ -552,6 +610,7 @@ nextBtn.addEventListener("click", () => {
             package: selectedPackage,
             addons: getAddonNames(),
             notes: document.getElementById("notes").value.trim(),
+            cleanerPreference: document.querySelector('input[name="cleanerPreference"]:checked')?.value || "Bebas",
             date: document.getElementById("date").value,
             time: document.getElementById("time").value,
             payment: document.getElementById("payment").value,
