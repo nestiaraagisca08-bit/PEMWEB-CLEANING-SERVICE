@@ -176,6 +176,25 @@ const rooms = [
 const packageNames = ["Basic Cleaning","Standard Cleaning","Deep Cleaning"];
 const durations = ["35–45 menit","45–75 menit","60–120 menit"];
 
+// =========================
+// FOTO SETIAP RUANGAN
+// =========================
+
+const roomImages = {
+    "Kamar Tidur": "../images/1. Kamar Tidur.png",
+    "Ruang Tamu": "../images/2. Ruang Tamu.png",
+    "Dapur (Kitchen)": "../images/3. Dapur.png",
+    "Kamar Mandi": "../images/4. Kamar Mandi.png",
+    "Ruang Makan": "../images/5. Ruang Makan.png",
+    "Ruang Kerja (Home Office)": "../images/6. Ruang Kerja.png",
+    "Ruang Belajar": "../images/7. Ruang Belajar.png",
+    "Ruang Laundry": "../images/8. Ruang laundry.png",
+    "Teras Rumah": "../images/9. Teras.png",
+    "Garasi / Carport": "../images/10. Garasi : Carport.png",
+    "Gudang Penyimpanan": "../images/11. Gudang.png",
+    "Ruangan Kustom": "../images/12. Studio Creativity.png"
+};
+
 let currentStep = 0;
 let selectedRoom = null;
 let selectedPackage = null;
@@ -334,7 +353,34 @@ function getTotal() {
     return getBasePrice() + getAddonTotal();
 }
 
+// UPDATE LABEL RUANGAN TERPILIH DI STEP 2 DAN STEP 3
+function updateSelectedRoomLabels() {
+    const roomName = selectedRoom === null
+        ? "Belum dipilih"
+        : rooms[selectedRoom].name;
+
+    document.querySelectorAll(".selected-room-label").forEach(label => {
+        label.innerHTML = `
+            ♧ Ruangan: ${roomName}
+            <span>•</span>
+            <a href="#" class="changeRoomBtn">Ubah Ruangan</a>
+        `;
+
+        label.querySelector(".changeRoomBtn").addEventListener("click", event => {
+            event.preventDefault();
+            currentStep = 0;
+            renderStep();
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+        });
+    });
+}
+
 function updateSummary() {
+    updateSelectedRoomLabels();
+
     const roomName = selectedRoom === null
         ? "Belum dipilih"
         : rooms[selectedRoom].name;
@@ -396,6 +442,16 @@ const detailSubtotalNow = document.getElementById("detailSubtotalNow");
 
 if (detailRoomNow) {
     detailRoomNow.textContent = roomName;
+}
+
+// UPDATE FOTO RUANGAN STEP 3
+const detailRoomImage = document.getElementById("detailRoomImage");
+
+if (detailRoomImage && selectedRoom !== null) {
+    const currentRoomName = rooms[selectedRoom].name;
+
+    detailRoomImage.src = roomImages[currentRoomName];
+    detailRoomImage.alt = "Foto " + currentRoomName;
 }
 
 if (detailPackageNow) {
@@ -552,24 +608,6 @@ function renderStep() {
         "Lanjut: Pilih Jenis Pembersihan →";
 
     const selectedRoomLabel = document.getElementById("selectedRoomLabel");
-
-if (selectedRoomLabel) {
-    selectedRoomLabel.innerHTML = selectedRoom === null
-        ? '♧ Ruangan: Belum dipilih'
-        : `♧ Ruangan: ${rooms[selectedRoom].name}
-           <span>•</span>
-           <a href="#" id="changeRoomBtn">Ubah Ruangan</a>`;
-
-    const changeRoomBtn = document.getElementById("changeRoomBtn");
-
-    if (changeRoomBtn) {
-        changeRoomBtn.addEventListener("click", (event) => {
-            event.preventDefault();
-            currentStep = 0;
-            renderStep();
-        });
-    }
-}
  
 const standardCard = document.querySelector(".standard-card");
 

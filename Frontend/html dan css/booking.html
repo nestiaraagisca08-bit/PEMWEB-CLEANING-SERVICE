@@ -592,12 +592,6 @@ button, input, select, textarea {
     font-weight: 800;
 }
 
-.option-card small {
-    margin-top: 3px;
-    color: var(--muted);
-    font-size: 9px;
-}
-
 .package-features {
     display: flex;
     flex-direction: column;
@@ -630,48 +624,6 @@ button, input, select, textarea {
 .option-card.selected .package-choose {
     background: var(--green);
     color: white;
-}
-
-.addon-list {
-    display: grid;
-    gap: 10px;
-}
-
-.addon-card {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 15px;
-    border: 1px solid var(--border);
-    border-radius: 11px;
-    background: white;
-    cursor: pointer;
-}
-
-.addon-card input {
-    accent-color: var(--green);
-    width: 16px;
-    height: 16px;
-}
-
-.addon-info {
-    flex: 1;
-}
-
-.addon-info strong {
-    display: block;
-    font-size: 12px;
-}
-
-.addon-info p {
-    color: var(--muted);
-    font-size: 10px;
-}
-
-.addon-price {
-    color: var(--green);
-    font-weight: 800;
-    white-space: nowrap;
 }
 
 .form-card {
@@ -720,29 +672,6 @@ button, input, select, textarea {
     resize: vertical;
 }
 
-.cleaner-options {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 12px;
-    width: 100%;
-    margin-top: 12px;
-}
-
-.cleaner-card {
-    display: flex !important;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    min-height: 105px;
-    padding: 8px;
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    background: white;
-    cursor: pointer;
-    text-align: center;
-}
-
 .cleaner-card input[type="radio"] {
     width: 16px;
     height: 16px;
@@ -779,101 +708,11 @@ button, input, select, textarea {
     background: #f1fbf2;
 }
 
-@media (max-width: 560px) {
-    .cleaner-options {
-        grid-template-columns: 1fr;
-    }
-}
-
-.cleaner-heading {
-    display: block;
-    margin: 25px 0 5px;
-    color: var(--green);
-    font-family: inherit;
-    font-size: 24px;
-    font-weight: 800;
-    line-height: 1.2;
-}
-
-.cleaner-notice {
-    margin: 0;
-    font-size: 12px;
-}
-
 .form-group input:focus,
 .form-group select:focus,
 .form-group textarea:focus {
     border-color: var(--green);
     box-shadow: 0 0 0 2px var(--green-light);
-}
-
-/* CATATAN KHUSUS & PREFERENSI MITRA */
-.special-note-card {
-    width: 100%;
-    margin-top: 22px;
-    padding: 28px;
-    background: #ffffff;
-    border: 1px solid var(--border);
-    border-radius: 16px;
-}
-
-.special-note-heading h2 {
-    color: var(--green);
-    font-size: 20px;
-    font-weight: 700;
-}
-
-.special-note-heading p {
-    margin-top: 2px;
-    color: #505650;
-    font-size: 13px;
-}
-
-.special-note-divider {
-    margin: 12px 0 28px;
-    border-top: 1px solid #dcebdd;
-}
-
-.special-note-label {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px;
-    margin-bottom: 8px;
-}
-
-.special-note-label label {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-.special-note-label span {
-    color: var(--muted);
-    font-size: 12px;
-}
-
-.special-note-card textarea {
-    width: 100%;
-    min-height: 145px;
-    padding: 16px;
-    border: 1px solid #dcebdd;
-    border-radius: 13px;
-    background: #e1f7e6;
-    color: var(--text);
-    font: inherit;
-    font-size: 13px;
-    resize: vertical;
-    outline: none;
-}
-
-.special-note-card textarea:focus {
-    border-color: var(--green);
-    box-shadow: 0 0 0 2px var(--green-light);
-}
-
-.special-note-info {
-    margin-top: 14px;
-    color: #505650;
-    font-size: 12px;
 }
 
 /* NAVIGASI BOOKING */
@@ -1548,6 +1387,687 @@ button, input, select, textarea {
     }
 }
 
+/* =====================================
+   STEP 3 — ADD-ON & CATATAN
+===================================== */
+
+.booking-step[data-step="2"] .step3-heading {
+    margin-bottom: 24px;
+}
+
+.booking-step[data-step="2"] .step3-heading h2 {
+    color: #172d25;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="2"] .step3-heading p {
+    color: #758078;
+    font-size: 13px;
+}
+
+/* BANNER RUANGAN */
+
+.step3-room-banner {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #e8eee5;
+}
+
+.step3-room-banner > img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+}
+
+.step3-room-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 22px;
+    color: white;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.72),
+        transparent 75%
+    );
+}
+
+.step3-room-category {
+    color: #a5e5bc;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.step3-room-overlay h3 {
+    margin-top: 5px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.step3-room-overlay p {
+    margin-top: 3px;
+    color: #f1f1f1;
+    font-size: 12px;
+}
+
+.step3-room-total {
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: white;
+}
+
+.step3-room-total span {
+    font-size: 11px;
+}
+
+.step3-room-total strong {
+    font-size: 23px;
+    font-weight: 800;
+}
+
+/* INFORMASI HARGA */
+
+.step3-price-information {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.step3-price-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #eceee9;
+    border-radius: 10px;
+    background: #fafaf9;
+    font-size: 11px;
+}
+
+.step3-price-item > span:not(.step3-price-dot) {
+    flex: 1;
+    color: #68736d;
+}
+
+.step3-price-item strong {
+    color: #263d32;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.step3-price-dot {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #36a879;
+}
+
+.step3-free-item strong {
+    color: #25966c;
+}
+
+/* GARANSI */
+
+.step3-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 13px 15px;
+    border: 1px solid #d5ebdc;
+    border-radius: 10px;
+    background: #edf7f0;
+}
+
+.step3-guarantee-icon {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #159b70;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.step3-guarantee > div {
+    flex: 1;
+}
+
+.step3-guarantee strong {
+    color: #245c43;
+    font-size: 12px;
+}
+
+.step3-guarantee p {
+    color: #648270;
+    font-size: 10px;
+}
+
+.step3-guarantee-note {
+    color: #9aa79e;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* KARTU SECTION */
+
+.step3-section-card {
+    margin-top: 24px;
+    padding: 22px;
+    border: 1px solid #ece8df;
+    border-radius: 15px;
+    background: white;
+}
+
+.step3-section-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.step3-section-title h3 {
+    color: #182b25;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.step3-section-title p {
+    margin-top: 4px;
+    color: #858d87;
+    font-size: 11px;
+}
+
+.step3-section-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #f4f1e9;
+    color: #8b806a;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* ADD-ON UTAMA */
+
+.step3-addon-list {
+    display: grid;
+    gap: 11px;
+}
+
+.step3-addon-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border: 1px solid #e8e9e5;
+    border-radius: 11px;
+    background: #fcfbf9;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.step3-addon-card input,
+.step3-extra-card input {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: var(--green);
+}
+
+.step3-addon-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.step3-addon-info strong {
+    display: block;
+    color: #202d27;
+    font-size: 12px;
+}
+
+.step3-addon-info p {
+    margin-top: 3px;
+    color: #858d87;
+    font-size: 10px;
+}
+
+.step3-addon-price {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+
+/* =====================================
+   LAYANAN TAMBAHAN LAINNYA
+===================================== */
+
+.step3-extra-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.step3-extra-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 180px;
+    padding: 16px;
+    border: 1px solid #e5e8e3;
+    border-radius: 12px;
+    background: #fcfbf9;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.step3-extra-card:hover {
+    border-color: #a9c9ad;
+}
+
+/* CHECKBOX */
+.step3-extra-card > input {
+    position: absolute;
+    top: 26px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #193e2f;
+    cursor: pointer;
+}
+
+/* IKON DAN BADGE */
+.step3-extra-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 36px;
+    margin-bottom: 10px;
+    padding-right: 32px;
+}
+
+.step3-extra-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #e8eee5;
+    color: #193e2f;
+}
+
+.step3-extra-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.step3-extra-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    margin-left: auto;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.step3-extra-badge.popular {
+    background: #fff0f2;
+    border: 1px solid #ffc6d0;
+    color: #dc3455;
+}
+
+.step3-extra-badge.recommended {
+    background: #ddf8eb;
+    border: 1px solid #a2e8c5;
+    color: #087653;
+}
+
+/* JUDUL */
+.step3-extra-card > strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #182b25;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* DESKRIPSI */
+.step3-extra-card > p {
+    margin: 0;
+    color: #758078;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* DURASI DAN HARGA */
+.step3-extra-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #e8eae5;
+}
+
+.step3-extra-footer small {
+    color: #929b94;
+    font-size: 10px;
+}
+
+.step3-extra-footer strong {
+    color: #193e2f;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* KARTU TERPILIH */
+.step3-extra-card:has(input:checked) {
+    border: 2px solid #193e2f;
+    padding: 15px;
+    background: #f3f8f3;
+}
+
+/* RESPONSIVE */
+@media (max-width: 560px) {
+
+    .step3-extra-card {
+        min-height: 180px;
+    }
+}
+
+/* CATATAN DAN PREFERENSI */
+
+.step3-note-card {
+    margin-top: 24px;
+}
+
+.step3-preference {
+    margin-top: 25px;
+}
+
+.step3-field-label {
+    display: block;
+    color: #47534c;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+
+.step3-cleaner-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+    margin-top: 10px;
+}
+
+.step3-cleaner-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    padding: 10px;
+    border: 1px solid #dce2dc;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    transition: .2s ease;
+}
+
+.step3-cleaner-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.step3-cleaner-option span {
+    color: #435047;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.step3-cleaner-option:has(input:checked) {
+    border-color: var(--green);
+    background: var(--green);
+}
+
+.step3-cleaner-option:has(input:checked) span {
+    color: white;
+}
+
+.step3-preference-note {
+    margin-top: 9px;
+    color: #a0a8a1;
+    font-size: 10px;
+}
+
+.step3-instruction {
+    margin-top: 24px;
+}
+
+.step3-instruction-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 9px;
+}
+
+.step3-instruction-heading > span {
+    color: #a0a8a1;
+    font-size: 10px;
+}
+
+.step3-instruction textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 13px;
+    border: 1px solid #dce2dc;
+    border-radius: 10px;
+    background: #fcfbf9;
+    color: var(--text);
+    font: inherit;
+    font-size: 12px;
+    resize: vertical;
+    outline: none;
+}
+
+.step3-instruction textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--green-light);
+}
+
+/* BANTUAN WHATSAPP */
+
+.step3-help {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ece8df;
+    border-radius: 12px;
+    background: white;
+}
+
+.step3-help > span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e8f7ee;
+    color: #159b70;
+    font-size: 16px;
+}
+
+.step3-help > div {
+    flex: 1;
+}
+
+.step3-help strong {
+    color: #273b30;
+    font-size: 11px;
+}
+
+.step3-help p {
+    color: #89928b;
+    font-size: 10px;
+}
+
+.step3-help a {
+    color: #8b9990;
+    font-size: 17px;
+}
+
+/* RESPONSIVE STEP 3 */
+
+@media (max-width: 850px) {
+    .step3-price-information {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-guarantee-note {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .step3-room-banner {
+        height: 190px;
+    }
+
+    .step3-room-overlay {
+        padding: 14px;
+    }
+
+    .step3-room-overlay h3 {
+        font-size: 17px;
+    }
+
+    .step3-room-total {
+        right: 12px;
+        bottom: 12px;
+    }
+
+    .step3-room-total strong {
+        font-size: 17px;
+    }
+
+    .step3-section-card {
+        padding: 16px;
+    }
+
+    .step3-section-title {
+        flex-direction: column;
+    }
+
+    .step3-extra-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-cleaner-options {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-addon-card {
+        align-items: flex-start;
+    }
+
+    .step3-addon-price {
+        font-size: 10px;
+    }
+}
+
+/* PERBAIKAN LAYOUT STEP 2 */
+.package-heading-row {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.package-heading-row .section-heading {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.hospital-card {
+    flex: 0 0 350px;
+    width: 350px;
+    min-height: 65px;
+    margin: 0;
+    transform: translateY(-85px);
+}
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 0;
+}
+
+.option-card {
+    min-width: 0;
+}
+
+@media (max-width: 850px) {
+    .package-heading-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .hospital-card {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    .option-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .option-grid {
+        grid-template-columns: 1fr;
+    }
+}
 </style>
 </head>
 
@@ -1619,13 +2139,15 @@ button, input, select, textarea {
                 </div>
             </div>
 
-            <div class="progress-step">
+                        <div class="progress-step">
                 <span class="step-number">5</span>
                 <div class="step-copy">
                     <strong>Alamat & Biodata</strong>
                     <small>Konfirmasi final</small>
                 </div>
             </div>
+
+        </div>
     </section>
 
    <!-- FORM BOOKING -->
@@ -1688,32 +2210,32 @@ button, input, select, textarea {
     <!-- LANGKAH 2: JENIS PEMBERSIHAN -->
     <section class="booking-step" data-step="1">
 
+    <div class="section-heading">
+        <h2>Tentukan Tingkat Pembersihan</h2>
+        <p>
+            Sesuaikan intensitas pembersihan dengan kondisi dan kebutuhan ruangan Anda, <br>
+            mulai dari perawatan higienis esensial hingga sanitasi uap mendalam.
+        </p>
+    </div>
+
+    <!-- INFORMASI RUANGAN DAN HOSPITAL-GRADE -->
+    <div class="package-heading-row">
+
         <div class="selected-room-label" id="selectedRoomLabel">
-            ♧ Ruangan: Belum dipilih
+            ♧ Ruangan: <span id="selectedRoomName">Belum dipilih</span>
             <span>•</span>
             <a href="#" id="changeRoomBtn">Ubah Ruangan</a>
         </div>
 
-        <div class="package-heading-row">
-
-            <div class="section-heading">
-                <h2>Tentukan Tingkat Pembersihan</h2>
-                <p>
-                    Sesuaikan intensitas pembersihan dengan kondisi dan kebutuhan ruangan Anda, <br>
-                    mulai dari perawatan higienis esensial hingga sanitasi uap mendalam.
-                </p>
+        <div class="hospital-card" id="hospitalCard">
+            <span class="hospital-icon">♧</span>
+            <div>
+                <strong>Standard Hospital-Grade</strong>
+                <p>Peralatan sanitasi disinfeksi berlisensi.</p>
             </div>
-
-            <!-- HOSPITAL: HANYA STEP 2 -->
-            <div class="hospital-card" id="hospitalCard">
-                <span class="hospital-icon">♧</span>
-                <div>
-                    <strong>Standard Hospital-Grade</strong>
-                    <p>Peralatan sanitasi disinfeksi berlisensi.</p>
-                </div>
-            </div>
-
         </div>
+
+    </div>
 
         <!-- TIGA PILIHAN PAKET: TIDAK DIGANDAKAN -->
         <div class="option-grid" id="packageGrid">
@@ -1782,160 +2304,408 @@ button, input, select, textarea {
 
     </section>
 
-    <!-- LANGKAH 3 -->
-        <section class="booking-step" data-step="2">
-            <div class="section-heading">
-                <h2>Add-on & Catatan</h2>
-                <p>Pilih tambahan layanan jika diperlukan. Bagian ini boleh dilewati.</p>
-            </div>
+<!-- LANGKAH 3: ADD-ON & CATATAN -->
+<section class="booking-step" data-step="2">
 
-            <div class="addon-list">
-                <label class="addon-card">
-                    <input type="checkbox" name="addon" value="15000" data-name="Aromaterapi">
-                    <div class="addon-info">
-                        <strong>Aromaterapi Ruangan</strong>
-                        <p>Tambahan aroma segar setelah proses pembersihan.</p>
-                    </div>
-                    <span class="addon-price">+Rp 15.000</span>
-                </label>
-
-                <label class="addon-card">
-                    <input type="checkbox" name="addon" value="20000" data-name="Disinfeksi">
-                    <div class="addon-info">
-                        <strong>Disinfeksi Tambahan</strong>
-                        <p>Perhatian ekstra pada permukaan yang sering disentuh.</p>
-                    </div>
-                    <span class="addon-price">+Rp 20.000</span>
-                </label>
-
-                <label class="addon-card">
-                    <input type="checkbox" name="addon" value="25000" data-name="Kaca">
-                    <div class="addon-info">
-                        <strong>Pembersihan Kaca</strong>
-                        <p>Tambahan pembersihan kaca dan cermin.</p>
-                    </div>
-                    <span class="addon-price">+Rp 25.000</span>
-                </label>
-            </div>
-
-                <!-- ADD-ON TAMBAHAN -->
-<div class="section-heading" style="margin-top:25px;">
-    <h2>Layanan Tambahan Lainnya</h2>
-    <p>Pilih layanan tambahan sesuai kebutuhan kebersihan ruangan.</p>
-</div>
-
-<div class="addon-list">
-
-    <label class="addon-card">
-        <input type="checkbox" name="addon"
-               value="35000" data-name="Disinfektan Fogging Herbal">
-
-        <div class="addon-info">
-            <strong>Disinfektan Fogging Herbal</strong>
-            <p>Perawatan tambahan untuk membantu menjaga kebersihan udara dan permukaan ruangan.</p>
-        </div>
-
-        <span class="addon-price">+Rp 35.000</span>
-    </label>
-
-    <label class="addon-card">
-        <input type="checkbox" name="addon"
-               value="25000" data-name="Detailing Kulkas & Microwave">
-
-        <div class="addon-info">
-            <strong>Detailing Kulkas & Microwave</strong>
-            <p>Pembersihan bagian dalam dan luar peralatan sesuai kondisi serta keterjangkauan area.</p>
-        </div>
-
-        <span class="addon-price">+Rp 25.000</span>
-    </label>
-
-    <label class="addon-card">
-        <input type="checkbox" name="addon"
-               value="45000" data-name="Hydro-Vacuum Sofa 2-3 Seater">
-
-        <div class="addon-info">
-            <strong>Hydro-Vacuum Sofa 2–3 Seater</strong>
-            <p>Pembersihan sofa menggunakan metode penyedotan basah untuk membantu mengangkat kotoran.</p>
-        </div>
-
-        <span class="addon-price">+Rp 45.000</span>
-    </label>
-
-    <label class="addon-card">
-        <input type="checkbox" name="addon"
-               value="30000" data-name="Pembersihan Karpet Ekstra">
-
-        <div class="addon-info">
-            <strong>Pembersihan Karpet Ekstra</strong>
-            <p>Pembersihan tambahan pada karpet untuk membantu mengangkat debu dan kotoran.</p>
-        </div>
-
-        <span class="addon-price">+Rp 30.000</span>
-    </label>
-
-</div>
-
-<div class="form-group">
-    <h2 class="cleaner-heading">Preferensi Mitra Cleaner</h2>
-
-    <p class="notice cleaner-notice">
-        Preferensi mitra disesuaikan dengan ketersediaan petugas pada jadwal pemesanan.
-    </p>
-
-    <div class="cleaner-options">
-        <label class="cleaner-card">
-            <input type="radio" name="cleanerPreference" value="Wanita">
-            <span class="cleaner-emoji">👩🏻‍🔧</span>
-            <strong>Wanita</strong>
-            <small>Mitra cleaner wanita</small>
-        </label>
-
-        <label class="cleaner-card">
-            <input type="radio" name="cleanerPreference" value="Pria">
-            <span class="cleaner-emoji">👨🏻‍🔧</span>
-            <strong>Pria</strong>
-            <small>Mitra cleaner pria</small>
-        </label>
-
-        <label class="cleaner-card">
-            <input type="radio" name="cleanerPreference" value="Bebas" checked>
-            <span class="cleaner-emoji">👩🏻‍🔧👨🏻‍🔧</span>
-            <strong>Bebas</strong>
-            <small>Mitra tersedia</small>
-        </label>
+    <!-- JUDUL STEP 3 -->
+    <div class="section-heading step3-heading">
+        <h2>Add-on & Catatan</h2>
+        <p>Pilih tambahan layanan jika diperlukan. Bagian ini boleh dilewati.</p>
     </div>
-    <!-- CATATAN KHUSUS & PREFERENSI MITRA -->
-<div class="special-note-card">
 
-    <div class="special-note-heading">
+    <!-- BANNER RUANGAN TERPILIH -->
+    <div class="step3-room-banner">
+
+        <img
+            src="../images/Foto Pembersihan.png"
+            id="detailRoomImage"
+            alt="Foto ruangan yang dipilih"
+        >
+
+        <div class="step3-room-overlay">
+            <div class="step3-room-category">
+                KATEGORI RUANGAN
+            </div>
+
+            <h3 id="detailRoomNow">Ruangan belum dipilih</h3>
+            <p id="detailRoomDescription">
+                Detail ruangan yang akan dibersihkan
+            </p>
+        </div>
+
+        <div class="step3-room-total">
+            <span>Subtotal Layanan Saat Ini</span>
+            <strong id="detailSubtotalNow">Rp 0</strong>
+        </div>
+
+    </div>
+
+    <!-- INFORMASI PAKET DAN ADD-ON TERPILIH -->
+    <div class="step3-price-information">
+
+        <div class="step3-price-item">
+            <span class="step3-price-dot"></span>
+            <span id="detailPackageNow">Paket Cleaning</span>
+            <strong id="detailBasePriceNow">Rp 0</strong>
+        </div>
+
+        <div class="step3-price-item">
+            <span class="step3-price-dot"></span>
+            <span id="detailAddonPriceLabel">Add-on Terpilih</span>
+            <strong id="detailAddonPriceNow">Rp 0</strong>
+        </div>
+
+        <div class="step3-price-item step3-free-item">
+            <span>Biaya Layanan & Asuransi</span>
+            <strong>GRATIS</strong>
+        </div>
+
+    </div>
+
+    <!-- GARANSI -->
+    <div class="step3-guarantee">
+        <span class="step3-guarantee-icon">✓</span>
+
         <div>
-            <h2>☷ Catatan Khusus & Preferensi Mitra</h2>
-            <p>Pastikan kenyamanan privasi keluarga Anda terjaga optimal</p>
+            <strong>Garansi Bersih 100%</strong>
+            <p>
+                Bila ada sudut terlewat, mitra kami bersihkan ulang
+                tanpa biaya tambahan.
+            </p>
+        </div>
+
+        <span class="step3-guarantee-note">Sudah termasuk PPN</span>
+    </div>
+
+
+    <!-- ADD-ON UTAMA -->
+    <div class="step3-section-card">
+
+        <div class="step3-section-title">
+            <div>
+                <h3>＋ Add-on & Catatan Utama</h3>
+            </div>
+
+            <span class="step3-section-badge">Opsional & Fleksibel</span>
+        </div>
+
+        <div class="step3-addon-list">
+
+            <label class="step3-addon-card">
+                <input
+                    type="checkbox"
+                    name="addon"
+                    value="15000"
+                    data-name="Aromaterapi"
+                >
+
+                <div class="step3-addon-info">
+                    <strong>Aromaterapi Ruangan</strong>
+                    <p>Tambahan aroma segar setelah proses pembersihan.</p>
+                </div>
+
+                <span class="step3-addon-price">+Rp 15.000</span>
+            </label>
+
+
+            <label class="step3-addon-card">
+                <input
+                    type="checkbox"
+                    name="addon"
+                    value="20000"
+                    data-name="Disinfeksi"
+                >
+
+                <div class="step3-addon-info">
+                    <strong>Disinfeksi Tambahan</strong>
+                    <p>Perhatian ekstra pada permukaan yang sering disentuh.</p>
+                </div>
+
+                <span class="step3-addon-price">+Rp 20.000</span>
+            </label>
+
+
+            <label class="step3-addon-card">
+                <input
+                    type="checkbox"
+                    name="addon"
+                    value="25000"
+                    data-name="Kaca"
+                >
+
+                <div class="step3-addon-info">
+                    <strong>Pembersihan Kaca</strong>
+                    <p>Tambahan pembersihan kaca dan cermin.</p>
+                </div>
+
+                <span class="step3-addon-price">+Rp 25.000</span>
+            </label>
+
+        </div>
+
+    </div>
+
+<!-- LAYANAN TAMBAHAN LAINNYA -->
+<div class="step3-section-card">
+
+    <div class="step3-section-title">
+        <div>
+            <h3>Layanan Tambahan Lainnya</h3>
+            <p>Pilih layanan tambahan sesuai kebutuhan kebersihan ruangan.</p>
         </div>
     </div>
 
-    <div class="special-note-divider"></div>
+    <div class="step3-extra-grid">
 
-    <div class="special-note-label">
-        <label for="notes">Instruksi Khusus Untuk Cleaner</label>
-        <span>Maks. 300 karakter</span>
+        <!-- FOGGING HERBAL -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="35000"
+                data-name="Disinfektan Fogging Herbal"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 3h6"/>
+                        <path d="M10 3v6l-5.5 8.5A2.3 2.3 0 0 0 6.4 21h11.2a2.3 2.3 0 0 0 1.9-3.5L14 9V3"/>
+                        <path d="M8 15h8"/>
+                    </svg>
+                </span>
+
+                <span class="step3-extra-badge popular">Populer</span>
+            </div>
+
+            <strong>Disinfektan Fogging Herbal</strong>
+
+            <p>
+                Perawatan tambahan untuk membantu menjaga kebersihan udara
+                dan permukaan ruangan.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +15 menit</small>
+                <strong>+Rp 35.000</strong>
+            </div>
+
+        </label>
+
+
+        <!-- DETAILING KULKAS & MICROWAVE -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="25000"
+                data-name="Detailing Kulkas & Microwave"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="3" width="14" height="18" rx="2"/>
+                        <path d="M5 11h14"/>
+                        <path d="M9 7v1"/>
+                        <path d="M9 15v2"/>
+                    </svg>
+                </span>
+            </div>
+
+            <strong>Detailing Kulkas & Microwave</strong>
+
+            <p>
+                Pembersihan bagian dalam dan luar peralatan sesuai kondisi
+                serta keterjangkauan area.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +20 menit</small>
+                <strong>+Rp 25.000</strong>
+            </div>
+
+        </label>
+
+
+        <!-- HYDRO-VACUUM SOFA -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="45000"
+                data-name="Hydro-Vacuum Sofa 2-3 Seater"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/>
+                        <path d="M3 12h18v6H3z"/>
+                        <path d="M5 18v2M19 18v2"/>
+                        <path d="M7 7V5M17 7V5"/>
+                    </svg>
+                </span>
+
+                <span class="step3-extra-badge recommended">
+                    Rekomendasi Alergi
+                </span>
+            </div>
+
+            <strong>Hydro-Vacuum Sofa 2–3 Seater</strong>
+
+            <p>
+                Pembersihan sofa menggunakan metode penyedotan basah
+                untuk membantu mengangkat kotoran.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +30 menit</small>
+                <strong>+Rp 45.000</strong>
+            </div>
+
+        </label>
+
+
+        <!-- PEMBERSIHAN KARPET -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="30000"
+                data-name="Pembersihan Karpet Ekstra"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>
+                    </svg>
+                </span>
+            </div>
+
+            <strong>Pembersihan Karpet Ekstra</strong>
+
+            <p>
+                Pembersihan tambahan pada karpet untuk membantu
+                mengangkat debu dan kotoran.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +20 menit</small>
+                <strong>+Rp 30.000</strong>
+            </div>
+
+        </label>
+
     </div>
 
-    <textarea
-        id="notes"
-        maxlength="300"
-        placeholder="Tuliskan instruksi khusus untuk mitra cleaner..."
-    ></textarea>
-
-    <p class="special-note-info">
-        ⓘ Mitra kami membawa chemical berstandar hypoallergenic & ramah hewan peliharaan secara default.
-    </p>
-
 </div>
-</div>
+  
+    <!-- CATATAN KHUSUS DAN PREFERENSI MITRA -->
+    <div class="step3-section-card step3-note-card">
+
+        <div class="step3-section-title">
+            <div>
+                <h3>☷ Catatan Khusus & Preferensi Mitra</h3>
+                <p>Pastikan kenyamanan dan privasi keluarga Anda terjaga optimal.</p>
             </div>
-        </section>
+        </div>
+
+
+        <!-- PREFERENSI GENDER CLEANER -->
+        <div class="step3-preference">
+
+            <label class="step3-field-label">
+                PREFERENSI GENDER MITRA CLEANER
+            </label>
+
+            <div class="step3-cleaner-options">
+
+                <label class="step3-cleaner-option">
+                    <input
+                        type="radio"
+                        name="cleanerPreference"
+                        value="Bebas"
+                        checked
+                    >
+                    <span>Bebas / Fleksibel</span>
+                </label>
+
+                <label class="step3-cleaner-option">
+                    <input
+                        type="radio"
+                        name="cleanerPreference"
+                        value="Pria"
+                    >
+                    <span>Mitra Pria</span>
+                </label>
+
+                <label class="step3-cleaner-option">
+                    <input
+                        type="radio"
+                        name="cleanerPreference"
+                        value="Wanita"
+                    >
+                    <span>Mitra Wanita</span>
+                </label>
+
+            </div>
+
+            <p class="step3-preference-note">
+                Preferensi mitra disesuaikan dengan ketersediaan petugas
+                pada jadwal pemesanan.
+            </p>
+
+        </div>
+
+
+        <!-- INSTRUKSI KHUSUS -->
+        <div class="step3-instruction">
+
+            <div class="step3-instruction-heading">
+                <label for="notes" class="step3-field-label">
+                    INSTRUKSI KHUSUS UNTUK CLEANER
+                </label>
+
+                <span>Maks. 300 karakter</span>
+            </div>
+
+            <textarea
+                id="notes"
+                maxlength="300"
+                placeholder="Contoh: Ada hewan peliharaan kucing di dalam kamar, mohon pintu balkon tetap tertutup saat proses pembersihan..."
+            ></textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- BANTUAN -->
+    <div class="step3-help">
+        <span>☏</span>
+
+        <div>
+            <strong>Ada permintaan khusus lain?</strong>
+            <p>Hubungi CS 24 Jam via WhatsApp</p>
+        </div>
+
+        <a href="https://wa.me/6281234567890" target="_blank">
+            ↗
+        </a>
+    </div>
+
+</section>
 
         <!-- LANGKAH 4 -->
         <section class="booking-step" data-step="3">
