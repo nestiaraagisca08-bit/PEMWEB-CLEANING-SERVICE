@@ -192,7 +192,7 @@ const roomImages = {
     "Teras Rumah": "../images/9. Teras.png",
     "Garasi / Carport": "../images/10. Garasi : Carport.png",
     "Gudang Penyimpanan": "../images/11. Gudang.png",
-    "Ruangan Kustom": "../images/12. Studio Creativity.png"
+    "Ruangan Kustom": "../images/12. Studio Kreatif.png"
 };
 
 let currentStep = 0;
