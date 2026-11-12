@@ -11,6 +11,7 @@
 
 <style>
 :root {
+    /* WARNA */
     --green: #193e2f;
     --green-light: #e8eee5;
     --pink: #FAE9E9;
@@ -19,6 +20,13 @@
     --muted: #758078;
     --border: #e9eae6;
     --white: #ffffff;
+
+    /* UKURAN GLOBAL */
+    --content-width: 1120px;
+    --panel-padding: 20px;
+    --panel-radius: 14px;
+    --control-height: 40px;
+    --input-font-size: 11px;
 }
 
 * {
@@ -491,6 +499,7 @@ button, input, select, textarea {
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 16px;
     align-items: stretch;
+    margin-top: 0;
 }
 
 .selected-room-label {
@@ -513,10 +522,12 @@ button, input, select, textarea {
 }
 
 .option-card {
-     position: relative;
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
+    min-width: 0;
+    min-height: 210px;
     padding: 18px;
     border: 1px solid var(--border);
     border-radius: 13px;
@@ -549,6 +560,7 @@ button, input, select, textarea {
 .option-card h3 {
     margin: 7px 0 4px;
     font-size: 15px;
+    color: var(--green);
 }
 
 .option-card p {
@@ -560,7 +572,8 @@ button, input, select, textarea {
 .package-label {
     display: inline-block;
     align-self: flex-start;
-    padding: 5px 8px;
+    margin-bottom: 10px;
+    padding: 4px 7px;
     border-radius: 5px;
     background: #dcf4e0;
     color: var(--green);
@@ -574,14 +587,11 @@ button, input, select, textarea {
     font-size: 9px;
 }
 
-.option-card h3 {
-    color: var(--green);
-}
-
 .option-card small {
-    margin-top: 3px;
+    display: block;
+    margin-top: 8px;
     color: var(--muted);
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .option-price {
@@ -647,17 +657,29 @@ button, input, select, textarea {
     grid-column: 1 / -1;
 }
 
+/* Nama pemesan memenuhi satu baris */
+.booking-step[data-step="4"] .form-group.full {
+    grid-column: 1 / -1;
+}
+
 .form-group label {
     display: block;
-    margin-bottom: 6px;
+    margin-bottom: 16px;
     font-size: 11px;
     font-weight: 700;
 }
 
+.required-mark {
+    color: #e53935;
+    font-weight: 800;
+}
+
 .form-group input,
 .form-group select,
+
 .form-group textarea {
     width: 100%;
+    min-height: 80px;
     padding: 11px 12px;
     border: 1px solid #dedfd9;
     border-radius: 8px;
@@ -665,11 +687,54 @@ button, input, select, textarea {
     color: var(--text);
     outline: none;
     font-size: 12px;
+    resize: vertical;
 }
 
-.form-group textarea {
-    min-height: 80px;
-    resize: vertical;
+/* LOKASI KUNJUNGAN STEP 5 */
+.location-card {
+    padding: 18px;
+    border: 1px solid #e8eae5;
+    border-radius: 12px;
+    background: #fcfbf9;
+}
+
+.location-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.location-heading p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.coverage-badge {
+    flex-shrink: 0;
+    padding: 7px 11px;
+    border-radius: 20px;
+    background: #e8f3e9;
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.location-card .form-group:last-child {
+    margin-bottom: 0;
+}
+
+.location-card textarea {
+    min-height: 85px;
+}
+
+@media (max-width: 560px) {
+    .location-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
 }
 
 .cleaner-card input[type="radio"] {
@@ -872,18 +937,11 @@ button, input, select, textarea {
 }
 
 .footer-grid {
-    max-width: 1120px;
+    max-width: var(--content-width);
     margin: 0 auto;
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr 1fr;
     gap: 35px;
-}
-
-.footer-brand {
-    margin-bottom: 12px;
-    font-family: 'Baloo 2', sans-serif;
-    font-size: 20px;
-    font-weight: 800;
 }
 
 .footer-grid h3 {
@@ -915,7 +973,7 @@ button, input, select, textarea {
 }
 
 .footer-bottom {
-    max-width: 1120px;
+    max-width: var(--content-width);
     margin: 28px auto 0;
     padding-top: 17px;
     display: flex;
@@ -1091,11 +1149,15 @@ button, input, select, textarea {
         padding: 11px 13px;
     }
 }
+
 .footer-brand {
     display: flex;
     align-items: center;
     gap: 10px;
     margin-bottom: 12px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
 }
 
 .footer-logo-icon {
@@ -1124,23 +1186,26 @@ button, input, select, textarea {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 28px;
-    margin-bottom: 23px;
+    gap: 24px;
+    margin-bottom: 24px;
 }
 
 .package-heading-row .section-heading {
     flex: 1;
-    margin-bottom: 17px;
+    min-width: 0;
+    margin-bottom: 0;
 }
 
 .hospital-card {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex: 0 0 330px;
+    flex: 0 0 350px;
+    width: 350px;
     min-height: 65px;
     padding: 12px 16px;
-    margin-top: -8px;
+    margin: 0;
+    transform: translateY(-85px);
     background: #dcf4e0;
     border-radius: 14px;
 }
@@ -1169,44 +1234,30 @@ button, input, select, textarea {
     font-size: 10px;
 }
 
-.option-card {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    min-height: 210px;
-}
-
 .option-card .option-price {
     margin-top: auto;
 }
 
-.option-card small {
-    display: block;
-    margin-top: 8px;
-    color: var(--muted);
-    font-size: 10px;
-}
-
-.package-label {
-    display: inline-block;
-    margin-bottom: 10px;
-    padding: 4px 7px;
-    border-radius: 5px;
-    background: #dcf4e0;
-    color: var(--green);
-    font-size: 9px;
-    font-weight: 800;
-}
-
 @media (max-width: 850px) {
     .package-heading-row {
-        align-items: flex-start;
         flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
     }
 
     .hospital-card {
-        flex-basis: auto;
         width: 100%;
+        flex-basis: auto;
+    }
+
+    .option-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .option-grid {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -2011,63 +2062,1387 @@ button, input, select, textarea {
     }
 }
 
-/* PERBAIKAN LAYOUT STEP 2 */
-.package-heading-row {
+/* =====================================
+   STEP 5 — FINAL BOOKING 2 KOLOM
+===================================== */
+
+.final-booking-heading {
     display: flex;
-    flex-direction: row;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 24px;
+    gap: 20px;
     margin-bottom: 24px;
 }
 
-.package-heading-row .section-heading {
+.final-step-badge {
+    display: inline-block;
+    margin-bottom: 8px;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #e8f1e9;
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+}
+
+.final-booking-heading h2 {
+    margin-bottom: 4px;
+    color: var(--green);
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.final-booking-heading p {
+    max-width: 650px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.final-estimate {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    padding: 12px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
+}
+
+.final-estimate > span {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #e8f7ee;
+    color: var(--green);
+    font-size: 18px;
+}
+
+.final-estimate small,
+.final-estimate strong {
+    display: block;
+}
+
+.final-estimate small {
+    color: #929b94;
+    font-size: 8px;
+    font-weight: 700;
+}
+
+.final-estimate strong {
+    margin-top: 3px;
+    color: var(--text);
+    font-size: 10px;
+}
+
+
+/* GRID UTAMA */
+
+.final-booking-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.85fr) minmax(280px, 0.95fr);
+    align-items: start;
+    gap: 24px;
+}
+
+.final-left {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-width: 0;
+}
+
+.final-right {
+    position: sticky;
+    top: 100px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    min-width: 0;
+}
+
+
+/* KARTU FORM */
+
+.final-panel {
+    min-width: 0;
+    padding: 20px;
+    border: 1px solid #ece8df;
+    border-radius: 14px;
+    background: white;
+}
+
+/* =========================
+   HEADING PANEL STEP 5
+========================= */
+
+.final-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #eeeae4;
+}
+
+/* KOTAK IKON */
+.final-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #e8f1e9;
+    color: var(--green);
+}
+
+/* UKURAN SVG */
+.final-heading-icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* TEKS HEADING */
+.final-heading-text {
     flex: 1;
     min-width: 0;
-    margin-bottom: 0;
 }
 
-.hospital-card {
-    flex: 0 0 350px;
-    width: 350px;
-    min-height: 65px;
+.final-heading-text h3 {
     margin: 0;
-    transform: translateY(-85px);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
 }
 
-.option-grid {
+.final-heading-text p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* LABEL BAGIAN */
+.final-part-badge {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f2f3f4;
+    color: #667085;
+    font-size: 9px;
+    font-weight: 600;
+}
+/* FORM DI DALAM KARTU */
+
+.final-panel .form-grid {
+    gap: 10px 12px;
+}
+
+.final-panel .form-group {
+    margin-bottom: 8px;
+}
+
+.final-panel .form-group input,
+.final-panel .form-group select,
+.final-panel .form-group textarea {
+    min-height: 40px;
+    padding: 10px 12px;
+    border: 1px solid #dfe5df;
+    border-radius: 9px;
+    background: #f8faf8;
+    font-size: 11px;
+}
+
+.final-panel .form-group textarea {
+    min-height: 85px;
+}
+
+.final-panel .form-group input[readonly] {
+    background: #f3f5f2;
+    color: #52645a;
+}
+
+.coverage-note {
+    display: block;
+    margin-top: 6px;
+    color: #25966c;
+    font-size: 9px;
+}
+
+
+/* SIDEBAR PESANAN */
+
+.final-sidebar-card {
+    padding: 18px;
+}
+
+.sidebar-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 18px;
+}
+
+.sidebar-title h3 {
+    color: #182b25;
+    font-size: 13px;
+}
+
+.sidebar-title > span {
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: #d9f5e7;
+    color: #087653;
+    font-size: 8px;
+    font-weight: 800;
+}
+
+.sidebar-service-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #eeeae4;
+}
+
+.sidebar-service-list > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 10px;
+}
+
+.sidebar-service-list span {
+    color: #66736b;
+}
+
+.sidebar-service-list strong {
+    color: var(--text);
+    text-align: right;
+}
+
+.sidebar-total {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    padding: 16px 0;
+}
+
+.sidebar-total span {
+    color: #66736b;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.sidebar-total strong {
+    color: var(--green);
+    font-size: 25px;
+    font-weight: 800;
+}
+
+.sidebar-payment {
+    padding-top: 14px;
+    border-top: 1px solid #eeeae4;
+}
+
+.sidebar-payment h4 {
+    margin-bottom: 12px;
+    color: var(--text);
+    font-size: 11px;
+}
+
+.sidebar-security {
+    margin-top: 12px;
+    color: #648270;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+
+/* BANTUAN */
+
+.final-help-card {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 14px;
+    border: 1px solid #ece8df;
+    border-radius: 12px;
+    background: #f8f1e9;
+}
+
+.final-help-card > span {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
-    margin-top: 0;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
 }
 
-.option-card {
-    min-width: 0;
+.final-help-card strong {
+    color: var(--text);
+    font-size: 10px;
 }
 
-@media (max-width: 850px) {
-    .package-heading-row {
-        flex-direction: column;
-        align-items: stretch;
+.final-help-card p {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+    .final-booking-layout {
+        grid-template-columns: minmax(0, 1fr) 280px;
         gap: 14px;
     }
 
-    .hospital-card {
-        width: 100%;
-        flex-basis: auto;
+    .final-panel {
+        padding: 15px;
+    }
+}
+
+@media (max-width: 700px) {
+    .final-booking-heading {
+        flex-direction: column;
     }
 
-    .option-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+    .final-booking-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .final-right {
+        position: static;
     }
 }
 
 @media (max-width: 560px) {
-    .option-grid {
+    .final-panel .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .final-panel .form-group.full {
+        grid-column: auto;
+    }
+
+    .final-panel-heading {
+        flex-wrap: wrap;
+    }
+
+    .final-part-badge {
+        margin-left: 45px;
+    }
+
+    .final-booking-heading h2 {
+        font-size: 21px;
+    }
+}
+
+
+/* =====================================
+   STEP 5 — TIPE HUNIAN
+===================================== */
+
+/* =====================================
+   STEP 5 — TIPE HUNIAN
+===================================== */
+
+.property-type-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.form-group .property-type-card {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    min-height: 82px;
+    margin: 0;
+    padding: 12px 18px;
+    border: 1px solid #dfe3e8;
+    border-radius: 15px;
+    background: #faf9f7;
+    color: #263344;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.property-type-card input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.form-group .property-type-card:has(input:checked) {
+    border: 1px solid #193e2f;
+    background: #193e2f;
+    color: #ffffff;
+}
+
+.property-type-copy {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 2px;
+    min-width: 0;
+}
+
+.form-group .property-type-card strong {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.form-group .property-type-card small {
+    margin: 0;
+    color: #84908b;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.3;
+}
+
+.property-type-card:has(input:checked) small {
+    color: #dce9df;
+}
+
+.property-type-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 11px;
+    background: #e9eceb;
+    color: #344054;
+}
+
+.property-type-card:has(input:checked) .property-type-icon {
+    background: rgba(255, 255, 255, .13);
+    color: #ffffff;
+}
+
+.property-type-icon svg {
+    width: 20px;
+    height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.property-type-card:has(input:checked)::after {
+    content: "✓";
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #5ee0b1;
+    color: #193e2f;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+/* RESPONSIVE TIPE HUNIAN */
+@media (max-width: 700px) {
+    .property-type-grid {
         grid-template-columns: 1fr;
     }
 }
+
+/* =====================================
+   STEP 5 — PETA LOKASI
+===================================== */
+
+.map-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.map-heading label {
+    color: #344054;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.map-heading p {
+    margin-top: 4px;
+    color: #758078;
+    font-size: 10px;
+}
+
+.map-status {
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #e8f3e9;
+    color: #193e2f;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.map-preview {
+    position: relative;
+    min-height: 170px;
+    overflow: hidden;
+    border: 1px solid #e0e8e4;
+    border-radius: 11px;
+    background-color: #edf3f2;
+    background-image: radial-gradient(#d4dfdc 1px, transparent 1px);
+    background-size: 15px 15px;
+}
+
+.map-road {
+    position: absolute;
+    height: 8px;
+    width: 120%;
+    background: #dce5e2;
+    border: 2px solid #f7faf9;
+    border-radius: 20px;
+}
+
+.road-one {
+    top: 35%;
+    left: -10%;
+    transform: rotate(-12deg);
+}
+
+.road-two {
+    top: 60%;
+    left: -5%;
+    transform: rotate(8deg);
+}
+
+.road-three {
+    top: 10%;
+    left: 45%;
+    transform: rotate(75deg);
+}
+
+.map-block {
+    position: absolute;
+    width: 55px;
+    height: 35px;
+    border-radius: 5px;
+    background: #dce9df;
+}
+
+.block-one {
+    top: 15%;
+    left: 12%;
+}
+
+.block-two {
+    top: 55%;
+    left: 20%;
+}
+
+.block-three {
+    top: 18%;
+    right: 15%;
+}
+
+.block-four {
+    bottom: 10%;
+    right: 20%;
+}
+
+.map-pin {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    z-index: 2;
+    transform: translate(-50%, -50%);
+}
+
+.map-pin svg {
+    display: block;
+    width: 32px;
+    height: 32px;
+    fill: none;
+    stroke: #193e2f;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.map-caption {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    right: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding: 8px 10px;
+    border-radius: 7px;
+    background: rgba(255,255,255,.94);
+}
+
+.map-caption strong {
+    font-size: 10px;
+    color: #193e2f;
+}
+
+.map-caption small {
+    font-size: 8px;
+    color: #758078;
+}
+
+.map-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: 8px;
+    color: #758078;
+    font-size: 9px;
+}
+
+/* RESPONSIVE PETA DAN TIPE HUNIAN */
+@media (max-width: 700px) {
+    .property-type-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .map-footer {
+        flex-direction: column;
+    }
+}
+
+/* =====================================
+   STEP 5 — PILIHAN TANGGAL
+===================================== */
+
+.date-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.date-choice {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-height: 75px;
+    padding: 10px 5px;
+    border: 1px solid #e2e7e1;
+    border-radius: 10px;
+    background: #fafaf9;
+    color: #193e2f;
+    cursor: pointer;
+}
+
+.date-choice small {
+    font-size: 9px;
+}
+
+.date-choice strong {
+    font-size: 12px;
+}
+
+.date-choice.selected {
+    border-color: #193e2f;
+    background: #193e2f;
+    color: white;
+}
+
+
+/* =====================================
+   STEP 5 — PILIHAN SESI JAM
+===================================== */
+
+.time-choice-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.time-choice {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: 55px;
+    padding: 12px;
+    border: 1px solid #e2e7e1;
+    border-radius: 10px;
+    background: #fafaf9;
+    color: #193e2f;
+    cursor: pointer;
+}
+
+.time-choice strong {
+    font-size: 10px;
+}
+
+.time-choice small {
+    font-size: 9px;
+}
+
+.time-choice.selected {
+    border-color: #193e2f;
+    background: #193e2f;
+    color: white;
+}
+
+
+/* RESPONSIVE STEP 5 */
+@media (max-width: 560px) {
+    .date-choice-grid {
+         grid-template-columns: repeat(2, 1fr);
+    }
+
+    .time-choice-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* =========================================
+   DATA DIRI & KONTAK PEMESAN - STEP 5
+========================================= */
+
+/* HEADING */
+.final-contact-panel .final-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 17px;
+    margin-bottom: 26px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #eeeae4;
+}
+
+.final-contact-panel .final-heading-icon {
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    border-radius: 14px;
+    background: #eaf3ed;
+}
+
+.final-contact-panel .final-heading-icon svg {
+    width: 25px;
+    height: 25px;
+    stroke: #193e2f;
+    stroke-width: 2;
+}
+
+.final-contact-panel .final-heading-text h3 {
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+.final-contact-panel .final-heading-text p {
+    margin-top: 3px;
+    color: #758078;
+    font-size: 15px;
+}
+
+.final-contact-panel .final-part-badge {
+    margin-left: auto;
+    padding: 8px 15px;
+    border-radius: 10px;
+    background: #f1f2f3;
+    color: #566171;
+    font-size: 14px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.required-mark {
+    color: #ef4444;
+}
+
+.field-note {
+    color: #98a2b3;
+    font-size: 13px;
+    white-space: nowrap;
+}
+
+.contact-input-wrap input::placeholder {
+    color: #9aa19e;
+    opacity: 1;
+}
+
+.contact-input-wrap input:focus {
+    border: none;
+    box-shadow: none;
+}
+
+/* NOMOR WHATSAPP +62 */
+.phone-input-wrap {
+    background: #f4f8f5;
+}
+
+.phone-input-wrap .country-code {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    flex: 0 0 74px;
+    border-right: 1px solid #d6e3db;
+    background: #e9f1ec;
+    color: #344054;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.phone-input-wrap input {
+    padding-left: 20px;
+}
+
+/* LIVE TRACKING */
+.tracking-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 10px;
+    border-radius: 7px;
+    background: #e9fbf2;
+    color: #00865e;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    transform: translateY(-5px);
+}
+
+.tracking-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #10b981;
+}
+
+/* KETERANGAN BAWAH INPUT */
+.contact-helper {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 10px;
+    color: #758078;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.contact-helper svg {
+    flex: 0 0 17px;
+    width: 17px;
+    height: 17px;
+    margin-top: 2px;
+    stroke: #98a2b3;
+    stroke-width: 1.8;
+}
+
+.email-helper {
+    display: block;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .final-contact-panel {
+        padding: 22px 18px;
+    }
+
+    .final-contact-panel .final-panel-heading {
+        gap: 12px;
+    }
+
+    .final-contact-panel .final-heading-text h3 {
+        font-size: 17px;
+    }
+
+    .final-contact-panel .final-heading-text p {
+        font-size: 12px;
+    }
+
+    .final-contact-panel .final-part-badge {
+        padding: 6px 9px;
+        font-size: 11px;
+    }
+
+    .contact-form-grid {
+        grid-template-columns: 1fr;
+        row-gap: 18px;
+    }
+
+    .contact-field.full {
+        grid-column: auto;
+    }
+
+    .contact-label-row label {
+        font-size: 13px;
+    }
+
+    .field-note {
+        font-size: 11px;
+    }
+
+    .tracking-badge {
+        font-size: 10px;
+        padding: 5px 7px;
+    }
+}
+
+
+/* =========================================
+   DATA DIRI & KONTAK PEMESAN - STEP 5
+   UKURAN DISESUAIKAN DENGAN STEP 3
+========================================= */
+
+.final-contact-panel {
+    padding: 22px;
+    border: 1px solid #ece8df;
+    border-radius: 15px;
+    background: #ffffff;
+}
+
+/* HEADING */
+.final-contact-panel .final-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #eeeae4;
+}
+
+.final-contact-panel .final-heading-icon {
+    width: 36px;
+    height: 36px;
+    flex: 0 0 36px;
+    border-radius: 10px;
+    background: #e8eee5;
+}
+
+.final-contact-panel .final-heading-icon svg {
+    width: 19px;
+    height: 19px;
+    stroke: #193e2f;
+}
+
+.final-contact-panel .final-heading-text h3 {
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.final-contact-panel .final-heading-text p {
+    margin-top: 4px;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.final-contact-panel .final-part-badge {
+    margin-left: auto;
+    padding: 5px 10px;
+    border-radius: 8px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* LABEL */
+.final-contact-panel .contact-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    height: auto;
+    min-height: 0;
+    margin-bottom: 6px;
+}
+
+.final-contact-panel .contact-label-row label {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.final-contact-panel .tracking-badge {
+    flex-shrink: 0;
+}
+
+.final-contact-panel .field-note {
+    font-size: 10px;
+}
+
+/* INPUT */
+.final-contact-panel .contact-input-wrap {
+    min-height: 48px;
+    border-radius: 11px;
+}
+
+.final-contact-panel .contact-input-wrap > svg {
+    flex: 0 0 19px;
+    width: 19px;
+    height: 19px;
+    margin-left: 14px;
+}
+
+.final-contact-panel .contact-input-wrap input {
+    height: 46px;
+    padding: 0 13px;
+    font-size: 14px;
+}
+
+.final-contact-panel .phone-input-wrap .country-code {
+    flex: 0 0 55px;
+    font-size: 13px;
+}
+
+.final-contact-panel .phone-input-wrap input {
+    padding-left: 13px;
+}
+
+/* LIVE TRACKING */
+.final-contact-panel .tracking-badge {
+    gap: 6px;
+    padding: 5px 8px;
+    font-size: 10px;
+}
+
+.final-contact-panel .tracking-dot {
+    width: 7px;
+    height: 7px;
+}
+
+/* KETERANGAN */
+.final-contact-panel .contact-helper {
+    gap: 7px;
+    margin-top: 7px;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.final-contact-panel .contact-helper svg {
+    flex: 0 0 15px;
+    width: 15px;
+    height: 15px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .final-contact-panel {
+        padding: 18px;
+    }
+
+    .final-contact-panel .contact-form-grid {
+        grid-template-columns: 1fr;
+        row-gap: 14px;
+    }
+
+    .final-contact-panel .contact-field.full {
+        grid-column: auto;
+    }
+
+    .final-contact-panel .final-heading-text h3 {
+        font-size: 15px;
+    }
+
+    .final-contact-panel .final-part-badge {
+        font-size: 9px;
+        padding: 5px 7px;
+    }
+}
+
+
+/* =========================================
+   PENYERAGAMAN SELURUH PANEL STEP 5
+========================================= */
+
+/* UKURAN DAN TAMPILAN KOTAK */
+.final-left > .final-panel,
+.final-right > .final-panel {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: var(--panel-padding);
+    border: 1px solid #ece8df;
+    border-radius: var(--panel-radius);
+    background: #ffffff;
+    box-shadow: none;
+}
+
+/* HEADING SEMUA PANEL */
+.final-panel .final-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin: 0 0 18px;
+    padding: 0 0 14px;
+    border-bottom: 1px solid #eeeae4;
+}
+
+/* IKON HEADING */
+.final-panel .final-heading-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 34px;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
+    background: #e8f1e9;
+    color: var(--green);
+}
+
+/* UKURAN IKON */
+.final-panel .final-heading-icon svg {
+    display: block;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* TEKS HEADING
+   Berlaku untuk heading yang memakai
+   .final-heading-text maupun div biasa.
+*/
+.final-panel .final-heading-text,
+.final-panel .final-panel-heading > div:not(.final-heading-icon) {
+    flex: 1;
+    min-width: 0;
+}
+
+.final-panel .final-heading-text h3,
+.final-panel .final-panel-heading > div:not(.final-heading-icon) h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.final-panel .final-heading-text p,
+.final-panel .final-panel-heading > div:not(.final-heading-icon) p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+/* BADGE BAGIAN */
+.final-panel .final-part-badge {
+    flex-shrink: 0;
+    margin-left: auto;
+    padding: 5px 8px;
+    border-radius: 6px;
+    background: #f2f3f4;
+    color: #667085;
+    font-size: 9px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* GRID FORM DISAMAKAN */
+.final-panel .form-grid,
+.final-panel .contact-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 12px;
+    row-gap: 10px;
+}
+
+.final-panel .form-group,
+.final-panel .contact-field {
+    min-width: 0;
+    margin-bottom: 8px;
+}
+
+.final-panel .form-group.full,
+.final-panel .contact-field.full {
+    grid-column: 1 / -1;
+}
+
+/* LABEL DISAMAKAN */
+.final-panel .form-group > label,
+.final-panel .contact-label-row label {
+    display: block;
+    min-height: 0;
+    height: auto;
+    margin: 0 0 6px;
+    padding: 0;
+    color: #344054;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.final-panel .contact-label-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    min-height: auto;
+    margin-bottom: 2px;
+}
+
+/* INPUT DAN SELECT DISAMAKAN */
+.final-panel .form-group input,
+.final-panel .form-group select,
+.final-panel .form-group textarea,
+.final-panel .contact-input-wrap {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    min-height: var(--control-height);
+    border: 1px solid #dfe5df;
+    border-radius: 9px;
+    background: #f8faf8;
+    color: #263342;
+    font-family: inherit;
+    font-size: var(--input-font-size);
+    font-weight: 400;
+}
+
+/* INPUT KONTAK */
+.final-panel .contact-input-wrap {
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transition: border-color .2s ease, box-shadow .2s ease;
+}
+
+.final-panel .contact-input-wrap input {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    height: 40px;
+    min-height: 40px;
+    padding: 0 12px;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: #263342;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 400;
+}
+
+.final-panel .contact-input-wrap > svg {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    margin-left: 12px;
+    stroke: #667085;
+    stroke-width: 1.8;
+}
+
+.final-panel .contact-input-wrap:focus-within,
+.final-panel .form-group input:focus,
+.final-panel .form-group select:focus,
+.final-panel .form-group textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px rgba(25, 62, 47, .08);
+    outline: none;
+}
+
+/* CATATAN DAN TEKS KECIL */
+.final-panel .field-note,
+.final-panel .contact-helper,
+.final-panel .coverage-note {
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.final-panel .contact-helper {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.final-panel .contact-helper svg {
+    flex: 0 0 13px;
+    width: 13px;
+    height: 13px;
+    margin-top: 1px;
+}
+
+.final-panel .email-helper {
+    display: block;
+}
+
+/* KODE +62 DAN BADGE TRACKING */
+.final-panel .phone-input-wrap .country-code {
+    flex: 0 0 48px;
+    align-self: stretch;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 1px solid #dfe5df;
+    background: #f2f5f2;
+    color: #344054;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.final-panel .tracking-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 4px 7px;
+    border-radius: 6px;
+    background: #e9fbf2;
+    color: #00865e;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+/* RESPONSIVE */
+@media (max-width: 700px) {
+    .final-left > .final-panel,
+    .final-right > .final-panel {
+        padding: 15px;
+    }
+
+    .final-panel .form-grid,
+    .final-panel .contact-form-grid {
+        grid-template-columns: 1fr;
+        column-gap: 12px;
+        row-gap: 10px;
+    }
+
+    .final-panel .form-group.full,
+    .final-panel .contact-field.full {
+        grid-column: auto;
+    }
+}
+
 </style>
 </head>
 
@@ -2211,11 +3586,8 @@ button, input, select, textarea {
     <section class="booking-step" data-step="1">
 
     <div class="section-heading">
-        <h2>Tentukan Tingkat Pembersihan</h2>
-        <p>
-            Sesuaikan intensitas pembersihan dengan kondisi dan kebutuhan ruangan Anda, <br>
-            mulai dari perawatan higienis esensial hingga sanitasi uap mendalam.
-        </p>
+    <h2>Pilih Jenis Pembersihan</h2>
+    <p>Tentukan tingkat pembersihan yang sesuai dengan kebutuhan ruangan Anda.</p>
     </div>
 
     <!-- INFORMASI RUANGAN DAN HOSPITAL-GRADE -->
@@ -2754,109 +4126,527 @@ button, input, select, textarea {
             </div>
         </section>
 
-        <!-- LANGKAH 5 -->
-        <section class="booking-step" data-step="4">
-            <div class="section-heading">
-                <h2>Alamat & Biodata Pelanggan</h2>
-                <p>Isi data yang dapat digunakan petugas untuk mengonfirmasi jadwal layanan.</p>
+<!-- LANGKAH 5 -->
+<section class="booking-step" data-step="4">
+
+    <!-- JUDUL HALAMAN -->
+    <div class="final-booking-heading">
+        <div>
+            <span class="final-step-badge">◉ Tahap Final Reservasi Layanan</span>
+            <h2>Informasi Kontak, Jadwal & Lokasi Kunjungan</h2>
+            <p>Petugas kebersihan profesional kami akan hadir tepat waktu sesuai lokasi dan jadwal yang Anda tentukan.</p>
+        </div>
+    </div>
+
+    <!-- LAYOUT DUA KOLOM -->
+    <div class="final-booking-layout">
+
+        <!-- =================================
+             KOLOM KIRI
+        ================================== -->
+        <div class="final-left">
+
+            
+<!-- BAGIAN 1: DATA DIRI -->
+<div class="final-panel final-contact-panel">
+
+    <div class="final-panel-heading">
+        <div class="final-heading-icon">
+            <svg viewBox="0 0 24 24" fill="none">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M5 21v-2a7 7 0 0 1 14 0v2"/>
+            </svg>
+        </div>
+
+        <div class="final-heading-text">
+            <h3>Data Diri & Kontak Pemesan</h3>
+            <p>Pastikan nomor aktif untuk koordinasi pintu masuk dan kedatangan.</p>
+        </div>
+
+        <span class="final-part-badge">Bagian 1/3</span>
+    </div>
+
+    <div class="contact-form-grid">
+
+        <!-- NAMA LENGKAP -->
+        <div class="contact-field full">
+            <div class="contact-label-row">
+                <label for="customerName">
+                Nama Lengkap Pemesan <span class="required-mark">*</span>
+                </label>
+                <span class="field-note">Sesuai KTP / Tanda Pengenal</span>
             </div>
 
-            <div class="form-card">
-                <div class="form-grid">
+            <div class="contact-input-wrap">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M5 21v-2a7 7 0 0 1 14 0v2"/>
+                </svg>
 
-    <!-- NAMA PELANGGAN -->
-    <div class="form-group">
-        <label for="customerName">Nama lengkap *</label>
-        <input
-            type="text"
-            id="customerName"
-            required
-            placeholder="Nama sesuai identitas"
-        >
-    </div>
+                <input
+                    type="text"
+                    id="customerName"
+                    required
+                    placeholder="Masukkan nama lengkap"
+                >
+            </div>
+        </div>
 
-    <!-- NOMOR TELEPON -->
-    <div class="form-group">
-        <label for="phone">Nomor telepon / WhatsApp *</label>
-        <input
-            type="tel"
-            id="phone"
-            required
-            placeholder="Contoh: 081234567890"
-        >
-    </div>
+        <!-- NOMOR WHATSAPP -->
+        <div class="contact-field">
+            <div class="contact-label-row">
+                <label for="phone">
+                    Nomor WhatsApp Aktif <span class="required-mark">*</span>
+                </label>
 
-    <!-- TANGGAL PEMESANAN -->
-    <div class="form-group">
-        <label for="date">Tanggal pemesanan *</label>
-        <input
-            type="date"
-            id="date"
-            required
-        >
-    </div>
+                <span class="tracking-badge">
+                    <span class="tracking-dot"></span>
+                    Live Tracking Ready
+                </span>
+            </div>
 
-    <!-- WAKTU KEDATANGAN -->
-    <div class="form-group">
-        <label for="time">Waktu kedatangan *</label>
-        <select id="time" required>
-            <option value="">Pilih waktu</option>
-            <option value="07:00">07.00 WIB</option>
-            <option value="09:00">09.00 WIB</option>
-            <option value="11:00">11.00 WIB</option>
-            <option value="13:00">13.00 WIB</option>
-            <option value="15:00">15.00 WIB</option>
-            <option value="17:00">17.00 WIB</option>
-        </select>
-    </div>
+            <div class="contact-input-wrap phone-input-wrap">
+                <span class="country-code">+62</span>
 
-    <!-- ALAMAT LENGKAP -->
-    <div class="form-group full">
-        <label for="address">Alamat lengkap *</label>
-        <textarea
-            id="address"
-            required
-            placeholder="Masukkan nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, dan patokan lokasi."
-        ></textarea>
-    </div>
+                <input
+                    type="tel"
+                    id="phone"
+                    required
+                    placeholder="812-9843-2210"
+                >
+            </div>
 
-    <!-- METODE PEMBAYARAN -->
-    <div class="form-group full">
-        <label for="payment">Metode pembayaran *</label>
-        <select id="payment" required>
-            <option value="">Pilih metode pembayaran</option>
-            <option value="Tunai">Tunai</option>
-            <option value="Transfer bank">Transfer bank</option>
-            <option value="E-wallet">E-wallet</option>
-        </select>
+            <p class="contact-helper">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 11v5M12 8h.01"/>
+                </svg>
+                Notifikasi kedatangan tim & live foto selesai kerja akan dikirim via WA
+            </p>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="contact-field">
+            <div class="contact-label-row">
+                <label for="email">Email Konfirmasi</label>
+                <span class="field-note">Opsional</span>
+            </div>
+
+            <div class="contact-input-wrap">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <rect x="3" y="5" width="18" height="14" rx="2"/>
+                    <path d="m3 7 9 7 9-7"/>
+                </svg>
+
+                <input
+                    type="email"
+                    id="email"
+                    placeholder="nama@email.com"
+                >
+            </div>
+
+            <p class="contact-helper email-helper">
+                Untuk invoice resmi dan rekap sertifikasi higienis digital
+            </p>
+        </div>
+
     </div>
 </div>
 
-                <p class="notice">Dengan mengonfirmasi, Anda menyetujui detail pemesanan yang ditampilkan.</p>
+            <!-- BAGIAN 2: LOKASI -->
+            <div class="final-panel">
+
+            <div class="final-panel-heading">
+    <div class="final-heading-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 10h18"/>
+        </svg>
+    </div>
+
+    <div class="final-heading-text">
+        <h3>Tipe Hunian & Detail Lokasi (Surabaya)</h3>
+        <p>Memastikan kelengkapan tim dan peralatan sanitasi sesuai zona layanan.</p>
+    </div>
+
+    <span class="final-part-badge">Bagian 2/3</span>
+</div>
+
+    <div class="form-grid">
+
+    <!-- TIPE HUNIAN -->
+    <div class="form-group full">
+    <label style="font-family: 'Inter', sans-serif; font-weight: 700;">
+        Jenis Properti / Tempat Singgah <span class="required-mark">*</span>
+    </label>
+
+    <div class="property-type-grid">
+
+            <!-- RUMAH TAPAK -->
+            <label class="property-type-card">
+                <input type="radio" name="propertyType" value="Rumah Tapak" required>
+
+                <span class="property-type-icon">
+                    <svg viewBox="0 0 24 24">
+                        <path d="m3 11 9-8 9 8"/>
+                        <path d="M5 10v10h14V10"/>
+                        <path d="M9 20v-6h6v6"/>
+                    </svg>
+                </span>
+
+                <span class="property-type-copy">
+                    <strong>Rumah Tapak</strong>
+                    <small>Rumah pribadi</small>
+                </span>
+            </label>
+
+            <!-- APARTEMEN -->
+            <label class="property-type-card">
+                <input type="radio" name="propertyType" value="Apartemen">
+
+                <span class="property-type-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="5" y="2" width="14" height="20" rx="1"/>
+                        <path d="M9 6h2M14 6h2M9 10h2M14 10h2M9 14h2M14 14h2M11 22v-4h2v4"/>
+                    </svg>
+                </span>
+
+                <span class="property-type-copy">
+                    <strong>Apartemen</strong>
+                    <small>Unit hunian</small>
+                </span>
+            </label>
+
+            <!-- RUKO / KANTOR -->
+            <label class="property-type-card">
+                <input type="radio" name="propertyType" value="Ruko/Kantor">
+
+                <span class="property-type-icon">
+                    <svg viewBox="0 0 24 24">
+                        <rect x="3" y="8" width="18" height="13" rx="1"/>
+                        <path d="M2 8h20l-2-5H4L2 8ZM8 21v-7h8v7M7 11h.01M12 11h.01M17 11h.01"/>
+                    </svg>
+                </span>
+
+                <span class="property-type-copy">
+                    <strong>Ruko/Kantor</strong>
+                    <small>Bangunan usaha</small>
+                </span>
+            </label>
+
+        </div>
+    </div>
+
+    <!-- PROVINSI & KOTA LAYANAN -->
+    <div class="form-group">
+        <label>Provinsi & Kota Layanan</label>
+        <input
+            type="text"
+            value="Jawa Timur — Kota Surabaya"
+            readonly
+        >
+    </div>
+
+    <!-- WILAYAH DAERAH -->
+    <div class="form-group">
+        <label for="region">
+            Wilayah Daerah Surabaya <span class="required-mark">*</span>
+        </label>
+        <input
+            type="text"
+            id="region"
+            placeholder="Wilayah terisi otomatis"
+            readonly
+        >
+    </div>
+
+<!-- PREVIEW PETA -->
+<div class="form-group full">
+    <div class="map-heading">
+        <div>
+            <label>VERIFIKASI PINPOINT LOKASI SURABAYA</label>
+            <p>Pastikan alamat dan kecamatan yang dipilih sudah sesuai.</p>
+        </div>
+        <span class="map-status">AREA LAYANAN</span>
+    </div>
+
+    <div class="map-preview">
+        <div class="map-road road-one"></div>
+        <div class="map-road road-two"></div>
+        <div class="map-road road-three"></div>
+        <div class="map-block block-one"></div>
+        <div class="map-block block-two"></div>
+        <div class="map-block block-three"></div>
+        <div class="map-block block-four"></div>
+
+        <div class="map-pin">
+            <svg viewBox="0 0 24 24">
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                <circle cx="12" cy="10" r="2.5"/>
+            </svg>
+        </div>
+
+        <div class="map-caption">
+            <strong id="mapDistrictLabel">Pilih kecamatan terlebih dahulu</strong>
+            <small>Preview ilustrasi lokasi — bukan peta GPS langsung</small>
+        </div>
+    </div>
+
+    <div class="map-footer">
+        <span>✓ Area layanan Surabaya</span>
+        <span>Lokasi mengikuti alamat yang diisi</span>
+    </div>
+</div>
+
+                <div class="form-group full">
+                    <label for="district">
+                        Kecamatan Terlayani <span class="required-mark">*</span>
+                    </label>
+                    <select id="district" required>
+                            <option value="">Pilih kecamatan</option>
+
+                            <optgroup label="Surabaya Barat">
+                                <option value="Asemrowo" data-zone="Barat">Asemrowo</option>
+                                <option value="Benowo" data-zone="Barat">Benowo</option>
+                                <option value="Lakarsantri" data-zone="Barat">Lakarsantri</option>
+                                <option value="Pakal" data-zone="Barat">Pakal</option>
+                                <option value="Sambikerep" data-zone="Barat">Sambikerep</option>
+                                <option value="Sukomanunggal" data-zone="Barat">Sukomanunggal</option>
+                                <option value="Tandes" data-zone="Barat">Tandes</option>
+                            </optgroup>
+
+                            <optgroup label="Surabaya Timur">
+                                <option value="Gubeng" data-zone="Timur">Gubeng</option>
+                                <option value="Gunung Anyar" data-zone="Timur">Gunung Anyar</option>
+                                <option value="Mulyorejo" data-zone="Timur">Mulyorejo</option>
+                                <option value="Rungkut" data-zone="Timur">Rungkut</option>
+                                <option value="Sukolilo" data-zone="Timur">Sukolilo</option>
+                                <option value="Tambaksari" data-zone="Timur">Tambaksari</option>
+                                <option value="Tenggilis Mejoyo" data-zone="Timur">Tenggilis Mejoyo</option>
+                            </optgroup>
+
+                            <optgroup label="Surabaya Selatan">
+                                <option value="Dukuh Pakis" data-zone="Selatan">Dukuh Pakis</option>
+                                <option value="Gayungan" data-zone="Selatan">Gayungan</option>
+                                <option value="Jambangan" data-zone="Selatan">Jambangan</option>
+                                <option value="Karang Pilang" data-zone="Selatan">Karang Pilang</option>
+                                <option value="Sawahan" data-zone="Selatan">Sawahan</option>
+                                <option value="Wiyung" data-zone="Selatan">Wiyung</option>
+                                <option value="Wonocolo" data-zone="Selatan">Wonocolo</option>
+                                <option value="Wonokromo" data-zone="Selatan">Wonokromo</option>
+                            </optgroup>
+
+                            <optgroup label="Surabaya Utara">
+                                <option value="Bulak" data-zone="Utara">Bulak</option>
+                                <option value="Kenjeran" data-zone="Utara">Kenjeran</option>
+                                <option value="Krembangan" data-zone="Utara">Krembangan</option>
+                                <option value="Pabean Cantian" data-zone="Utara">Pabean Cantian</option>
+                                <option value="Semampir" data-zone="Utara">Semampir</option>
+                            </optgroup>
+
+                            <optgroup label="Surabaya Pusat">
+                                <option value="Bubutan" data-zone="Pusat">Bubutan</option>
+                                <option value="Genteng" data-zone="Pusat">Genteng</option>
+                                <option value="Simokerto" data-zone="Pusat">Simokerto</option>
+                                <option value="Tegalsari" data-zone="Pusat">Tegalsari</option>
+                            </optgroup>
+                        </select>
+                        <small class="coverage-note">✓ 31 kecamatan di Kota Surabaya tercover.</small>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="address">
+                            Alamat Lengkap & Nomor Unit / Rumah <span class="required-mark">*</span>
+                        </label>
+                        <textarea
+                            id="address"
+                            required
+                            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, Kota Surabaya."
+                        ></textarea>
+                    </div>
+
+                </div>
             </div>
 
-            <div class="summary-card">
-                <h3>Konfirmasi terakhir</h3>
-                <div class="summary-line">
-                    <span>Ruangan dan paket</span>
-                    <strong id="finalService">Belum dipilih</strong>
+
+            <!-- BAGIAN 3: JADWAL -->
+            <div class="final-panel">
+
+                <div class="final-panel-heading">
+    <div class="final-heading-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+            <rect x="3" y="5" width="18" height="16" rx="2"/>
+            <path d="M16 3v4M8 3v4M3 10h18"/>
+        </svg>
+    </div>
+
+    <div class="final-heading-text">
+        <h3>Jadwal Kedatangan Mitra Housekeeping</h3>
+        <p>Pilih tanggal dan sesi kedatangan petugas ke rumah Anda.</p>
+    </div>
+
+    <span class="final-part-badge">Bagian 3/3</span>
+</div>
+
+                <div class="form-grid">
+
+    <div class="form-group full">
+        <label>Pilih Tanggal Kunjungan *</label>
+
+        <div class="date-choice-grid">
+            <button type="button" class="date-choice" data-date-offset="0">
+                <small>HARI INI</small>
+                <strong id="dateToday">Hari ini</strong>
+            </button>
+
+            <button type="button" class="date-choice" data-date-offset="1">
+                <small>BESOK</small>
+                <strong id="dateTomorrow">Besok</strong>
+            </button>
+
+            <button type="button" class="date-choice" data-date-offset="2">
+                <small>LUSA</small>
+                <strong id="dateAfterTomorrow">Lusa</strong>
+            </button>
+
+            <button type="button" class="date-choice" id="customDateBtn">
+                <small>LAINNYA</small>
+                <strong>Pilih tanggal</strong>
+            </button>
+        </div>
+
+        <input type="date" id="date" required>
+    </div>
+
+    <div class="form-group full">
+    <label>
+        Pilih Sesi Jam Kedatangan <span class="required-mark">*</span>
+    </label>
+
+        <div class="time-choice-grid">
+            <button type="button" class="time-choice" data-time="08:00">
+                <strong>08.00 – 10.00</strong>
+                <small>WIB</small>
+            </button>
+
+            <button type="button" class="time-choice" data-time="10:00">
+                <strong>10.00 – 12.00</strong>
+                <small>WIB</small>
+            </button>
+
+            <button type="button" class="time-choice" data-time="13:00">
+                <strong>13.00 – 15.00</strong>
+                <small>WIB</small>
+            </button>
+
+            <button type="button" class="time-choice" data-time="15:30">
+                <strong>15.30 – 17.30</strong>
+                <small>WIB</small>
+            </button>
+        </div>
+
+        <select id="time" required hidden>
+            <option value="">Pilih waktu</option>
+            <option value="08:00">08.00 – 10.00 WIB</option>
+            <option value="10:00">10.00 – 12.00 WIB</option>
+            <option value="13:00">13.00 – 15.00 WIB</option>
+            <option value="15:30">15.30 – 17.30 WIB</option>
+        </select>
+    </div>
+
+</div> <!-- Penutup form-grid Bagian 3 -->
+</div> <!-- Penutup final-panel Bagian 3 -->
+</div> <!-- Penutup final-left -->
+
+<!-- =================================
+     KOLOM KANAN / SIDEBAR
+================================== -->
+<aside class="final-right">
+
+            <!-- RINGKASAN DAN PEMBAYARAN -->
+            <div class="final-panel final-sidebar-card">
+
+                <div class="sidebar-title">
+                    <h3>♧ Pesanan Siap Dijadwalkan</h3>
+                    <span>RESMI</span>
                 </div>
-                <div class="summary-line">
-                    <span>Jadwal</span>
-                    <strong id="finalSchedule">Belum dipilih</strong>
+
+                <div class="sidebar-service-list">
+                    <div>
+                        <span id="finalService">Ruangan dan paket</span>
+                        <strong id="finalCleaner">Bebas</strong>
+                    </div>
+                    <div>
+                        <span>Jadwal kunjungan</span>
+                        <strong id="finalSchedule">Belum dipilih</strong>
+                    </div>
                 </div>
-                <div class="summary-line">
-                    <span>Preferensi Mitra Cleaner</span>
-                    <strong id="finalCleaner">Bebas</strong>
-                </div>
-                <div class="summary-total">
-                    <span>Total estimasi</span>
+
+                <div class="sidebar-total">
+                    <span>TOTAL PEMBAYARAN</span>
                     <strong id="finalTotal">Rp 0</strong>
                 </div>
-            </div>
-        </section>
 
-<div class="navigation-buttons">
+                <div class="sidebar-payment">
+                    <h4>Opsi Pembayaran</h4>
+
+                <div class="form-group">
+                    <label for="payment">
+                        Metode pembayaran <span class="required-mark">*</span>
+                    </label>
+                    <select id="payment" required>
+                            <option value="">Pilih metode pembayaran</option>
+                            <option value="Tunai">Bayar di Tempat (COD)</option>
+                            <option value="Transfer bank">Transfer Bank</option>
+                            <option value="E-wallet">E-wallet</option>
+                        </select>
+                    </div>
+                </div>
+
+                                <button type="button" class="btn btn-primary final-confirm-btn" id="finalConfirmBtn">
+                    Konfirmasi Booking →
+                </button>
+
+                <p class="sidebar-security">
+                    ✓ Data pemesanan Anda akan digunakan untuk proses reservasi layanan.
+                </p>
+
+            </div>
+
+
+            <!-- BANTUAN -->
+            <div class="final-help-card">
+                <span>
+                    <svg viewBox="0 0 24 24" width="17" height="17"
+                        fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M22 16.9v3a2 2 0 0 1-2.2 2
+                        19.8 19.8 0 0 1-8.6-3.1
+                        19.5 19.5 0 0 1-6-6
+                        19.8 19.8 0 0 1-3.1-8.7
+                        A2 2 0 0 1 4.1 1h3a2 2 0 0 1 2 1.7
+                        c.1 1 .4 2 .7 2.9
+                        a2 2 0 0 1-.5 2.1L8 9
+                        a16 16 0 0 0 6 6l1.3-1.3
+                        a2 2 0 0 1 2.1-.5
+                        c.9.3 1.9.6 2.9.7
+                        a2 2 0 0 1 1.7 2Z"/>
+                    </svg>
+                </span>
+                <div>
+                    <strong>Butuh Bantuan Jadwal Khusus?</strong>
+                    <p>Tim Concierge siap membantu melalui WhatsApp.</p>
+                </div>
+            </div>
+
+        </aside>
+
+    </div>
+
+</section>
+
+    <div class="navigation-buttons">
 
     <div class="selection-info">
         <span class="selection-icon">✓</span>
