@@ -54,7 +54,7 @@
                     jaminan kepuasan untuk kenyamanan istirahat keluarga Anda.
                 </p>
 
-                <a href="#booking" class="btn-primary">
+                <a href="booking.html" class="btn-primary">
                     <span>▣</span> Booking Sekarang <span>→</span>
                 </a>
 
@@ -90,7 +90,8 @@
             <div class="service-grid">
                 <!-- BASIC -->
                 <article class="service-card">
-                    <div class="service-icon">▤</div>
+                <span class="popular-badge">PRAKTIS DAN HEMAT</span>
+                <div class="service-icon">▤</div>
                     <h3>Basic Cleaning</h3>
                     <p class="service-description">
                         Pembersihan rutin esensial: sapu, pel, lap debu furnitur utama, kerapian kasur, dan pembuangan kantong sampah.
@@ -107,8 +108,10 @@
                         <span>Mulai dari</span>
                         <strong>Rp50.000 <small>/jam</small></strong>
                     </div>
-                    <a href="#booking" class="btn-service">Pilih Layanan</a>
-                </article>
+                    <button type="button" class="btn-service" aria-pressed="false">
+                        Pilih Layanan
+                    </button>                
+                    </article>
 
                 <!-- STANDARD -->
                 <article class="service-card featured">
@@ -130,13 +133,18 @@
                         <span>Mulai dari</span>
                         <strong>Rp70.000 <small>/jam</small></strong>
                     </div>
-                    <a href="#booking" class="btn-service featured-button">Pilih Layanan</a>
-                </article>
+                    <button type="button"
+                            class="btn-service featured-button"
+                            aria-pressed="true">
+                        Pilih Layanan
+                    </button>                
+                    </article>
 
                 <!-- DEEP -->
                 <article class="service-card">
-                    <span class="intensive-badge">EKSTRA INTENSIF</span>
-                    <div class="service-icon">✣</div>
+                <span class="popular-badge">
+                    PEMBERSIHAN PALING<br>MENYELURUH
+                </span>                    <div class="service-icon">✣</div>
                     <h3>Deep Cleaning</h3>
                     <p class="service-description">
                         Semua cakupan Standard ditambah uap steamer suhu tinggi, pembersihan bakteri, pembersihan kerak membandel, dan degreasing dapur.
@@ -153,9 +161,11 @@
                         <span>Mulai dari</span>
                         <strong>Rp100.000 <small>/jam</small></strong>
                     </div>
-                    <a href="#booking" class="btn-service">Pilih Layanan</a>
+                <button type="button" class="btn-service" aria-pressed="false">
+                    Pilih Layanan
+                </button>
                 </article>
-            </div>
+                </div>
         </section>
 
         <!-- KEBUTUHAN RUANGAN -->
@@ -165,7 +175,7 @@
                     <span class="section-label">KEBUTUHAN RUANGAN</span>
                     <h2>Paling Sering Dibersihkan Pelanggan</h2>
                 </div>
-                <a href="#booking" class="all-rooms">Lihat Semua 11 Ruangan &amp; Kalkulator Custom →</a>
+                <a href="Layanan.html" class="all-rooms">Lihat Semua 11 Ruangan &amp; Kalkulator Custom →</a>
             </div>
 
             <div class="room-grid">
@@ -351,6 +361,6 @@
     </div>
 </footer>
 
-    <script src="../js/script.js"></script>
-</body>
+<script src="../js/beranda.js"></script></body>
+
 </html>

@@ -1689,8 +1689,8 @@ document.getElementById("bcPackageNotes").hidden =
         }
     };
 
-    document.getElementById("bcPrint").onclick = () => {
-        window.print();
+        document.getElementById("bcPrint").onclick = () => {
+        printBookingReceipt(booking);
     };
 
     document.querySelector("main.booking-container").hidden = true;
@@ -1767,4 +1767,413 @@ function updateBookingConfirmationProgress(booking) {
         "bcProgressStatus",
         booking.status || "Menunggu konfirmasi"
     );
+}
+
+// CETAK BUKTI RESERVASI KHUSUS
+function printBookingReceipt(booking) {
+    document.getElementById("bookingReceiptFrame")?.remove();
+
+    const frame = document.createElement("iframe");
+    frame.id = "bookingReceiptFrame";
+    frame.title = "Bukti Reservasi";
+    frame.style.cssText =
+        "position:fixed;left:-10000px;top:0;width:794px;height:1123px;border:0;";
+
+    document.body.appendChild(frame);
+
+    const doc = frame.contentDocument;
+
+    doc.open();
+    doc.write(`
+        <!DOCTYPE html>
+        <html lang="id">
+        <head>
+            <meta charset="UTF-8">
+            <title>Bukti Reservasi GriyaResik</title>
+
+            <style>
+                @page {
+                    size: A4 portrait;
+                    margin: 14mm;
+                }
+
+                * {
+                    box-sizing: border-box;
+                }
+
+                body {
+                    margin: 0;
+                    font-family: Inter, Arial, sans-serif;
+                    color: #193e2f;
+                    -webkit-print-color-adjust: exact;
+                    print-color-adjust: exact;
+                }
+
+                .receipt {
+                    padding: 32px;
+                    border: 1px solid #eadbd7;
+                    border-radius: 18px;
+                    background: white;
+                }
+
+                header {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 18px;
+                    padding-bottom: 25px;
+                    border-bottom: 1px solid #FAE9E9;
+                }
+
+                .brand {
+                    display: flex;
+                    align-items: center;
+                    gap: 13px;
+                }
+
+                .logo {
+                    display: grid;
+                    place-items: center;
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 10px;
+                    background: #FAE9E9;
+                }
+
+                .logo img {
+                    display: block;
+                    width: 34px;
+                    height: 34px;
+                    object-fit: contain;
+                }
+
+                h1 {
+                    margin: 0 0 5px;
+                    font-size: 23px;
+                    letter-spacing: -.5px;
+                }
+
+                .subtitle {
+                    margin: 0;
+                    color: #64748b;
+                    font-size: 14px;
+                }
+
+                .status {
+                    display: flex;
+                    align-items: center;
+                    gap: 7px;
+                    max-width: 180px;
+                    padding: 8px 12px;
+                    border: 1px solid #d4e4d8;
+                    border-radius: 30px;
+                    background: #e8eee5;
+                    font-size: 12px;
+                    font-weight: 600;
+                }
+
+                .dot {
+                    flex-shrink: 0;
+                    width: 7px;
+                    height: 7px;
+                    border-radius: 50%;
+                    background: #193e2f;
+                }
+
+                .reservation {
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    gap: 20px;
+                    margin: 27px 0 24px;
+                    padding: 22px 20px;
+                    border: 1px solid #FAE9E9;
+                    border-radius: 14px;
+                    background: #fdfbfb;
+                }
+
+                .label {
+                    margin-bottom: 8px;
+                    color: #94a3b8;
+                    font-size: 12px;
+                    font-weight: 700;
+                }
+
+                #receiptCode {
+                    font-family: monospace;
+                    font-size: 24px;
+                    font-weight: 800;
+                    overflow-wrap: anywhere;
+                }
+
+                .payment {
+                    max-width: 170px;
+                    text-align: right;
+                    font-size: 13px;
+                    line-height: 1.6;
+                }
+
+                .payment span {
+                    display: block;
+                    color: #64748b;
+                }
+
+                dl {
+                    margin: 0;
+                }
+
+                .row {
+                    display: grid;
+                    grid-template-columns: 100px minmax(0, 1fr);
+                    gap: 22px;
+                    padding: 18px 0;
+                    border-bottom: 1px solid #FAE9E9;
+                    font-size: 14px;
+                    line-height: 1.65;
+                    break-inside: avoid;
+                }
+
+                dt {
+                    color: #64748b;
+                }
+
+                dd {
+                    margin: 0;
+                    text-align: right;
+                    white-space: pre-line;
+                    overflow-wrap: anywhere;
+                }
+
+                .total {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: baseline;
+                    gap: 18px;
+                    padding-top: 25px;
+                }
+
+                .total > span {
+                    color: #475569;
+                    font-size: 16px;
+                    font-weight: 700;
+                }
+
+                .total div {
+                    text-align: right;
+                }
+
+                #receiptTotal {
+                    font-size: 25px;
+                    font-weight: 800;
+                }
+
+                #receiptTotalMethod {
+                    color: #64748b;
+                    font-size: 12px;
+                }
+
+                #receiptPaymentStatus {
+                    margin: 14px 0 0;
+                    color: #64748b;
+                    font-size: 10px;
+                    text-align: right;
+                }
+            </style>
+        </head>
+
+        <body>
+            <article class="receipt">
+                <header>
+                    <div class="brand">
+                        <span class="logo">
+                            <img src="../images/logo griya resik.png" alt="Logo GriyaResik">
+                        </span>
+
+                        <div>
+                            <h1>Bukti Reservasi</h1>
+                            <p class="subtitle">
+                                GriyaResik Layanan Resmi
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="status">
+                        <span class="dot"></span>
+                        <span id="receiptStatus"></span>
+                    </div>
+                </header>
+
+                <section class="reservation">
+                    <div>
+                        <div class="label">KODE RESERVASI</div>
+                        <div id="receiptCode"></div>
+                    </div>
+
+                    <div class="payment">
+                        <span>Pembayaran</span>
+                        <strong id="receiptPayment"></strong>
+                    </div>
+                </section>
+
+                <dl>
+                    <div class="row">
+                        <dt>Pelanggan</dt>
+                        <dd><strong id="receiptCustomer"></strong></dd>
+                    </div>
+
+                    <div class="row">
+                        <dt>Layanan</dt>
+                        <dd id="receiptServices"></dd>
+                    </div>
+
+                    <div class="row">
+                        <dt>Waktu</dt>
+                        <dd id="receiptSchedule"></dd>
+                    </div>
+
+                    <div class="row">
+                        <dt>Lokasi</dt>
+                        <dd id="receiptAddress"></dd>
+                    </div>
+
+                    <div class="row">
+                        <dt>Mitra</dt>
+                        <dd><strong id="receiptWorker"></strong></dd>
+                    </div>
+                </dl>
+
+                <footer class="total">
+                    <span>Total Tagihan</span>
+                    <div>
+                        <strong id="receiptTotal"></strong>
+                        <span id="receiptTotalMethod"></span>
+                    </div>
+                </footer>
+
+                <p id="receiptPaymentStatus"></p>
+            </article>
+        </body>
+        </html>
+    `);
+
+    doc.close();
+
+    const set = (id, value) => {
+        doc.getElementById(id).textContent = value;
+    };
+
+    const packageName = {
+        Basic: "Basic Clean",
+        Standard: "Standard Clean",
+        Deep: "Deep Clean"
+    }[booking.package] || booking.package || "";
+
+    const addons = Array.isArray(booking.addonItems)
+        ? booking.addonItems.map(item => item.name)
+        : Array.isArray(booking.addons)
+            ? booking.addons
+            : [];
+
+    const sessionInput = [
+        ...document.querySelectorAll('input[name="session_time"]')
+    ].find(input => input.value === booking.time);
+
+    const sessionLabel =
+        booking.sessionLabel ||
+        sessionInput
+            ?.closest(".final-time-option")
+            ?.querySelector("strong")
+            ?.textContent.trim() ||
+        (booking.time ? booking.time + " WIB" : "Belum ditentukan");
+
+    const visitDate = new Date(
+        booking.date + "T12:00:00+07:00"
+    );
+
+    const dateLabel = Number.isNaN(visitDate.getTime())
+        ? "Belum ditentukan"
+        : visitDate.toLocaleDateString("id-ID", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+            timeZone: "Asia/Jakarta"
+        });
+
+    let address = booking.address?.trim() || "";
+
+    [
+        booking.district,
+        booking.region,
+        "Kota Surabaya",
+        "Jawa Timur"
+    ].filter(Boolean).forEach(part => {
+        if (!address.toLowerCase().includes(part.toLowerCase())) {
+            address += (address ? ", " : "") + part;
+        }
+    });
+
+    const payment = booking.payment || "Belum dipilih";
+
+    set(
+        "receiptCode",
+        "#" + String(booking.id || "—").replace(/^#/, "")
+    );
+
+    set("receiptStatus", booking.status || "Menunggu konfirmasi");
+    set("receiptCustomer", booking.customerName || "—");
+    set("receiptPayment", payment);
+
+    set(
+        "receiptServices",
+        "1× " + booking.room + " — " + packageName +
+        (addons.length ? "\n+ " + addons.join("\n+ ") : "")
+    );
+
+    set("receiptSchedule", dateLabel + ", " + sessionLabel);
+    set("receiptAddress", address);
+
+    set(
+        "receiptWorker",
+        booking.workerName ||
+        booking.worker?.name ||
+        "Belum ditugaskan"
+    );
+
+    set(
+        "receiptTotal",
+        "Rp " + Number(booking.price).toLocaleString("id-ID")
+    );
+
+    set("receiptTotalMethod", "(" + payment + ")");
+
+    set(
+        "receiptPaymentStatus",
+        "Status pembayaran: " +
+        (booking.paymentStatus || "Belum diverifikasi")
+    );
+
+    doc.title = "Bukti Reservasi " + booking.id;
+
+    // Gunakan font yang sama dengan halaman booking.
+    document.querySelectorAll(
+        'link[rel="stylesheet"][href*="fonts.googleapis.com"]'
+    ).forEach(link => {
+        doc.head.appendChild(link.cloneNode(true));
+    });
+
+    const fontsReady = doc.fonts
+        ? doc.fonts.ready
+        : Promise.resolve();
+
+    Promise.race([
+        fontsReady,
+        new Promise(resolve => setTimeout(resolve, 2500))
+    ]).then(() => {
+        frame.contentWindow.requestAnimationFrame(() => {
+            frame.contentWindow.requestAnimationFrame(() => {
+                frame.contentWindow.focus();
+                frame.contentWindow.print();
+            });
+        });
+    });
 }

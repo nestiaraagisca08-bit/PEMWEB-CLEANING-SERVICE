@@ -84,8 +84,8 @@ const setelahLogin = namaHalaman === "beranda after login.html";
     }
 
     // TOMBOL BOOKING SEKARANG
-    if (bookingBtn && !setelahLogin) {
-        bookingBtn.href = "login.html";
+    if (bookingBtn) {
+        bookingBtn.href = "booking.html";
     }
 
     // TOMBOL PILIH LAYANAN
@@ -100,3 +100,63 @@ const setelahLogin = namaHalaman === "beranda after login.html";
         ctaBtn.href = "login.html";
     }
 });
+
+// PILIH KARTU LAYANAN DI BERANDA
+function initHomeServiceSelection() {
+    const cards = [
+        ...document.querySelectorAll("#layanan .service-card")
+    ];
+
+    if (!cards.length) return;
+
+    function selectService(selectedCard) {
+        cards.forEach(card => {
+            const active = card === selectedCard;
+            const icon = card.querySelector(".service-icon");
+            const button = card.querySelector(".btn-service");
+
+            card.classList.toggle("featured", active);
+            icon?.classList.toggle("dark-icon", active);
+
+            if (button) {
+                button.classList.toggle("featured-button", active);
+                button.setAttribute("aria-pressed", String(active));
+            }
+        });
+    }
+
+    cards.forEach(card => {
+    card.addEventListener("click", event => {
+        const serviceButton = event.target.closest(".btn-service");
+
+        if (serviceButton) {
+            event.preventDefault();
+
+            selectService(card);
+            window.location.href = "Layanan.html";
+            return;
+        }
+
+        if (event.target.closest("a")) return;
+
+        selectService(card);
+    });
+});
+
+    // Standard tetap menjadi pilihan awal.
+    const initialCard =
+        cards.find(card => card.classList.contains("featured")) ||
+        cards[0];
+
+    selectService(initialCard);
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        initHomeServiceSelection,
+        { once: true }
+    );
+} else {
+    initHomeServiceSelection();
+}

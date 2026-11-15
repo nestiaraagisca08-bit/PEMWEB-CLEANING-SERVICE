@@ -163,13 +163,13 @@
         }
 
         .catalog-heading {
-            display: flex;
-            justify-content: space-between;
-            align-items: end;
-            gap: 20px;
-            padding-bottom: 22px;
-            margin-bottom: 0;
-            border-bottom: 1px solid var(--border);
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 20px;
+        padding-bottom: 22px;
+        margin-bottom: 0;
+        border-bottom: none;
         }
 
         .eyebrow {
@@ -212,13 +212,16 @@
         }
 
         .room-card {
-            padding: 24px 22px 18px;
-            border: 1px solid var(--border);
-            border-radius: 21px;
-            background: var(--cream);
-            min-width: 0;
-            box-shadow: 0 1px 2px rgba(30, 50, 35, .02);
-        }
+        display: flex;
+        flex-direction: column;
+
+        padding: 24px 22px 18px;
+        border: 1px solid var(--border);
+        border-radius: 21px;
+        background: var(--cream);
+        min-width: 0;
+        box-shadow: 0 1px 2px rgba(30, 50, 35, .02);
+}
 
         .room-heading {
             display: flex;
@@ -365,9 +368,14 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
+
             border-top: 1px solid #f0ece8;
             padding-top: 13px;
-            margin-top: 14px;
+            margin-top: auto;
+        }
+
+        .room-card > .package-detail.deep {
+            margin-bottom: 14px;
         }
 
         .duration {
