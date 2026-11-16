@@ -8,6 +8,10 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Inter:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
 
     <script src="../js/my-bookings.js" defer></script>
 
@@ -47,7 +51,18 @@
 
         /* HEADER */
         .header { position: sticky; top: 0; z-index: 1000; padding: 8px 0; background: var(--pink); }
-        .nav { display: flex; align-items: center; justify-content: space-between; gap: 20px; width: 100%; max-width: 1100px; min-height: 65px; margin: auto; padding: 0 25px; font-family: Inter, Arial, sans-serif; }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+            min-height: 65px;
+            margin: auto;
+            padding: 0 25px;
+            font-family: Inter, Arial, sans-serif;
+        }
         .brand { display: flex; align-items: center; flex-shrink: 0; gap: 7px; }
         .brand img { width: 38px; height: 38px; object-fit: contain; }
         .brand-text { font: 800 22px/1.5 "Baloo 2", sans-serif; white-space: nowrap; }
@@ -115,9 +130,59 @@
         .progress li::after { content: ""; position: absolute; top: 15px; left: 17px; right: -1px; height: 4px; background: var(--border); }
         .progress li:last-child::after { right: 0; }
         .progress li.done::after { background: var(--green); }
-        .step-dot { position: relative; z-index: 1; display: grid; place-items: center; width: 32px; height: 32px; margin-bottom: 8px; border-radius: 50%; background: var(--border); color: var(--muted); font-size: 12px; }
-        .current .step-dot, .done .step-dot { background: var(--green); color: white; }
-        .current .step-dot { box-shadow: 0 0 0 4px var(--green-light); }
+        /* Lingkaran dan nomor tahap yang belum aktif. */
+        .step-dot {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            margin-bottom: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        /* Tahap yang sudah selesai. */
+        .progress .done .step-dot {
+            background: #1E3A2F;
+            color: #ffffff;
+            font-size: 0;
+            box-shadow: 0 0 0 4px #ffffff;
+        }
+
+        /* Tahap yang sedang aktif. */
+        .progress .current .step-dot {
+            background: #1E3A2F;
+            color: #ffffff;
+            font-size: 0;
+            box-shadow: 0 0 0 4px #ffffff;
+        }
+
+        .progress .done .step-dot::before,
+        .progress .current .step-dot::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 13px;
+            height: 13px;
+            background: currentColor;
+
+            -webkit-mask:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4L19 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+                center / contain no-repeat;
+
+            mask:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4L19 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+                center / contain no-repeat;
+        }
+
         .progress strong { display: block; color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.5; }
         .progress .done strong, .progress .current strong { color: var(--green); font-weight: 700; }
         .progress small { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; line-height: 1.5; }
@@ -213,29 +278,31 @@
     padding-bottom: 0;
 }
 
-.history-panel .timeline li::before {
-    content: "✓";
+/* Lingkaran hijau dan ceklis putih dalam satu gambar. */
+.history-panel .timeline li::before,
+.history-panel .timeline li.payment-event::before {
+    content: "";
     position: absolute;
     top: 0;
     left: -10px;
 
-    display: grid;
-    place-items: center;
+    display: block;
     width: 20px;
     height: 20px;
-
-    border: 2px solid var(--white);
+    margin: 0;
+    padding: 0;
+    border: 0;
     border-radius: 50%;
-    background: var(--green);
-    color: var(--white);
+    transform: none;
 
-    font-size: 10px;
-    font-weight: 600;
+    background: transparent
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23193e2f' stroke='white' stroke-width='2'/%3E%3Cpath d='m7 12 3.5 3.5L17 9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+        center / contain no-repeat;
 }
 
-.history-panel .timeline li.payment-event::before {
-    background: color-mix(in srgb, var(--pink) 50%, white);
-    color: var(--green);
+/* Hilangkan ceklis terpisah dari versi sebelumnya. */
+.history-panel .timeline li::after {
+    content: none;
 }
 
 .history-panel .activity {
@@ -656,69 +723,90 @@
     }
 }
 
-.booking-side .care {
-    border-color: color-mix(
-        in srgb,
-        var(--pink) 85%,
-        #804b51
-    );
-    background: color-mix(
-        in srgb,
-        var(--pink) 35%,
-        var(--cream)
-    );
+/* RESIK CARE STEP 1 — MENGIKUTI STEP 2 */
+.resik-care {
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+
+    border: 1px solid #E8DFD8;
+    border-radius: 16px;
+    background: #FAF7F2;
+    color: #1E3A2F;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
 }
 
-.booking-side .care h3 {
+.resik-care .resik-care-title {
     display: flex;
     align-items: center;
-    gap: 10px;
-    color: #6d392c;
-    font-size: 13px;
+    gap: 8px;
+
+    margin: 0;
+    color: #1E3A2F;
+    font-size: 14px;
     font-weight: 700;
+    line-height: 20px;
+    letter-spacing: normal;
+}
+
+.resik-care-title > i {
+    flex-shrink: 0;
+    color: #1E5638;
+    font-size: 14px;
+}
+
+.resik-care .resik-care-description {
+    margin: 8px 0 0;
+    color: #5F7368;
+    font-size: 12px;
+    font-weight: 400;
     line-height: 1.5;
+    letter-spacing: normal;
+    overflow-wrap: anywhere;
 }
 
-.booking-side .care h3 > .icon {
-    width: 21px;
-    height: 21px;
-    color: #9b4b39;
-}
-
-.booking-side .care p {
-    margin: 13px 0 18px;
-    color: #805d53;
-    font-size: 11px;
-    line-height: 1.9;
-}
-
-.booking-side .care .button {
+.resik-care .resik-care-button {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 9px;
+    gap: 8px;
+
     width: 100%;
-    padding: 12px 14px;
+    margin-top: 10px;
+    padding: 9px 12px;
 
-    border: 1px solid color-mix(
-        in srgb,
-        var(--pink) 80%,
-        #804b51
-    );
+    border: 1px solid #BDE5CB;
     border-radius: 12px;
+    background: #E8F5EC;
+    color: #1E5638;
 
-    background: var(--white);
-    color: var(--green);
-    font-size: 14px;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
     font-weight: 700;
-    white-space: normal;
+    line-height: 16px;
+    letter-spacing: normal;
+
     text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    transition: background-color 150ms ease;
 }
 
-.booking-side .care .button > .icon {
-    width: 20px;
-    height: 20px;
-    color: #00866b;
+.resik-care .resik-care-button:hover {
+    background: #DCF1E2;
+}
+
+.resik-care-button > i {
+    flex-shrink: 0;
+    color: #1E5638;
+    font-size: 14px;
 }
 
 @media (max-width: 560px) {
@@ -745,10 +833,6 @@
 
     .booking-side #billTotal {
         font-size: 25px;
-    }
-
-    .booking-side .care .button {
-        font-size: 12px;
     }
 }
 
@@ -978,10 +1062,13 @@
             .tracking-heading { flex-direction: column; align-items: flex-start; gap: 5px; }
             .progress { overflow-x: auto; grid-template-columns: repeat(5, 125px); padding: 5px 4px 12px; }
             .panel { padding: 17px; }
+
         }
 
         @media (max-width: 560px) {
-            .nav { padding: 10px 14px; }
+            .nav {
+                padding: 10px 14px;
+            }
             .brand img { width: 34px; height: 34px; }
             .brand-text { font-size: 20px; }
             .account { padding: 7px 9px; font-size: 10px; }
@@ -992,6 +1079,7 @@
             .overview-item p { font-size: 10px; }
             .footer-grid { gap: 22px; }
         }
+
     </style>
 </head>
 
@@ -1067,7 +1155,7 @@
 
     <main class="container">
         <!-- PENCARIAN -->
-        <section class="card search-card" aria-labelledby="pageTitle">
+        <section class="card search-card" id="searchCard" aria-labelledby="pageTitle">
             <div class="search-title">
                 <span class="search-icon">
                     <svg class="icon" aria-hidden="true"><use href="#i-box"/></svg>
@@ -1097,7 +1185,6 @@
         </section>
 
         <p class="message" id="message" role="status" aria-live="polite" hidden></p>
-
         <section class="card empty" id="empty" hidden>
             <h2>Belum ada pesanan</h2>
             <p>
@@ -1126,51 +1213,58 @@
                     </div>
                 </div>
 
-                <div class="overview">
-                    <div class="overview-item">
-                        <span class="label">PAKET LAYANAN</span>
-                        <strong id="overviewPackage"></strong>
-                        <p id="overviewRoom"></p>
-                    </div>
+                
+<div class="overview">
+    <div class="overview-item">
+        <span class="label">PAKET LAYANAN</span>
+        <strong id="overviewPackage"></strong>
+        <p id="overviewRoom"></p>
+    </div>
 
-                    <div class="overview-item">
-                        <span class="label">AREA TUJUAN</span>
-                        <strong id="overviewDistrict"></strong>
-                        <p id="overviewAddress"></p>
-                    </div>
+    <div class="overview-item">
+        <span class="label">AREA TUJUAN</span>
+        <strong id="overviewDistrict"></strong>
+        <p id="overviewAddress"></p>
+    </div>
 
-                    <div class="overview-item">
-                        <span class="label">MITRA BERTUGAS</span>
-                        <div class="worker-name">
-                            <strong>Siti Rahmawati</strong>
-                            <span class="rating">4.9 ★</span>
-                        </div>
-                        <p>Mitra simulasi · ID: DEMO-1102</p>
-                    </div>
+    <div class="overview-item">
+        <span class="label">MITRA BERTUGAS</span>
+        <div class="worker-name">
+            <strong>Siti Rahmawati</strong>
+            <span class="rating">4.9 ★</span>
+        </div>
+        <p>Mitra simulasi · ID: DEMO-1102</p>
+    </div>
 
-                    <div class="overview-item">
-                        <span class="label">AKSI CEPAT MITRA</span>
-                        <div class="worker-actions">
-                            <button
-                                type="button"
-                                disabled
-                                title="Belum tersedia untuk mitra simulasi"
-                            >
-                                <svg class="icon" aria-hidden="true"><use href="#i-wa"/></svg>
-                                WhatsApp
-                            </button>
-                            <button
-                                type="button"
-                                class="phone"
-                                disabled
-                                aria-label="Telepon mitra"
-                                title="Belum tersedia untuk mitra simulasi"
-                            >
-                                <svg class="icon" aria-hidden="true"><use href="#i-phone"/></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <div class="overview-item">
+        <span class="label">AKSI CEPAT MITRA</span>
+
+        <div class="worker-actions">
+            <button
+                type="button"
+                disabled
+                title="Belum tersedia untuk mitra simulasi"
+            >
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-wa"/>
+                </svg>
+                WhatsApp
+            </button>
+
+            <button
+                type="button"
+                class="phone"
+                disabled
+                aria-label="Telepon mitra"
+                title="Belum tersedia untuk mitra simulasi"
+            >
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-phone"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
 
                 <div class="tracking-heading">
                     <h3>TAHAPAN LAYANAN HARI INI</h3>
@@ -1191,17 +1285,18 @@
             <div class="columns">
                 <div class="stack">
                     <section class="card panel history-panel">
-                        <div class="history-heading">
-                            <div>
-                                <h2>Riwayat Pelacakan Aktivitas</h2>
-                                <p>Catatan real-time sistem pemrosesan pesanan</p>
-                            </div>
 
-                            <span class="history-sync">
-                                <span aria-hidden="true"></span>
-                                <span id="historySyncText">Auto-Sync Aktif</span>
-                            </span>
-                        </div>
+            <div class="history-heading">
+                <div>
+                    <h2>Riwayat Pelacakan Aktivitas</h2>
+                    <p>Catatan real-time sistem pemrosesan pesanan</p>
+                </div>
+
+                <span class="history-sync">
+                    <span aria-hidden="true"></span>
+                    <span id="historySyncText">Auto-Sync Aktif</span>
+                </span>
+            </div>
 
                         <ol class="timeline" id="timeline"></ol>
 
@@ -1210,7 +1305,7 @@
                             Tidak mengubah status pembayaran asli.
                         </p>
                     </section>
-                    <section class="safety">
+                    <section class="safety" id="step1Safety">
                         <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
                         <div>
                             <h3>Jaminan Ketenangan & Standar Higienitas</h3>
@@ -1222,7 +1317,7 @@
                         </div>
                     </section>
 
-                    <section class="prep">
+                    <section class="prep" id="step1Prep">
                         <img id="roomPhoto" alt="Ilustrasi ruangan">
                         <div class="prep-copy">
                             <h3>PROTOKOL PERSIAPAN RUMAH</h3>
@@ -1323,36 +1418,28 @@
     </section>
 
     <!-- PUSAT BANTUAN -->
-    <section class="card panel care">
-        <h3>
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                <circle cx="12" cy="12" r="9"/>
-                <circle cx="12" cy="12" r="4"/>
-                <path d="m6 6 3 3m6 6 3 3M6 18l3-3m6-6 3-3"/>
-            </svg>
+    <section class="resik-care">
+    <h3 class="resik-care-title">
+        <i class="fa-solid fa-headset" aria-hidden="true"></i>
+        <span>Pusat Kendali Resik Care</span>
+    </h3>
 
-            Pusat Kendali Resik Care
-        </h3>
+    <p class="resik-care-description">
+        Perlu penyesuaian instruksi pembersihan atau konfirmasi
+        akses gerbang perumahan? Tim Concierge kami siap melayani Anda.
+    </p>
 
-        <p>
-            Perlu penyesuaian instruksi pembersihan atau konfirmasi
-            akses gerbang perumahan? Tim Concierge kami siap
-            melayani Anda.
-        </p>
-
-        <a
-            class="button"
-            id="supportLink"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M20 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 20 11.5Z"/>
-            </svg>
-
-            Chat WhatsApp CS GriyaResik
-        </a>
-    </section>
+    <a
+        id="supportLink"
+        class="resik-care-button"
+        href="https://wa.me/6281234567890"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        <span>Chat WhatsApp CS GriyaResik</span>
+    </a>
+</section>
 </div>
             </div>
         </div>

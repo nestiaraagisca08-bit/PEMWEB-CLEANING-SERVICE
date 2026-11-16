@@ -73,6 +73,149 @@
     let current = null;
     let demo = Object.create(null);
 
+    // Aktif untuk presentasi.
+// Matikan saat sumber pembayaran resmi sudah tersedia.
+const PAYMENT_DEMO_MODE = true;
+
+const PAYMENT_DEMO_KEY = "griyaResikPaymentDemo";
+const paymentDemoMemory = Object.create(null);
+
+function getPaymentView(booking) {
+    const method = String(
+        booking.payment || "Metode belum dipilih"
+    );
+
+    const event = Array.isArray(booking.activityHistory)
+        ? booking.activityHistory.find(
+            item => item?.type === "payment_verified"
+        )
+        : null;
+
+    // Data pembayaran asli: digunakan setelah mode demo dimatikan.
+    if (!PAYMENT_DEMO_MODE) {
+        const status = String(
+            booking.paymentStatus ||
+            (event ? "Lunas" : "Belum diverifikasi")
+        );
+
+        const paid = [
+            "lunas",
+            "paid",
+            "verified",
+            "terverifikasi",
+            "success",
+            "settled",
+            "berhasil"
+        ].includes(status.trim().toLowerCase());
+
+        return {
+            status,
+            paid,
+            method,
+            simulated: false,
+
+            date:
+                validDate(booking.paymentVerifiedAt) ||
+                validDate(booking.paidAt) ||
+                validDate(event?.occurredAt),
+
+            transactionId: String(
+                booking.transactionId ||
+                event?.transactionId ||
+                ""
+            )
+        };
+    }
+
+    // Data simulasi disimpan terpisah dari booking customer.
+    let store = {};
+
+    try {
+        const data = JSON.parse(
+            localStorage.getItem(PAYMENT_DEMO_KEY) || "{}"
+        );
+
+        if (
+            data &&
+            typeof data === "object" &&
+            !Array.isArray(data)
+        ) {
+            store = data;
+        }
+    } catch {
+        // Tetap dapat menggunakan data simulasi dalam memori.
+    }
+
+    const id = normalize(booking.id);
+
+    const saved = Object.hasOwn(store, id)
+        ? store[id]
+        : null;
+
+    let date =
+        validDate(saved?.verifiedAt) ||
+        validDate(paymentDemoMemory[id]?.verifiedAt);
+
+    // Pertahankan waktu pratinjau lama jika sudah tersimpan.
+    if (!date) {
+        try {
+            date = validDate(
+                localStorage.getItem(
+                    "griyaResikTransactionPreview:" + booking.id
+                )
+            );
+        } catch {
+            // Waktu dibuat di bawah jika belum tersedia.
+        }
+    }
+
+    if (!date) {
+        const created = validDate(booking.createdAt);
+
+        date = created
+            ? new Date(created.getTime() + 5 * 60000)
+            : new Date();
+    }
+
+    const transactionId =
+        "DEMO-" +
+        method.replace(/\s+/g, "-") +
+        "-" +
+        id;
+
+    const record = {
+        status: "Lunas",
+        verifiedAt: date.toISOString(),
+        transactionId
+    };
+
+    paymentDemoMemory[id] = record;
+
+    Object.defineProperty(store, id, {
+        value: record,
+        enumerable: true,
+        configurable: true
+    });
+
+    try {
+        localStorage.setItem(
+            PAYMENT_DEMO_KEY,
+            JSON.stringify(store)
+        );
+    } catch {
+        // Tampilan tetap berjalan tanpa mengubah booking asli.
+    }
+
+    return {
+        status: "Lunas",
+        paid: true,
+        method,
+        simulated: true,
+        date,
+        transactionId
+    };
+}
+
     function message(value) {
         text("message", value);
         $("message").hidden = !value;
@@ -338,13 +481,17 @@ function renderActivityHistory() {
 
     $("timeline").replaceChildren();
 
+    const payment = getPaymentView(current);
+
     const storedEvents = Array.isArray(current.activityHistory)
-        ? current.activityHistory.filter(event =>
-            event && typeof event === "object"
+        ? current.activityHistory.filter(
+            event => event && typeof event === "object"
         )
         : null;
 
-    const simulated = storedEvents === null;
+    const simulated =
+        PAYMENT_DEMO_MODE ||
+        storedEvents === null;
 
     text(
         "historySyncText",
@@ -353,64 +500,82 @@ function renderActivityHistory() {
 
     $("historyDemoNote").hidden = !simulated;
 
-    // Jalur data riwayat ketika backend nanti sudah dihubungkan.
-    if (storedEvents) {
-        storedEvents.forEach(event => {
-            const paid = event.type === "payment_verified";
+    $("historyDemoNote").textContent = PAYMENT_DEMO_MODE
+        ? "Mode simulasi presentasi: pembayaran ditampilkan terverifikasi lunas. Tidak mengubah data pembayaran asli. Verifikasi pembayaran nantinya dilakukan admin yang berwenang."
+        : "Mode simulasi pelayanan dan hub operasional. Status pembayaran mengikuti data pesanan.";
 
-            const detail = paid
-                ? [
-                    {
-                        text: "Transaksi " +
-                            (
-                                event.paymentMethod ||
-                                current.payment ||
-                                ""
-                            ) + " senilai "
-                    },
-                    {
-                        text: money(event.amount ?? current.price),
-                        bold: true
-                    },
-                    {
-                        text: " berhasil diverifikasi. " +
-                            "Status invoice: LUNAS."
-                    }
-                ]
-                : String(event.message || "");
+    // Sumber pembayaran sama dengan badge Rincian Pemesanan.
+    addActivity(
+        payment.paid
+            ? "Pembayaran Terverifikasi Lunas"
+            : "Status Pembayaran: " + payment.status,
 
-            addActivity(
-                event.title || (
-                    paid
-                        ? "Pembayaran Terverifikasi Lunas"
-                        : "Aktivitas Pesanan"
+        [
+            {
+                text:
+                    "Transaksi " +
+                    payment.method +
+                    " senilai "
+            },
+
+            {
+                text: money(
+                    current.price ?? current.subtotal
                 ),
-                detail,
-                clock(event.occurredAt),
-                {
-                    payment: paid,
-                    transactionId: event.transactionId,
-                    hub: event.hubName
-                }
-            );
-        });
+                bold: true
+            },
 
-        if (!storedEvents.length) {
-            addActivity(
-                "Belum ada aktivitas",
-                "Riwayat dari server belum tersedia.",
-                "—"
-            );
+            {
+                text: payment.paid
+                    ? (
+                        payment.simulated
+                            ? " telah diverifikasi dalam simulasi presentasi. Status invoice: LUNAS."
+                            : " tercatat lunas pada data pesanan. Status invoice: LUNAS."
+                    )
+                    : ". Status pembayaran: " +
+                      payment.status +
+                      "."
+            }
+        ],
+
+        clock(payment.date),
+
+        {
+            payment: payment.paid,
+            transactionId: payment.transactionId
         }
+    );
+
+    // Riwayat asli ketika mode demo sudah dimatikan.
+    if (storedEvents && !PAYMENT_DEMO_MODE) {
+        storedEvents
+            .filter(
+                event => event.type !== "payment_verified"
+            )
+            .forEach(event => {
+                addActivity(
+                    event.title || "Aktivitas Pesanan",
+                    String(event.message || ""),
+                    clock(event.occurredAt),
+
+                    {
+                        hub: event.hubName
+                    }
+                );
+            });
 
         return;
     }
 
-    // DATA SIMULASI: tidak menulis ke booking/payment asli.
+    // Simulasi tahapan pelayanan.
     const preview = getDemo(current.id);
     const times = estimatedTimes(current);
 
-    for (let index = preview.stage; index >= 1; index--) {
+    for (
+        let index = preview.stage;
+        index >= 1;
+        index--
+    ) {
         addActivity(
             stages[index] + " — Simulasi",
             descriptions[index],
@@ -418,55 +583,30 @@ function renderActivityHistory() {
         );
     }
 
-    const method = current.payment || "QRIS";
     const created = validDate(current.createdAt);
-
-    const bookingTime = created
-        ? clock(created)
-        : "07:35 WIB";
-
-    const paymentTime = created
-        ? clock(new Date(created.getTime() + 5 * 60000))
-        : "07:40 WIB";
-
-    const transactionId =
-        "DEMO-" +
-        method.replace(/\s+/g, "-") +
-        "-" + normalize(current.id);
-
-    addActivity(
-        "Pembayaran Terverifikasi Lunas",
-        [
-            {
-                text: "Transaksi instan " + method + " senilai "
-            },
-            {
-                text: money(current.price ?? current.subtotal),
-                bold: true
-            },
-            {
-                text: " berhasil diverifikasi secara otomatis " +
-                    "oleh sistem. Status invoice: LUNAS."
-            }
-        ],
-        paymentTime,
-        {
-            payment: true,
-            transactionId
-        }
-    );
 
     addActivity(
         "Pesanan Berhasil Dibuat",
-        "Pelanggan " + (current.customerName || "Pelanggan") +
+
+        "Pelanggan " +
+        (current.customerName || "Pelanggan") +
         " telah menyelesaikan formulir pemesanan online " +
-        "untuk jadwal pengerjaan " + visitLabel(current.date) +
-        ", slot pukul " + (current.time || "—") +
+        "untuk jadwal pengerjaan " +
+        visitLabel(current.date) +
+        ", slot pukul " +
+        (current.time || "—") +
         " WIB. Sistem otomatis mencari mitra terverifikasi " +
-        "di area " + (current.region || "Kota Surabaya") + ".",
-        bookingTime,
+        "di area " +
+        (current.region || "Kota Surabaya") +
+        ".",
+
+        created
+            ? clock(created)
+            : "07:35 WIB",
+
         {
-            hub: "GriyaResik " +
+            hub:
+                "GriyaResik " +
                 (current.region || "Surabaya") +
                 " Operational Hub #04 (Simulasi)"
         }
@@ -630,11 +770,19 @@ function renderActivityHistory() {
             ". Catatan: " + (booking.notes || "Tidak ada.")
         );
 
+        const paymentView = getPaymentView(booking);
+
         text(
             "paymentBadge",
-            (booking.paymentStatus || "Belum diverifikasi") +
-            " (" + (booking.payment || "Metode belum dipilih") + ")"
+            paymentView.status.toUpperCase() +
+            " (" +
+            paymentView.method +
+            ")"
         );
+
+        $("paymentBadge").title = paymentView.simulated
+            ? "Simulasi pembayaran lunas untuk presentasi; belum diverifikasi admin."
+            : "Status pembayaran dari data pesanan.";
 
         const addons = Array.isArray(booking.addonItems)
             ? booking.addonItems.filter(addon =>
@@ -698,67 +846,44 @@ function renderActivityHistory() {
             money(booking.price ?? booking.subtotal)
         );
 
-// WAKTU TRANSAKSI
-const paymentEvent = Array.isArray(booking.activityHistory)
-    ? booking.activityHistory.find(event =>
-        event && event.type === "payment_verified"
-    )
-    : null;
-
-let transactionDate =
-    validDate(booking.paymentVerifiedAt) ||
-    validDate(booking.paidAt) ||
-    validDate(paymentEvent?.occurredAt);
-
-const isTransactionSimulation = !transactionDate;
-
-if (isTransactionSimulation) {
-    const previewKey =
-        "griyaResikTransactionPreview:" + booking.id;
-
-    try {
-        transactionDate = validDate(
-            localStorage.getItem(previewKey)
-        );
-
-        if (!transactionDate) {
-            transactionDate = new Date();
-
-            localStorage.setItem(
-                previewKey,
-                transactionDate.toISOString()
-            );
-        }
-    } catch {
-        transactionDate = new Date();
-    }
-}
+// WAKTU TRANSAKSI — SUMBER SAMA DENGAN RIWAYAT
+const transactionDate = paymentView.date;
 
 text(
     "paymentTimestamp",
-    transactionDate.toLocaleDateString("id-ID", {
-        day: "numeric",
-        month: "short",
-        timeZone: "Asia/Jakarta"
-    }) + ", " + clock(transactionDate)
+
+    transactionDate
+        ? transactionDate.toLocaleDateString(
+            "id-ID",
+            {
+                day: "numeric",
+                month: "short",
+                timeZone: "Asia/Jakarta"
+            }
+        ) +
+          ", " +
+          clock(transactionDate)
+
+        : "Waktu belum tercatat"
 );
 
 const transactionLabel = $("transactionTimeLabel");
-const transactionNotice = $("paymentNotice");
 
 if (transactionLabel) {
-    transactionLabel.textContent = isTransactionSimulation
+    transactionLabel.textContent = paymentView.simulated
         ? "Waktu Transaksi (Simulasi)"
         : "Waktu Transaksi";
 }
 
+const transactionNotice = $("paymentNotice");
+
 if (transactionNotice) {
-    transactionNotice.textContent = isTransactionSimulation
-        ? "Waktu simulasi; pembayaran asli belum diverifikasi."
+    transactionNotice.textContent = paymentView.simulated
+        ? "Pembayaran lunas dan waktu transaksi merupakan simulasi presentasi."
         : "";
 
     transactionNotice.hidden =
-        Boolean(transactionLabel) || !isTransactionSimulation;
+        !paymentView.simulated;
 }
 
 $("mapLink").href =
@@ -766,11 +891,13 @@ $("mapLink").href =
             encodeURIComponent(address);
 
         $("supportLink").href =
-            "https://wa.me/" + SUPPORT_PHONE +
-            "?text=" + encodeURIComponent(
-                "Halo GriyaResik, saya ingin bertanya tentang pesanan " +
-                booking.id + "."
-            );
+        "https://wa.me/" +
+        SUPPORT_PHONE +
+        "?text=" +
+        encodeURIComponent(
+            "Halo GriyaResik, saya ingin bertanya tentang pesanan #" +
+            normalize(booking.id)
+        );
 
         const image = $("roomPhoto");
         const imageName = roomImages[booking.room];
