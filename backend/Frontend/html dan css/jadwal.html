@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jadwal | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="icon" type="image/png" href="../images/Logo griya Resik.png">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #193e2f;
+            --green-light: #e8eee5;
+            --background: #f7f8f5;
+            --text: #1d352b;
+            --muted: #758078;
+            --border: #e9eae6;
+            --white: #ffffff;
+        }
+
+        html {
+            overflow-y: scroll;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button,
+        input,
+        select {
+            font: inherit;
+        }
+
+        button {
+            cursor: pointer;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ================= SIDEBAR ================= */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--green);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: .3s;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 30px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
+        }
+
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .brand-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-name span {
+            color: #a8c3a4;
+        }
+
+        .menu-label {
+            font-size: 10px;
+            color: #a9c0b1;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 25px 12px 12px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #d7e2da;
+            transition: .2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,.14);
+            color: white;
+        }
+
+        .menu-icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #ffdada;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,.12);
+        }
+
+        /* ================= MAIN ================= */
+
+        .main {
+            margin-left: 250px;
+            padding: 28px 32px;
+            min-height: 100vh;
+        }
+
+        /* ================= TOPBAR ================= */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            color: var(--green);
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .profile-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .profile-info span {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+        }
+
+        /* ================= SUMMARY ================= */
+
+        .section-title {
+            font-size: 16px;
+            color: var(--green);
+            margin-bottom: 16px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 19px;
+            min-width: 0;
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .summary-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .icon-green {
+            background: #e8f2e8;
+        }
+
+        .icon-blue {
+            background: #e8f0fb;
+        }
+
+        .icon-yellow {
+            background: #fff4df;
+        }
+
+        .icon-purple {
+            background: #f0eaff;
+        }
+
+        .summary-card h2 {
+            color: var(--green);
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .summary-card p {
+            color: #9a9f99;
+            font-size: 10px;
+        }
+
+        /* ================= CONTENT ================= */
+
+        .content-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 21px;
+            min-width: 0;
+        }
+
+        .content-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .content-heading h2 {
+            font-size: 14px;
+            color: var(--green);
+        }
+
+        .content-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .btn-refresh {
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 11px 16px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn-refresh:hover {
+            background: #285b43;
+        }
+
+        /* ================= FILTER ================= */
+
+        .filter-area {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        .search-box,
+        .filter-select {
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 9px;
+            padding: 10px 13px;
+            outline: none;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .search-box {
+            width: 300px;
+        }
+
+        .filter-select {
+            min-width: 190px;
+        }
+
+        .search-box:focus,
+        .filter-select:focus {
+            border-color: var(--green);
+        }
+
+        /* ================= TABLE ================= */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 950px;
+        }
+
+        th {
+            text-align: left;
+            color: #8b938c;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            background: #fafbf9;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #f1f1ed;
+            font-size: 11px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover {
+            background: #fbfcfa;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .order-id {
+            color: var(--green);
+            font-weight: 800;
+            white-space: nowrap;
+        }
+
+        .customer-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .avatar {
+            width: 38px;
+            height: 38px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--green-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 800;
+            color: var(--green);
+        }
+
+        .customer-name {
+            display: block;
+            font-weight: 700;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .customer-phone {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .service-name {
+            font-weight: 600;
+            color: var(--text);
+        }
+
+        /* ================= STATUS ================= */
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-waiting {
+            background: #fff0d9;
+            color: #b47a20;
+        }
+
+        .status-process {
+            background: #e7efff;
+            color: #2865a6;
+        }
+
+        .status-done {
+            background: #e0f5e9;
+            color: #21824c;
+        }
+
+        .status-cancel {
+            background: #ffe7e7;
+            color: #c34b4b;
+        }
+
+        /* ================= BUTTON ================= */
+
+        .btn-detail {
+            border: none;
+            background: #e8eee5;
+            color: var(--green);
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .btn-detail:hover {
+            background: #dce8d9;
+        }
+
+        .btn-edit {
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .btn-edit:hover {
+            background: #285b43;
+        }
+
+        /* ================= EMPTY STATE ================= */
+
+        .message-row {
+            text-align: center;
+            padding: 35px;
+            color: var(--muted);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 25px;
+            color: #929da3;
+        }
+
+        .empty-icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .empty-state h3 {
+            color: var(--green);
+            font-size: 15px;
+            margin-bottom: 7px;
+        }
+
+        .empty-state p {
+            font-size: 11px;
+            line-height: 1.6;
+        }
+
+        /* ================= MODAL ================= */
+
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15, 35, 26, .45);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal {
+            width: 100%;
+            max-width: 500px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .modal-header h2 {
+            font-size: 19px;
+            color: var(--green);
+        }
+
+        .close-btn {
+            border: none;
+            background: #f1f5f2;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 13px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 11px;
+        }
+
+        .detail-row span:first-child {
+            color: var(--muted);
+        }
+
+        .detail-row span:last-child {
+            font-weight: 600;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 7px;
+            color: var(--text);
+        }
+
+        .form-control {
+            width: 100%;
+            border: 1px solid var(--border);
+            padding: 11px 12px;
+            border-radius: 8px;
+            font-size: 11px;
+            outline: none;
+            background: white;
+            color: var(--text);
+        }
+
+        .form-control:focus {
+            border-color: var(--green);
+        }
+
+        .modal-footer {
+            margin-top: 22px;
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+
+        .btn-close {
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 11px 20px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .btn-close:hover {
+            background: #285b43;
+        }
+
+        .btn-save {
+            border: none;
+            background: #285b43;
+            color: white;
+            padding: 11px 20px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            text-align: center;
+            color: #9ba19a;
+            font-size: 10px;
+            padding: 20px 0 5px;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1200px) {
+            .summary {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .topbar {
+                flex-wrap: wrap;
+            }
+
+            .content-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .filter-area {
+                flex-direction: column;
+            }
+
+            .search-box,
+            .filter-select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .summary {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .summary-card {
+                padding: 14px;
+            }
+
+            .summary-card h2 {
+                font-size: 21px;
+            }
+
+            .admin-profile {
+                width: 100%;
+            }
+
+            .page-title h1 {
+                font-size: 21px;
+            }
+
+            .modal {
+                padding: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+
+            <div class="brand-name">
+                Griya<span>Resik</span>
+            </div>
+        </div>
+
+        <div class="menu-label">MENU UTAMA</div>
+
+        <ul class="sidebar-menu">
+
+            <li>
+                <a href="dashboard_admin.html">
+                    <span class="menu-icon">▦</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="kelola_layanan.html">
+                    <span class="menu-icon">🧹</span>
+                    Kelola Layanan
+                </a>
+            </li>
+
+            <li>
+                <a href="data_customer.html">
+                    <span class="menu-icon">👥</span>
+                    Data Customer
+                </a>
+            </li>
+
+            <li>
+                <a href="data_petugas.html">
+                    <span class="menu-icon">🧑‍🔧</span>
+                    Data Petugas
+                </a>
+            </li>
+
+            <li>
+                <a href="pemesanan.html">
+                    <span class="menu-icon">📋</span>
+                    Pemesanan
+                </a>
+            </li>
+
+            <li>
+                <a href="jadwal.html" class="active">
+                    <span class="menu-icon">📅</span>
+                    Jadwal
+                </a>
+            </li>
+
+            <li>
+                <a href="pembayaran.html">
+                    <span class="menu-icon">💳</span>
+                    Pembayaran
+                </a>
+            </li>
+
+            <li>
+                <a href="laporan.html">
+                    <span class="menu-icon">📊</span>
+                    Laporan
+                </a>
+            </li>
+
+            <li>
+                <a href="pengaturan.html">
+                    <span class="menu-icon">⚙️</span>
+                    Pengaturan
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-bottom">
+
+            <button class="logout-btn" id="logoutBtn" type="button">
+                <span class="menu-icon">↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:13px;">
+
+                <button class="mobile-toggle" id="mobileToggle" type="button">
+                    ☰
+                </button>
+
+                <div class="page-title">
+                    <h1>Jadwal</h1>
+                    <p>Kelola jadwal pengerjaan layanan dan penugasan petugas GriyaResik.</p>
+                </div>
+
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    N
+                </div>
+            
+                <div class="profile-info">
+                    <strong id="adminName">nestiara agisca</strong>
+                    <span>Admin GriyaResik</span>
+                </div>
+            
+            </div>
+
+        </header>
+
+
+        <!-- RINGKASAN JADWAL -->
+
+        <section>
+
+            <h2 class="section-title">Ringkasan Jadwal</h2>
+
+            <div class="summary">
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+                        <span class="summary-label">Total Jadwal</span>
+                        <div class="summary-icon icon-green">📅</div>
+                    </div>
+
+                    <h2 id="totalSchedules">0</h2>
+                    <p>Seluruh jadwal layanan</p>
+
+                </div>
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+                        <span class="summary-label">Jadwal Hari Ini</span>
+                        <div class="summary-icon icon-blue">🗓️</div>
+                    </div>
+
+                    <h2 id="todaySchedules">0</h2>
+                    <p>Jadwal pengerjaan hari ini</p>
+
+                </div>
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+                        <span class="summary-label">Menunggu Penugasan</span>
+                        <div class="summary-icon icon-yellow">⏳</div>
+                    </div>
+
+                    <h2 id="waitingSchedules">0</h2>
+                    <p>Belum mendapatkan petugas</p>
+
+                </div>
+
+                <div class="summary-card">
+
+                    <div class="summary-top">
+                        <span class="summary-label">Jadwal Selesai</span>
+                        <div class="summary-icon icon-purple">✅</div>
+                    </div>
+
+                    <h2 id="doneSchedules">0</h2>
+                    <p>Pengerjaan telah selesai</p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DAFTAR JADWAL -->
+
+        <section class="content-card">
+
+            <div class="content-heading">
+
+                <div>
+                    <h2>Daftar Jadwal Pengerjaan</h2>
+                    <p>Informasi jadwal layanan dan petugas yang bertanggung jawab.</p>
+                </div>
+
+                <button class="btn-refresh" id="refreshBtn" type="button">
+                    ↻ Refresh Data
+                </button>
+
+            </div>
+
+
+            <!-- SEARCH DAN FILTER -->
+
+            <div class="filter-area">
+
+                <input
+                    type="text"
+                    class="search-box"
+                    id="searchInput"
+                    placeholder="Cari ID, customer, atau petugas..."
+                >
+
+                <select class="filter-select" id="statusFilter">
+
+                    <option value="">Semua Status</option>
+                    <option value="Menunggu Penugasan">Menunggu Penugasan</option>
+                    <option value="Petugas Ditugaskan">Petugas Ditugaskan</option>
+                    <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
+                    <option value="Selesai">Selesai</option>
+                    <option value="Dibatalkan">Dibatalkan</option>
+
+                </select>
+
+                <input
+                    type="date"
+                    class="filter-select"
+                    id="dateFilter"
+                >
+
+            </div>
+
+
+            <!-- TABEL JADWAL -->
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID JADWAL</th>
+                            <th>CUSTOMER</th>
+                            <th>LAYANAN</th>
+                            <th>PETUGAS</th>
+                            <th>TANGGAL</th>
+                            <th>JAM</th>
+                            <th>STATUS</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="scheduleTableBody">
+
+                        <tr>
+                            <td colspan="8" class="message-row">
+                                Memuat data jadwal...
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <footer>
+            © 2026 GriyaResik Indonesia. All Rights Reserved.
+        </footer>
+
+    </main>
+
+
+    <!-- MODAL DETAIL JADWAL -->
+
+    <div class="modal-overlay" id="detailModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2>Detail Jadwal</h2>
+
+                <button class="close-btn" id="closeModal" type="button">
+                    ×
+                </button>
+
+            </div>
+
+            <div id="detailContent"></div>
+
+            <div class="modal-footer">
+
+                <button class="btn-close" id="closeDetailBtn" type="button">
+                    Tutup
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- MODAL ATUR JADWAL -->
+
+    <div class="modal-overlay" id="scheduleModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+
+                <h2>Atur Jadwal dan Petugas</h2>
+
+                <button class="close-btn" id="closeScheduleModal" type="button">
+                    ×
+                </button>
+
+            </div>
+
+            <form id="scheduleForm">
+
+                <input type="hidden" id="scheduleId">
+
+                <div class="form-group">
+                    <label for="scheduleDate">Tanggal Pengerjaan</label>
+                    <input type="date" class="form-control" id="scheduleDate" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="scheduleTime">Jam Pengerjaan</label>
+                    <input type="time" class="form-control" id="scheduleTime" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="scheduleStaff">Petugas</label>
+
+                    <select class="form-control" id="scheduleStaff" required>
+                        <option value="">Pilih Petugas</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="scheduleStatus">Status Jadwal</label>
+
+                    <select class="form-control" id="scheduleStatus" required>
+                        <option value="Menunggu Penugasan">Menunggu Penugasan</option>
+                        <option value="Petugas Ditugaskan">Petugas Ditugaskan</option>
+                        <option value="Sedang Dikerjakan">Sedang Dikerjakan</option>
+                        <option value="Selesai">Selesai</option>
+                        <option value="Dibatalkan">Dibatalkan</option>
+                    </select>
+                </div>
+
+                <div class="modal-footer">
+
+                    <button type="button" class="btn-close" id="cancelScheduleBtn">
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn-save">
+                        Simpan Jadwal
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <script src="../js/jadwal.js"></script>
+
+</body>
+
+</html>

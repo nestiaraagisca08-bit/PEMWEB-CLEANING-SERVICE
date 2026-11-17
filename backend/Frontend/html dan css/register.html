@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Daftar Akun - GriyaResik</title>
+
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #2b2b2b;
+      --muted: #5c5c5c;
+      --field: #ebebeb;
+      --line: #d9d9d9;
+      --accent: #7c977f;
+      --accent-hover: #6b866e;
+      --error: #c0392b;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 35px 20px;
+      background: var(--bg);
+      font-family: "Poppins", sans-serif;
+      color: var(--text);
+    }
+
+    /* CARD REGISTER */
+    .card {
+      width: 100%;
+      max-width: 545px;
+      background: #fff;
+      border-radius: 10px;
+      padding: 26px 22px 28px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, .18);
+    }
+
+    /* JUDUL */
+    h1 {
+      margin: 0 0 8px;
+      font-size: 27px;
+      font-weight: 600;
+      color: #292929;
+    }
+
+    .sub {
+      margin: 0 0 20px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    /* GOOGLE BUTTON */
+    .google-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      min-height: 43px;
+      margin: 18px 0;
+    }
+
+    #googleBtn {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+    }
+
+    /* PEMISAH */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 16px 0;
+      font-size: 10px;
+      text-transform: uppercase;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--line);
+    }
+
+    /* INPUT */
+    .field {
+      margin-bottom: 13px;
+    }
+
+    label {
+      display: block;
+      margin: 0 0 5px 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #222;
+    }
+
+    input {
+      width: 100%;
+      height: 43px;
+      padding: 0 14px;
+      border: 2px solid transparent;
+      border-radius: 8px;
+      background: var(--field);
+      font: 400 14px "Poppins", sans-serif;
+      color: var(--text);
+      transition: .2s;
+    }
+
+    input::placeholder {
+      color: #858585;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--accent);
+      background: #fff;
+    }
+
+    input.invalid {
+      border-color: var(--error);
+    }
+
+    .error {
+      min-height: 15px;
+      margin: 3px 0 0 4px;
+      font-size: 10px;
+      color: var(--error);
+    }
+
+    /* TOMBOL DAFTAR */
+    .submit {
+      width: 100%;
+      height: 43px;
+      margin-top: 8px;
+      border: none;
+      border-radius: 8px;
+      background: var(--accent);
+      color: #fff;
+      font: 500 15px "Poppins", sans-serif;
+      cursor: pointer;
+      transition: .2s;
+    }
+
+    .submit:hover {
+      background: var(--accent-hover);
+    }
+
+    .submit:disabled {
+      opacity: .7;
+      cursor: wait;
+    }
+
+    /* PESAN */
+    .message {
+      margin: 8px 0 0;
+      font-size: 12px;
+      text-align: center;
+      color: var(--error);
+    }
+
+    /* LINK LOGIN */
+    .bottom-text {
+      margin: 18px 0 0;
+      text-align: center;
+      font-size: 13px;
+    }
+
+    a {
+      color: var(--accent-hover);
+      text-decoration: underline;
+    }
+
+    a:hover {
+      color: #49694e;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 520px) {
+      body {
+        padding: 20px 15px;
+      }
+
+      .card {
+        padding: 24px 18px;
+      }
+
+      h1 {
+        font-size: 25px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="card">
+
+    <h1>Buat Akun</h1>
+
+    <p class="sub">
+      Daftar sekarang dan nikmati layanan GriyaResik
+    </p>
+
+    <!-- GOOGLE SIGN UP -->
+    <div class="google-container">
+      <div id="googleBtn"></div>
+    </div>
+
+    <!-- PEMISAH -->
+    <div class="divider">
+      Atau daftar dengan email
+    </div>
+
+    <!-- FORM REGISTER -->
+    <form id="registerForm" novalidate>
+
+      <div class="field">
+        <label for="name">Nama Lengkap</label>
+
+        <input
+          type="text"
+          id="name"
+          name="name"
+          autocomplete="name"
+          placeholder="Masukkan nama lengkap"
+          required
+        >
+
+        <div class="error" id="nameError"></div>
+      </div>
+
+      <div class="field">
+        <label for="email">Alamat Email</label>
+
+        <input
+          type="email"
+          id="email"
+          name="email"
+          autocomplete="email"
+          placeholder="nama@email.com"
+          required
+        >
+
+        <div class="error" id="emailError"></div>
+      </div>
+
+      <div class="field">
+        <label for="password">Password</label>
+
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="new-password"
+          placeholder="Minimal 8 karakter"
+          required
+        >
+
+        <div class="error" id="passwordError"></div>
+      </div>
+
+      <div class="field">
+        <label for="confirmPassword">Konfirmasi Password</label>
+
+        <input
+          type="password"
+          id="confirmPassword"
+          name="confirmPassword"
+          autocomplete="new-password"
+          placeholder="Ulangi password"
+          required
+        >
+
+        <div class="error" id="confirmPasswordError"></div>
+      </div>
+
+      <button
+        type="submit"
+        class="submit"
+        id="registerBtn"
+      >
+        Daftar Sekarang
+      </button>
+
+      <p
+        id="registerMessage"
+        class="message"
+        role="status"
+        aria-live="polite"
+      ></p>
+
+    </form>
+
+    <p class="bottom-text">
+      Sudah punya akun?
+      <a href="login.html">Masuk sekarang</a>
+    </p>
+
+  </main>
+
+  <script src="../js/register.js" defer></script>
+
+</body>
+</html>

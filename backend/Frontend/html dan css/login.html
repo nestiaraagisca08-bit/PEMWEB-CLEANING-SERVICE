@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Masuk - GriyaResik</title>
+
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+
+<!-- Login JavaScript -->
+<script src="../js/login.js" defer></script>
+
+<style>
+:root {
+  --bg: #ffffff;
+  --card: #ffffff;
+  --text: #2b2b2b;
+  --muted: #5c5c5c;
+  --field: #ebebeb;
+  --line: #d9d9d9;
+  --accent: #7c977f;
+  --accent-hover: #6b866e;
+  --error: #c0392b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: var(--bg);
+  font-family: "Poppins", system-ui, sans-serif;
+  color: var(--text);
+}
+
+.card {
+  width: 100%;
+  max-width: 506px;
+  background: var(--card);
+  border-radius: 8px;
+  padding: 24px 38px 32px 19px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .18);
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 600;
+}
+
+.sub {
+  margin: 0 0 18px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.form {
+  padding-left: 21px;
+}
+
+.google-container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  min-height: 40px;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 12px 0 8px;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+label {
+  display: block;
+  margin: 4px 0 2px 4px;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+input {
+  width: 100%;
+  height: 39px;
+  padding: 0 14px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: var(--field);
+  font: 400 14px "Poppins", sans-serif;
+  color: var(--text);
+}
+
+input:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: #fff;
+}
+
+input.invalid {
+  border-color: var(--error);
+}
+
+.field {
+  margin-left: -4px;
+  margin-bottom: 8px;
+}
+
+.error {
+  min-height: 18px;
+  margin: 2px 0 0 4px;
+  font-size: 12px;
+  color: var(--error);
+}
+
+.submit {
+  width: 100%;
+  margin-top: 28px;
+  height: 39px;
+  border: 0;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font: 500 16px "Poppins", sans-serif;
+  cursor: pointer;
+}
+
+.submit:hover {
+  background: var(--accent-hover);
+}
+
+.submit:disabled {
+  opacity: .7;
+  cursor: wait;
+}
+
+.submit:focus-visible {
+  outline: 3px solid #2b2b2b;
+  outline-offset: 2px;
+}
+
+#loginMessage {
+  font-size: 12px;
+  color: var(--error);
+}
+
+@media (max-width: 520px) {
+  .card {
+    padding: 20px 16px 24px;
+  }
+
+  .form {
+    padding-left: 0;
+  }
+}
+</style>
+
+
+</head>
+
+<body>
+<main class="card">
+  <h1>Selamat Datang</h1>
+  <p class="sub">Masuk ke akun Anda untuk melanjutkan</p>
+
+  <div class="form">
+    <!-- Tombol resmi Google akan ditampilkan di sini -->
+    <div class="google-container">
+      <div id="googleBtn"></div>
+    </div>
+
+    <div class="divider">Atau lanjutkan dengan email</div>
+
+    <form id="loginForm" novalidate>
+      <div class="field">
+        <label for="identity">Alamat Email</label>
+        <input
+          type="email"
+          id="identity"
+          name="email"
+          autocomplete="username"
+          placeholder="nama@email.com"
+        >
+        <div class="error" id="identityError" role="alert"></div>
+      </div>
+
+      <div class="field">
+        <label for="password">Masukkan Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          autocomplete="current-password"
+          placeholder="Masukkan password"
+        >
+        <div class="error" id="passwordError" role="alert"></div>
+      </div>
+
+      <button type="submit" class="submit" id="submitBtn">
+        Masuk ke Akun
+      </button>
+
+      <p id="loginMessage" role="status" aria-live="polite"></p>
+    </form>
+
+    <p style="text-align:center;font-size:13px;margin-top:18px">
+      Belum punya akun?
+      <a href="register.html" style="color:#6b866e">Daftar sekarang</a>
+    </p>
+  </div>
+ 
+</main>
+</body>
+</html>

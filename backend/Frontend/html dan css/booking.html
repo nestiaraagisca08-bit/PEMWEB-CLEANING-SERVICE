@@ -1,0 +1,7111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Booking | GriyaResik</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    /* WARNA */
+    --green: #193e2f;
+    --green-light: #e8eee5;
+    --pink: #FAE9E9;
+    --cream: #F8F5F0;
+    --text: #1d352b;
+    --muted: #758078;
+    --border: #e9eae6;
+    --white: #ffffff;
+
+    /* UKURAN GLOBAL */
+    --content-width: 1120px;
+    --panel-padding: 20px;
+    --panel-radius: 14px;
+    --control-height: 40px;
+    --input-font-size: 11px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #FCFAF6;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button, input, select, textarea {
+    font: inherit;
+}
+
+/* HEADER SERAGAM */
+.header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: var(--pink);
+    padding: 8px 0;
+}
+
+.navbar {
+    width: 100%;
+    max-width: 1100px;
+    min-height: 65px;
+    margin: auto;
+    padding: 0 25px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.logo img {
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.logo .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 22px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.logo .logo-griya {
+    color: #292929;
+}
+
+.logo .logo-resik {
+    color: #789477;
+}
+
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px;
+    list-style: none;
+    background: rgba(255,255,255,.55);
+    border-radius: 25px;
+}
+
+.nav-menu a {
+    display: block;
+    padding: 8px 18px;
+    border-radius: 25px;
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: normal;
+    box-sizing: border-box;
+    color: #344054;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.nav-menu a.active {
+    background: #193e2f;
+    color: #ffffff;
+    font-weight: 400;
+}
+
+.nav-menu a:not(.active) {
+    background: transparent;
+}
+
+.nav-menu a:not(.active):hover {
+    background: #e8eee5;
+}
+
+.btn-account {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 13px;
+    background: white;
+    border: 1px solid #dfe5dc;
+    border-radius: 20px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+/* KONTEN BOOKING */
+.booking-container {
+    width: calc(100% - 64px);
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 34px 0 60px;
+}
+
+/* KARTU PROGRES: susunan horizontal seperti prototipe */
+.progress-card {
+    padding: 20px 24px;
+    margin-bottom: 24px;
+    background: #ffffff;
+    border: 1px solid #efede8;
+    border-radius: 18px;
+}
+
+.progress-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.progress-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+}
+
+.step-label {
+    flex-shrink: 0;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #f4dfe0;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.progress-title h2 {
+    margin: 0;
+    color: var(--text);
+    font-size: 18px;
+    line-height: 1.25;
+    font-weight: 400;
+}
+
+.estimate {
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.progress-steps {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.progress-step {
+    display: flex;
+    align-items: center;
+    flex: 1 1 0;
+    gap: 10px;
+    min-width: 0;
+    color: #9aa69c;
+}
+
+.step-number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 42px;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    background: #eaf5ed;
+    color: #829488;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.progress-step.active {
+    color: var(--green);
+}
+
+.progress-step.active .step-number {
+    background: var(--green);
+    color: #ffffff;
+    box-shadow: 0 0 0 4px #d9f0df;
+}
+
+.progress-step.done .step-number {
+    background: var(--green);
+    color: white;
+}
+
+.progress-step.done {
+    color: var(--green);
+}
+
+.step-copy strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.step-copy small {
+    display: block;
+    font-size: 9px;
+    line-height: 1.3;
+    color: var(--muted);
+}
+
+.step-line {
+    height: 1px;
+    background: #cfe4d2;
+    flex: 1;
+    min-width: 5px;
+}
+
+.intro-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    margin-bottom: 30px;
+}
+
+.intro {
+    flex: 1;
+    min-width: 0;
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: 12px;
+    color: #54745c;
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 0.3px;
+}
+
+.intro h1 {
+    margin-bottom: 6px;
+    color: var(--green);
+    font-size: 30px;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+    font-weight: 800;
+}
+
+.intro p {
+    max-width: 700px;
+    color: #505650;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.standard-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 480px;
+    min-height: 120px;
+    padding: 14px 16px;
+    background: #ffffff;
+    border-radius: 18px;
+    flex-shrink: 0;
+}
+
+.standard-card img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+    border-radius: 10px;
+    flex-shrink: 0;
+}
+
+.standard-card strong {
+    display: block;
+    font-size: 16px;
+    color: var(--green);
+}
+
+.standard-card p {
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: #505650;
+}
+
+/* LANGKAH DAN KARTU */
+.booking-step {
+    display: none;
+}
+
+.booking-step.active {
+    display: block;
+}
+
+.room-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.room-card {
+    position: relative;
+    display: block;
+    min-width: 0;
+    min-height: 195px;
+    padding: 24px 24px 20px;
+    border: 1px solid transparent;
+    border-radius: 18px;
+    background: white;
+    text-align: left;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.room-card:hover {
+    border-color: #c7d9c8;
+    transform: translateY(-2px);
+}
+
+.room-card.selected {
+    border-color: var(--green);
+    box-shadow: 0 0 0 1px var(--green);
+    background: #fbfdf9;
+}
+
+.room-icon {
+    width: 35px;
+    height: 35px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 12px;
+    border-radius: 9px;
+    background: #dcf4e0;
+    color: var(--green);
+    font-size: 19px;
+}
+
+.room-card h3 {
+    margin-bottom: 4px;
+    font-size: 14px;
+    color: var(--text);
+}
+
+.room-card p {
+    min-height: 31px;
+    color: #69736d;
+    font-size: 10px;
+}
+
+.room-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    margin-top: 9px;
+    color: #65786a;
+    font-size: 9px;
+}
+
+.room-check {
+    display: none;
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    width: 21px;
+    height: 21px;
+    place-items: center;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-size: 12px;
+}
+
+.room-card.selected .room-check {
+    display: grid;
+}
+
+.benefit-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 22px;
+}
+
+.benefit {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 12px;
+    background: white;
+    border-radius: 10px;
+}
+
+.benefit-icon {
+    width: 30px;
+    height: 30px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #dcf4e0;
+}
+
+.benefit strong {
+    display: block;
+    font-size: 10px;
+}
+
+.benefit p {
+    color: var(--muted);
+    font-size: 9px;
+}
+
+/* PAKET, ADD-ON, FORM */
+.section-heading {
+    margin-bottom: 17px;
+}
+
+.section-heading h2 {
+    margin-bottom: 5px;
+    color: var(--green);
+    font-size: 26px;
+}
+
+.section-heading p {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.option-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+    align-items: stretch;
+    margin-top: 0;
+}
+
+.selected-room-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    margin-bottom: 18px;
+    padding: 7px 13px;
+    border-radius: 20px;
+    background: #f4dfe0;
+    color: var(--text);
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.selected-room-label a {
+    color: var(--green);
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.option-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    min-width: 0;
+    min-height: 210px;
+    padding: 18px;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+    background: white;
+    cursor: pointer;
+    text-align: left;
+    color: var(--text);
+    transition: .2s ease;
+}
+
+.option-card:hover {
+    border-color: #a9c9ad;
+    transform: translateY(-2px);
+}
+
+.option-card.selected {
+      border: 2px solid var(--green);
+    background: #fbfdf9;
+    box-shadow: 0 0 0 1px var(--green);
+}
+
+.option-card img {
+    width: 100%;
+    height: 115px;
+    margin: 12px 0 8px;
+    border-radius: 7px;
+    object-fit: cover;
+}
+
+.option-card h3 {
+    margin: 7px 0 4px;
+    font-size: 15px;
+    color: var(--green);
+}
+
+.option-card p {
+    min-height: 30px;
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.package-label {
+    display: inline-block;
+    align-self: flex-start;
+    margin-bottom: 10px;
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: #dcf4e0;
+    color: var(--green);
+    font-size: 9px;
+    font-weight: 800;
+}
+
+.option-duration {
+    display: block;
+    color: var(--muted);
+    font-size: 9px;
+}
+
+.option-card small {
+    display: block;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+.option-price {
+    display: block;
+    margin-top: 10px;
+    color: var(--green);
+    font-size: 19px;
+    font-weight: 800;
+}
+
+.package-features {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-top: 14px;
+    padding: 12px;
+    border-radius: 8px;
+    background: #f1fbf2;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.package-features strong {
+    font-size: 9px;
+    color: var(--green);
+}
+
+.package-choose {
+    display: block;
+    margin-top: auto;
+    padding: 10px;
+    border-radius: 7px;
+    background: #dcf4e0;
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.option-card.selected .package-choose {
+    background: var(--green);
+    color: white;
+}
+
+.form-card {
+    padding: 22px;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 13px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 15px;
+}
+
+.form-group {
+    margin-bottom: 14px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 16px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.required-mark {
+    color: #e53935;
+    font-weight: 800;
+}
+
+.form-group input,
+.form-group select,
+
+.form-group textarea {
+    width: 100%;
+    min-height: 80px;
+    padding: 11px 12px;
+    border: 1px solid #dedfd9;
+    border-radius: 8px;
+    background: white;
+    color: var(--text);
+    outline: none;
+    font-size: 15px;
+    resize: vertical;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--green-light);
+}
+
+/* NAVIGASI BOOKING */
+.navigation-buttons {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    margin-top: 22px;
+    padding: 14px 24px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 8px 18px rgba(35, 65, 49, 0.10);
+}
+
+.selection-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.selection-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #dcf4e0;
+    color: var(--green);
+    font-weight: 700;
+}
+
+.selection-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.selection-label {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.selection-room {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.navigation-buttons .btn {
+    flex-shrink: 0;
+}
+
+.navigation-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-shrink: 0;
+}
+
+#backBtn {
+    border: 1px solid #193e2f;
+}
+
+#backBtn:hover {
+    background: #e8eee5;
+}
+
+@media (max-width: 560px) {
+    .navigation-buttons {
+        flex-wrap: wrap;
+        padding: 14px;
+    }
+
+    .navigation-buttons .selection-info {
+        width: 100%;
+    }
+}
+
+.btn {
+    padding: 12px 19px;
+    border: 0;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 11px;
+    font-weight: 800;
+    transition: .2s;
+}
+
+.btn-primary {
+    background: var(--green);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #28563f;
+}
+
+.btn-secondary {
+    border: 1px solid var(--border);
+    background: white;
+    color: var(--green);
+}
+
+.btn:disabled {
+    opacity: .45;
+    cursor: not-allowed;
+}
+
+.notice {
+    margin-top: 12px;
+    color: var(--muted);
+    font-size: 10px;
+}
+
+
+.cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+    padding: 36px max(24px, calc((100% - 1120px) / 2));
+    background: var(--green);
+    color: #ffffff;
+}
+
+.cta > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.cta h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.cta p {
+    margin: 0;
+    color: #d2dfd5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.cta a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    min-width: 150px;
+    padding: 13px 22px;
+    border-radius: 25px;
+    background: #fff0e9;
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.footer {
+    padding: 40px 24px 18px;
+    background: #f8e9e3;
+    color: #1d352b;
+    text-align: left;
+    font-size: 12px;
+}
+
+.footer-grid {
+    max-width: var(--content-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 35px;
+}
+
+.footer-grid h3 {
+    margin-bottom: 10px;
+    color: #193e2f;
+    font-size: 11px;
+}
+
+.footer-grid p,
+.footer-grid li,
+.footer-grid a {
+    color: #77716c;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.footer-grid ul {
+    padding: 0;
+    list-style: none;
+}
+
+.footer-grid a:hover {
+    color: #193e2f;
+}
+
+.footer-grid .whatsapp {
+    color: #193e2f;
+    font-weight: 800;
+}
+
+.footer-bottom {
+    max-width: var(--content-width);
+    margin: 28px auto 0;
+    padding-top: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+    border-top: 1px solid #eadbd5;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+    color: #89817b;
+    font-size: 10px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+@media (max-width: 700px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+    }
+
+    .footer-bottom {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 450px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* RESPONSIVE */
+@media (max-width: 850px) {
+    .navbar {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        overflow-x: auto;
+    }
+
+    .nav-menu a {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+
+    .intro-row {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .standard-card {
+        width: 100%;
+    }
+
+    .room-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .navbar {
+        padding: 10px 14px;
+    }
+
+    .logo img {
+        width: 34px;
+        height: 34px;
+    }
+
+   .logo .logo-text {
+    font-size: 20px;
+    }
+
+    .btn-account {
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+
+    .booking-container {
+        width: calc(100% - 28px);
+        padding-top: 16px;
+    }
+
+    .progress-card {
+        padding: 13px 10px;
+    }
+
+    .progress-top {
+        align-items: flex-start;
+    }
+
+    .progress-title {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .progress-title h2 {
+        font-size: 17px;
+    }
+
+    .progress-steps {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 6px;
+    }
+
+    .progress-step {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 5px;
+    }
+
+    .step-number {
+        flex-basis: 30px;
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+
+    .step-copy strong {
+        font-size: 11px;
+        line-height: 1.2;
+    }
+
+    .step-copy small {
+        display: none;
+    }
+    .step-line {
+        display: none;
+    }
+
+    .estimate {
+        display: none;
+    }
+
+    .room-grid,
+    .option-grid,
+    .benefit-grid,
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .room-card {
+        min-height: 130px;
+    }
+
+    .form-group.full {
+        grid-column: auto;
+    }
+
+    .cta {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .navigation-buttons .btn {
+        padding: 11px 13px;
+    }
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.footer-logo-icon {
+    width: 38px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 9px;
+    background-color: #204b38;
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.footer-logo-text {
+    color: #204b38;
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+}
+
+.package-heading-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 24px;
+}
+
+.package-heading-row .section-heading {
+    flex: 1;
+    min-width: 0;
+    margin-bottom: 0;
+}
+
+.hospital-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 0 0 350px;
+    width: 350px;
+    min-height: 65px;
+    padding: 12px 16px;
+    margin: 0;
+    transform: translateY(-85px);
+    background: #dcf4e0;
+    border-radius: 14px;
+}
+
+.hospital-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    background: var(--green);
+    color: white;
+    font-size: 20px;
+}
+
+.hospital-card strong {
+    display: block;
+    color: var(--green);
+    font-size: 12px;
+}
+
+.hospital-card p {
+    margin-top: 3px;
+    color: #65786a;
+    font-size: 10px;
+}
+
+.option-card .option-price {
+    margin-top: auto;
+}
+
+@media (max-width: 850px) {
+    .package-heading-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+    }
+
+    .hospital-card {
+        width: 100%;
+        flex-basis: auto;
+    }
+
+    .option-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
+    .option-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =====================================
+   KARTU RINGKASAN UMUM
+   Digunakan Step 3, Step 4, dan Step 5
+===================================== */
+
+.summary-card {
+    margin-top: 22px;
+    padding: 18px;
+    background: #ffffff;
+    border: 1px solid #e8e1d7;
+    border-radius: 14px;
+}
+
+.summary-card h3 {
+    margin-bottom: 12px;
+    color: var(--green);
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.summary-line {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 9px 0;
+    border-bottom: 1px solid #eeeae4;
+    font-size: 12px;
+}
+
+.summary-line span {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+.summary-line strong {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.summary-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 14px;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.summary-total strong {
+    font-size: 20px;
+}
+
+
+/* =====================================
+   DESAIN KHUSUS STEP 4
+   RINGKASAN & TOTAL PESANAN
+===================================== */
+
+/* Kartu utama */
+.booking-step[data-step="3"] .summary-card {
+    margin-top: 0;
+    padding: 0;
+    overflow: hidden;
+    background: #ffffff;
+    border: 1px solid #e8e1d7;
+    border-radius: 17px;
+    box-shadow: 0 2px 5px rgba(35, 50, 40, 0.04);
+}
+
+/* Header Ringkasan Layanan */
+.booking-step[data-step="3"] .summary-card h3 {
+    margin: 0;
+    padding: 19px 26px;
+    background: #f5f8f5;
+    color: var(--green);
+    font-size: 18px;
+    font-weight: 700;
+    border-bottom: 1px solid #eee9e1;
+}
+
+/* Detail pesanan */
+.booking-step[data-step="3"] .summary-line {
+    padding: 14px 26px;
+    gap: 15px;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeae4;
+}
+
+/* Label informasi */
+.booking-step[data-step="3"] .summary-line span {
+    color: #737b8b;
+    font-size: 13px;
+}
+
+/* Isi informasi */
+.booking-step[data-step="3"] .summary-line strong {
+    color: #182230;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: right;
+}
+
+/* Area total estimasi */
+.booking-step[data-step="3"] .summary-total {
+    padding: 19px 26px;
+    margin: 0;
+    background: #faf8f4;
+    color: #182230;
+}
+
+/* Label total dan keterangan */
+.booking-step[data-step="3"] .summary-total > div {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.booking-step[data-step="3"] .summary-total span {
+    color: #182230;
+    font-size: 17px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="3"] .summary-total small {
+    color: #737b8b;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Nominal harga */
+.booking-step[data-step="3"] .summary-total strong {
+    color: var(--green);
+    font-size: 30px;
+    font-weight: 800;
+    letter-spacing: -0.7px;
+}
+
+/* Responsive */
+@media (max-width: 560px) {
+    .booking-step[data-step="3"] .summary-card h3 {
+        padding: 16px 17px;
+        font-size: 16px;
+    }
+
+    .booking-step[data-step="3"] .summary-line {
+        padding: 12px 17px;
+        gap: 10px;
+    }
+
+    .booking-step[data-step="3"] .summary-line span,
+    .booking-step[data-step="3"] .summary-line strong {
+        font-size: 11px;
+    }
+
+    .booking-step[data-step="3"] .summary-total {
+        padding: 16px 17px;
+    }
+
+    .booking-step[data-step="3"] .summary-total span {
+        font-size: 14px;
+    }
+
+    .booking-step[data-step="3"] .summary-total small {
+        font-size: 10px;
+    }
+
+    .booking-step[data-step="3"] .summary-total strong {
+        font-size: 23px;
+    }
+}
+
+/* =====================================
+   STEP 3 — ADD-ON & CATATAN
+===================================== */
+
+.booking-step[data-step="2"] .step3-heading {
+    margin-bottom: 24px;
+}
+
+.booking-step[data-step="2"] .step3-heading h2 {
+    color: #172d25;
+    font-size: 26px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="2"] .step3-heading p {
+    color: #758078;
+    font-size: 13px;
+}
+
+/* BANNER RUANGAN */
+
+.step3-room-banner {
+    position: relative;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+    border-radius: 14px;
+    background: #e8eee5;
+}
+
+.step3-room-banner > img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+    object-position: center;
+}
+
+.step3-room-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 22px;
+    color: white;
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.72),
+        transparent 75%
+    );
+}
+
+.step3-room-category {
+    color: #a5e5bc;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .5px;
+}
+
+.step3-room-overlay h3 {
+    margin-top: 5px;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.step3-room-overlay p {
+    margin-top: 3px;
+    color: #f1f1f1;
+    font-size: 12px;
+}
+
+.step3-room-total {
+    position: absolute;
+    right: 20px;
+    bottom: 18px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    color: white;
+}
+
+.step3-room-total span {
+    font-size: 11px;
+}
+
+.step3-room-total strong {
+    font-size: 23px;
+    font-weight: 800;
+}
+
+/* INFORMASI HARGA */
+
+.step3-price-information {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.step3-price-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    padding: 12px;
+    border: 1px solid #eceee9;
+    border-radius: 10px;
+    background: #fafaf9;
+    font-size: 11px;
+}
+
+.step3-price-item > span:not(.step3-price-dot) {
+    flex: 1;
+    color: #68736d;
+}
+
+.step3-price-item strong {
+    color: #263d32;
+    font-size: 11px;
+    white-space: nowrap;
+}
+
+.step3-price-dot {
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #36a879;
+}
+
+.step3-free-item strong {
+    color: #25966c;
+}
+
+/* GARANSI */
+
+.step3-guarantee {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 13px 15px;
+    border: 1px solid #d5ebdc;
+    border-radius: 10px;
+    background: #edf7f0;
+}
+
+.step3-guarantee-icon {
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #159b70;
+    color: white;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.step3-guarantee > div {
+    flex: 1;
+}
+
+.step3-guarantee strong {
+    color: #245c43;
+    font-size: 12px;
+}
+
+.step3-guarantee p {
+    color: #648270;
+    font-size: 10px;
+}
+
+.step3-guarantee-note {
+    color: #9aa79e;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* KARTU SECTION */
+
+.step3-section-card {
+    margin-top: 24px;
+    padding: 22px;
+    border: 1px solid #ece8df;
+    border-radius: 15px;
+    background: white;
+}
+
+.step3-section-title {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 18px;
+}
+
+.step3-section-title h3 {
+    color: #182b25;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.step3-section-title p {
+    margin-top: 4px;
+    color: #858d87;
+    font-size: 11px;
+}
+
+.step3-section-badge {
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: #f4f1e9;
+    color: #8b806a;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+/* ADD-ON UTAMA */
+
+.step3-addon-list {
+    display: grid;
+    gap: 11px;
+}
+
+.step3-addon-card {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 15px;
+    border: 1px solid #e8e9e5;
+    border-radius: 11px;
+    background: #fcfbf9;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.step3-addon-card input,
+.step3-extra-card input {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    accent-color: var(--green);
+}
+
+.step3-addon-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.step3-addon-info strong {
+    display: block;
+    color: #202d27;
+    font-size: 12px;
+}
+
+.step3-addon-info p {
+    margin-top: 3px;
+    color: #858d87;
+    font-size: 10px;
+}
+
+.step3-addon-price {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+
+/* =====================================
+   LAYANAN TAMBAHAN LAINNYA
+===================================== */
+
+.step3-extra-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+}
+
+.step3-extra-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 180px;
+    padding: 16px;
+    border: 1px solid #e5e8e3;
+    border-radius: 12px;
+    background: #fcfbf9;
+    cursor: pointer;
+    transition: .2s ease;
+}
+
+.step3-extra-card:hover {
+    border-color: #a9c9ad;
+}
+
+/* CHECKBOX */
+.step3-extra-card > input {
+    position: absolute;
+    top: 26px;
+    right: 16px;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: #193e2f;
+    cursor: pointer;
+}
+
+/* IKON DAN BADGE */
+.step3-extra-top {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 36px;
+    margin-bottom: 10px;
+    padding-right: 32px;
+}
+
+.step3-extra-icon {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #e8eee5;
+    color: #193e2f;
+}
+
+.step3-extra-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.step3-extra-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 24px;
+    margin-left: auto;
+    padding: 3px 8px;
+    border-radius: 20px;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.step3-extra-badge.popular {
+    background: #fff0f2;
+    border: 1px solid #ffc6d0;
+    color: #dc3455;
+}
+
+.step3-extra-badge.recommended {
+    background: #ddf8eb;
+    border: 1px solid #a2e8c5;
+    color: #087653;
+}
+
+/* JUDUL */
+.step3-extra-card > strong {
+    display: block;
+    margin-bottom: 6px;
+    color: #182b25;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+/* DESKRIPSI */
+.step3-extra-card > p {
+    margin: 0;
+    color: #758078;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+/* DURASI DAN HARGA */
+.step3-extra-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px solid #e8eae5;
+}
+
+.step3-extra-footer small {
+    color: #929b94;
+    font-size: 12px;
+}
+
+.step3-extra-footer strong {
+    color: #193e2f;
+    font-size: 13px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+/* KARTU TERPILIH */
+.step3-extra-card:has(input:checked) {
+    border: 2px solid #193e2f;
+    padding: 15px;
+    background: #f3f8f3;
+}
+
+/* RESPONSIVE */
+@media (max-width: 560px) {
+
+    .step3-extra-card {
+        min-height: 180px;
+    }
+}
+
+/* CATATAN DAN PREFERENSI */
+
+.step3-note-card {
+    margin-top: 24px;
+}
+
+.step3-preference {
+    margin-top: 25px;
+}
+
+.step3-field-label {
+    display: block;
+    color: #47534c;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: .2px;
+}
+
+.step3-cleaner-options {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 9px;
+    margin-top: 10px;
+}
+
+.step3-cleaner-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 43px;
+    padding: 10px;
+    border: 1px solid #dce2dc;
+    border-radius: 10px;
+    background: white;
+    cursor: pointer;
+    text-align: center;
+    transition: .2s ease;
+}
+
+.step3-cleaner-option input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.step3-cleaner-option span {
+    color: #435047;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+.step3-cleaner-option:has(input:checked) {
+    border-color: var(--green);
+    background: var(--green);
+}
+
+.step3-cleaner-option:has(input:checked) span {
+    color: white;
+}
+
+.step3-preference-note {
+    margin-top: 9px;
+    color: #a0a8a1;
+    font-size: 10px;
+}
+
+.step3-instruction {
+    margin-top: 24px;
+}
+
+.step3-instruction-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 9px;
+}
+
+.step3-instruction-heading > span {
+    color: #a0a8a1;
+    font-size: 10px;
+}
+
+.step3-instruction textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: 13px;
+    border: 1px solid #dce2dc;
+    border-radius: 10px;
+    background: #fcfbf9;
+    color: var(--text);
+    font: inherit;
+    font-size: 12px;
+    resize: vertical;
+    outline: none;
+}
+
+.step3-instruction textarea:focus {
+    border-color: var(--green);
+    box-shadow: 0 0 0 2px var(--green-light);
+}
+
+/* BANTUAN WHATSAPP */
+
+.step3-help {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+    padding: 15px;
+    border: 1px solid #ece8df;
+    border-radius: 12px;
+    background: white;
+}
+
+.step3-help > span {
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #e8f7ee;
+    color: #159b70;
+    font-size: 16px;
+}
+
+.step3-help > div {
+    flex: 1;
+}
+
+.step3-help strong {
+    color: #273b30;
+    font-size: 11px;
+}
+
+.step3-help p {
+    color: #89928b;
+    font-size: 10px;
+}
+
+.step3-help a {
+    color: #8b9990;
+    font-size: 17px;
+}
+
+/* RESPONSIVE STEP 3 */
+
+@media (max-width: 850px) {
+    .step3-price-information {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-guarantee-note {
+        display: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .step3-room-banner {
+        height: 190px;
+    }
+
+    .step3-room-overlay {
+        padding: 14px;
+    }
+
+    .step3-room-overlay h3 {
+        font-size: 17px;
+    }
+
+    .step3-room-total {
+        right: 12px;
+        bottom: 12px;
+    }
+
+    .step3-room-total strong {
+        font-size: 17px;
+    }
+
+    .step3-section-card {
+        padding: 16px;
+    }
+
+    .step3-section-title {
+        flex-direction: column;
+    }
+
+    .step3-extra-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-cleaner-options {
+        grid-template-columns: 1fr;
+    }
+
+    .step3-addon-card {
+        align-items: flex-start;
+    }
+
+    .step3-addon-price {
+        font-size: 10px;
+    }
+}
+
+
+/* =========================================
+   STEP 5 — LAYOUT UTAMA
+========================================= */
+
+.booking-step[data-step="4"] .final-booking-heading {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 36px;
+}
+
+.booking-step[data-step="4"] .final-step-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+
+    width: fit-content;
+    max-width: 100%;
+    padding: 7px 15px;
+    margin-bottom: 14px;
+
+    background: #e8f1eb;
+    color: #193e2f;
+    border-radius: 999px;
+
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.3;
+    white-space: nowrap;
+}
+
+.booking-step[data-step="4"] .final-booking-heading h2 {
+    margin: 0 0 8px;
+    color: #193e2f;
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.7px;
+}
+
+.booking-step[data-step="4"] .final-booking-heading p {
+    margin: 0;
+    max-width: 900px;
+    color: #68736d;
+    font-size: 15px;
+    line-height: 1.6;
+}
+
+.booking-step[data-step="4"] .final-booking-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.85fr) minmax(320px, 1fr);
+    align-items: start;
+    gap: 22px;
+    width: 100%;
+}
+
+.booking-step[data-step="4"] .final-left {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-right {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-panel,
+.booking-step[data-step="4"] .final-payment-card {
+    min-width: 0;
+    padding: 21px;
+    background: #ffffff;
+    border: 1px solid #ece8df;
+    border-radius: 14px;
+    box-shadow: 0 1px 3px rgba(35, 50, 40, 0.03);
+}
+
+.booking-step[data-step="4"] .final-panel-heading {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    margin-bottom: 18px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #f0f0ec;
+}
+
+.booking-step[data-step="4"] .final-panel-heading p {
+    margin-top: 2px;
+    color: #7f8d86;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+
+.booking-step[data-step="4"] .final-heading-icon svg {
+    display: block;
+    width: 20px;
+    height: 20px;
+    max-width: 20px;
+    max-height: 20px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    flex-shrink: 0;
+}
+
+
+.booking-step[data-step="4"] .final-panel-heading > div:nth-child(2) {
+    flex: 1;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-heading-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 29px;
+    height: 29px;
+    border-radius: 8px;
+    background: #eef6f0;
+    color: #234b39;
+    font-size: 16px;
+}
+
+.booking-step[data-step="4"] .final-panel-heading h3 {
+    color: #18392d;
+    font-size: 15px;
+    font-weight: 800;
+}
+
+/* STEP 5 — UKURAN FONT HEADER DATA DIRI */
+.booking-step[data-step="4"]
+#finalContactPanel .final-panel-heading h3 {
+    font-size: 20px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+}
+
+.booking-step[data-step="4"]
+#finalContactPanel .final-panel-heading p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .final-section-number {
+    flex-shrink: 0;
+    padding: 5px 8px;
+    border-radius: 7px;
+    background: #f5f6f8;
+    color: #475467;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* RESPONSIVE LAYOUT STEP 5 */
+
+@media (max-width: 850px) {
+    .booking-step[data-step="4"] .final-booking-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-step[data-step="4"] .final-right {
+        order: 2;
+    }
+}
+
+@media (max-width: 560px) {
+    .booking-step[data-step="4"] .final-panel,
+    .booking-step[data-step="4"] .final-payment-card {
+        padding: 16px;
+    }
+
+    .booking-step[data-step="4"] .final-booking-heading h2 {
+        font-size: 23px;
+    }
+
+    .booking-step[data-step="4"] .final-panel-heading {
+        flex-wrap: wrap;
+    }
+}
+
+/* =========================================
+   STEP 5 — FORM DATA DIRI & KONTAK
+========================================= */
+
+.booking-step[data-step="4"] .final-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 18px;
+    row-gap: 22px;
+}
+
+
+.booking-step[data-step="4"] .final-form-group {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 7px;
+}
+
+.booking-step[data-step="4"] .final-form-group.full {
+    grid-column: 1 / -1;
+}
+
+.booking-step[data-step="4"] .final-form-group > label {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    column-gap: 5px;
+    row-gap: 6px;
+    min-height: 18px;
+    color: #344054;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .required-mark {
+    color: #e5484d;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .optional-label {
+    margin-left: auto;
+    color: #98a2b3;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+    text-align: right;
+}
+
+.booking-step[data-step="4"] .final-form-group input,
+.booking-step[data-step="4"] .final-form-group select,
+.booking-step[data-step="4"] .final-form-group textarea {
+    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    min-width: 0;
+    min-height: 42px;
+    padding: 0 13px;
+    border: 1px solid #d9e5dc;
+    border-radius: 10px;
+    outline: none;
+    background: #f7faf7;
+    color: #26352e;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.booking-step[data-step="4"] .final-form-group textarea {
+    min-height: 66px;
+    padding: 12px 13px;
+    resize: vertical;
+    line-height: 1.5;
+    background: #f7faf7;
+}
+
+.booking-step[data-step="4"] .final-form-group input::placeholder,
+.booking-step[data-step="4"] .final-form-group textarea::placeholder {
+    color: #a2aca5;
+    font-weight: 400;
+}
+
+.booking-step[data-step="4"] .final-form-group input:focus,
+.booking-step[data-step="4"] .final-form-group select:focus,
+.booking-step[data-step="4"] .final-form-group textarea:focus {
+    border-color: #8bb39b;
+    box-shadow: 0 0 0 3px rgba(73, 124, 95, 0.10);
+    background: #ffffff;
+}
+
+.booking-step[data-step="4"] .final-form-group small {
+    color: #8a9490;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* Keterangan tambahan kontak pemesan */
+.booking-step[data-step="4"] .final-contact-hint {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 2px;
+    color: #737d8e;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .final-hint-icon {
+    flex-shrink: 0;
+    color: #98a2b3;
+    font-size: 13px;
+    line-height: 1.3;
+}
+
+
+.booking-step[data-step="4"] .final-phone-field {
+    display: flex;
+    align-items: center;
+    min-height: 42px;
+    overflow: hidden;
+    border: 1px solid #dce8e0;
+    border-radius: 10px;
+    background: #f4f8f5;
+}
+
+
+
+/* PEMBUNGKUS INPUT DENGAN IKON */
+.final-input-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.final-input-icon > svg {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    color: #1f7a55;
+    pointer-events: none;
+}
+
+
+.booking-step[data-step="4"] .final-input-icon > input {
+    width: 100%;
+    padding-left: 42px;
+}
+
+
+.booking-step[data-step="4"] .label-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    max-width: 100%;
+    padding: 4px 9px;
+    border-radius: 20px;
+    background: #eaf5ec;
+    color: #2f7a46;
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-left: 4px;
+    white-space: normal;
+}
+
+.booking-step[data-step="4"] .label-badge.plain {
+    background: #f1f3f1;
+    color: #777;
+}
+
+.booking-step[data-step="4"] .final-phone-field > span {
+    display: grid;
+    place-items: center;
+    align-self: stretch;
+    min-width: 39px;
+    border-right: 1px solid #dce8e0;
+    color: #475467;
+    font-size: 9px;
+    font-weight: 600;
+}
+
+
+.booking-step[data-step="4"] .final-phone-field input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    min-height: 40px;
+    padding: 0 12px;
+    border: 0;
+    border-radius: 0;
+    outline: none;
+    background: transparent;
+    color: #26352e;
+    font-family: inherit;
+    font-size: 12px;
+}
+
+
+.booking-step[data-step="4"] .final-phone-field:focus-within {
+    border-color: #6d9b82;
+    box-shadow: 0 0 0 3px rgba(35, 91, 62, 0.08);
+}
+
+@media (max-width: 560px) {
+    .booking-step[data-step="4"] .final-form-grid {
+        grid-template-columns: 1fr;
+        row-gap: 14px;
+    }
+
+    .booking-step[data-step="4"] .final-form-group.full {
+        grid-column: auto;
+    }
+}
+
+
+/* =========================================
+   STEP 5 — TIPE HUNIAN & DETAIL LOKASI
+========================================= */
+
+.booking-step[data-step="4"] .final-property-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 14px;
+    width: 100%;
+    margin-top: 0;
+}
+
+.booking-step[data-step="4"] .final-location-details {
+    margin-top: 22px;
+}
+
+.booking-step[data-step="4"] .final-property-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+
+    min-width: 0;
+    min-height: 68px;
+    padding: 10px 32px 10px 12px;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #faf9f7;
+
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease,  box-shadow 0.2s ease;
+}
+
+.booking-step[data-step="4"] .final-property-option:hover {
+    border-color: #a5b9ab;
+}
+
+.booking-step[data-step="4"] .final-property-option input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.booking-step[data-step="4"] .property-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: #f2f4f3;
+    color: #4b5563;
+}
+
+/* Tambahan untuk ikon Lucide */
+.booking-step[data-step="4"] .property-icon svg {
+    width: 18px;
+    height: 18px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+
+.booking-step[data-step="4"] .final-property-option > span:last-child {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: 2px;
+}
+
+.booking-step[data-step="4"] .final-property-option strong {
+    color: #344054;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="4"] .final-property-option small {
+    color: #7f8a95;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-property-option:has(input:checked) {
+    border-color: #1c4b39;
+    background: linear-gradient(180deg, #1d4f3b 0%, #173f31 100%);
+    box-shadow: 0 6px 14px rgba(24, 68, 50, 0.10);
+}
+
+.booking-step[data-step="4"] .final-property-option:has(input:checked) strong,
+.booking-step[data-step="4"] .final-property-option:has(input:checked) small {
+    color: #ffffff;
+}
+
+.booking-step[data-step="4"] .final-property-option:has(input:checked) .property-icon {
+    background: rgba(255, 255, 255, 0.14);
+    color: #ffffff;
+}
+
+.booking-step[data-step="4"] .final-property-option::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    right: 16px;
+    transform: translateY(-50%);
+    width: 16px;
+    height: 16px;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    background: transparent;
+}
+
+.booking-step[data-step="4"] .final-property-option:has(input:checked)::after {
+    content: "✓";
+    display: grid;
+    place-items: center;
+    border-color: #67e0b8;
+    background: #67e0b8;
+    color: #154031;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+@media (max-width: 900px) {
+    .booking-step[data-step="4"] .final-property-options {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+}
+
+.booking-step[data-step="4"] .final-success-note {
+    color: #16925d !important;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-map-section {
+    margin-top: 20px;
+}
+
+.booking-step[data-step="4"] .final-map-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.booking-step[data-step="4"] .final-map-heading strong {
+    color: #344054;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-map-heading button {
+    padding: 4px 0;
+    border: 0;
+    background: transparent;
+    color: #193e2f;
+    font-family: inherit;
+    font-size: 9px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.booking-step[data-step="4"] .final-map-placeholder {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 190px;
+    overflow: hidden;
+    border: 1px solid #dfe8e3;
+    border-radius: 11px;
+    background-color: #f4f7f5;
+    background-image: radial-gradient(#d6e0da 1px, transparent 1px);
+    background-size: 12px 12px;
+}
+
+/* JALAN PADA PREVIEW PETA */
+.final-map-roads {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    pointer-events: none;
+}
+
+.final-map-roads path {
+    fill: none;
+    stroke: #e3e9e5;
+    stroke-linecap: round;
+}
+
+/* TITIK STATUS PETA */
+.map-dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #35a853;
+    margin-right: 5px;
+}
+
+.booking-step[data-step="4"] .final-map-pin {
+    position: absolute;
+    top: 38%;
+    left: 50%;
+    display: grid;
+    place-items: center;
+    width: 29px;
+    height: 29px;
+    transform: translate(-50%, -50%);
+    border: 5px solid #ffffff;
+    border-radius: 50% 50% 50% 0;
+    background: #174835;
+    color: #68e2bb;
+    font-size: 9px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.10);
+}
+
+.booking-step[data-step="4"] .final-map-pin svg {
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    flex-shrink: 0;
+}
+
+.booking-step[data-step="4"] .final-map-heading button {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.booking-step[data-step="4"] .final-map-address {
+    position: absolute;
+    top: 52%;
+    left: 50%;
+    max-width: 80%;
+    padding: 5px 9px;
+    transform: translateX(-50%);
+    border-radius: 5px;
+    background: #ffffff;
+    color: #344054;
+    font-size: 10px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.booking-step[data-step="4"] .final-map-status {
+    position: absolute;
+    right: 9px;
+    bottom: 8px;
+    left: 9px;
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 7px 10px;
+    border: 1px solid #e7ece8;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.96);
+    color: #475467;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-map-status span:last-child {
+    color: #858d95;
+    text-align: right;
+}
+
+@media (max-width: 560px) {
+    .booking-step[data-step="4"] .final-property-options {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-step[data-step="4"] .final-map-status {
+        flex-direction: column;
+    }
+}
+
+
+/* =========================================
+   STEP 5 — JADWAL KEDATANGAN
+========================================= */
+
+.booking-step[data-step="4"] #finalSchedulePanel .final-panel-heading h3 {
+    font-size: 20px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+}
+
+.booking-step[data-step="4"] #finalSchedulePanel .final-panel-heading p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .final-schedule-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 12px;
+    color: #344054;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="4"]
+.final-schedule-section + .final-schedule-section {
+    margin-top: 26px;
+}
+
+.booking-step[data-step="4"] .final-date-options {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.booking-step[data-step="4"] .final-date-option,
+.booking-step[data-step="4"] .final-date-custom {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    min-width: 0;
+    min-height: 108px;
+    padding: 12px 8px;
+    border: 1px solid #e2e6eb;
+    border-radius: 14px;
+    background: #faf9f7;
+    color: #344054;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.booking-step[data-step="4"] .final-date-option small,
+.booking-step[data-step="4"] .final-date-custom small {
+    color: #858d95;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-date-option strong {
+    color: #344054;
+    font-size: 18px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-date-option.selected {
+    border-color: #193e2f;
+    background: #193e2f;
+    box-shadow: 0 3px 8px rgba(25, 62, 47, 0.12);
+}
+
+.booking-step[data-step="4"] .final-date-option.selected small,
+.booking-step[data-step="4"] .final-date-option.selected strong,
+.booking-step[data-step="4"] .final-date-option.selected .date-weekday {
+    color: #ffffff;
+}
+
+.booking-step[data-step="4"] .final-date-option .date-weekday {
+    color: #858d95;
+    font-size: 10px;
+}
+
+/* Kartu tanggal lainnya ketika dipilih */
+.booking-step[data-step="4"] .final-date-custom.selected {
+    border-color: #193e2f;
+    border-style: solid;
+    background: #193e2f;
+    box-shadow: 0 3px 8px rgba(25, 62, 47, 0.12);
+}
+
+/* Tulisan Tanggal di atas angka */
+.booking-step[data-step="4"] .final-date-custom.selected::before {
+    content: "Tanggal";
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+/* Angka dan bulan — sama seperti kartu Lusa */
+.booking-step[data-step="4"] .final-date-custom.selected strong {
+    color: #ffffff;
+    font-size: 18px;
+    font-weight: 800;
+    line-height: 1.2;
+}
+
+/* Nama hari di bawah tanggal */
+.booking-step[data-step="4"] .final-date-custom.selected small {
+    color: #ffffff;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.booking-step[data-step="4"] .final-date-custom {
+    background: #ffffff;
+    border-style: dashed;
+}
+
+.booking-step[data-step="4"] .final-date-custom input {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.booking-step[data-step="4"] .final-date-custom > span {
+    color: #193e2f;
+    font-size: 17px;
+}
+
+.booking-step[data-step="4"] .final-date-custom strong {
+    color: #344054;
+    font-size: 11px;
+}
+
+.booking-step[data-step="4"] .final-time-options {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+}
+
+.booking-step[data-step="4"] .final-time-option {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    min-height: 53px;
+    padding: 10px;
+    border: 1px solid #e5e7eb;
+    border-radius: 9px;
+    background: #faf9f7;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Ikon kalender Lucide */
+.booking-step[data-step="4"] .final-date-custom svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+/* Ikon sesi waktu Lucide */
+.booking-step[data-step="4"] .final-time-option .time-icon svg {
+    width: 18px;
+    height: 18px;
+    stroke: currentColor;
+    flex-shrink: 0;
+}
+
+.booking-step[data-step="4"] .final-time-option input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+.booking-step[data-step="4"] .final-time-option .time-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 27px;
+    height: 27px;
+    border-radius: 7px;
+    background: #edf0f1;
+    color: #475467;
+    font-size: 15px;
+}
+
+.booking-step[data-step="4"] .final-time-option > span:last-child {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-time-option strong {
+    color: #344054;
+    font-size: 13px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="4"] .final-time-option small {
+    color: #858d95;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-time-option:has(input:checked) {
+    border-color: #193e2f;
+    background: #193e2f;
+}
+
+.booking-step[data-step="4"] .final-time-option:has(input:checked) .time-icon {
+    background: rgba(255, 255, 255, 0.12);
+    color: #67e0b8;
+}
+
+.booking-step[data-step="4"] .final-time-option:has(input:checked) strong,
+.booking-step[data-step="4"] .final-time-option:has(input:checked) small {
+    color: #ffffff;
+}
+
+/* Lingkaran pilihan sesi di sebelah kanan */
+.booking-step[data-step="4"] .final-time-option::after {
+    content: "";
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    margin-left: auto;
+    border: 1.5px solid #98a2b3;
+    border-radius: 50%;
+}
+
+/* Lingkaran ketika sesi dipilih */
+.booking-step[data-step="4"] .final-time-option:has(input:checked)::after {
+    content: "●";
+    display: grid;
+    place-items: center;
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #193e2f;
+    font-size: 11px;
+}
+
+@media (max-width: 560px) {
+    .booking-step[data-step="4"] .final-date-options {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .booking-step[data-step="4"] .final-time-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+
+/* =========================================
+   STEP 5 — RINGKASAN & PEMBAYARAN
+========================================= */
+
+.booking-step[data-step="4"] .final-payment-card {
+    padding: 24px;
+    border: 1px solid #e8e3d9;
+    border-radius: 18px;
+    background: #ffffff;
+    box-shadow: 0 2px 5px rgba(33, 52, 41, 0.05);
+}
+
+.booking-step[data-step="4"] .final-payment-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 17px;
+}
+
+.booking-step[data-step="4"] .final-payment-heading h3 {
+    color: #121826;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.booking-step[data-step="4"] .final-payment-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-payment-title svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #213429;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.booking-step[data-step="4"] .final-order-list > div > span:first-child {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.booking-step[data-step="4"] .final-order-list svg {
+    width: 15px;
+    height: 15px;
+    color: #193e2f;
+    flex-shrink: 0;
+}
+
+.booking-step[data-step="4"] .final-selected-time > span svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #ffffff;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.booking-step[data-step="4"] .final-payment-heading > span {
+    padding: 4px 7px;
+    border-radius: 5px;
+    background: #e8f1eb;
+    color: #193e2f;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-order-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #edf0ed;
+}
+
+.booking-step[data-step="4"] .final-order-list > div {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    color: #66736b;
+    font-size: 11px;
+}
+
+.booking-step[data-step="4"] .final-order-list strong {
+    color: #34483b;
+    font-size: 11px;
+    font-weight: 700;
+    text-align: right;
+}
+
+.booking-step[data-step="4"] .final-order-line > span::before {
+    content: "";
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    margin-right: 7px;
+    border-radius: 50%;
+    background: #213429;
+}
+
+.booking-step[data-step="4"] .final-order-line.addon > span::before {
+    background: #16b989;
+}
+
+.booking-step[data-step="4"] .final-order-line.addon,
+.booking-step[data-step="4"] .final-order-line.addon strong {
+    color: #087f5b;
+}
+
+.booking-step[data-step="4"] .final-selected-time {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 20px 0 22px;
+    padding: 15px;
+    border: 1px solid #cce6d5;
+    border-radius: 12px;
+    background: #f5f9f6;
+}
+
+.booking-step[data-step="4"] .final-selected-time > span {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 42px;
+    height: 42px;
+    border-radius: 10px;
+    background: #213429;
+    color: #ffffff;
+}
+
+.booking-step[data-step="4"] .final-selected-time > div {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-selected-time small {
+    color: #385849;
+    font-size: 10px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-selected-time strong {
+    color: #213429;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .final-payment-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 11px;
+    padding-bottom: 14px;
+    border-bottom: 1px dashed #dfe5df;
+}
+
+.booking-step[data-step="4"] .final-payment-breakdown > div {
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    color: #78827b;
+    font-size: 11px;
+}
+
+.booking-step[data-step="4"] .final-payment-breakdown strong {
+    color: #34483b;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="4"] .final-payment-total {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 20px 0 25px;
+}
+
+.booking-step[data-step="4"] .final-total-copy {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+}
+
+.booking-step[data-step="4"] .final-total-copy span {
+    color: #121826;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-total-copy small {
+    color: #98a2b3;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-payment-total > strong {
+    color: #213429;
+    font-size: 25px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.booking-step[data-step="4"] .final-payment-method {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 13px;
+    border-top: 1px solid #edf0ed;
+}
+
+.booking-step[data-step="4"] .final-payment-method > strong {
+    margin-bottom: 2px;
+    color: #34483b;
+    font-size: 12px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-payment-option {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 11px;
+    border: 1px solid #e5e9e5;
+    border-radius: 9px;
+    background: #ffffff;
+    cursor: pointer;
+}
+
+.booking-step[data-step="4"] .final-payment-option input {
+    flex-shrink: 0;
+    margin: 2px 0 0;
+    accent-color: #193e2f;
+}
+
+.booking-step[data-step="4"] .final-payment-option > span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.booking-step[data-step="4"] .final-payment-option strong {
+    color: #34483b;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.booking-step[data-step="4"] .final-payment-option small {
+    color: #858d87;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+/* METODE PEMBAYARAN KETIKA DIPILIH */
+.booking-step[data-step="4"] .final-payment-option:has(input:checked) {
+    border-color: #193e2f;
+    background: #f1f7f2;
+}
+
+/* IKON CENTANG — KONDISI AWAL TERSEMBUNYI */
+.booking-step[data-step="4"] .payment-selected-check {
+    display: none;
+    width: 18px;
+    height: 18px;
+    flex: 0 0 18px;
+    margin-left: auto;
+    fill: none;
+    stroke: #087f5b;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* IKON CENTANG — MUNCUL KETIKA METODE DIPILIH */
+.booking-step[data-step="4"]
+.final-payment-option:has(input:checked) .payment-selected-check {
+    display: block;
+}
+
+/* KOTAK DETAIL REKENING BCA DAN QRIS */
+.booking-step[data-step="4"] .final-payment-detail {
+    margin-top: 12px;
+    padding: 14px 16px;
+    border: 1px solid #cfe0d5;
+    border-radius: 16px;
+    background: #f4f8f5;
+    color: #213429;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.booking-step[data-step="4"] .final-payment-detail[hidden] {
+    display: none;
+}
+
+.booking-step[data-step="4"] .final-payment-detail small {
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 0.02em;
+    color: #6b7d72;
+    text-transform: uppercase;
+}
+
+.booking-step[data-step="4"] .payment-bank-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border: 1px solid #e1ebe4;
+    border-radius: 12px;
+    background: #ffffff;
+}
+
+.booking-step[data-step="4"] .payment-bank-row span {
+    font-size: 13px;
+    color: #6d7a73;
+}
+
+.booking-step[data-step="4"] .payment-bank-row strong {
+    font-size: 14px;
+    font-weight: 800;
+    color: #193e2f;
+}
+
+.booking-step[data-step="4"] .qris-detail img {
+    display: block;
+    width: min(100%, 220px);
+    height: auto;
+    margin: 4px auto 0;
+    border-radius: 14px;
+    background: #ffffff;
+    border: 1px solid #deebe3;
+    padding: 8px;
+}
+
+.booking-step[data-step="4"] .qris-detail span {
+    font-size: 12px;
+    line-height: 1.5;
+    color: #6d7a73;
+    text-align: center;
+}
+
+.booking-step[data-step="4"] .final-confirm-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 41px;
+    margin-top: 16px;
+    padding: 10px 12px;
+
+    border: none;
+    border-radius: 8px;
+    background: #193e2f;
+    color: #ffffff;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.booking-step[data-step="4"] .final-confirm-button:hover {
+    background: #285640;
+}
+
+
+/* TOMBOL KEMBALI KE RINGKASAN PESANAN */
+.booking-step[data-step="4"] .final-back-summary-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    width: 100%;
+    min-height: 41px;
+    margin-top: 16px;
+    padding: 10px 12px;
+
+    border: 1.5px solid #98bda7;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #193e2f;
+
+    font-family: 'Inter', Arial, sans-serif;
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+
+    cursor: pointer;
+    transition: background 0.2s ease,
+                border-color 0.2s ease;
+}
+
+/* IKON PANAH KE KIRI */
+.booking-step[data-step="4"] .final-back-summary-button svg {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+
+    transform: rotate(180deg);
+}
+
+/* EFEK HOVER */
+.booking-step[data-step="4"] .final-back-summary-button:hover {
+    background: #f1f7f2;
+    border-color: #193e2f;
+}
+
+.booking-step[data-step="4"] .final-guarantees {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+    margin-top: 15px;
+    padding-top: 13px;
+    border-top: 1px solid #edf0ed;
+}
+
+.booking-step[data-step="4"] .final-guarantees p {
+    color: #66736b;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .final-guarantees p::first-letter {
+    color: #168653;
+}
+
+.booking-step[data-step="4"] .final-concierge {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px;
+
+    border: 1px solid #e8e9e2;
+    border-radius: 10px;
+    background: #faf9f4;
+
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.booking-step[data-step="4"] .final-concierge:hover {
+    background: #eef7f0;
+    border-color: #a5cbb5;
+}
+
+.booking-step[data-step="4"] .final-concierge:focus-visible {
+    outline: 2px solid #20a879;
+    outline-offset: 3px;
+}
+
+.booking-step[data-step="4"] .final-concierge-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+
+    background: #e5f4ec;
+    color: #20a879;
+
+    font-family: "Apple Symbols", "Segoe UI Symbol", Arial, sans-serif;
+    font-size: 23px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.booking-step[data-step="4"] .final-guarantees svg {
+    width: 15px;
+    height: 15px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #087f5b;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.booking-step[data-step="4"] .final-guarantees p {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+
+.booking-step[data-step="4"] .final-booking-bottom-note span {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.booking-step[data-step="4"] .final-booking-bottom-note svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.booking-step[data-step="4"] .final-concierge strong {
+    color: #34483b;
+    font-size: 11px;
+    font-weight: 800;
+}
+
+.booking-step[data-step="4"] .final-concierge p {
+    margin-top: 4px;
+    color: #858d87;
+    font-size: 10px;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="4"] .final-booking-bottom-note {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 20px;
+    color: #66736b;
+    font-size: 10px;
+}
+
+.booking-step[data-step="4"] .final-step-badge,
+.booking-step[data-step="4"] .final-info-hint,
+.booking-step[data-step="4"] .final-map-status-info,
+.booking-step[data-step="4"] .final-confirm-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.booking-step[data-step="4"] .final-step-badge svg {
+    display: block;
+    width: 17px;
+    height: 17px;
+    flex: 0 0 17px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.booking-step[data-step="4"] .final-info-hint svg,
+.booking-step[data-step="4"] .final-map-status-info svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+.booking-step[data-step="4"] .final-confirm-button svg {
+    width: 17px;
+    height: 17px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: #61e5ac;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.booking-step[data-step="4"] .final-booking-bottom-note span {
+    color: #98a29b;
+    text-align: right;
+}
+
+@media (max-width: 560px) {
+    .booking-step[data-step="4"] .final-booking-bottom-note {
+        flex-direction: column;
+    }
+
+    .booking-step[data-step="4"] .final-booking-bottom-note span {
+        text-align: left;
+    }
+}
+
+/* Memberi jarak antara pilihan tanggal dan pilihan sesi */
+.booking-step[data-step="4"] .final-date-options {
+    margin-bottom: 16px;
+}
+
+@media (max-width: 900px) {
+    .final-booking-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    .final-booking-layout {
+        gap: 16px;
+    }
+}
+
+/* STEP 5 — HEADER TIPE HUNIAN SERAGAM DENGAN DATA DIRI */
+
+.booking-step[data-step="4"]
+.final-panel:has(.final-location-details) .final-panel-heading h3 {
+    font-size: 20px;
+    line-height: 1.3;
+    letter-spacing: -0.4px;
+}
+
+.booking-step[data-step="4"]
+.final-panel:has(.final-location-details) .final-panel-heading p {
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* KONFIRMASI PESANAN */
+.bc[hidden],
+.booking-container[hidden] {
+    display: none !important;
+}
+
+.bc {
+    width: calc(100% - 40px);
+    max-width: 1200px;
+    margin: 36px auto 60px;
+    color: #193e2f;
+}
+
+.bc .bc-card {
+    background: white;
+    border: 1px solid #ebe5dc;
+    border-radius: 24px;
+    padding: 28px;
+}
+
+.bc h1 {
+    font-size: clamp(26px, 4vw, 36px);
+    margin: 16px 0 10px;
+}
+
+.bc h2 {
+    font-size: 18px;
+    border-bottom: 1px solid #ebe5dc;
+    padding-bottom: 18px;
+    margin-bottom: 22px;
+}
+
+.bc h3 {
+    font-size: 15px;
+    margin: 8px 0;
+}
+
+.bc p {
+    color: #68726c;
+    font-size: 13px;
+    line-height: 1.7;
+    margin: 6px 0;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.bc small {
+    display: block;
+    color: #68726c;
+    font-size: 10px;
+    letter-spacing: .07em;
+    margin-bottom: 8px;
+}
+
+.bc .bc-pair {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.bc .bc-soft {
+    background: #f8f5ee;
+    border: 1px solid #e9e2d5;
+    padding: 20px;
+    border-radius: 16px;
+    margin-bottom: 16px;
+    min-width: 0;
+}
+
+.bc .bc-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 2fr) minmax(0, 1fr);
+    gap: 28px;
+    align-items: start;
+}
+
+.bc .bc-column {
+    display: grid;
+    gap: 28px;
+    min-width: 0;
+}
+
+.bc .bc-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 12px 0;
+    font-size: 13px;
+    border-bottom: 1px solid #ebe5dc;
+}
+
+.bc .bc-row span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-row strong {
+    white-space: nowrap;
+}
+
+/* SIDEBAR KONFIRMASI */
+.bc .bc-sidebar {
+    display: grid;
+    align-content: start;
+    gap: 24px;
+    min-width: 0;
+}
+
+.bc .bc-card.bc-bill,
+.bc .bc-card.bc-guarantees {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--white);
+}
+
+.bc .bc-bill-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.bc .bc-bill-heading h2 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: var(--green);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bc #bcPaymentBadge {
+    flex-shrink: 0;
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: var(--pink);
+    color: var(--package-pink-ink, var(--green));
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.bc .bc-bill-breakdown .bc-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 14px;
+    margin: 0;
+    padding: 4px 0;
+    border: 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.55;
+}
+
+.bc .bc-bill-breakdown .bc-row span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-bill-breakdown .bc-row strong {
+    flex-shrink: 0;
+    color: var(--green);
+    font-size: inherit;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.bc .bc-invoice-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-top: 18px;
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--green-light);
+}
+
+.bc .bc-invoice-total small {
+    margin: 0 0 4px;
+    color: var(--muted);
+    font-size: 9px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: 0;
+}
+
+.bc .bc-invoice-total #bcTotal {
+    display: block;
+    color: var(--green);
+    font-size: 23px;
+    font-weight: 700;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+
+.bc .bc-invoice-total #bcPaymentHint {
+    max-width: 95px;
+    margin: 0;
+    color: var(--green);
+    font-size: 10px;
+    line-height: 1.35;
+    text-align: right;
+    white-space: normal;
+}
+
+.bc .bc-payment-notice {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    margin-top: 17px;
+    padding: 13px 12px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    background: var(--cream);
+}
+
+.bc .bc-sidebar svg {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-payment-notice > svg {
+    margin-top: 1px;
+    color: var(--green);
+}
+
+.bc .bc-payment-notice #bcPayment {
+    margin: 0 0 3px;
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.bc .bc-payment-notice #bcPaymentDescription {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.bc .bc-bill-actions {
+    display: grid;
+    gap: 9px;
+    margin-top: 20px;
+}
+
+.bc .bc-bill .bc-side-action {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    min-height: 37px;
+    margin: 0;
+    padding: 10px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.bc .bc-bill .bc-side-primary {
+    border-color: var(--green);
+    background: var(--green);
+    color: var(--white);
+}
+
+.bc .bc-bill .bc-side-download {
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-bill .bc-side-support {
+    border-color: var(--pink);
+    background: var(--pink);
+    color: var(--package-pink-ink, var(--green));
+}
+
+.bc .bc-sidebar-home {
+    display: block;
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+    text-align: center;
+    text-decoration: none;
+}
+
+.bc .bc-guarantees h2 {
+    margin: 0 0 15px;
+    padding: 0;
+    border: 0;
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bc .bc-guarantee-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 13px;
+}
+
+.bc .bc-guarantee-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 27px;
+    height: 27px;
+    border-radius: 50%;
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-guarantee-icon svg {
+    width: 15px;
+    height: 15px;
+}
+
+.bc .bc-guarantee-item h3 {
+    margin: 0 0 2px;
+    color: var(--green);
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bc .bc-guarantee-item p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+@media print {
+    .bc .bc-sidebar {
+        margin-top: 20px;
+    }
+
+    .bc .bc-guarantees {
+        break-inside: avoid;
+    }
+}
+
+.bc .bc-total {
+    display: block;
+    font-size: 30px;
+}
+
+.bc button,
+.bc .bc-button {
+    display: inline-block;
+    border: 1px solid #d5cdc0;
+    border-radius: 12px;
+    background: white;
+    color: #193e2f;
+    padding: 12px 16px;
+    cursor: pointer;
+    font: inherit;
+    font-size: 12px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.bc .bc-bill button,
+.bc .bc-button {
+    width: 100%;
+    margin-top: 10px;
+}
+
+.bc .bc-button {
+    background: #193e2f;
+    color: white;
+}
+
+.bc .bc-home {
+    display: block;
+    text-align: center;
+    margin-top: 18px;
+    color: #68726c;
+    font-size: 12px;
+}
+
+.bc :focus-visible {
+    outline: 3px solid #789477;
+    outline-offset: 4px;
+}
+
+@media (max-width: 800px) {
+    .bc .bc-grid,
+    .bc .bc-quick,
+    .bc .bc-pair {
+        grid-template-columns: 1fr;
+    }
+
+    .bc .bc-card {
+        padding: 22px;
+    }
+}
+
+@media print {
+    body.booking-confirmed > :not(#bookingConfirmation) {
+        display: none !important;
+    }
+
+    .bc {
+        width: 100%;
+        margin: 0;
+    }
+
+    .bc .bc-grid {
+        display: block;
+    }
+
+    .bc button,
+    .bc a,
+    #bcFeedback {
+        display: none !important;
+    }
+
+    .bc .bc-card {
+        break-inside: avoid;
+        margin-bottom: 20px;
+    }
+}
+
+/* HERO KONFIRMASI — mengikuti komposisi prototipe */
+.bc .bc-card.bc-confirm-hero {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    width: 100%;
+    margin-bottom: 28px;
+    padding: 44px 28px 38px;
+
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--white);
+    text-align: center;
+}
+
+/* Lingkaran hijau muda: pojok kanan atas */
+.bc .bc-confirm-hero::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    width: 220px;
+    height: 220px;
+    right: -80px;
+    top: -90px;
+
+    border-radius: 50%;
+    background: var(--green-light);
+    opacity: .48;
+    pointer-events: none;
+}
+
+/* Lingkaran pink muda: pojok kiri bawah */
+.bc .bc-confirm-hero::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+
+    width: 230px;
+    height: 230px;
+    left: -100px;
+    bottom: -120px;
+
+    border-radius: 50%;
+    background: var(--pink);
+    opacity: .45;
+    pointer-events: none;
+}
+
+.bc .bc-confirm-content {
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+/* Ikon centang utama */
+.bc .bc-success-icon {
+    position: relative;
+    display: grid;
+    place-items: center;
+
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 24px;
+
+    border-radius: 50%;
+    background: var(--green);
+    color: var(--white);
+    box-shadow: 0 0 0 9px var(--green-light);
+}
+
+.bc .bc-success-icon > svg {
+    width: 30px;
+    height: 30px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-success-mini {
+    position: absolute;
+    right: -10px;
+    bottom: -9px;
+
+    display: grid;
+    place-items: center;
+    width: 27px;
+    height: 27px;
+
+    border: 3px solid var(--white);
+    border-radius: 50%;
+    background: var(--pink);
+    color: var(--green);
+}
+
+.bc .bc-success-mini svg {
+    width: 17px;
+    height: 17px;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* Badge status */
+.bc .bc-confirm-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    max-width: 100%;
+    padding: 6px 12px;
+    border-radius: 999px;
+
+    background: var(--pink);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.bc .bc-confirm-badge svg {
+    flex-shrink: 0;
+    width: 14px;
+    height: 14px;
+    stroke: currentColor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-confirm-hero #bcTitle {
+    margin: 14px 0 10px;
+    padding: 0;
+
+    color: var(--green);
+    font-family: inherit;
+    font-size: clamp(24px, 2.7vw, 32px);
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.8px;
+}
+
+/* Hilangkan jarak besar akibat baris baru pada HTML */
+.bc .bc-confirm-hero .bc-confirm-description {
+    max-width: 650px;
+    margin: 0 auto;
+
+    color: var(--muted);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1.75;
+    white-space: normal;
+}
+
+.bc .bc-confirm-description strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+/* Dua kartu ringkas */
+.bc .bc-confirm-cards {
+    display: grid;
+    grid-template-columns: 1.05fr 1fr;
+    gap: 14px;
+
+    width: 100%;
+    max-width: 690px;
+    margin: 28px auto 0;
+    text-align: left;
+}
+
+.bc .bc-reservation-card,
+.bc .bc-contact-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    min-width: 0;
+    min-height: 88px;
+    padding: 16px 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+.bc .bc-reservation-card {
+    justify-content: space-between;
+    background: var(--green-light);
+}
+
+.bc .bc-reservation-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.bc .bc-confirm-label {
+    display: block;
+    margin-bottom: 5px;
+
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.4;
+    letter-spacing: .35px;
+}
+
+.bc .bc-reservation-info #bcCode {
+    display: block;
+
+    color: var(--green);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .2px;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-reservation-card #bcCopy {
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+
+    margin: 0;
+    padding: 10px 12px;
+
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--white);
+    color: var(--green);
+
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+    cursor: pointer;
+}
+
+.bc .bc-reservation-card #bcCopy svg {
+    width: 20px;
+    height: 20px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-contact-card {
+    background: var(--white);
+}
+
+.bc .bc-contact-icon {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-contact-icon svg {
+    width: 25px;
+    height: 25px;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-contact-info {
+    min-width: 0;
+}
+
+.bc .bc-contact-info h3 {
+    margin: 0 0 3px;
+    padding: 0;
+
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.bc .bc-contact-info #bcPhone {
+    margin: 0;
+
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+/* Tidak menyisakan ruang saat pesan salin kosong */
+.bc .bc-confirm-hero #bcFeedback:empty {
+    display: none;
+}
+
+.bc .bc-confirm-hero #bcFeedback:not(:empty) {
+    margin: 12px 0 0;
+    color: var(--green);
+    font-size: 12px;
+    white-space: normal;
+}
+
+@media (max-width: 600px) {
+    .bc .bc-card.bc-confirm-hero {
+        padding: 34px 18px 26px;
+    }
+
+    .bc .bc-confirm-cards {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-top: 22px;
+    }
+
+    .bc .bc-confirm-hero #bcTitle {
+        font-size: 25px;
+        letter-spacing: -.5px;
+    }
+
+    .bc .bc-confirm-hero .bc-confirm-description {
+        font-size: 13px;
+    }
+
+    .bc .bc-reservation-card,
+    .bc .bc-contact-card {
+        min-height: 80px;
+        padding: 14px 16px;
+    }
+}
+
+/* PROGRES BOOKING — HALAMAN KONFIRMASI */
+.bc .bc-completed-progress {
+    margin: 0 0 22px;
+    padding: 18px 24px 16px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+}
+
+.bc .bc-completed-list {
+    position: relative;
+    isolation: isolate;
+
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: start;
+
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+/* Garis dimulai dan berakhir di tengah lingkaran. */
+.bc .bc-completed-list::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 11px;
+    left: 10%;
+    right: 10%;
+    height: 2px;
+    background: var(--green);
+}
+
+.bc .bc-completed-step {
+    min-width: 0;
+    padding: 0 9px;
+    text-align: center;
+}
+
+.bc .bc-completed-circle {
+    position: relative;
+    display: block;
+
+    width: 24px;
+    height: 24px;
+    margin: 0 auto 9px;
+
+    border-radius: 50%;
+    background: var(--green);
+}
+
+/* Centang konsisten, tanpa bergantung pada bentuk font. */
+.bc .bc-completed-circle::after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 9px;
+    width: 6px;
+    height: 10px;
+    border-right: 2px solid var(--white);
+    border-bottom: 2px solid var(--white);
+    transform: rotate(40deg);
+}
+
+/* Cincin ganda pada langkah terakhir. */
+.bc .bc-completed-final .bc-completed-circle {
+    outline: 2px solid var(--green);
+    outline-offset: 3px;
+}
+
+.bc .bc-completed-step h3 {
+    margin: 0 0 3px;
+    padding: 0;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.bc .bc-completed-step p {
+    max-width: 180px;
+    margin: 0 auto;
+
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.4;
+
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-completed-final h3 {
+    color: var(--green);
+}
+
+.bc .bc-completed-final p {
+    font-weight: 600;
+}
+
+/* HP: susunan vertikal supaya tulisan tetap terbaca. */
+@media (max-width: 640px) {
+    .bc .bc-completed-progress {
+        padding: 18px 20px;
+    }
+
+    .bc .bc-completed-list {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .bc .bc-completed-list::before {
+        top: 14px;
+        bottom: 14px;
+        left: 11px;
+        right: auto;
+
+        width: 2px;
+        height: auto;
+    }
+
+    .bc .bc-completed-step {
+        position: relative;
+        min-height: 32px;
+        padding: 0 0 0 40px;
+        text-align: left;
+    }
+
+    .bc .bc-completed-circle {
+        position: absolute;
+        top: 2px;
+        left: 0;
+        margin: 0;
+    }
+
+    .bc .bc-completed-step h3 {
+        font-size: 12px;
+    }
+
+    .bc .bc-completed-step p {
+        max-width: none;
+        margin: 0;
+        font-size: 11px;
+    }
+}
+
+@media print {
+    .bc .bc-completed-progress {
+        break-inside: avoid;
+    }
+}
+
+/* JADWAL & LOKASI KUNJUNGAN */
+.bc .bc-card.bc-visit {
+    padding: 24px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--white);
+}
+
+.bc .bc-visit svg {
+    display: block;
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-visit-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+}
+
+.bc .bc-visit-title,
+.bc .bc-visit-address-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.bc .bc-visit-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border-radius: 9px;
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-visit-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.bc .bc-visit-title h2 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: var(--text);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bc .bc-visit-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    padding: 5px 11px;
+    border-radius: 999px;
+    background: var(--green-light);
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.bc .bc-visit-badge > span {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+}
+
+.bc .bc-visit-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.bc .bc-visit-panel {
+    min-width: 0;
+    padding: 18px;
+    border: 1px solid var(--green-light);
+    border-radius: 14px;
+
+    /* Hijau yang sama, diperhalus memakai putih yang sudah ada. */
+    background: color-mix(
+        in srgb,
+        var(--green-light) 45%,
+        var(--white)
+    );
+}
+
+.bc .bc-visit-label {
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 600;
+    line-height: 1.5;
+    letter-spacing: .35px;
+}
+
+.bc .bc-visit-panel h3 {
+    margin: 0 0 10px;
+    color: var(--green);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bc .bc-visit-detail {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.bc .bc-visit-detail svg {
+    margin-top: 2px;
+    width: 16px;
+    height: 16px;
+}
+
+.bc .bc-visit-detail > span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-visit-guarantee svg {
+    color: var(--green);
+    stroke-width: 2;
+}
+
+/* Alamat berupa bagian terbuka dengan garis pembatas. */
+.bc .bc-visit-address {
+    padding-top: 19px;
+    border-top: 1px solid var(--border);
+}
+
+.bc .bc-visit-address-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 9px;
+}
+
+.bc .bc-visit-address-title {
+    color: var(--muted);
+}
+
+.bc .bc-visit-address-title h3 {
+    margin: 0;
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.bc .bc-visit-address-heading > p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.bc .bc-visit-address-heading strong {
+    color: var(--text);
+    font-weight: 600;
+}
+
+.bc .bc-visit-address #bcAddress {
+    margin: 0 0 14px;
+    padding-left: 27px;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-visit-landmark {
+    display: flex;
+    align-items: flex-start;
+    gap: 9px;
+    padding: 12px 14px;
+    border: 1px solid var(--green-light);
+    border-radius: 10px;
+    background: color-mix(
+        in srgb,
+        var(--green-light) 45%,
+        var(--white)
+    );
+    color: var(--muted);
+}
+
+.bc .bc-visit-landmark svg {
+    margin-top: 1px;
+    width: 18px;
+    height: 18px;
+}
+
+.bc .bc-visit-landmark p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.bc .bc-visit-landmark strong {
+    color: var(--text);
+    font-weight: 700;
+}
+
+@media (max-width: 640px) {
+    .bc .bc-card.bc-visit {
+        padding: 18px;
+    }
+
+    .bc .bc-visit-heading {
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-bottom: 16px;
+        margin-bottom: 16px;
+    }
+
+    .bc .bc-visit-title h2 {
+        font-size: 15px;
+    }
+
+    .bc .bc-visit-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+        margin-bottom: 16px;
+    }
+
+    .bc .bc-visit-panel {
+        padding: 16px;
+    }
+
+    .bc .bc-visit-address-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .bc .bc-visit-address-heading > p {
+        padding-left: 27px;
+    }
+}
+
+/* RINCIAN PAKET & RUANGAN PERAWATAN */
+.bc .bc-card.bc-package {
+    padding: 26px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--white);
+}
+
+.bc .bc-package-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.bc .bc-package-heading-title {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    min-width: 0;
+}
+
+.bc .bc-package-heading-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-package svg {
+    display: block;
+    width: 22px;
+    height: 22px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-package-heading h2 {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    color: var(--green);
+    font-size: 17px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.bc .bc-package-caption {
+    flex-shrink: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.bc .bc-package #bcItems {
+    display: grid;
+    gap: 22px;
+}
+
+.bc .bc-package-item {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr) auto;
+    align-items: start;
+    gap: 15px;
+
+    padding: 20px 18px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-package-item.is-addon {
+    padding: 20px 18px;
+    gap: 15px;
+
+    background: var(--pink);
+    border-color: color-mix(
+        in srgb,
+        var(--pink) 85%,
+        var(--package-pink-ink)
+    );
+    color: var(--package-pink-ink);
+}
+
+/* Teinte dérivée du rose existant, sans nouvelle couleur hex. */
+.bc .bc-package {
+    --package-pink-ink: #804b51;
+}
+
+.bc .bc-package-item-icon {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 11px;
+    background: var(--green);
+    color: var(--white);
+}
+
+.bc .is-addon .bc-package-item-icon {
+    background: var(--package-pink-ink);
+    color: var(--white);
+}
+
+.bc .bc-package-item-icon svg {
+    width: 25px;
+    height: 25px;
+}
+
+.bc .bc-package-item-copy {
+    min-width: 0;
+}
+
+.bc .bc-package-item-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+    margin-bottom: 6px;
+}
+
+.bc .bc-package-item-title h3 {
+    margin: 0;
+    color: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.bc .bc-package-item-badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--white);
+    color: inherit;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.bc .bc-package-item-description {
+    max-width: 430px;
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.7;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.bc .is-addon .bc-package-item-description {
+    max-width: 430px;
+    margin: 0;
+
+    color: var(--package-pink-ink);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.7;
+    white-space: normal;
+}
+
+.bc .bc-package-item-features {
+    display: grid;
+    gap: 7px;
+    margin: 10px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.bc .bc-package-item-features li {
+    display: flex;
+    align-items: flex-start;
+    gap: 5px;
+    color: var(--green);
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.bc .bc-package-item-features svg {
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    margin-top: 2px;
+}
+
+.bc .bc-package-item-price {
+    align-self: center;
+    margin: 0;
+    color: inherit;
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.4;
+    white-space: nowrap;
+}
+
+.bc #bcPackageNotes {
+    margin-top: 15px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+}
+
+.bc #bcPackageNotes p {
+    margin: 4px 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.6;
+    white-space: normal;
+}
+
+.bc #bcPackageNotes[hidden],
+.bc #bcPackageNotes p[hidden] {
+    display: none !important;
+}
+
+@media (max-width: 640px) {
+    .bc .bc-card.bc-package {
+        padding: 18px;
+    }
+
+    .bc .bc-package-heading {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .bc .bc-package-heading h2 {
+        font-size: 15px;
+    }
+
+    .bc .bc-package-caption {
+        padding-left: 47px;
+    }
+
+    .bc .bc-package #bcItems {
+        gap: 14px;
+    }
+
+    .bc .bc-package-item {
+        grid-template-columns: 36px minmax(0, 1fr);
+        gap: 12px;
+        padding: 16px;
+    }
+
+    .bc .bc-package-item-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 9px;
+    }
+
+    .bc .bc-package-item-icon svg {
+        width: 22px;
+        height: 22px;
+    }
+
+    .bc .bc-package-item-price {
+        grid-column: 2;
+        justify-self: end;
+        font-size: 16px;
+    }
+}
+
+/* APA YANG TERJADI SELANJUTNYA */
+.bc .bc-card.bc-next {
+    padding: 26px;
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    background: var(--white);
+}
+
+.bc .bc-next-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.bc .bc-next-icon {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+
+    background: var(--green-light);
+    color: var(--green);
+}
+
+.bc .bc-next-icon svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.bc .bc-next-heading h2 {
+    margin: 0 0 3px;
+    padding: 0;
+    border: 0;
+
+    color: var(--green);
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.35;
+}
+
+.bc .bc-next-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    line-height: 1.5;
+    white-space: normal;
+}
+
+.bc .bc-next-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.bc .bc-next-card {
+    min-width: 0;
+    padding: 18px;
+
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--green-light);
+}
+
+.bc .bc-next-card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 11px;
+}
+
+.bc .bc-next-number {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+
+    background: var(--green);
+    color: var(--white);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.bc .bc-next-time {
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    text-align: right;
+}
+
+.bc .bc-next-card h3 {
+    margin: 0 0 7px;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.45;
+}
+
+.bc .bc-next-card p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.75;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+@media (max-width: 640px) {
+    .bc .bc-card.bc-next {
+        padding: 18px;
+    }
+
+    .bc .bc-next-heading {
+        align-items: flex-start;
+        gap: 10px;
+        margin-bottom: 18px;
+    }
+
+    .bc .bc-next-heading h2 {
+        font-size: 16px;
+    }
+
+    .bc .bc-next-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .bc .bc-next-card {
+        padding: 16px;
+    }
+}
+
+input,
+textarea,
+[contenteditable="true"],
+#bcCode {
+    -webkit-user-select: text;
+    user-select: text;
+}
+
+</style>
+</head>
+
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="s5-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></symbol>
+  <symbol id="s5-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></symbol>
+  <symbol id="s5-pin" viewBox="0 0 24 24"><path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="s5-home" viewBox="0 0 24 24"><path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/></symbol>
+  <symbol id="s5-building" viewBox="0 0 24 24"><rect x="5" y="2" width="14" height="20" rx="1"/><path d="M9 6h2M14 6h2M9 10h2M14 10h2M9 14h2M14 14h2"/></symbol>
+  <symbol id="s5-shop" viewBox="0 0 24 24"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M2 8h20l-2-5H4L2 8Z"/></symbol>
+  <symbol id="s5-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></symbol>
+  <symbol id="s5-check" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8.5 12.5 2.5 2.5 4.5-5"/></symbol>
+  <symbol id="s5-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v5M12 8h.01"/></symbol>
+  <symbol id="s5-calendar" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></symbol>
+  <symbol id="s5-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="s5-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+  <symbol id="s5-moon" viewBox="0 0 24 24"><path d="M21 13A9 9 0 1 1 11 3a7 7 0 0 0 10 10Z"/></symbol>
+  <symbol id="s5-clipboard" viewBox="0 0 24 24"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="m9 12 2 2 4-4"/></symbol>
+  <symbol id="s5-chat" viewBox="0 0 24 24"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12Z"/></symbol>
+  <symbol id="s5-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+  <symbol id="s5-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
+</svg>
+
+<header class="header">
+    <nav class="navbar">
+        <a href="Beranda after login.html" class="logo">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <span class="logo-text">
+                <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+            </span>
+        </a>
+
+        <ul class="nav-menu">
+            <li><a href="Beranda after login.html">Beranda</a></li>
+            <li><a href="Layanan.html">Layanan</a></li>
+            <li><a href="booking after login.html" class="active">Booking</a></li>
+            <li><a href="my-bookings.html">Status Pemesanan</a></li>
+        </ul>
+
+        <a href="profile.html" class="btn-account">
+            ♙ Pengaturan Akun
+        </a>
+    </nav>
+</header>
+
+<main class="booking-container">
+
+    <section class="progress-card">
+        <div class="progress-top">
+            <div class="progress-title">
+                <span class="step-label" id="stepLabel">Langkah 1 dari 5</span>
+                <h2>Reservasi Layanan Sanitari</h2>
+            </div>
+            <span class="estimate">◷ Estimasi: ±2 menit</span>
+        </div>
+
+        <div class="progress-steps">
+            <div class="progress-step active">
+                <span class="step-number">1</span>
+                <div class="step-copy">
+                    <strong>Pilih Ruangan</strong>
+                    <small>Fokus area awal</small>
+                </div>
+            </div>
+
+            <div class="progress-step">
+                <span class="step-number">2</span>
+                <div class="step-copy">
+                    <strong>Jenis Pembersihan</strong>
+                    <small>Tingkat deep clean</small>
+                </div>
+            </div>
+
+            <div class="progress-step">
+                <span class="step-number">3</span>
+                <div class="step-copy">
+                    <strong>Add-on & Catatan</strong>
+                    <small>Aromaterapi & detail</small>
+                </div>
+            </div>
+
+            <div class="progress-step">
+                <span class="step-number">4</span>
+                <div class="step-copy">
+                    <strong>Ringkasan & Total</strong>
+                    <small>Waktu & invoice</small>
+                </div>
+            </div>
+
+                        <div class="progress-step">
+                <span class="step-number">5</span>
+                <div class="step-copy">
+                    <strong>Alamat & Biodata</strong>
+                    <small>Konfirmasi final</small>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+   <!-- FORM BOOKING -->
+<form id="bookingForm">
+
+    <!-- LANGKAH 1: PILIH RUANGAN -->
+    <section class="booking-step active" data-step="0">
+
+        <div class="intro-row">
+            <div class="intro">
+                <span class="eyebrow" id="eyebrow">▣ TAHAP 01 — RUANG UTAMA</span>
+                <h1 id="stepTitle">Pilih Ruangan yang Ingin Dibersihkan</h1>
+                <p id="stepDescription">
+                    Pilih satu ruangan yang ingin Anda jadwalkan pembersihannya.
+                    Anda dapat menambahkan ruangan lain setelah langkah ini dengan rekomendasi formula ramah lingkungan.
+                </p>
+            </div>
+
+            <!-- KARTU GAMBAR EMBER: HANYA STEP 1 -->
+            <div class="standard-card" id="cleaningImageCard">
+                <img src="../images/Foto Pembersihan.png" alt="Peralatan kebersihan GriyaResik">
+                <div>
+                    <strong>Standar Bintang 5</strong>
+                    <p>Peralatan disanitasi mikro sebelum memasuki kediaman Anda.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="room-grid" id="roomGrid"></div>
+
+        <div class="benefit-grid">
+            <div class="benefit">
+                <span class="benefit-icon">⛉</span>
+                <div>
+                    <strong>Terapis Terlatih & Asuransi</strong>
+                    <p>Perlindungan tenaga profesional.</p>
+                </div>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">☘︎</span>
+                <div>
+                    <strong>Cairan Pembersih Non-Toksik</strong>
+                    <p>Lebih ramah bagi keluarga.</p>
+                </div>
+            </div>
+
+            <div class="benefit">
+                <span class="benefit-icon">✧</span>
+                <div>
+                    <strong>Garansi Resik Sempurna</strong>
+                    <p>Garansi sesuai ketentuan layanan.</p>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <!-- LANGKAH 2: JENIS PEMBERSIHAN -->
+    <section class="booking-step" data-step="1">
+
+    <div class="section-heading">
+    <h2>Pilih Jenis Pembersihan</h2>
+    <p>Tentukan tingkat pembersihan yang sesuai dengan kebutuhan ruangan Anda.</p>
+    </div>
+
+    <!-- INFORMASI RUANGAN DAN HOSPITAL-GRADE -->
+    <div class="package-heading-row">
+
+        <div class="selected-room-label" id="selectedRoomLabel">
+            ♧ Ruangan: <span id="selectedRoomName">Belum dipilih</span>
+            <span>•</span>
+            <a href="#" id="changeRoomBtn">Ubah Ruangan</a>
+        </div>
+
+        <div class="hospital-card" id="hospitalCard">
+            <span class="hospital-icon">♧</span>
+            <div>
+                <strong>Standard Hospital-Grade</strong>
+                <p>Peralatan sanitasi disinfeksi berlisensi.</p>
+            </div>
+        </div>
+
+    </div>
+
+        <!-- TIGA PILIHAN PAKET: TIDAK DIGANDAKAN -->
+        <div class="option-grid" id="packageGrid">
+
+    <!-- BASIC CLEANING -->
+    <button type="button" class="option-card" data-package="Basic">
+        <span class="package-label">ESENSIAL HARIAN</span>
+        <h3>Basic Cleaning</h3>
+        <p>Segar, rapi, dan bebas debu permukaan.</p>
+
+        <img src="../images/Basic Clean.png" alt="Basic Cleaning">
+
+        <span class="option-duration">◷ Durasi menyesuaikan kondisi ruangan</span>
+        <span class="option-price" id="priceBasic">Rp 50.000</span>
+        <small>Cocok untuk perawatan rutin mingguan.</small>
+
+        <span class="package-features">
+    <strong>CAKUPAN SOP PENGERJAAN:</strong>
+    <span id="detailBasic">Pembersihan dasar sesuai ruangan.</span>
+</span>
+
+        <span class="package-choose">Pilih Paket Ini</span>
+    </button>
+
+    <!-- STANDARD CLEANING -->
+    <button type="button" class="option-card" data-package="Standard">
+        <span class="package-label">REKOMENDASI UTAMA</span>
+        <h3>Standard Cleaning</h3>
+        <p>Pembersihan sirkulasi udara dan alergen kasur.</p>
+
+        <img src="../images/Standard Cleaning.png" alt="Standard Cleaning">
+
+        <span class="option-duration">◷ Durasi menyesuaikan kondisi ruangan</span>
+        <span class="option-price" id="priceStandard">Rp 80.000</span>
+        <small>Mencakup pembersihan lebih detail.</small>
+
+        <span class="package-features">
+        <strong>SEMUA CAKUPAN BASIC, DITAMBAH:</strong>
+        <span id="detailStandard">Pembersihan lebih detail sesuai ruangan.</span>
+        </span>
+
+        <span class="package-choose">Pilih Paket Ini</span>
+    </button>
+
+    <!-- DEEP SANITIZING -->
+    <button type="button" class="option-card" data-package="Deep">
+        <span class="package-label">STERILISASI MENYELURUH</span>
+        <h3>Deep Sanitizing</h3>
+        <p>Eradikasi tungau, kuman, dan noda membandel.</p>
+
+        <img src="../images/Deep Sanitizing.png" alt="Deep Sanitizing">
+
+        <span class="option-duration">◷ Durasi menyesuaikan kondisi ruangan</span>
+        <span class="option-price" id="priceDeep">Rp 120.000</span>
+        <small>Untuk pembersihan mendalam.</small>
+
+        <span class="package-features">
+        <strong>SEMUA CAKUPAN STANDARD, DITAMBAH:</strong>
+        <span id="detailDeep">Pembersihan menyeluruh sesuai ruangan.</span>
+        </span>
+
+        <span class="package-choose">Pilih Paket Ini</span>
+    </button>
+
+</div>
+
+    </section>
+
+<!-- LANGKAH 3: ADD-ON & CATATAN -->
+<section class="booking-step" data-step="2">
+
+    <!-- JUDUL STEP 3 -->
+    <div class="section-heading step3-heading">
+        <h2>Add-on & Catatan</h2>
+        <p>Pilih tambahan layanan jika diperlukan. Bagian ini boleh dilewati.</p>
+    </div>
+
+    <!-- BANNER RUANGAN TERPILIH -->
+    <div class="step3-room-banner">
+
+        <img
+            src="../images/Foto Pembersihan.png"
+            id="detailRoomImage"
+            alt="Foto ruangan yang dipilih"
+        >
+
+        <div class="step3-room-overlay">
+            <div class="step3-room-category">
+                KATEGORI RUANGAN
+            </div>
+
+            <h3 id="detailRoomNow">Ruangan belum dipilih</h3>
+            <p id="detailRoomDescription">
+                Detail ruangan yang akan dibersihkan
+            </p>
+        </div>
+
+        <div class="step3-room-total">
+            <span>Subtotal Layanan Saat Ini</span>
+            <strong id="detailSubtotalNow">Rp 0</strong>
+        </div>
+
+    </div>
+
+    <!-- INFORMASI PAKET DAN ADD-ON TERPILIH -->
+    <div class="step3-price-information">
+
+        <div class="step3-price-item">
+            <span class="step3-price-dot"></span>
+            <span id="detailPackageNow">Paket Cleaning</span>
+            <strong id="detailBasePriceNow">Rp 0</strong>
+        </div>
+
+        <div class="step3-price-item">
+            <span class="step3-price-dot"></span>
+            <span id="detailAddonPriceLabel">Add-on Terpilih</span>
+            <strong id="detailAddonPriceNow">Rp 0</strong>
+        </div>
+
+        <div class="step3-price-item step3-free-item">
+            <span>Biaya Layanan & Asuransi</span>
+            <strong>GRATIS</strong>
+        </div>
+
+    </div>
+
+    <!-- GARANSI -->
+    <div class="step3-guarantee">
+        <span class="step3-guarantee-icon">✓</span>
+
+        <div>
+            <strong>Garansi Bersih 100%</strong>
+            <p>
+                Bila ada sudut terlewat, mitra kami bersihkan ulang
+                tanpa biaya tambahan.
+            </p>
+        </div>
+
+        <span class="step3-guarantee-note">Sudah termasuk PPN</span>
+    </div>
+
+
+    <!-- ADD-ON UTAMA -->
+    <div class="step3-section-card">
+
+        <div class="step3-section-title">
+            <div>
+                <h3>＋ Add-on & Catatan Utama</h3>
+            </div>
+
+            <span class="step3-section-badge">Opsional & Fleksibel</span>
+        </div>
+
+        <div class="step3-addon-list">
+
+            <label class="step3-addon-card">
+                <input
+                    type="checkbox"
+                    name="addon"
+                    value="15000"
+                    data-name="Aromaterapi"
+                >
+
+                <div class="step3-addon-info">
+                    <strong>Aromaterapi Ruangan</strong>
+                    <p>Tambahan aroma segar setelah proses pembersihan.</p>
+                </div>
+
+                <span class="step3-addon-price">+Rp 15.000</span>
+            </label>
+
+
+            <label class="step3-addon-card">
+                <input
+                    type="checkbox"
+                    name="addon"
+                    value="20000"
+                    data-name="Disinfeksi"
+                >
+
+                <div class="step3-addon-info">
+                    <strong>Disinfeksi Tambahan</strong>
+                    <p>Perhatian ekstra pada permukaan yang sering disentuh.</p>
+                </div>
+
+                <span class="step3-addon-price">+Rp 20.000</span>
+            </label>
+
+
+            <label class="step3-addon-card">
+                <input
+                    type="checkbox"
+                    name="addon"
+                    value="25000"
+                    data-name="Kaca"
+                >
+
+                <div class="step3-addon-info">
+                    <strong>Pembersihan Kaca</strong>
+                    <p>Tambahan pembersihan kaca dan cermin.</p>
+                </div>
+
+                <span class="step3-addon-price">+Rp 25.000</span>
+            </label>
+
+        </div>
+
+    </div>
+
+<!-- LAYANAN TAMBAHAN LAINNYA -->
+<div class="step3-section-card">
+
+    <div class="step3-section-title">
+        <div>
+            <h3>Layanan Tambahan Lainnya</h3>
+            <p>Pilih layanan tambahan sesuai kebutuhan kebersihan ruangan.</p>
+        </div>
+    </div>
+
+    <div class="step3-extra-grid">
+
+        <!-- FOGGING HERBAL -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="35000"
+                data-name="Disinfektan Fogging Herbal"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 3h6"/>
+                        <path d="M10 3v6l-5.5 8.5A2.3 2.3 0 0 0 6.4 21h11.2a2.3 2.3 0 0 0 1.9-3.5L14 9V3"/>
+                        <path d="M8 15h8"/>
+                    </svg>
+                </span>
+
+                <span class="step3-extra-badge popular">Populer</span>
+            </div>
+
+            <strong>Disinfektan Fogging Herbal</strong>
+
+            <p>
+                Perawatan tambahan untuk membantu menjaga kebersihan udara
+                dan permukaan ruangan.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +15 menit</small>
+                <strong>+Rp 35.000</strong>
+            </div>
+
+        </label>
+
+
+        <!-- DETAILING KULKAS & MICROWAVE -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="25000"
+                data-name="Detailing Kulkas & Microwave"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="5" y="3" width="14" height="18" rx="2"/>
+                        <path d="M5 11h14"/>
+                        <path d="M9 7v1"/>
+                        <path d="M9 15v2"/>
+                    </svg>
+                </span>
+            </div>
+
+            <strong>Detailing Kulkas & Microwave</strong>
+
+            <p>
+                Pembersihan bagian dalam dan luar peralatan sesuai kondisi
+                serta keterjangkauan area.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +20 menit</small>
+                <strong>+Rp 25.000</strong>
+            </div>
+
+        </label>
+
+
+        <!-- HYDRO-VACUUM SOFA -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="45000"
+                data-name="Hydro-Vacuum Sofa 2-3 Seater"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M4 12V9a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v3"/>
+                        <path d="M3 12h18v6H3z"/>
+                        <path d="M5 18v2M19 18v2"/>
+                        <path d="M7 7V5M17 7V5"/>
+                    </svg>
+                </span>
+
+                <span class="step3-extra-badge recommended">
+                    Rekomendasi Alergi
+                </span>
+            </div>
+
+            <strong>Hydro-Vacuum Sofa 2–3 Seater</strong>
+
+            <p>
+                Pembersihan sofa menggunakan metode penyedotan basah
+                untuk membantu mengangkat kotoran.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +30 menit</small>
+                <strong>+Rp 45.000</strong>
+            </div>
+
+        </label>
+
+
+        <!-- PEMBERSIHAN KARPET -->
+        <label class="step3-extra-card">
+
+            <input
+                type="checkbox"
+                name="addon"
+                value="30000"
+                data-name="Pembersihan Karpet Ekstra"
+            >
+
+            <div class="step3-extra-top">
+                <span class="step3-extra-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M9 4v16M15 4v16M4 9h16M4 15h16"/>
+                    </svg>
+                </span>
+            </div>
+
+            <strong>Pembersihan Karpet Ekstra</strong>
+
+            <p>
+                Pembersihan tambahan pada karpet untuk membantu
+                mengangkat debu dan kotoran.
+            </p>
+
+            <div class="step3-extra-footer">
+                <small>Durasi +20 menit</small>
+                <strong>+Rp 30.000</strong>
+            </div>
+
+        </label>
+
+    </div>
+
+</div>
+  
+    <!-- CATATAN KHUSUS DAN PREFERENSI MITRA -->
+    <div class="step3-section-card step3-note-card">
+
+        <div class="step3-section-title">
+            <div>
+                <h3>☷ Catatan Khusus & Preferensi Mitra</h3>
+                <p>Pastikan kenyamanan dan privasi keluarga Anda terjaga optimal.</p>
+            </div>
+        </div>
+
+
+        <!-- PREFERENSI GENDER CLEANER -->
+        <div class="step3-preference">
+
+            <label class="step3-field-label">
+                PREFERENSI GENDER MITRA CLEANER
+            </label>
+
+            <div class="step3-cleaner-options">
+
+                <label class="step3-cleaner-option">
+                    <input
+                        type="radio"
+                        name="cleanerPreference"
+                        value="Bebas"
+                        checked
+                    >
+                    <span>Bebas / Fleksibel</span>
+                </label>
+
+                <label class="step3-cleaner-option">
+                    <input
+                        type="radio"
+                        name="cleanerPreference"
+                        value="Pria"
+                    >
+                    <span>Mitra Pria</span>
+                </label>
+
+                <label class="step3-cleaner-option">
+                    <input
+                        type="radio"
+                        name="cleanerPreference"
+                        value="Wanita"
+                    >
+                    <span>Mitra Wanita</span>
+                </label>
+
+            </div>
+
+            <p class="step3-preference-note">
+                Preferensi mitra disesuaikan dengan ketersediaan petugas
+                pada jadwal pemesanan.
+            </p>
+
+        </div>
+
+
+        <!-- INSTRUKSI KHUSUS -->
+        <div class="step3-instruction">
+
+            <div class="step3-instruction-heading">
+                <label for="notes" class="step3-field-label">
+                    INSTRUKSI KHUSUS UNTUK CLEANER
+                </label>
+
+                <span>Maks. 300 karakter</span>
+            </div>
+
+            <textarea
+                id="notes"
+                maxlength="300"
+                placeholder="Contoh: Ada hewan peliharaan kucing di dalam kamar, mohon pintu balkon tetap tertutup saat proses pembersihan..."
+            ></textarea>
+
+        </div>
+
+    </div>
+
+
+    <!-- BANTUAN -->
+    <div class="step3-help">
+        <span>☏</span>
+
+        <div>
+            <strong>Ada permintaan khusus lain?</strong>
+            <p>Hubungi CS 24 Jam via WhatsApp</p>
+        </div>
+
+        <a href="https://wa.me/6281234567890" target="_blank">
+            ↗
+        </a>
+    </div>
+
+</section>
+
+        <!-- LANGKAH 4 -->
+        <section class="booking-step" data-step="3">
+            <div class="section-heading">
+                <h2>Ringkasan & Total Pesanan</h2>
+                <p>Periksa pilihan layanan sebelum melanjutkan ke data pelanggan.</p>
+            </div>
+
+            <div class="summary-card" style="margin-top:0">
+                <h3>Ringkasan layanan</h3>
+                <div class="summary-line">
+                    <span>Ruangan</span>
+                    <strong id="sumRoom">Belum dipilih</strong>
+                </div>
+                <div class="summary-line">
+                    <span>Jenis pembersihan</span>
+                    <strong id="sumPackage">Belum dipilih</strong>
+                </div>
+                <div class="summary-line">
+                    <span>Add-on</span>
+                    <strong id="sumAddon">Tidak ada</strong>
+                </div>
+                <div class="summary-line">
+                    <span>Estimasi durasi</span>
+                    <strong id="sumDuration">Belum dipilih</strong>
+                </div>
+                <div class="summary-line">
+                <span>Preferensi Mitra Cleaner</span>
+                <strong id="sumCleaner">Bebas</strong>
+                </div>
+                <div class="summary-line">
+                <span>Instruksi khusus</span>
+                <strong id="sumNotes">Belum ada instruksi khusus</strong>
+                </div>
+
+                
+                <div class="summary-total">
+                    <div>
+                        <span>Total estimasi</span>
+                        <small>Termasuk pajak & peralatan standar sanitasi</small>
+                    </div>
+
+                    <strong id="sumTotal">Rp 0</strong>
+                </div>
+
+            </div>
+        </section>
+
+
+<!-- =========================================
+     LANGKAH 5: ALAMAT, BIODATA & JADWAL
+========================================= -->
+
+
+<section class="booking-step" data-step="4">
+
+    <!-- JUDUL STEP 5 -->
+    <div class="final-booking-heading">
+        <span class="final-step-badge">
+            <svg><use href="#s5-check"/></svg>
+            Tahap Final Reservasi Layanan
+        </span>
+        <h2>Informasi Kontak, Jadwal &amp; Lokasi Kunjungan</h2>
+        <p>Petugas kebersihan profesional kami akan hadir tepat waktu sesuai lokasi dan jadwal yang Anda tentukan.</p>
+    </div>
+
+    <div class="final-booking-layout">
+
+        
+<div class="final-left">
+
+    <!-- BAGIAN 1: DATA DIRI & KONTAK PEMESAN -->
+    <div class="final-panel" id="finalContactPanel">
+
+        <div class="final-panel-heading">
+            <div class="final-heading-icon">
+                <svg><use href="#s5-user"/></svg>
+            </div>
+
+            <div>
+                <h3>Data Diri &amp; Kontak Pemesan</h3>
+                <p>Informasi untuk konfirmasi dan koordinasi layanan.</p>
+            </div>
+
+            <span class="final-section-number">Bagian 1/3</span>
+        </div>
+
+        <div class="final-form-grid">
+
+            <!-- NAMA LENGKAP -->
+            <div class="final-form-group full">
+                <label for="finalCustomerName">
+                    Nama Lengkap Pemesan
+                    <span class="required-mark">*</span>
+                </label>
+
+                <input
+                    type="text"
+                    id="finalCustomerName"
+                    name="customerName"
+                    placeholder="Masukkan nama lengkap pemesan"
+                    autocomplete="name"
+                    required
+                >
+            </div>
+
+            <!-- NOMOR WHATSAPP -->
+            <div class="final-form-group">
+                <label for="finalCustomerPhone">
+                    Nomor WhatsApp Aktif
+                    <span class="required-mark">*</span>
+                </label>
+
+                <div class="final-phone-field">
+                    <span>+62</span>
+                    <input
+                        type="tel"
+                        id="finalCustomerPhone"
+                        name="customerPhone"
+                        placeholder="81234567890"
+                        autocomplete="tel-national"
+                        inputmode="numeric"
+                        required
+                    >
+
+                                </div>
+
+                <!-- Keterangan di bawah input WhatsApp -->
+                <small class="final-contact-hint">
+                    <span class="final-hint-icon">ⓘ</span>
+                    <span>
+                        Notifikasi kedatangan tim &amp; live foto selesai kerja
+                        akan dikirim via WA
+                    </span>
+                </small>
+            </div>
+
+            <!-- EMAIL -->
+            <div class="final-form-group">
+                <label for="finalCustomerEmail">
+                    Email Konfirmasi
+                    <span class="optional-label">Opsional</span>
+                </label>
+
+                <input
+                    type="email"
+                    id="finalCustomerEmail"
+                    name="customerEmail"
+                    placeholder="contoh@gmail.com"
+                    autocomplete="email"
+                >
+
+                <small class="final-contact-hint">
+                    Untuk invoice resmi dan rekap sertifikasi higienis digital
+                </small>
+            </div>
+        </div>
+    </div>
+
+    <!-- BAGIAN 2: TIPE HUNIAN -->
+
+            <div class="final-panel">
+                <div class="final-panel-heading">
+                    <div class="final-heading-icon">
+                        <svg><use href="#s5-pin"/></svg>
+                    </div>
+                    <div>
+                        <h3>Tipe Hunian &amp; Detail Lokasi (Surabaya)</h3>
+                        <p>Memastikan kelengkapan tim &amp; peralatan sanitasi sesuai zonasi Kota Surabaya</p>
+                    </div>
+                    <span class="final-section-number">Bagian 2/3</span>
+                </div>
+
+                <div class="final-form-grid">
+
+                    <div class="final-form-group full">
+                        <label>
+                            Jenis Properti / Tempat Singgah
+                            <span class="required-mark">*</span>
+                        </label>
+
+                        <div class="final-property-options">
+
+                            <label class="final-property-option">
+                                <input type="radio" name="propertyType"
+                                    value="Rumah Tapak" required>
+                                <span class="property-icon">
+                                    <svg><use href="#s5-home"/></svg>
+                                </span>
+                                <span>
+                                    <strong>Rumah Tapak</strong>
+                                    <small>Rumah pribadi</small>
+                                </span>
+                            </label>
+
+                            <label class="final-property-option">
+                                <input type="radio" name="propertyType"
+                                    value="Apartemen">
+                                <span class="property-icon">
+                                    <svg><use href="#s5-building"/></svg>
+                                </span>
+                                <span>
+                                    <strong>Apartemen</strong>
+                                    <small>Tower &amp; unit</small>
+                                </span>
+                            </label>
+
+                            <label class="final-property-option">
+                                <input type="radio" name="propertyType"
+                                    value="Ruko/Kantor">
+                                <span class="property-icon">
+                                    <svg><use href="#s5-shop"/></svg>
+                                </span>
+                                <span>
+                                    <strong>Ruko / Kantor</strong>
+                                    <small>Komersial &amp; usaha</small>
+                                </span>
+                            </label>
+
+                        </div>
+                    </div>
+
+        </div>
+
+        <!-- WILAYAH DAN ALAMAT -->
+<div class="final-location-details">
+
+            <div class="final-form-grid">
+
+    <div class="final-form-group">
+        <label>Provinsi &amp; Kota Layanan
+            <span class="label-badge">Zona Aktif</span>
+        </label>
+        <div class="final-input-icon icon-right">
+            <svg><use href="#s5-lock"/></svg>
+            <input type="text"
+                value="Jawa Timur — Kota Surabaya" readonly>
+        </div>
+    </div>
+
+    <div class="final-form-group">
+    <label for="region">
+        Wilayah Daerah Surabaya
+        <span class="optional-label">Terisi otomatis</span>
+    </label>
+    <input type="text" id="region"
+    placeholder="Pilih kecamatan terlebih dahulu"
+    readonly disabled>
+    </div>
+
+    <div class="final-form-group full">
+        <label for="district">
+            Kecamatan Terlayani (Kota Surabaya)
+            <span class="required-mark">*</span>
+        </label>
+
+        <select id="district" required>
+            <option value="">Pilih kecamatan</option>
+
+            <optgroup label="Surabaya Barat">
+                <option value="Asemrowo" data-zone="Barat">Asemrowo</option>
+                <option value="Benowo" data-zone="Barat">Benowo</option>
+                <option value="Lakarsantri" data-zone="Barat">Lakarsantri</option>
+                <option value="Pakal" data-zone="Barat">Pakal</option>
+                <option value="Sambikerep" data-zone="Barat">Sambikerep</option>
+                <option value="Sukomanunggal" data-zone="Barat">Sukomanunggal</option>
+                <option value="Tandes" data-zone="Barat">Tandes</option>
+            </optgroup>
+
+            <optgroup label="Surabaya Timur">
+                <option value="Gubeng" data-zone="Timur">Gubeng</option>
+                <option value="Gunung Anyar" data-zone="Timur">Gunung Anyar</option>
+                <option value="Mulyorejo" data-zone="Timur">Mulyorejo</option>
+                <option value="Rungkut" data-zone="Timur">Rungkut</option>
+                <option value="Sukolilo" data-zone="Timur">Sukolilo</option>
+                <option value="Tambaksari" data-zone="Timur">Tambaksari</option>
+                <option value="Tenggilis Mejoyo" data-zone="Timur">Tenggilis Mejoyo</option>
+            </optgroup>
+
+            <optgroup label="Surabaya Selatan">
+                <option value="Dukuh Pakis" data-zone="Selatan">Dukuh Pakis</option>
+                <option value="Gayungan" data-zone="Selatan">Gayungan</option>
+                <option value="Jambangan" data-zone="Selatan">Jambangan</option>
+                <option value="Karang Pilang" data-zone="Selatan">Karang Pilang</option>
+                <option value="Sawahan" data-zone="Selatan">Sawahan</option>
+                <option value="Wiyung" data-zone="Selatan">Wiyung</option>
+                <option value="Wonocolo" data-zone="Selatan">Wonocolo</option>
+                <option value="Wonokromo" data-zone="Selatan">Wonokromo</option>
+            </optgroup>
+
+            <optgroup label="Surabaya Utara">
+                <option value="Bulak" data-zone="Utara">Bulak</option>
+                <option value="Kenjeran" data-zone="Utara">Kenjeran</option>
+                <option value="Krembangan" data-zone="Utara">Krembangan</option>
+                <option value="Pabean Cantian" data-zone="Utara">Pabean Cantian</option>
+                <option value="Semampir" data-zone="Utara">Semampir</option>
+            </optgroup>
+
+            <optgroup label="Surabaya Pusat">
+                <option value="Bubutan" data-zone="Pusat">Bubutan</option>
+                <option value="Genteng" data-zone="Pusat">Genteng</option>
+                <option value="Simokerto" data-zone="Pusat">Simokerto</option>
+                <option value="Tegalsari" data-zone="Pusat">Tegalsari</option>
+            </optgroup>
+        </select>
+
+        <small class="final-success-note">
+             ✓ Seluruh kecamatan di Surabaya gratis ongkir.
+        </small>
+    </div>
+
+    <div class="final-form-group full">
+        <label for="address">
+            Alamat Lengkap &amp; Nomor Unit / Rumah
+            <span class="required-mark">*</span>
+            <span class="optional-label">Nama jalan, No. rumah, RT/RW, Kelurahan</span>
+        </label>
+        <textarea id="address" rows="3" required
+            placeholder="Nama jalan, nomor rumah, RT/RW, kelurahan, kecamatan, Kota Surabaya."></textarea>
+    </div>
+
+    <div class="final-form-group full">
+    <label for="landmark">
+        Patokan Lokasi &amp; Catatan Petugas
+        <span class="required-mark">*</span>
+        <span class="optional-label">
+            Informasi Tambahan untuk Petugas
+        </span>
+    </label>
+
+    <div class="final-input-icon">
+        <svg><use href="#s5-pin"/></svg>
+        <input
+            type="text"
+            id="landmark"
+            placeholder="Contoh: Pagar hitam, dekat minimarket, titip konfirmasi ke satpam."
+            required
+        >
+    </div>
+</div>
+
+</div>
+
+<!-- PREVIEW PETA -->
+<div class="final-map-section">
+    <div class="final-map-heading">
+        <strong>VERIFIKASI PINPOINT LOKASI SURABAYA</strong>
+    </div>
+
+    <div class="final-map-placeholder">
+
+        <svg class="final-map-roads" viewBox="0 0 500 200"
+            preserveAspectRatio="none">
+            <path d="M-10,40 Q100,20 220,80 T520,70"
+                stroke-width="10"/>
+            <path d="M180,-20 L240,220" stroke-width="7"/>
+            <path d="M80,220 L380,-20" stroke-width="5"/>
+            <path d="M30,120 L490,130" stroke-width="4"/>
+        </svg>
+
+        <div class="final-map-pin">
+            <svg><use href="#s5-pin"/></svg>
+        </div>
+
+        <div class="final-map-address" id="mapDistrictLabel">
+            Pilih kecamatan terlebih dahulu
+        </div>
+
+        <div class="final-map-status">
+            <span>
+                <i class="map-dot"></i>
+                Area Layanan Terverifikasi:
+                <b id="mapZoneLabel">Surabaya</b>
+            </span>
+            <span>Preview ilustrasi — bukan peta GPS</span>
+        </div>
+
+            </div> <!-- Penutup final-map-placeholder -->
+        </div> <!-- Penutup final-map-section -->
+
+    </div> <!-- Penutup final-location-details -->
+
+</div> <!-- Penutup final-panel Tipe Hunian & Lokasi -->
+
+
+<!-- BAGIAN 3: JADWAL KEDATANGAN -->
+<div class="final-panel" id="finalSchedulePanel">
+
+    <div class="final-panel-heading">
+        <div class="final-heading-icon">
+            <svg viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2"
+                 stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <path d="M16 3v4M8 3v4M3 10h18"/>
+            </svg>
+        </div>
+
+        <div>
+            <h3>Jadwal Kedatangan Mitra Housekeeping</h3>
+            <p>Pilih tanggal dan sesi kedatangan petugas ke rumah Anda</p>
+        </div>
+
+        <span class="final-section-number">Bagian 3/3</span>
+    </div>
+
+    <div class="final-schedule-section">
+        <label class="final-schedule-label">
+            1. Tentukan Tanggal Kunjungan
+            <span class="required-mark">*</span>
+        </label>
+
+        <div class="final-date-options" id="finalDateOptions">
+            <!-- Pilihan tanggal akan diisi JavaScript -->
+        </div>
+    </div>
+
+    <div class="final-schedule-section">
+        <label class="final-schedule-label">
+            2. Pilih Sesi Jam Kedatangan
+            <span class="required-mark">*</span>
+        </label>
+
+        <div class="final-time-options">
+            <label class="final-time-option">
+                <input type="radio" name="session_time" value="08:00">
+                <span class="time-icon">
+                    <svg><use href="#s5-sun"/></svg>
+                </span>
+                <span>
+                    <strong>08:00 – 10:00 WIB</strong>
+                    <small>Sesi Pagi Awal</small>
+                </span>
+            </label>
+
+            <label class="final-time-option">
+                <input type="radio" name="session_time" value="10:00">
+                <span class="time-icon">
+                    <svg><use href="#s5-sun"/></svg>
+                </span>
+                <span>
+                    <strong>10:00 – 12:00 WIB</strong>
+                    <small>Sesi Pagi Menjelang Siang</small>
+                </span>
+            </label>
+
+            <label class="final-time-option">
+                <input type="radio" name="session_time" value="13:00">
+                <span class="time-icon">
+                    <svg><use href="#s5-clock"/></svg>
+                </span>
+                <span>
+                    <strong>13:00 – 15:00 WIB</strong>
+                    <small>Sesi Siang</small>
+                </span>
+            </label>
+
+            <label class="final-time-option">
+                <input type="radio" name="session_time" value="15:00">
+                <span class="time-icon">
+                    <svg><use href="#s5-clock"/></svg>
+                </span>
+                <span>
+                    <strong>15:00 – 17:00 WIB</strong>
+                    <small>Sesi Sore</small>
+                </span>
+            </label>
+        </div>
+    </div>
+
+</div>
+<!-- AKHIR BAGIAN 3: JADWAL KEDATANGAN -->
+
+</div> <!-- Penutup final-left -->
+
+            <!-- BAGIAN 2: RINGKASAN DAN PEMBAYARAN -->
+            <!-- KOLOM KANAN: RINGKASAN DAN PEMBAYARAN -->
+            <div class="final-right">
+
+<!-- KARTU PESANAN SIAP DIJADWALKAN -->
+<div class="final-payment-card">
+
+    <!-- HEADER -->
+    <div class="final-payment-heading">
+        <div class="final-payment-title">
+            <svg><use href="#s5-clipboard"/></svg>
+            <h3>Pesanan Siap Dijadwalkan</h3>
+        </div>
+        <span>RESMI</span>
+    </div>
+
+    <!-- RINCIAN LAYANAN: DIISI JAVASCRIPT -->
+    <div class="final-order-list" id="finalOrderItems">
+        <div class="final-order-empty">
+            Pilih ruangan dan paket terlebih dahulu.
+        </div>
+    </div>
+
+    <!-- JADWAL TERPILIH -->
+    <div class="final-selected-time">
+        <span>
+            <svg><use href="#s5-clock"/></svg>
+        </span>
+        <div>
+            <small>WAKTU TERPILIH</small>
+            <strong id="finalScheduleSummary">
+                Belum memilih jadwal
+            </strong>
+        </div>
+    </div>
+
+    <!-- SUBTOTAL -->
+    <div class="final-payment-breakdown">
+        <div>
+            <span>Subtotal Layanan</span>
+            <strong id="finalSubtotal">Rp 0</strong>
+        </div>
+    </div>
+
+    <!-- TOTAL PEMBAYARAN -->
+    <div class="final-payment-total">
+        <div class="final-total-copy">
+            <span>TOTAL PEMBAYARAN</span>
+            <small>Termasuk pajak dan biaya layanan</small>
+        </div>
+        <strong id="finalGrandTotal">Rp 0</strong>
+    </div>
+
+    <!-- METODE PEMBAYARAN -->
+    <div class="final-payment-method">
+        <strong>Opsi Pembayaran Fleksibel</strong>
+
+        <!-- PILIHAN 1: BCA -->
+        <label class="final-payment-option">
+            <input
+                type="radio"
+                name="paymentMethod"
+                value="Transfer Bank BCA"
+                required
+            >
+            <span>
+                <strong>Transfer Bank BCA</strong>
+                <small>
+                    Transfer ke rekening resmi GriyaResik.
+                </small>
+            </span>
+            <svg class="payment-selected-check">
+                <use href="#s5-check"/>
+            </svg>
+        </label>
+
+        <!-- PILIHAN 2: QRIS -->
+        <label class="final-payment-option">
+            <input
+                type="radio"
+                name="paymentMethod"
+                value="QRIS"
+            >
+            <span>
+                <strong>QRIS</strong>
+                <small>
+                    Pembayaran melalui aplikasi bank
+                    atau dompet digital.
+                </small>
+            </span>
+            <svg class="payment-selected-check">
+                <use href="#s5-check"/>
+            </svg>
+        </label>
+
+    <!-- DETAIL REKENING BCA -->
+<div
+    class="final-payment-detail bank-detail"
+    id="bankPaymentInfo"
+    hidden
+>
+    <small>REKENING RESMI GRIYARESIK</small>
+
+    <div class="payment-bank-row">
+        <span>Bank</span>
+        <strong>BCA</strong>
+    </div>
+
+    <div class="payment-bank-row">
+        <span>No. Rekening</span>
+        <strong id="bcaAccountNumber">5545026853</strong>
+    </div>
+
+    <div class="payment-bank-row">
+        <span>Atas Nama</span>
+        <strong id="bcaAccountName">GriyaResik Payment</strong>
+    </div>
+</div>
+
+<!-- DETAIL KODE QRIS -->
+<div
+    class="final-payment-detail qris-detail"
+    id="qrisPaymentInfo"
+    hidden
+>
+    <small>SCAN QRIS PEMBAYARAN</small>
+
+    <img
+        id="qrisPaymentImage"
+        src="../images/qris.jpeg"
+        alt="Kode QRIS pembayaran GriyaResik"
+    >
+
+    <span id="qrisPaymentNote">
+        Scan QRIS di bawah ini untuk menyelesaikan pembayaran.
+    </span>
+</div>
+<!-- AKHIR DETAIL QRIS -->
+
+</div>
+<!-- AKHIR METODE PEMBAYARAN -->
+
+<!-- TOMBOL KONFIRMASI -->
+<button
+    type="button"
+    class="final-confirm-button"
+    id="finalConfirmButton"
+>
+    Konfirmasi &amp; Selesaikan Booking
+    <svg><use href="#s5-arrow"/></svg>
+</button>
+
+<!-- TOMBOL KEMBALI KE STEP 4 -->
+<button
+    type="button"
+    class="final-back-summary-button"
+    id="finalBackSummaryButton"
+>
+    <svg aria-hidden="true">
+        <use href="#s5-arrow"></use>
+    </svg>
+    <span>Kembali ke Ringkasan Pesanan</span>
+</button>
+
+<!-- INFORMASI KEAMANAN -->
+    <div class="final-guarantees">
+        <p>
+            <svg><use href="#s5-check"/></svg>
+            Mitra melalui proses verifikasi GriyaResik.
+        </p>
+        <p>
+            <svg><use href="#s5-check"/></svg>
+            Garansi kebersihan sesuai ketentuan layanan.
+        </p>
+        <p>
+            <svg><use href="#s5-check"/></svg>
+            Konfirmasi pembayaran oleh tim GriyaResik.
+        </p>
+    </div>
+
+</div>
+
+<!-- BANTUAN PELANGGAN VIA WHATSAPP -->
+<a
+    class="final-concierge"
+    href="https://wa.me/6281234567890?text=Halo%20GriyaResik%2C%20saya%20ingin%20bertanya%20tentang%20pemesanan%20layanan."
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    <span class="final-concierge-icon" aria-hidden="true">
+        ☏
+    </span>
+
+    <div>
+        <strong>Butuh Bantuan Jadwal Khusus?</strong>
+        <p>
+            Hubungi tim GriyaResik melalui WhatsApp
+            untuk bantuan pemesanan.
+        </p>
+    </div>
+</a>
+
+<!-- AKHIR KOLOM KANAN -->
+</div>
+
+<!-- AKHIR FINAL BOOKING LAYOUT -->
+</div>
+
+<!-- AKHIR STEP 5 -->
+</section>
+
+<!-- NAVIGASI BOOKING -->
+<div class="navigation-buttons">
+
+    <div class="selection-info">
+        <span class="selection-icon">✓</span>
+
+        <div class="selection-text">
+            <span class="selection-label">Pilihan Aktif</span>
+
+            <span class="selection-room" id="selectedRoomText">
+                Pilih ruangan terlebih dahulu
+            </span>
+        </div>
+    </div>
+
+    <div class="navigation-actions">
+        <button
+            type="button"
+            class="btn btn-secondary"
+            id="backBtn"
+            style="display: none;"
+        >
+            ← Kembali
+        </button>
+    </div>
+
+    <button type="button" class="btn btn-primary" id="nextBtn">
+        Lanjut: Tentukan Tingkat Pembersihan →
+    </button>
+
+</div>
+
+    </form>
+</main>
+
+<section id="bookingConfirmation" class="bc" hidden aria-labelledby="bcTitle">
+  <div class="bc-card bc-confirm-hero">
+    <div class="bc-confirm-content">
+        <div class="bc-success-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+                <path d="m5 12 4 4L19 6"/>
+            </svg>
+
+            <span class="bc-success-mini">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 3 15 5l3 .5.5 3 2 3-2 3-.5 3-3 .5-3 2-3-2-3-.5-.5-3-2-3 2-3 .5-3L9 5Z"/>
+                    <path d="m8.5 12 2.3 2.3 4.7-4.7"/>
+                </svg>
+            </span>
+        </div>
+
+        <div class="bc-confirm-badge">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="m7.5 12 3 3 6-6"/>
+            </svg>
+            <span id="bcStatus">Menunggu konfirmasi</span>
+        </div>
+
+        <h1 id="bcTitle" tabindex="-1">
+            Booking Berhasil Dibuat!
+        </h1>
+
+        <p class="bc-confirm-description">
+            Terima kasih <strong id="bcName"></strong>,
+            reservasi layanan kebersihan hunian Anda telah dicatat.
+            Tim GriyaResik akan mengonfirmasi jadwal kunjungan Anda.
+        </p>
+
+        <div class="bc-confirm-cards">
+            <div class="bc-reservation-card">
+                <div class="bc-reservation-info">
+                    <span class="bc-confirm-label">KODE RESERVASI</span>
+                    <strong id="bcCode"></strong>
+                </div>
+
+                <button type="button" id="bcCopy">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <rect x="8" y="3" width="12" height="15" rx="1"/>
+                        <path d="M16 21H4V7"/>
+                    </svg>
+                    <span>Salin</span>
+                </button>
+            </div>
+
+            <div class="bc-contact-card">
+                <span class="bc-contact-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                        <path d="M4 4h16v13H8l-4 4Z"/>
+                        <path d="M8 8h8M8 11h8M8 14h5"/>
+                    </svg>
+                </span>
+
+                <div class="bc-contact-info">
+                    <h3>Kontak WhatsApp Pemesan</h3>
+                    <p id="bcPhone"></p>
+                </div>
+            </div>
+        </div>
+
+        <p id="bcFeedback" role="status" aria-live="polite"></p>
+    </div>
+</div>
+
+<!-- PROGRES BOOKING PADA HALAMAN KONFIRMASI -->
+<nav class="bc-completed-progress" aria-label="Tahapan booking selesai">
+    <ol class="bc-completed-list">
+        <li class="bc-completed-step">
+            <span class="bc-completed-circle" aria-hidden="true"></span>
+            <h3>1. Pilih Ruangan</h3>
+            <p id="bcProgressRoom"></p>
+        </li>
+
+        <li class="bc-completed-step">
+            <span class="bc-completed-circle" aria-hidden="true"></span>
+            <h3>2. Jenis Layanan</h3>
+            <p id="bcProgressPackage"></p>
+        </li>
+
+        <li class="bc-completed-step">
+            <span class="bc-completed-circle" aria-hidden="true"></span>
+            <h3>3. Add-on &amp; Catatan</h3>
+            <p id="bcProgressAddon"></p>
+        </li>
+
+        <li class="bc-completed-step">
+            <span class="bc-completed-circle" aria-hidden="true"></span>
+            <h3>4. Ringkasan</h3>
+            <p id="bcProgressSummary"></p>
+        </li>
+
+        <li class="bc-completed-step bc-completed-final"
+            aria-current="step">
+            <span class="bc-completed-circle" aria-hidden="true"></span>
+            <h3>5. Booking Selesai</h3>
+            <p id="bcProgressStatus"></p>
+        </li>
+    </ol>
+</nav>
+
+  <div class="bc-grid">
+    <div class="bc-column">
+      
+<!-- JADWAL & LOKASI KUNJUNGAN -->
+<section class="bc-card bc-visit">
+    <div class="bc-visit-heading">
+        <div class="bc-visit-title">
+            <span class="bc-visit-icon" aria-hidden="true">
+                <svg><use href="#s5-calendar"></use></svg>
+            </span>
+            <h2>Jadwal &amp; Lokasi Kunjungan</h2>
+        </div>
+
+        <span class="bc-visit-badge">
+            <span aria-hidden="true"></span>
+            Jadwal Terpilih
+        </span>
+    </div>
+
+    <div class="bc-visit-grid">
+        <div class="bc-visit-panel">
+            <div class="bc-visit-label">WAKTU PELAKSANAAN</div>
+            <h3 id="bcDate"></h3>
+
+            <div class="bc-visit-detail">
+                <svg aria-hidden="true">
+                    <use href="#s5-clock"></use>
+                </svg>
+                <span id="bcTime"></span>
+            </div>
+
+            <div class="bc-visit-detail bc-visit-guarantee">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m5 12 4 4L19 6"/>
+                </svg>
+                <span>Jaminan Mitra Tiba Tepat Waktu</span>
+            </div>
+        </div>
+
+        <div class="bc-visit-panel">
+            <div class="bc-visit-label">SPESIFIKASI PROPERTI</div>
+            <h3 id="bcProperty"></h3>
+
+            <div class="bc-visit-detail">
+                <svg aria-hidden="true">
+                    <use href="#s5-pin"></use>
+                </svg>
+                <span id="bcArea"></span>
+            </div>
+
+            <div class="bc-visit-detail">
+                <svg aria-hidden="true">
+                    <use href="#s5-shield"></use>
+                </svg>
+                <span>Protokol Perlindungan Perabot Aktif</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="bc-visit-address">
+        <div class="bc-visit-address-heading">
+            <div class="bc-visit-address-title">
+                <svg aria-hidden="true">
+                    <use href="#s5-pin"></use>
+                </svg>
+                <h3>Alamat Hunian</h3>
+            </div>
+
+            <p>Pemesan: <strong id="bcVisitCustomer"></strong></p>
+        </div>
+
+        <p id="bcAddress"></p>
+
+        <div class="bc-visit-landmark">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="m3 5 6-2 6 2 6-2v16l-6 2-6-2-6 2Z"/>
+                <path d="M9 3v16M15 5v16"/>
+            </svg>
+            <p>
+                <strong>Petunjuk Patokan:</strong>
+                <span id="bcLandmark"></span>
+            </p>
+        </div>
+    </div>
+</section>
+
+     <section class="bc-card bc-package">
+    <div class="bc-package-heading">
+        <div class="bc-package-heading-title">
+            <span class="bc-package-heading-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M10 11V3a2 2 0 0 1 4 0v8"/>
+                    <path d="M7 11h10a3 3 0 0 1 3 3v7H4v-7a3 3 0 0 1 3-3Z"/>
+                    <path d="M9 15v6M15 15v6"/>
+                </svg>
+            </span>
+
+            <h2>Rincian Paket &amp; Ruangan Perawatan</h2>
+        </div>
+
+        <span class="bc-package-caption">
+            Standar Higienis Premium
+        </span>
+    </div>
+
+    <div id="bcItems"></div>
+
+    <div id="bcPackageNotes" hidden>
+        <p id="bcCleaner"></p>
+        <p id="bcNotes"></p>
+    </div>
+</section>
+
+    <section class="bc-card bc-next">
+    <div class="bc-next-heading">
+        <span class="bc-next-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24">
+                <path d="M12 21v-7"/>
+                <path d="M12 15c0-6-6-4-6-11"/>
+                <path d="m3 7 3-3 3 3"/>
+                <path d="M12 15c0-6 6-4 6-11"/>
+                <path d="m15 7 3-3 3 3"/>
+            </svg>
+        </span>
+
+        <div>
+            <h2>Apa yang Terjadi Selanjutnya?</h2>
+            <p>
+                Prosedur transparan standar GriyaResik
+                untuk kenyamanan Anda
+            </p>
+        </div>
+    </div>
+
+    <div class="bc-next-grid">
+        <article class="bc-next-card">
+            <div class="bc-next-card-top">
+                <span class="bc-next-number">1</span>
+                <span class="bc-next-time">5 – 10 Menit</span>
+            </div>
+
+            <h3>Penugasan Mitra Profesional</h3>
+            <p id="bcNextAssignment"></p>
+        </article>
+
+        <article class="bc-next-card">
+            <div class="bc-next-card-top">
+                <span class="bc-next-number">2</span>
+                <span class="bc-next-time">Notifikasi Otomatis</span>
+            </div>
+
+            <h3>Profil &amp; Armada via WhatsApp</h3>
+            <p>
+                Anda akan menerima biodata mitra, kontak langsung,
+                foto ID, dan nomor plat armada operasional sebelum
+                keberangkatan.
+            </p>
+        </article>
+
+        <article class="bc-next-card">
+            <div class="bc-next-card-top">
+                <span class="bc-next-number">3</span>
+                <span class="bc-next-time" id="bcNextArrival"></span>
+            </div>
+
+            <h3>Kedatangan &amp; Eksekusi Steril</h3>
+            <p>
+                Mitra hadir mengenakan seragam resmi, membawa
+                peralatan higienis bersegel dan cairan pembersih
+                ramah lingkungan.
+            </p>
+        </article>
+
+        <article class="bc-next-card">
+            <div class="bc-next-card-top">
+                <span class="bc-next-number">4</span>
+                <span class="bc-next-time">Pasca Selesai</span>
+            </div>
+
+            <h3>Inspeksi Hasil &amp; Penyelesaian Layanan</h3>
+            <p id="bcNextPayment"></p>
+        </article>
+       </div>
+</section>
+
+</div><!-- penutup bc-column -->
+
+<aside class="bc-sidebar">
+    <section class="bc-card bc-bill">
+        <div class="bc-bill-heading">
+            <h2>Ringkasan Tagihan</h2>
+            <span id="bcPaymentBadge"></span>
+        </div>
+
+        <div class="bc-bill-breakdown">
+            <div id="bcBillItems"></div>
+
+            <div class="bc-row">
+                <span>Biaya Transportasi Mitra</span>
+                <strong>Gratis</strong>
+            </div>
+
+            <div class="bc-row">
+                <span>Pajak &amp; Biaya Layanan</span>
+                <strong>Sudah Termasuk</strong>
+            </div>
+        </div>
+
+        <div class="bc-invoice-total">
+            <div>
+                <small>TOTAL TAGIHAN FINAL</small>
+                <strong id="bcTotal"></strong>
+            </div>
+
+            <p id="bcPaymentHint"></p>
+        </div>
+
+        <div class="bc-payment-notice">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+                <rect x="3" y="5" width="18" height="15" rx="3"/>
+                <path d="M3 9h18M16 15h2"/>
+            </svg>
+
+            <div>
+                <h3 id="bcPayment"></h3>
+                <p id="bcPaymentDescription"></p>
+            </div>
+        </div>
+
+        <div class="bc-bill-actions">
+            <a href="my-bookings.html"
+               id="bcTrack"
+               class="bc-side-action bc-side-primary">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="m3 10 18-7-7 18-3-8Z"/>
+                </svg>
+                <span>Lacak Pesanan</span>
+            </a>
+
+            <button type="button"
+                    id="bcPrint"
+                    class="bc-side-action bc-side-download">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M7 3h10v18H7Z"/>
+                    <path d="M10 3v5h4V3M10 12h4M10 16h4"/>
+                </svg>
+                <span>Unduh Bukti Reservasi (PDF)</span>
+            </button>
+
+            <a id="bcSupport"
+               href="https://wa.me/6281234567890"
+               target="_blank"
+               rel="noopener noreferrer"
+               class="bc-side-action bc-side-support">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M4 13v-2a8 8 0 0 1 16 0v2"/>
+                    <rect x="3" y="11" width="4" height="7" rx="2"/>
+                    <rect x="17" y="11" width="4" height="7" rx="2"/>
+                    <path d="M19 18v1a2 2 0 0 1-2 2h-4"/>
+                </svg>
+                <span>Chat Concierge GriyaResik</span>
+            </a>
+        </div>
+
+        <a href="Beranda after login.html" class="bc-sidebar-home">
+            Kembali ke Beranda Utama
+        </a>
+    </section>
+
+    <section class="bc-card bc-guarantees">
+        <h2>Standar Jaminan GriyaResik</h2>
+
+        <div class="bc-guarantee-item">
+            <span class="bc-guarantee-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="M4 10a8 8 0 0 1 14-4l2 2"/>
+                    <path d="M20 3v5h-5"/>
+                    <path d="M20 14A8 8 0 0 1 6 20l-2-2"/>
+                    <path d="M4 23v-5h5"/>
+                </svg>
+            </span>
+            <div>
+                <h3>Garansi Cuci Ulang 24 Jam</h3>
+                <p>
+                    Jika ada area yang terlewat, mitra kami kembali
+                    membersihkan tanpa tambahan biaya.
+                </p>
+            </div>
+        </div>
+
+        <div class="bc-guarantee-item">
+            <span class="bc-guarantee-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <rect x="3" y="6" width="18" height="15" rx="2"/>
+                    <path d="M9 6V3h6v3"/>
+                    <circle cx="9" cy="12" r="2"/>
+                    <path d="M6 18v-1a3 3 0 0 1 6 0v1M15 11h3M15 15h3"/>
+                </svg>
+            </span>
+            <div>
+                <h3>Mitra Terverifikasi &amp; SKCK</h3>
+                <p>
+                    Setiap tenaga kebersihan telah melalui pemeriksaan
+                    identitas &amp; pelatihan hospital grade.
+                </p>
+            </div>
+        </div>
+
+        <div class="bc-guarantee-item">
+            <span class="bc-guarantee-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24">
+                    <path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/>
+                    <path d="m8 12 3 3 5-6"/>
+                </svg>
+            </span>
+            <div>
+                <h3>Asuransi Kerusakan Hunian</h3>
+                <p>
+                    Kenyamanan terproteksi asuransi hingga
+                    Rp 15.000.000 selama pengerjaan berlangsung.
+                </p>
+            </div>
+        </div>
+    </section>
+</aside>
+  </div>
+</section>
+
+<section class="cta">
+    <div>
+        <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+        <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
+    </div>
+    <a href="Layanan.html">Lihat Layanan</a>
+</section>
+
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+<div class="footer-brand">
+    <span class="footer-logo-icon">G</span>
+    <span class="footer-logo-text">GriyaResik</span>
+</div>            <p>
+                Solusi praktis dan terpercaya untuk hunian yang bersih,
+                rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+            </p>
+        </div>
+
+        <div>
+            <h3>LAYANAN UTAMA</h3>
+            <ul>
+                <li><a href="Layanan.html">Basic Home Cleaning</a></li>
+                <li><a href="Layanan.html">Standard Room Cleaning</a></li>
+                <li><a href="Layanan.html">Deep Cleaning Menyeluruh</a></li>
+                <li><a href="Layanan.html">Ruangan Lainnya (Custom)</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>OPERASIONAL</h3>
+            <p>Senin–Minggu: 07.00–19.00 WIB</p>
+            <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+            <a class="whatsapp" href="https://wa.me/6281234567890">
+                +62 812-3456-7890
+            </a>
+        </div>
+
+        <div>
+            <h3>WILAYAH LAYANAN</h3>
+            <p>Tersedia di Jabodetabek, Bandung, Surabaya, dan sekitarnya.</p>
+            <p>● Siap Melayani 7 Hari Seminggu</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>© 2025 GriyaResik Indonesia. Seluruh hak cipta dilindungi undang-undang.</p>
+        <div class="footer-links">
+            <a href="#">Syarat &amp; Ketentuan</a>
+            <a href="#">Kebijakan Privasi</a>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/booking.js" defer></script>
+</body>
+</html>

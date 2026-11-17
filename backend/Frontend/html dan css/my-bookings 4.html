@@ -1,0 +1,2008 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Pengerjaan Pesanan | GriyaResik</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Inter:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script src="../js/my-bookings%204.js" defer></script>
+
+  <style>
+    :root {
+      --green: #193e2f;
+      --green-light: #e8eee5;
+      --pink: #FAE9E9;
+      --cream: #F8F5F0;
+      --text: #1d352b;
+      --muted: #758078;
+      --border: #e9eae6;
+      --white: #ffffff;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--cream);
+      font: 13px/1.5 "Plus Jakarta Sans", sans-serif;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select { font: inherit; }
+    button { cursor: pointer; }
+    [hidden] { display: none !important; }
+
+    :focus-visible {
+      outline: 3px solid #789477;
+      outline-offset: 3px;
+    }
+
+    svg.icon {
+      display: block;
+      flex-shrink: 0;
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      padding: 8px 0;
+      background: var(--pink);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      width: 100%;
+      max-width: 1100px;
+      min-height: 65px;
+      margin: auto;
+      padding: 0 25px;
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 7px;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      object-fit: contain;
+    }
+
+    .brand-text {
+      font: 800 22px/1.5 "Baloo 2", sans-serif;
+      white-space: nowrap;
+    }
+
+    .brand-griya { color: #292929; }
+    .brand-resik { color: #789477; }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px;
+      border-radius: 25px;
+      background: rgb(255 255 255 / 55%);
+    }
+
+    .nav-menu a {
+      display: block;
+      padding: 8px 18px;
+      border-radius: 25px;
+      color: #344054;
+      font-size: 13px;
+      line-height: normal;
+      white-space: nowrap;
+    }
+
+    .nav-menu .active {
+      color: white;
+      background: var(--green);
+    }
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 8px 13px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      background: white;
+      font-size: 11px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .account .icon {
+      width: 13px;
+      height: 13px;
+    }
+
+    .container {
+      width: calc(100% - 64px);
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 32px 0 40px;
+    }
+
+    .card {
+      min-width: 0;
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      background: white;
+      box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 10px 15px;
+      border: 1px solid var(--green);
+      border-radius: 9px;
+      background: var(--green);
+      color: white;
+      font-size: 12px;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .button.light {
+      border-color: var(--border);
+      background: white;
+      color: var(--green);
+    }
+
+    /* RINGKASAN: MENGIKUTI STEP 2 */
+
+    .s4-card {
+      min-width: 0;
+      padding: 27px 28px;
+      border: 1px solid #e9eae6;
+      border-radius: 17px;
+      background: #ffffff;
+      color: #1d352b;
+      box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+      font: 400 13px/1.5 "Plus Jakarta Sans", sans-serif;
+      font-feature-settings: normal;
+      -webkit-font-smoothing: auto;
+    }
+
+    .s4-card h2,
+    .s4-card h3,
+    .s4-card p {
+      margin: 0;
+    }
+
+    .s4-card .s4-icon {
+      display: block;
+      flex-shrink: 0;
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .s4-order-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding-bottom: 23px;
+      border-bottom: 1px solid #e9eae6;
+    }
+
+    .s4-order-title {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .s4-order-title h2 {
+      font-size: 31px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: -.7px;
+      overflow-wrap: anywhere;
+    }
+
+    .s4-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 25px;
+      background: #e8eee5;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .s4-status::before {
+      content: "";
+      flex-shrink: 0;
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #193e2f;
+    }
+
+    .s4-package {
+      border: 1px solid #FAE9E9;
+      background: color-mix(in srgb, #FAE9E9 40%, white);
+      color: #804b51;
+    }
+
+    .s4-arrival {
+      display: flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 7px;
+      max-width: 365px;
+      padding: 8px 12px;
+      border: 1px solid #e9eae6;
+      border-radius: 12px;
+      background: #F8F5F0;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .s4-arrival > .s4-icon {
+      width: 16px;
+      height: 16px;
+      color: #758078;
+    }
+
+    .s4-arrival strong { font-weight: 700; }
+
+    .s4-muted {
+      color: #758078;
+      margin-right: 3px;
+    }
+
+    .s4-overview {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      margin: 24px 0;
+    }
+
+    .s4-overview-item {
+      min-width: 0;
+      padding: 16px;
+      border: 1px solid #e9eae6;
+      border-radius: 12px;
+      background: #F8F5F0;
+    }
+
+    .s4-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #758078;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: .3px;
+    }
+
+    .s4-overview-item strong {
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .s4-overview-item p {
+      margin-top: 4px;
+      color: #758078;
+      font-size: 11px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .s4-worker-name {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .s4-rating {
+      padding: 2px 5px;
+      border-radius: 4px;
+      background: #e8eee5;
+      color: #1d352b;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .s4-worker-actions {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 33px;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .s4-worker-actions button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      min-width: 0;
+      height: 33px;
+      padding: 0 7px;
+      border: 1px solid #193e2f;
+      border-radius: 7px;
+      background: #193e2f;
+      color: #ffffff;
+      font: inherit;
+      font-size: 11px;
+      font-weight: 600;
+      opacity: 1;
+    }
+
+    .s4-worker-actions button:disabled {
+      opacity: 1;
+      cursor: not-allowed;
+    }
+
+    .s4-worker-actions .s4-phone {
+      border-color: #e9eae6;
+      background: #ffffff;
+      color: #193e2f;
+    }
+
+    .s4-worker-actions .s4-icon {
+      width: 15px;
+      height: 15px;
+    }
+
+    .s4-tracking-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      padding-top: 20px;
+      border-top: 1px solid #e9eae6;
+    }
+
+    .s4-tracking-heading h3 {
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .s4-tracking-heading p {
+      color: #758078;
+      font-size: 10px;
+    }
+
+    .s4-tracking-heading strong {
+      color: #193e2f;
+      font-weight: 700;
+    }
+
+    .s4-progress {
+      --work-progress: 55;
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      margin: 19px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .s4-progress::before,
+    .s4-progress::after {
+      content: "";
+      position: absolute;
+      top: 15px;
+      left: 14px;
+      height: 4px;
+      z-index: -1;
+    }
+
+    .s4-progress::before {
+      right: 0;
+      background: #e9eae6;
+    }
+
+    .s4-progress::after {
+      width: calc(var(--work-progress) * .8%);
+      background: #193e2f;
+      transition: width .45s ease;
+    }
+
+    .s4-progress.is-complete::after {
+      width: calc(100% - 14px);
+    }
+
+    .s4-progress li {
+      position: relative;
+      min-width: 0;
+      padding-right: 12px;
+      text-align: left;
+    }
+
+    .s4-dot {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      place-items: center;
+      width: 28px;
+      height: 28px;
+      margin-bottom: 8px;
+      border-radius: 50%;
+      background: #e9eae6;
+      color: #758078;
+      font-size: 12px;
+      line-height: 1;
+    }
+
+    .s4-progress .done .s4-dot,
+    .s4-progress .current .s4-dot {
+      background: #1E3A2F;
+      color: #ffffff;
+      box-shadow: 0 0 0 4px #ffffff;
+    }
+
+    .s4-dot .s4-icon {
+      width: 13px;
+      height: 13px;
+      stroke-width: 2.5;
+    }
+
+    .s4-progress strong {
+      display: block;
+      color: #758078;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 11px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .s4-progress .done strong,
+    .s4-progress .current strong {
+      color: #193e2f;
+      font-weight: 700;
+    }
+
+    .s4-progress small {
+      display: block;
+      margin-top: 2px;
+      color: #758078;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    /* DUA KOLOM DAN CEKLIS RUANGAN */
+
+    .columns {
+      display: grid;
+      grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+      margin-top: 24px;
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      min-width: 0;
+    }
+
+    .panel { padding: 23px; }
+
+    .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #e9eae6;
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .section-title h2 {
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.4;
+    }
+
+    .section-heading > p {
+      font-size: 11px;
+      color: #78818d;
+      text-align: right;
+    }
+
+    .simulation-note {
+      margin-top: 15px;
+      color: #758078;
+      font-size: 10px;
+      line-height: 1.7;
+    }
+
+    .state {
+      padding: 40px 22px;
+      text-align: center;
+    }
+
+    .state h1 { font-size: 22px; }
+
+    .state p {
+      margin: 12px 0 20px;
+      color: #758078;
+    }
+
+    .state .button { margin: 3px; }
+
+    .room-panel .section-heading {
+      border: 0;
+      padding: 0;
+      margin-bottom: 15px;
+    }
+
+    .progress-track {
+      height: 7px;
+      overflow: hidden;
+      background: #f1f2f4;
+      border-radius: 20px;
+      margin-bottom: 19px;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--green);
+      border-radius: inherit;
+      transition: width .45s ease;
+    }
+
+    .room-list {
+      display: flex;
+      flex-direction: column;
+      gap: 13px;
+    }
+
+    .room-card {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 16px;
+      border: 1px solid #d3e7dc;
+      border-radius: 11px;
+      background: #f6faf7;
+    }
+
+    .room-card.complete {
+      background: #e8f5e9;
+      border-color: #c7e7c7;
+    }
+
+    .room-icon {
+      display: grid;
+      place-items: center;
+      flex-shrink: 0;
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--green);
+      color: white;
+    }
+
+    .room-icon .icon {
+      width: 17px;
+      height: 17px;
+    }
+
+    .room-copy {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .room-title {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+    }
+
+    .room-title h3 {
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .room-time {
+      padding: 2px 6px;
+      border: 1px solid #c9e6cf;
+      border-radius: 3px;
+      background: #fcfefc;
+      font-size: 10px;
+      color: var(--green);
+    }
+
+    .room-time.running {
+      color: #dc611f;
+      border-color: #ffc78a;
+      background: #fff5eb;
+    }
+
+    .room-copy p {
+      margin-top: 4px;
+      font-size: 11px;
+      color: #677384;
+      line-height: 1.6;
+    }
+
+    .room-percent {
+      flex-shrink: 0;
+      min-width: 95px;
+      max-width: 120px;
+      padding: 7px 10px;
+      border-radius: 10px;
+      background: var(--green);
+      color: white;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .room-percent small {
+      display: block;
+      font-size: 10px;
+      font-weight: 400;
+    }
+
+    .complete .room-percent {
+      background: #cfe5d7;
+      color: var(--green);
+      border-radius: 6px;
+    }
+
+    .progress-number { font-variant-numeric: tabular-nums; }
+
+    /* RIWAYAT: MENGIKUTI STEP 2 */
+
+    .h4-history {
+      min-width: 0;
+      padding: 20px;
+      border: 1px solid #e9eae6;
+      border-radius: 16px;
+      background: #ffffff;
+      color: #1d352b;
+      box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+      font: 400 13px/1.5 "Plus Jakarta Sans", sans-serif;
+      font-feature-settings: normal;
+      -webkit-font-smoothing: auto;
+    }
+
+    .h4-history-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e9eae6;
+    }
+
+    .h4-history-heading h2 {
+      margin: 0 0 4px;
+      color: #193e2f;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: -.2px;
+    }
+
+    .h4-history-heading p {
+      margin: 0;
+      color: #758078;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .h4-history-sync {
+      display: inline-flex;
+      align-items: center;
+      flex-shrink: 0;
+      gap: 5px;
+      padding: 4px 10px;
+      border: 0;
+      border-radius: 30px;
+      background: #e8eee5;
+      color: #193e2f;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 1.4;
+    }
+
+    .h4-history-sync > span:first-child {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #009c73;
+    }
+
+    .h4-timeline {
+      margin: 0;
+      padding: 0 0 0 9px;
+      list-style: none;
+    }
+
+    .h4-timeline li {
+      position: relative;
+      margin: 0;
+      padding: 0 0 23px 11px;
+      border-left: 2px solid #e9eae6;
+    }
+
+    .h4-timeline li:last-child { padding-bottom: 0; }
+
+    .h4-timeline li::before,
+    .h4-timeline li.payment-event::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: -10px;
+      display: block;
+      width: 20px;
+      height: 20px;
+      margin: 0;
+      padding: 0;
+      border: 0;
+      border-radius: 50%;
+      transform: none;
+      background: transparent url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23193e2f' stroke='white' stroke-width='2'/%3E%3Cpath d='m7 12 3.5 3.5L17 9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center / contain no-repeat;
+    }
+
+    .h4-timeline li::after { content: none; }
+
+    .h4-activity {
+      padding: 14px;
+      border: 1px solid #e9eae6;
+      border-radius: 11px;
+      background: #F8F5F0;
+      box-shadow: none;
+    }
+
+    .h4-activity-top {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .h4-activity h3 {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin: 0;
+      color: #193e2f;
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .h4-activity time {
+      flex-shrink: 0;
+      padding: 2px 6px;
+      border: 1px solid #e9eae6;
+      border-radius: 3px;
+      background: #ffffff;
+      color: #758078;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1.3;
+    }
+
+    .h4-activity p {
+      margin: 0;
+      color: #758078;
+      font-size: 10px;
+      font-weight: 400;
+      line-height: 1.8;
+      white-space: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .h4-activity p strong {
+      color: #193e2f;
+      font-weight: 700;
+    }
+
+    .h4-verified {
+      color: #009c73;
+      font-size: 13px;
+      font-weight: 400;
+    }
+
+    .h4-transaction {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      max-width: 100%;
+      margin-top: 9px;
+      padding: 4px 8px;
+      border: 1px solid #e9eae6;
+      border-radius: 3px;
+      background: #ffffff;
+      color: #758078;
+      font-family: ui-monospace, monospace;
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    .h4-transaction span {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+
+    .h4-file-icon {
+      flex-shrink: 0;
+      font-size: 12px;
+    }
+
+    .h4-hub {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      margin-top: 9px;
+      color: #758078;
+      font-size: 9px;
+      line-height: 1.5;
+    }
+
+    .h4-icon {
+      display: block;
+      flex-shrink: 0;
+      width: 12px;
+      height: 12px;
+      margin-top: 1px;
+      fill: none;
+      stroke: #193e2f;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .h4-demo-note {
+      margin: 14px 0 0;
+      color: #758078;
+      font-size: 9px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .h4-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 9px;
+    }
+
+    .h4-tag {
+      display: inline-flex;
+      padding: 4px 8px;
+      border: 1px solid #e9eae6;
+      border-radius: 3px;
+      background: white;
+      color: #758078;
+      font-size: 9px;
+      line-height: 1.4;
+    }
+
+    /* SISI KANAN: MENGIKUTI STEP 2 */
+
+    .p4-side {
+      --green: #193e2f;
+      --green-light: #e8eee5;
+      --pink: #FAE9E9;
+      --cream: #F8F5F0;
+      --text: #1d352b;
+      --muted: #758078;
+      --border: #e9eae6;
+      --white: #ffffff;
+      display: grid;
+      align-content: start;
+      gap: 24px;
+      min-width: 0;
+      font: 400 13px/1.5 "Plus Jakarta Sans", sans-serif;
+      color: var(--text);
+      font-feature-settings: normal;
+      -webkit-font-smoothing: auto;
+    }
+
+    .p4-side p,
+    .p4-side h2,
+    .p4-side h3 {
+      margin: 0;
+    }
+
+    .p4-side .card {
+      min-width: 0;
+      border: 1px solid var(--border);
+      background: white;
+      box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+    }
+
+    .p4-side .panel {
+      padding: 20px;
+      border-radius: 17px;
+    }
+
+    .p4-side svg.icon {
+      display: block;
+      flex-shrink: 0;
+      width: 19px;
+      height: 19px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.7;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .p4-side .section-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 18px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .p4-side .section-title {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      min-width: 0;
+    }
+
+    .p4-side .section-title > .icon {
+      width: 21px;
+      height: 21px;
+    }
+
+    .p4-side .section-heading h2 {
+      color: var(--green);
+      font-size: 15px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: -.2px;
+    }
+
+    .p4-side .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      flex-shrink: 0;
+      padding: 4px 10px;
+      border-radius: 25px;
+      background: var(--green-light);
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+
+    .p4-side .detail-label {
+      display: block;
+      margin: 0 0 6px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: 1.4;
+      letter-spacing: .4px;
+    }
+
+    .p4-side .customer-name {
+      display: block;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+    }
+
+    .p4-side .contact-text {
+      margin-top: 1px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.6;
+    }
+
+    .p4-side .address-label { margin-top: 20px; }
+    .p4-side .home-address-link { display: block; }
+
+    .p4-side .address {
+      color: var(--text);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.65;
+      overflow-wrap: anywhere;
+    }
+
+    .p4-side .landmark {
+      display: flex;
+      align-items: flex-start;
+      gap: 11px;
+      margin-top: 18px;
+      padding: 15px;
+      border: 1px solid color-mix(in srgb, var(--pink) 80%, #804b51);
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--pink) 24%, var(--cream));
+    }
+
+    .p4-side .landmark > .icon {
+      flex-shrink: 0;
+      width: 17px;
+      height: 17px;
+      margin-top: 3px;
+      color: #927b51;
+    }
+
+    .p4-side .landmark p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.8;
+      overflow-wrap: anywhere;
+    }
+
+    .p4-side .landmark strong {
+      color: var(--green);
+      font-weight: 700;
+    }
+
+    .p4-side #billItems .bill-line {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .p4-side #billItems .bill-line:first-child { padding-top: 0; }
+    .p4-side .bill-line > div { min-width: 0; }
+
+    .p4-side .bill-line strong {
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .p4-side .bill-line p {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 11px;
+      font-weight: 400;
+      line-height: 1.7;
+    }
+
+    .p4-side .bill-line > b {
+      flex-shrink: 0;
+      color: var(--green);
+      font-size: 13px;
+      font-weight: 700;
+      line-height: 1.5;
+      white-space: nowrap;
+    }
+
+    .p4-side .discount-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 15px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .p4-side .discount-row strong {
+      flex-shrink: 0;
+      color: #2c893b;
+      font-weight: 500;
+      white-space: nowrap;
+    }
+
+    .p4-side .bill-total {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 20px;
+      padding-top: 22px;
+    }
+
+    .p4-side .payment-total { min-width: 0; }
+
+    .p4-side .total-label {
+      display: block;
+      margin-bottom: 7px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: 0;
+      text-transform: none;
+    }
+
+    .p4-side #billTotal {
+      display: block;
+      color: var(--green);
+      font-size: 26px;
+      font-weight: 800;
+      line-height: 1.2;
+      letter-spacing: -.4px;
+    }
+
+    .p4-side .transaction-time {
+      max-width: 180px;
+      text-align: right;
+    }
+
+    .p4-side .transaction-time > span {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .p4-side .transaction-time strong {
+      display: block;
+      color: var(--green);
+      font-size: 14px;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+
+    .p4-side .resik-care {
+      width: 100%;
+      min-width: 0;
+      padding: 18px;
+      border: 1px solid #E8DFD8;
+      border-radius: 16px;
+      background: #FAF7F2;
+      color: #1E3A2F;
+      box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.5;
+      font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .p4-side .resik-care .resik-care-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin: 0;
+      color: #1E3A2F;
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 20px;
+      letter-spacing: normal;
+    }
+
+    .p4-side .resik-care-title > i {
+      flex-shrink: 0;
+      color: #1E5638;
+      font-size: 14px;
+    }
+
+    .p4-side .resik-care .resik-care-description {
+      margin: 8px 0 0;
+      color: #5F7368;
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1.5;
+      letter-spacing: normal;
+      overflow-wrap: anywhere;
+    }
+
+    .p4-side .resik-care .resik-care-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      width: 100%;
+      margin-top: 10px;
+      padding: 9px 12px;
+      border: 1px solid #BDE5CB;
+      border-radius: 12px;
+      background: #E8F5EC;
+      color: #1E5638;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 16px;
+      letter-spacing: normal;
+      text-align: center;
+      text-decoration: none;
+      white-space: normal;
+      transition: background-color 150ms ease;
+    }
+
+    .p4-side .resik-care .resik-care-button:hover {
+      background: #DCF1E2;
+    }
+
+    .p4-side .resik-care-button > i {
+      flex-shrink: 0;
+      color: #1E5638;
+      font-size: 14px;
+    }
+
+    /* CTA DAN FOOTER */
+
+    .cta {
+      padding: 36px 24px;
+      background: var(--green);
+      color: var(--white);
+      font-family: Inter, Arial, sans-serif;
+    }
+
+    .cta-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 32px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .cta-inner > div { flex: 1; min-width: 0; }
+
+    .cta h2 {
+      margin: 0 0 8px;
+      font-size: 24px;
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .cta p {
+      margin: 0;
+      color: #d2dfd5;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .cta a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      min-width: 150px;
+      padding: 13px 22px;
+      border-radius: 25px;
+      background: #fff0e9;
+      color: var(--green);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.4;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .footer {
+      padding: 40px 24px 18px;
+      background: #f8e9e3;
+      color: #1d352b;
+      font-family: Inter, Arial, sans-serif;
+      font-size: 12px;
+      text-align: left;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr 1fr;
+      gap: 35px;
+      max-width: 1120px;
+      margin: 0 auto;
+    }
+
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .footer-logo-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      width: 38px;
+      height: 38px;
+      border-radius: 9px;
+      background: #204b38;
+      color: var(--white);
+      font-family: "Baloo 2", sans-serif;
+      font-size: 21px;
+      font-weight: 700;
+    }
+
+    .footer-logo-text {
+      color: #204b38;
+      font-family: "Baloo 2", sans-serif;
+      font-size: 24px;
+      font-weight: 600;
+      letter-spacing: -.5px;
+    }
+
+    .footer-grid h3 {
+      margin: 0 0 10px;
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+
+    .footer-grid p,
+    .footer-grid li,
+    .footer-grid a {
+      color: #77716c;
+      font-size: 12px;
+      line-height: 1.9;
+    }
+
+    .footer-grid ul { margin: 0; padding: 0; list-style: none; }
+    .footer-grid a:hover { color: var(--green); }
+    .footer-grid .whatsapp { color: var(--green); font-weight: 800; }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 15px;
+      max-width: 1120px;
+      margin: 28px auto 0;
+      padding-top: 17px;
+      border-top: 1px solid #eadbd5;
+    }
+
+    .footer-bottom p,
+    .footer-bottom a {
+      color: #89817b;
+      font-size: 10px;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+    }
+
+    /* RESPONSIF */
+
+    @media (max-width: 1050px) {
+      .room-card { flex-wrap: wrap; }
+      .room-percent { margin-left: 40px; }
+    }
+
+    @media (max-width: 1000px) {
+      .s4-order-header { align-items: flex-start; }
+      .s4-order-title h2 { font-size: 27px; }
+      .s4-arrival { max-width: 285px; }
+      .s4-overview { gap: 10px; }
+      .s4-overview-item { padding: 13px; }
+      .s4-order-title .s4-pill { font-size: 10px; }
+    }
+
+    @media (max-width: 850px) {
+      .columns { grid-template-columns: 1fr; }
+
+      .nav { flex-wrap: wrap; gap: 10px; }
+
+      .nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        overflow-x: auto;
+      }
+
+      .nav-menu a { padding: 8px 12px; font-size: 12px; }
+      .room-percent { margin-left: 0; }
+      .room-card { flex-wrap: nowrap; }
+
+      .s4-order-header {
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .s4-arrival { max-width: 100%; }
+    }
+
+    @media (max-width: 700px) {
+      .cta-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+      }
+
+      .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .container {
+        width: calc(100% - 24px);
+        padding-top: 18px;
+      }
+
+      .columns, .stack { gap: 18px; }
+      .panel { padding: 19px; }
+
+      .room-card {
+        flex-wrap: wrap;
+        padding: 13px;
+      }
+
+      .room-percent { margin-left: 40px; }
+      .section-heading { align-items: flex-start; }
+      .s4-card { padding: 19px 16px; }
+
+      .s4-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin: 18px 0;
+      }
+
+      .s4-tracking-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+      }
+
+      .s4-step-scroll {
+        overflow-x: auto;
+        padding: 4px 0;
+      }
+
+      .s4-progress {
+        width: 625px;
+        min-width: 625px;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        padding: 5px 4px 12px;
+      }
+
+      .s4-progress::before,
+      .s4-progress::after {
+        top: 20px;
+      }
+
+      .p4-side .section-heading,
+      .p4-side .bill-total {
+        flex-wrap: wrap;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .nav { padding: 10px 14px; }
+      .brand img { width: 34px; height: 34px; }
+      .brand-text { font-size: 20px; }
+      .account { padding: 7px 9px; font-size: 10px; }
+      .nav-menu a { padding: 8px 9px; font-size: 11px; }
+
+      .s4-order-title h2 { font-size: 24px; }
+      .s4-overview-item strong { font-size: 12px; }
+      .s4-overview-item .s4-label { font-size: 9px; }
+      .s4-overview-item p { font-size: 10px; }
+
+      .h4-history { padding: 16px; }
+      .h4-history-heading { flex-wrap: wrap; gap: 9px; }
+      .h4-history-heading h2 { font-size: 15px; }
+      .h4-activity { padding: 12px; }
+      .h4-activity-top { flex-wrap: wrap; }
+
+      .p4-side { gap: 18px; }
+      .p4-side .panel { padding: 19px; }
+      .p4-side .section-heading h2 { font-size: 16px; }
+      .p4-side .section-heading .pill { font-size: 10px; }
+
+      .p4-side .bill-line strong,
+      .p4-side .bill-line > b {
+        font-size: 13px;
+      }
+
+      .p4-side #billTotal { font-size: 25px; }
+      .p4-side .transaction-time strong { font-size: 12px; }
+
+      .p4-side .total-label,
+      .p4-side .transaction-time > span {
+        font-size: 11px;
+      }
+    }
+
+    @media (max-width: 450px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .s4-progress::after,
+      .progress-fill {
+        transition: none;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="4"/>
+        <path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/>
+      </symbol>
+
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+      </symbol>
+
+      <symbol id="i-wa" viewBox="0 0 24 24">
+        <path d="M20 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 20 11.5Z"/>
+        <path d="M9 8c0 3 2 5 5 6l1-2-2-1-1 1-2-2 1-1-1-2Z"/>
+      </symbol>
+
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path d="m7 3 3 5-2 2c1 3 3 5 6 6l2-2 5 3-1 4C10 22 2 14 3 4Z"/>
+      </symbol>
+
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+        <circle cx="12" cy="10" r="2.5"/>
+      </symbol>
+
+      <symbol id="i-list" viewBox="0 0 24 24">
+        <rect x="5" y="4" width="14" height="18" rx="2"/>
+        <path d="M9 4V2h6v2M9 9h6M9 13h6M9 17h4"/>
+      </symbol>
+
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6"/>
+      </symbol>
+
+      <symbol id="i-refresh" viewBox="0 0 24 24">
+        <path d="M20 7v5h-5M4 17v-5h5M5 8a7 7 0 0 1 12-3l3 4M4 15l3 4a7 7 0 0 0 12-3"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="header">
+    <nav class="nav" aria-label="Navigasi utama">
+      <a class="brand" href="Beranda after login.html">
+        <img src="../images/logo griya Resik.png" alt="Logo GriyaResik">
+
+        <span class="brand-text">
+          <span class="brand-griya">Griya</span><span class="brand-resik">Resik</span>
+        </span>
+      </a>
+
+      <div class="nav-menu">
+        <a href="Beranda after login.html">Beranda</a>
+        <a href="Layanan.html">Layanan</a>
+        <a href="booking.html">Booking</a>
+        <a href="my-bookings.html" class="active" aria-current="page">
+          Status Pemesanan
+        </a>
+      </div>
+
+      <a href="profile.html" class="account">
+        <svg class="icon" aria-hidden="true">
+          <use href="#i-user"/>
+        </svg>
+        Pengaturan Akun
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <section id="pageState" class="card state" role="status">
+      <h1>Memuat pesanan…</h1>
+    </section>
+
+    <div id="orderContent" hidden>
+      <section class="s4-card" aria-label="Ringkasan pesanan">
+        <div class="s4-order-header">
+          <div class="s4-order-title">
+            <h2 id="orderCode">—</h2>
+
+            <span class="s4-pill s4-status" id="orderStatus">
+              Pengerjaan Berlangsung · Simulasi
+            </span>
+
+            <span id="serviceType" class="s4-pill s4-package">—</span>
+          </div>
+
+          <div class="s4-arrival">
+            <svg class="s4-icon" viewBox="0 0 24 24" aria-hidden="true">
+              <circle cx="12" cy="12" r="9"/>
+              <path d="M12 7v5l3 2"/>
+            </svg>
+
+            <span>
+              <span class="s4-muted">Jadwal: </span>
+              <strong id="arrivalDate">—</strong>
+            </span>
+          </div>
+        </div>
+
+        <div class="s4-overview">
+          <div class="s4-overview-item">
+            <span class="s4-label">PAKET LAYANAN</span>
+            <strong id="packageName">—</strong>
+            <p id="roomName">—</p>
+          </div>
+
+          <div class="s4-overview-item">
+            <span class="s4-label">AREA TUJUAN</span>
+            <strong id="districtName">—</strong>
+            <p id="addressShort">—</p>
+          </div>
+
+          <div class="s4-overview-item">
+            <span class="s4-label">MITRA BERTUGAS</span>
+
+            <div class="s4-worker-name">
+              <strong id="workerName">Siti Rahmawati</strong>
+
+              <span class="s4-rating">
+                <span id="workerRating">4.9</span> ★
+              </span>
+            </div>
+
+            <p id="workerCode">Mitra simulasi · ID: DEMO-1102</p>
+          </div>
+
+          <div class="s4-overview-item">
+            <span class="s4-label">AKSI CEPAT MITRA</span>
+
+            <div class="s4-worker-actions">
+              <button
+                id="workerWhatsApp"
+                type="button"
+                disabled
+                title="Belum tersedia untuk mitra simulasi"
+              >
+                <svg class="s4-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 20 11.5Z"/>
+                  <path d="M9 8c0 3 2 5 5 6l1-2-2-1-1 1-2-2 1-1-1-2Z"/>
+                </svg>
+                WhatsApp
+              </button>
+
+              <button
+                id="workerPhone"
+                class="s4-phone"
+                type="button"
+                disabled
+                aria-label="Telepon mitra"
+                title="Belum tersedia untuk mitra simulasi"
+              >
+                <svg class="s4-icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="m7 3 3 5-2 2c1 3 3 5 6 6l2-2 5 3-1 4C10 22 2 14 3 4Z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="s4-tracking-heading">
+          <h3>TAHAPAN LAYANAN HARI INI</h3>
+
+          <p>
+            Terakhir diperbarui:
+            <strong id="lastUpdated">—</strong>
+          </p>
+        </div>
+
+        <div class="s4-step-scroll">
+          <ol
+            class="s4-progress"
+            id="serviceSteps"
+            aria-label="Tahapan layanan simulasi"
+          ></ol>
+        </div>
+      </section>
+
+      <div class="columns">
+        <div class="stack">
+          <section class="card panel room-panel" aria-labelledby="roomHeading">
+            <div class="section-heading">
+              <div class="section-title">
+                <svg class="icon" aria-hidden="true">
+                  <use href="#i-list"/>
+                </svg>
+
+                <h2 id="roomHeading">Ceklis Progres Ruangan</h2>
+              </div>
+
+              <p id="roomCount"></p>
+            </div>
+
+            <div
+              class="progress-track"
+              id="overallProgress"
+              role="progressbar"
+              aria-label="Progres keseluruhan ruangan"
+              aria-valuemin="0"
+              aria-valuemax="100"
+            >
+              <div class="progress-fill" id="overallFill"></div>
+            </div>
+
+            <div id="roomList" class="room-list" aria-live="polite"></div>
+
+            <p class="simulation-note" id="roomNote"></p>
+            <p class="simulation-note" id="customerInstructions" hidden></p>
+          </section>
+
+          <section class="h4-history" aria-labelledby="historyHeading">
+            <div class="h4-history-heading">
+              <div>
+                <h2 id="historyHeading">Riwayat Pelacakan Aktivitas</h2>
+                <p>Catatan real-time sistem pemrosesan pesanan</p>
+              </div>
+
+              <span
+                class="h4-history-sync"
+                title="Pratinjau lokal; belum terhubung ke backend"
+              >
+                <span aria-hidden="true"></span>
+                <span>Auto-Sync Aktif</span>
+              </span>
+            </div>
+
+            <ol
+              class="h4-timeline"
+              id="activityList"
+              aria-label="Riwayat aktivitas pesanan"
+            ></ol>
+
+            <p class="h4-demo-note">
+              Mode simulasi: contoh perjalanan, konfirmasi, pengerjaan,
+              verifikasi pembayaran, waktu yang belum tercatat, dan hub
+              operasional. Tidak mengubah data pesanan asli.
+            </p>
+          </section>
+        </div>
+
+        <div class="p4-side">
+          <section class="card panel">
+            <div class="section-heading">
+              <div class="section-title">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                  <circle cx="12" cy="10" r="2.5"/>
+                </svg>
+
+                <h2>Lokasi Hunian</h2>
+              </div>
+
+              <span class="pill">Tujuan Terdaftar</span>
+            </div>
+
+            <span class="detail-label">PEMESAN</span>
+            <strong class="customer-name" id="customerName"></strong>
+            <p class="contact-text" id="customerPhone"></p>
+
+            <span class="detail-label address-label">ALAMAT LENGKAP</span>
+
+            <a
+              id="mapLink"
+              class="home-address-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Buka alamat di Google Maps"
+            >
+              <p class="address" id="customerAddress"></p>
+            </a>
+
+            <div class="landmark">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 11v6M12 7h.01"/>
+              </svg>
+
+              <p>
+                <strong>Catatan Patokan:</strong>
+                <span id="customerLandmark"></span>
+              </p>
+            </div>
+          </section>
+
+          <section class="card panel">
+            <div class="section-heading">
+              <div class="section-title">
+                <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                  <rect x="5" y="4" width="14" height="18" rx="2"/>
+                  <path d="M9 4V2h6v2M9 9h6M9 13h6M9 17h4"/>
+                </svg>
+
+                <h2>Rincian Pemesanan</h2>
+              </div>
+
+              <span class="pill payment-badge" id="paymentBadge"></span>
+            </div>
+
+            <div id="billItems"></div>
+
+            <div class="discount-row">
+              <span>Diskon Promosi Hunian Baru</span>
+              <strong id="discountAmount">- Rp. 0</strong>
+            </div>
+
+            <div class="bill-total">
+              <div class="payment-total">
+                <span class="total-label">Total Pembayaran</span>
+                <strong id="billTotal"></strong>
+              </div>
+
+              <div class="transaction-time">
+                <span id="transactionTimeLabel">Waktu Transaksi</span>
+                <strong id="paymentTimestamp"></strong>
+              </div>
+            </div>
+
+            <p id="paymentNotice" hidden></p>
+          </section>
+
+          <section class="resik-care">
+            <h3 class="resik-care-title">
+              <i class="fa-solid fa-headset" aria-hidden="true"></i>
+              <span>Pusat Kendali Resik Care</span>
+            </h3>
+
+            <p class="resik-care-description">
+              Perlu penyesuaian instruksi pembersihan atau konfirmasi akses
+              gerbang perumahan? Tim Concierge kami siap melayani Anda.
+            </p>
+
+            <a
+              id="supportLink"
+              class="resik-care-button"
+              href="https://wa.me/6281234567890"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+              <span>Chat WhatsApp CS GriyaResik</span>
+            </a>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <section class="cta">
+    <div class="cta-inner">
+      <div>
+        <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+        <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
+      </div>
+
+      <a href="Layanan.html">Lihat Layanan</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="footer-logo-icon">G</span>
+          <span class="footer-logo-text">GriyaResik</span>
+        </div>
+
+        <p>
+          Solusi praktis dan terpercaya untuk hunian yang bersih,
+          rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+        </p>
+      </div>
+
+      <div>
+        <h3>LAYANAN UTAMA</h3>
+
+        <ul>
+          <li><a href="Layanan.html">Basic Home Cleaning</a></li>
+          <li><a href="Layanan.html">Standard Room Cleaning</a></li>
+          <li><a href="Layanan.html">Deep Cleaning Menyeluruh</a></li>
+          <li><a href="Layanan.html">Ruangan Lainnya (Custom)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>OPERASIONAL</h3>
+        <p>Senin–Minggu: 07.00–19.00 WIB</p>
+        <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+
+        <a
+          class="whatsapp"
+          href="https://wa.me/6281234567890"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          +62 812-3456-7890
+        </a>
+      </div>
+
+      <div>
+        <h3>WILAYAH LAYANAN</h3>
+
+        <p>Tersedia di Jabodetabek, Bandung, Surabaya, dan sekitarnya.</p>
+        <p>● Siap Melayani 7 Hari Seminggu</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © <span id="year"></span> GriyaResik Indonesia.
+        Seluruh hak cipta dilindungi undang-undang.
+      </p>
+
+      <div class="footer-links">
+        <a href="#">Syarat &amp; Ketentuan</a>
+        <a href="#">Kebijakan Privasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="state">Aktifkan JavaScript untuk menampilkan booking.</p>
+  </noscript>
+</body>
+</html>

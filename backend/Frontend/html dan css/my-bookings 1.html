@@ -1,0 +1,1533 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Status Pemesanan | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Inter:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+    <script src="../js/my-bookings.js" defer></script>
+
+    <style>
+        :root {
+            --green: #193e2f;
+            --green-light: #e8eee5;
+            --pink: #FAE9E9;
+            --cream: #F8F5F0;
+            --text: #1d352b;
+            --muted: #758078;
+            --border: #e9eae6;
+            --white: #ffffff;
+        }
+
+        * { box-sizing: border-box; }
+        body { margin: 0; color: var(--text); background: var(--cream); font: 13px/1.5 "Plus Jakarta Sans", sans-serif; }
+        h1, h2, h3, p { margin: 0; }
+        a { color: inherit; text-decoration: none; }
+        button, input, select { font: inherit; }
+        button { cursor: pointer; }
+        [hidden] { display: none !important; }
+        :focus-visible { outline: 3px solid #789477; outline-offset: 3px; }
+        .muted { color: var(--muted); }
+
+        svg.icon {
+            display: block;
+            flex-shrink: 0;
+            width: 19px;
+            height: 19px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 1.7;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* HEADER */
+        .header { position: sticky; top: 0; z-index: 1000; padding: 8px 0; background: var(--pink); }
+        .nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            width: 100%;
+            max-width: 1100px;
+            min-height: 65px;
+            margin: auto;
+            padding: 0 25px;
+            font-family: Inter, Arial, sans-serif;
+        }
+        .brand { display: flex; align-items: center; flex-shrink: 0; gap: 7px; }
+        .brand img { width: 38px; height: 38px; object-fit: contain; }
+        .brand-text { font: 800 22px/1.5 "Baloo 2", sans-serif; white-space: nowrap; }
+        .brand-griya { color: #292929; }
+        .brand-resik { color: #789477; }
+        .nav-menu { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 25px; background: rgb(255 255 255 / 55%); }
+        .nav-menu a { display: block; padding: 8px 18px; border-radius: 25px; color: #344054; font-size: 13px; line-height: normal; white-space: nowrap; }
+        .nav-menu .active { color: white; background: var(--green); }
+        .account { display: flex; align-items: center; gap: 5px; padding: 8px 13px; border: 1px solid var(--border); border-radius: 20px; background: white; font-size: 11px; font-weight: 700; white-space: nowrap; }
+        .account .icon { width: 13px; height: 13px; }
+
+        /* UMUM */
+        .container{width:calc(100% - 64px);max-width:1200px;margin:26px auto 40px}
+        .card { min-width: 0; border: 1px solid var(--border); border-radius: 17px; background: white; box-shadow: 0 2px 3px rgb(25 62 47 / 3%); }
+        .button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 10px 15px; border: 1px solid var(--green); border-radius: 9px; background: var(--green); color: white; font-size: 12px; font-weight: 600; white-space: nowrap; }
+        .button.light { border-color: var(--border); background: white; color: var(--green); }
+        .pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 25px; background: var(--green-light); font-size: 11px; font-weight: 500; line-height: 1.4; }
+        .pill.pink { border: 1px solid var(--pink); background: color-mix(in srgb, var(--pink) 40%, white); color: #804b51; }
+        .label { display: block; margin-bottom: 6px; color: var(--muted); font-size: 10px; font-weight: 600; letter-spacing: .3px; }
+
+        /* PENCARIAN */
+        .search-card { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 1fr); align-items: center; gap: 20px; max-width: 840px; margin: 0 auto 24px; padding: 20px; }
+        .search-title { display: flex; align-items: center; gap: 16px; min-width: 0; }
+        .search-icon { display: grid; place-items: center; flex-shrink: 0; width: 58px; height: 58px; border-radius: 50%; background: var(--green-light); }
+        .search-icon .icon { width: 29px; height: 29px; }
+        .search-title p { margin-bottom: 4px; color: var(--muted); font-size: 14px; }
+        .search-title h1 { font-size: 23px; font-weight: 800; line-height: 1.3; letter-spacing: -.7px; }
+        .search-form { display: flex; align-items: center; gap: 8px; min-width: 0; }
+        .search-field { position: relative; flex: 1; min-width: 0; }
+        .search-field .icon { position: absolute; top: 50%; left: 12px; transform: translateY(-50%); width: 16px; height: 16px; color: var(--muted); pointer-events: none; }
+        .search-field input { display: block; width: 100%; min-width: 0; height: 39px; padding: 0 12px 0 36px; border: 1px solid var(--border); border-radius: 12px; background: var(--cream); color: var(--green); font-size: 13px; font-weight: 600; }
+        .search-form .button { height: 39px; padding: 0 15px; border-radius: 12px; }
+        .search-form .icon { width: 16px; height: 16px; }
+        .message { margin-bottom: 18px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 10px; background: white; font-size: 12px; }
+
+        /* RINGKASAN PESANAN */
+        .tracking-card { padding: 27px 28px; }
+        .order-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-bottom: 23px; border-bottom: 1px solid var(--border); }
+        .order-title { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; min-width: 0; }
+        .order-title h2 { font-size: 31px; font-weight: 800; line-height: 1.25; letter-spacing: -.7px; overflow-wrap: anywhere; }
+        .order-status::before { content: ""; flex-shrink: 0; width: 7px; height: 7px; border-radius: 50%; background: var(--green); }
+        .arrival-box { display: flex; align-items: center; flex-shrink: 0; gap: 7px; max-width: 365px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--cream); font-size: 12px; line-height: 1.5; }
+        .arrival-box > .icon { width: 16px; height: 16px; color: var(--muted); }
+        .arrival-box .muted { margin-right: 3px; }
+
+        .overview { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 24px 0; }
+        .overview-item { min-width: 0; padding: 16px; border: 1px solid var(--border); border-radius: 12px; background: var(--cream); }
+        .overview-item strong { font-size: 13px; font-weight: 700; line-height: 1.5; overflow-wrap: anywhere; }
+        .overview-item p { margin-top: 4px; color: var(--muted); font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
+        .worker-name { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
+        .rating { padding: 2px 5px; border-radius: 4px; background: var(--green-light); font-size: 10px; font-weight: 700; }
+        .worker-actions { display: grid; grid-template-columns: minmax(0, 1fr) 33px; gap: 8px; margin-top: 10px; }
+        .worker-actions button { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; height: 33px; padding: 0 7px; border: 1px solid var(--green); border-radius: 7px; background: var(--green); color: white; font-size: 11px; font-weight: 600; }
+        .worker-actions button:disabled { cursor: not-allowed; }
+        .worker-actions .phone { border-color: var(--border); background: white; color: var(--green); }
+        .worker-actions .icon { width: 15px; height: 15px; }
+
+        /* PROGRES */
+        .tracking-heading { display: flex; align-items: center; justify-content: space-between; gap: 15px; padding-top: 20px; border-top: 1px solid var(--border); }
+        .tracking-heading h3 { font-size: 11px; font-weight: 700; }
+        .tracking-heading p { color: var(--muted); font-size: 10px; }
+        .tracking-heading strong { color: var(--green); }
+        .progress { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 19px 0 0; padding: 0; list-style: none; }
+        .progress li { position: relative; min-width: 0; padding-right: 12px; }
+        .progress li::after { content: ""; position: absolute; top: 15px; left: 17px; right: -1px; height: 4px; background: var(--border); }
+        .progress li:last-child::after { right: 0; }
+        .progress li.done::after { background: var(--green); }
+        /* Lingkaran dan nomor tahap yang belum aktif. */
+        .step-dot {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            width: 28px;
+            height: 28px;
+            margin-bottom: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1;
+        }
+
+        /* Tahap yang sudah selesai. */
+        .progress .done .step-dot {
+            background: #1E3A2F;
+            color: #ffffff;
+            font-size: 0;
+            box-shadow: 0 0 0 4px #ffffff;
+        }
+
+        /* Tahap yang sedang aktif. */
+        .progress .current .step-dot {
+            background: #1E3A2F;
+            color: #ffffff;
+            font-size: 0;
+            box-shadow: 0 0 0 4px #ffffff;
+        }
+
+        .progress .done .step-dot::before,
+        .progress .current .step-dot::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+
+            width: 13px;
+            height: 13px;
+            background: currentColor;
+
+            -webkit-mask:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4L19 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+                center / contain no-repeat;
+
+            mask:
+                url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m5 12 4 4L19 6' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+                center / contain no-repeat;
+        }
+
+        .progress strong { display: block; color: var(--muted); font-size: 11px; font-weight: 500; line-height: 1.5; }
+        .progress .done strong, .progress .current strong { color: var(--green); font-weight: 700; }
+        .progress small { display: block; margin-top: 2px; color: var(--muted); font-size: 10px; line-height: 1.5; }
+
+        /* DUA KOLOM */
+        .columns {
+            display: grid;
+            grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+            align-items: start;
+            gap: 24px;
+            margin-top: 24px;
+        }        
+        .stack { display: grid; gap: 20px; min-width: 0; }
+        .panel { padding: 21px; }
+        .section-heading { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 14px; margin-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .section-title { display: flex; align-items: center; gap: 7px; }
+        .section-heading h2 { font-size: 15px; }
+        .section-heading p { margin-top: 4px; color: var(--muted); font-size: 10px; }
+        .section-heading .pill { padding: 4px 8px; font-size: 9px; }
+
+        /* RIWAYAT */
+        /* RIWAYAT PELACAKAN AKTIVITAS */
+.card.panel.history-panel {
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border);
+}
+
+.history-heading h2 {
+    margin: 0 0 4px;
+    color: var(--green);
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -.2px;
+}
+
+.history-heading p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.history-sync {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 5px;
+
+    padding: 4px 10px;
+    border-radius: 30px;
+    background: var(--green-light);
+    color: var(--green);
+
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.history-sync > span:first-child {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #009c73;
+}
+
+.history-panel .timeline {
+    margin: 0;
+    padding: 0 0 0 9px;
+    list-style: none;
+}
+
+.history-panel .timeline li {
+    position: relative;
+    margin-left: 0;
+    padding: 0 0 23px 11px;
+    border-left: 2px solid var(--border);
+}
+
+.history-panel .timeline li:last-child {
+    padding-bottom: 0;
+}
+
+/* Lingkaran hijau dan ceklis putih dalam satu gambar. */
+.history-panel .timeline li::before,
+.history-panel .timeline li.payment-event::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -10px;
+
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    transform: none;
+
+    background: transparent
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23193e2f' stroke='white' stroke-width='2'/%3E%3Cpath d='m7 12 3.5 3.5L17 9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+}
+
+/* Hilangkan ceklis terpisah dari versi sebelumnya. */
+.history-panel .timeline li::after {
+    content: none;
+}
+
+.history-panel .activity {
+    padding: 14px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: var(--cream);
+}
+
+.history-panel .activity-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.history-panel .activity h3 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.history-panel .activity time {
+    flex-shrink: 0;
+    padding: 2px 6px;
+
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--white);
+    color: var(--muted);
+
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.history-panel .activity p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.8;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.history-panel .activity p strong {
+    color: var(--green);
+    font-weight: 700;
+}
+
+.history-icon {
+    display: block;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.history-panel .activity h3 .history-icon {
+    color: #009c73;
+}
+
+.history-transaction {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+
+    margin-top: 9px;
+    padding: 4px 8px;
+
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: var(--white);
+    color: var(--muted);
+
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+.history-transaction span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.history-hub {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 9px;
+
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.history-hub .history-icon {
+    margin-top: 1px;
+    color: var(--green);
+}
+
+.history-demo-note {
+    margin-top: 14px;
+    color: var(--muted);
+    font-size: 9px;
+    line-height: 1.6;
+}
+
+@media (max-width: 560px) {
+    .card.panel.history-panel {
+        padding: 16px;
+    }
+
+    .history-heading {
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .history-heading h2 {
+        font-size: 15px;
+    }
+
+    .history-panel .activity {
+        padding: 12px;
+    }
+}
+
+        .safety { display: flex; gap: 12px; padding: 20px; border-radius: 13px; background: var(--green); color: white; }
+        .safety > .icon { width: 24px; height: 24px; }
+        .safety h3 { font-size: 12px; }
+        .safety p { margin-top: 6px; color: var(--green-light); font-size: 11px; line-height: 1.8; }
+        .prep { overflow: hidden; border-radius: 13px; background: var(--green); color: white; }
+        .prep img { display: block; width: 100%; height: 130px; object-fit: cover; }
+        .prep-copy { padding: 18px; }
+        .prep h3 { font-size: 11px; }
+        .prep p { margin-top: 6px; color: var(--green-light); font-size: 11px; line-height: 1.8; }
+
+        /* KOLOM KANAN — LOKASI, TAGIHAN, DAN BANTUAN */
+.booking-side {
+    gap: 24px;
+}
+
+.booking-side .panel {
+    padding: 20px;
+    border-radius: 17px;
+}
+
+.booking-side .section-heading {
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+}
+
+.booking-side .section-title {
+    gap: 9px;
+    min-width: 0;
+}
+
+.booking-side .section-title > .icon {
+    width: 21px;
+    height: 21px;
+}
+
+.booking-side .section-heading h2 {
+    color: var(--green);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -.2px;
+}
+
+.booking-side .section-heading .pill {
+    flex-shrink: 0;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* DATA PEMESAN */
+.booking-side .detail-label {
+    display: block;
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .4px;
+}
+
+.booking-side .customer-name {
+    display: block;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.booking-side .contact-text {
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.booking-side .address-label {
+    margin-top: 20px;
+}
+
+.booking-side .home-address-link {
+    display: block;
+}
+
+.booking-side .address {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+/* CATATAN PATOKAN */
+.booking-side .landmark {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+
+    margin-top: 18px;
+    padding: 15px;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--pink) 80%,
+        #804b51
+    );
+    border-radius: 12px;
+
+    background: color-mix(
+        in srgb,
+        var(--pink) 24%,
+        var(--cream)
+    );
+}
+
+.booking-side .landmark > .icon {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
+    color: #927b51;
+}
+
+.booking-side .landmark p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.booking-side .landmark strong {
+    color: var(--green);
+    font-weight: 700;
+}
+
+/* RINCIAN LAYANAN */
+.booking-side #billItems .bill-line {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.booking-side #billItems .bill-line:first-child {
+    padding-top: 0;
+}
+
+.booking-side .bill-line > div {
+    min-width: 0;
+}
+
+.booking-side .bill-line strong {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.booking-side .bill-line p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+.booking-side .bill-line > b {
+    flex-shrink: 0;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+/* DISKON */
+.booking-side .discount-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 15px;
+
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.booking-side .discount-row strong {
+    flex-shrink: 0;
+    color: #2c893b;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* TOTAL DAN WAKTU TRANSAKSI */
+/* TOTAL PEMBAYARAN DAN WAKTU TRANSAKSI */
+.booking-side .bill-total {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 22px;
+}
+
+.booking-side .payment-total {
+    min-width: 0;
+}
+
+.booking-side .total-label {
+    display: block;
+    margin-bottom: 7px;
+
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.booking-side #billTotal {
+    display: block;
+    color: var(--green);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.4px;
+}
+
+.booking-side .transaction-time {
+    max-width: 180px;
+    text-align: right;
+}
+
+.booking-side .transaction-time > span {
+    display: block;
+    margin-bottom: 5px;
+
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.booking-side .transaction-time strong {
+    display: block;
+
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+    .booking-side #billTotal {
+        font-size: 23px;
+    }
+
+    .booking-side .transaction-time strong {
+        font-size: 12px;
+    }
+
+    .booking-side .total-label,
+    .booking-side .transaction-time > span {
+        font-size: 11px;
+    }
+}
+
+/* RESIK CARE STEP 1 — MENGIKUTI STEP 2 */
+.resik-care {
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+
+    border: 1px solid #E8DFD8;
+    border-radius: 16px;
+    background: #FAF7F2;
+    color: #1E3A2F;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+}
+
+.resik-care .resik-care-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    margin: 0;
+    color: #1E3A2F;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: normal;
+}
+
+.resik-care-title > i {
+    flex-shrink: 0;
+    color: #1E5638;
+    font-size: 14px;
+}
+
+.resik-care .resik-care-description {
+    margin: 8px 0 0;
+    color: #5F7368;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    overflow-wrap: anywhere;
+}
+
+.resik-care .resik-care-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px 12px;
+
+    border: 1px solid #BDE5CB;
+    border-radius: 12px;
+    background: #E8F5EC;
+    color: #1E5638;
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: normal;
+
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    transition: background-color 150ms ease;
+}
+
+.resik-care .resik-care-button:hover {
+    background: #DCF1E2;
+}
+
+.resik-care-button > i {
+    flex-shrink: 0;
+    color: #1E5638;
+    font-size: 14px;
+}
+
+@media (max-width: 560px) {
+    .booking-side {
+        gap: 18px;
+    }
+
+    .booking-side .panel {
+        padding: 19px;
+    }
+
+    .booking-side .section-heading h2 {
+        font-size: 16px;
+    }
+
+    .booking-side .section-heading .pill {
+        font-size: 10px;
+    }
+
+    .booking-side .bill-line strong,
+    .booking-side .bill-line > b {
+        font-size: 13px;
+    }
+
+    .booking-side #billTotal {
+        font-size: 25px;
+    }
+}
+
+/* KONTROL SIMULASI */
+        .empty { padding: 45px 20px; text-align: center; }
+        .empty h2 { font-size: 21px; }
+        .empty p { margin: 12px 0 20px; color: var(--muted); }
+
+        /* BANNER DAN FOOTER — MENGIKUTI HALAMAN BOOKING */
+.cta {
+    padding: 36px 24px;
+    background: var(--green);
+    color: var(--white);
+    font-family: "Inter", Arial, sans-serif;
+}
+
+.cta-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 32px;
+
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.cta-inner > div {
+    flex: 1;
+    min-width: 0;
+}
+
+.cta h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.35;
+}
+
+.cta p {
+    margin: 0;
+    color: #d2dfd5;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.cta a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    min-width: 150px;
+    padding: 13px 22px;
+
+    border-radius: 25px;
+    background: #fff0e9;
+    color: var(--green);
+
+    font-size: 12px;
+    font-weight: 800;
+    line-height: 1.4;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.footer {
+    padding: 40px 24px 18px;
+    background: #f8e9e3;
+    color: #1d352b;
+
+    font-family: "Inter", Arial, sans-serif;
+    font-size: 12px;
+    text-align: left;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 35px;
+
+    max-width: 1120px;
+    margin: 0 auto;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.footer-logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+
+    background: #204b38;
+    color: var(--white);
+
+    font-family: "Baloo 2", sans-serif;
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.footer-logo-text {
+    color: #204b38;
+    font-family: "Baloo 2", sans-serif;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: -.5px;
+}
+
+.footer-grid h3 {
+    margin: 0 0 10px;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.footer-grid p,
+.footer-grid li,
+.footer-grid a {
+    color: #77716c;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.footer-grid ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-grid a:hover {
+    color: var(--green);
+}
+
+.footer-grid .whatsapp {
+    color: var(--green);
+    font-weight: 800;
+}
+
+.footer-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+
+    max-width: 1120px;
+    margin: 28px auto 0;
+    padding-top: 17px;
+
+    border-top: 1px solid #eadbd5;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+    color: #89817b;
+    font-size: 10px;
+}
+
+.footer-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+@media (max-width: 700px) {
+    .cta-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 22px;
+    }
+
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 450px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+        @media (max-width: 1000px) {
+            .order-header { align-items: flex-start; }
+            .order-title h2 { font-size: 27px; }
+            .arrival-box { max-width: 285px; }
+            .overview { gap: 10px; }
+            .overview-item { padding: 13px; }
+            .order-title .pill { font-size: 10px; }
+            .search-title h1 { font-size: 21px; }
+        }
+
+        @media (max-width: 850px) {
+            .nav { flex-wrap: wrap; gap: 10px; }
+            .nav-menu { order: 3; width: 100%; justify-content: center; overflow-x: auto; }
+            .nav-menu a { padding: 8px 12px; font-size: 12px; }
+            .columns { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .search-title p { font-size: 12px; }
+            .search-title h1 { font-size: 19px; }
+            .search-icon { width: 46px; height: 46px; }
+            .search-card { gap: 14px; padding: 18px; }
+            .order-header { flex-direction: column; gap: 14px; }
+            .arrival-box { max-width: 100%; }
+        }
+
+        @media (max-width: 640px) {
+            .container { width: calc(100% - 24px); margin-top: 18px; }
+            .search-card { grid-template-columns: 1fr; }
+            .tracking-card { padding: 19px 16px; }
+            .overview { grid-template-columns: 1fr 1fr; gap: 10px; margin: 18px 0; }
+            .tracking-heading { flex-direction: column; align-items: flex-start; gap: 5px; }
+            .progress { overflow-x: auto; grid-template-columns: repeat(5, 125px); padding: 5px 4px 12px; }
+            .panel { padding: 17px; }
+
+        }
+
+        @media (max-width: 560px) {
+            .nav {
+                padding: 10px 14px;
+            }
+            .brand img { width: 34px; height: 34px; }
+            .brand-text { font-size: 20px; }
+            .account { padding: 7px 9px; font-size: 10px; }
+            .nav-menu a { padding: 8px 9px; font-size: 11px; }
+            .order-title h2 { font-size: 24px; }
+            .overview-item strong { font-size: 12px; }
+            .overview-item .label { font-size: 9px; }
+            .overview-item p { font-size: 10px; }
+            .footer-grid { gap: 22px; }
+        }
+
+    </style>
+</head>
+
+<body>
+    <!-- IKON SVG -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <defs>
+            <symbol id="i-box" viewBox="0 0 24 24">
+                <path d="m12 3 9 5v8l-9 5-9-5V8Z"/>
+                <path d="m3 8 9 5 9-5M12 13v8M7.5 5.5l9 5"/>
+            </symbol>
+            <symbol id="i-search" viewBox="0 0 24 24">
+                <circle cx="10.5" cy="10.5" r="6.5"/>
+                <path d="m16 16 5 5"/>
+            </symbol>
+            <symbol id="i-arrow" viewBox="0 0 24 24">
+                <path d="M4 12h16m-6-6 6 6-6 6"/>
+            </symbol>
+            <symbol id="i-user" viewBox="0 0 24 24">
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/>
+            </symbol>
+            <symbol id="i-clock" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+            </symbol>
+            <symbol id="i-wa" viewBox="0 0 24 24">
+                <path d="M20 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 20 11.5Z"/>
+                <path d="M9 8c0 3 2 5 5 6l1-2-2-1-1 1-2-2 1-1-1-2Z"/>
+            </symbol>
+            <symbol id="i-phone" viewBox="0 0 24 24">
+                <path d="m7 3 3 5-2 2c1 3 3 5 6 6l2-2 5 3-1 4C10 22 2 14 3 4Z"/>
+            </symbol>
+            <symbol id="i-pin" viewBox="0 0 24 24">
+                <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                <circle cx="12" cy="10" r="2.5"/>
+            </symbol>
+            <symbol id="i-shield" viewBox="0 0 24 24">
+                <path d="m12 3 8 3v6c0 5-8 9-8 9s-8-4-8-9V6Z"/>
+                <path d="m8 12 3 3 5-6"/>
+            </symbol>
+            <symbol id="i-list" viewBox="0 0 24 24">
+                <rect x="5" y="4" width="14" height="18" rx="2"/>
+                <path d="M9 4V2h6v2M9 9h6M9 13h6M9 17h4"/>
+            </symbol>
+        </defs>
+    </svg>
+
+    <header class="header">
+        <nav class="nav" aria-label="Navigasi utama">
+            <a class="brand" href="Beranda after login.html">
+                <img src="../images/logo griya Resik.png" alt="Logo GriyaResik">
+                <span class="brand-text">
+                    <span class="brand-griya">Griya</span><span class="brand-resik">Resik</span>
+                </span>
+            </a>
+
+            <div class="nav-menu">
+                <a href="Beranda after login.html">Beranda</a>
+                <a href="Layanan.html">Layanan</a>
+                <a href="booking.html">Booking</a>
+                <a href="my-bookings.html" class="active" aria-current="page">
+                    Status Pemesanan
+                </a>
+            </div>
+
+            <a href="profile.html" class="account">
+                <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
+                Pengaturan Akun
+            </a>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- PENCARIAN -->
+        <section class="card search-card" id="searchCard" aria-labelledby="pageTitle">
+            <div class="search-title">
+                <span class="search-icon">
+                    <svg class="icon" aria-hidden="true"><use href="#i-box"/></svg>
+                </span>
+                <div>
+                    <p>Pelacakan Pesanan Real-Time</p>
+                    <h1 id="pageTitle">Status Layanan GriyaResik</h1>
+                </div>
+            </div>
+
+            <form class="search-form" id="searchForm">
+                <div class="search-field">
+                    <svg class="icon" aria-hidden="true"><use href="#i-search"/></svg>
+                    <input
+                        id="orderSearch"
+                        type="search"
+                        placeholder="#Kode reservasi"
+                        aria-label="Kode reservasi"
+                        required
+                    >
+                </div>
+                <button class="button" type="submit">
+                    Lacak
+                    <svg class="icon" aria-hidden="true"><use href="#i-arrow"/></svg>
+                </button>
+            </form>
+        </section>
+
+        <p class="message" id="message" role="status" aria-live="polite" hidden></p>
+        <section class="card empty" id="empty" hidden>
+            <h2>Belum ada pesanan</h2>
+            <p>
+                Selesaikan booking di browser dan alamat situs yang sama
+                untuk melihat pesanan Anda.
+            </p>
+            <a class="button" href="booking.html">Buat Booking →</a>
+        </section>
+
+        <div id="orderContent" hidden>
+            <!-- RINGKASAN -->
+            <section class="card tracking-card">
+                <div class="order-header">
+                    <div class="order-title">
+                        <h2 id="orderCode"></h2>
+                        <span class="pill order-status" id="orderStatus"></span>
+                        <span class="pill pink" id="packageBadge"></span>
+                    </div>
+
+                    <div class="arrival-box">
+                        <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
+                        <div>
+                            <span class="muted">Jadwal:</span>
+                            <strong id="arrival"></strong>
+                        </div>
+                    </div>
+                </div>
+
+                
+<div class="overview">
+    <div class="overview-item">
+        <span class="label">PAKET LAYANAN</span>
+        <strong id="overviewPackage"></strong>
+        <p id="overviewRoom"></p>
+    </div>
+
+    <div class="overview-item">
+        <span class="label">AREA TUJUAN</span>
+        <strong id="overviewDistrict"></strong>
+        <p id="overviewAddress"></p>
+    </div>
+
+    <div class="overview-item">
+        <span class="label">MITRA BERTUGAS</span>
+        <div class="worker-name">
+            <strong>Siti Rahmawati</strong>
+            <span class="rating">4.9 ★</span>
+        </div>
+        <p>Mitra simulasi · ID: DEMO-1102</p>
+    </div>
+
+    <div class="overview-item">
+        <span class="label">AKSI CEPAT MITRA</span>
+
+        <div class="worker-actions">
+            <button
+                type="button"
+                disabled
+                title="Belum tersedia untuk mitra simulasi"
+            >
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-wa"/>
+                </svg>
+                WhatsApp
+            </button>
+
+            <button
+                type="button"
+                class="phone"
+                disabled
+                aria-label="Telepon mitra"
+                title="Belum tersedia untuk mitra simulasi"
+            >
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-phone"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+                <div class="tracking-heading">
+                    <h3>TAHAPAN LAYANAN HARI INI</h3>
+                    <p>
+                        Terakhir diperbarui:
+                        <strong id="lastUpdated">—</strong>
+                    </p>
+                </div>
+
+                <ol
+                    class="progress"
+                    id="progress"
+                    aria-label="Tahapan layanan simulasi"
+                ></ol>
+            </section>
+
+            <!-- PEMBUNGKUS DUA KOLOM -->
+            <div class="columns">
+                <div class="stack">
+                    <section class="card panel history-panel">
+
+            <div class="history-heading">
+                <div>
+                    <h2>Riwayat Pelacakan Aktivitas</h2>
+                    <p>Catatan real-time sistem pemrosesan pesanan</p>
+                </div>
+
+                <span class="history-sync">
+                    <span aria-hidden="true"></span>
+                    <span id="historySyncText">Auto-Sync Aktif</span>
+                </span>
+            </div>
+
+                        <ol class="timeline" id="timeline"></ol>
+
+                        <p id="historyDemoNote" class="history-demo-note">
+                            Mode simulasi: contoh verifikasi pembayaran dan hub operasional.
+                            Tidak mengubah status pembayaran asli.
+                        </p>
+                    </section>
+                    <section class="safety" id="step1Safety">
+                        <svg class="icon" aria-hidden="true"><use href="#i-shield"/></svg>
+                        <div>
+                            <h3>Jaminan Ketenangan & Standar Higienitas</h3>
+                            <p>
+                                Tim GriyaResik menyiapkan perlengkapan dan
+                                peralatan pembersihan sesuai layanan
+                                yang Anda pilih.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="prep" id="step1Prep">
+                        <img id="roomPhoto" alt="Ilustrasi ruangan">
+                        <div class="prep-copy">
+                            <h3>PROTOKOL PERSIAPAN RUMAH</h3>
+                            <p>
+                                Siapkan akses masuk dan amankan barang
+                                berharga sebelum kedatangan mitra.
+                                Informasikan area yang membutuhkan
+                                perhatian khusus.
+                            </p>
+                            <p id="cleanerNotes"></p>
+                        </div>
+                    </section>
+                </div> 
+
+    <div class="stack booking-side">
+    <!-- LOKASI HUNIAN -->
+    <section class="card panel">
+        <div class="section-heading">
+            <div class="section-title">
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-pin"/>
+                </svg>
+
+                <h2>Lokasi Hunian</h2>
+            </div>
+
+            <span class="pill">Tujuan Terdaftar</span>
+        </div>
+
+        <span class="detail-label">PEMESAN</span>
+        <strong class="customer-name" id="customerName"></strong>
+        <p class="contact-text" id="customerPhone"></p>
+
+        <span class="detail-label address-label">
+            ALAMAT LENGKAP
+        </span>
+
+        <a
+            id="mapLink"
+            class="home-address-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Buka alamat di Google Maps"
+        >
+            <p class="address" id="customerAddress"></p>
+        </a>
+
+        <div class="landmark">
+            <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 11v6M12 7h.01"/>
+            </svg>
+
+            <p>
+                <strong>Catatan Patokan:</strong>
+                <span id="customerLandmark"></span>
+            </p>
+        </div>
+    </section>
+
+    <!-- RINCIAN PEMESANAN -->
+    <section class="card panel">
+        <div class="section-heading">
+            <div class="section-title">
+                <svg class="icon" aria-hidden="true">
+                    <use href="#i-list"/>
+                </svg>
+
+                <h2>Rincian Pemesanan</h2>
+            </div>
+
+            <span
+                class="pill payment-badge"
+                id="paymentBadge"
+            ></span>
+        </div>
+
+        <div id="billItems"></div>
+
+        <div class="discount-row">
+            <span>Diskon Promosi Hunian Baru</span>
+            <strong id="discountAmount">- Rp. 0</strong>
+        </div>
+
+        <div class="bill-total">
+    <div class="payment-total">
+        <span class="total-label">Total Pembayaran</span>
+        <strong id="billTotal"></strong>
+    </div>
+
+    <div class="transaction-time">
+        <span id="transactionTimeLabel">Waktu Transaksi</span>
+        <strong id="paymentTimestamp"></strong>
+    </div>
+</div>
+
+<p id="paymentNotice" hidden></p>
+    </section>
+
+    <!-- PUSAT BANTUAN -->
+    <section class="resik-care">
+    <h3 class="resik-care-title">
+        <i class="fa-solid fa-headset" aria-hidden="true"></i>
+        <span>Pusat Kendali Resik Care</span>
+    </h3>
+
+    <p class="resik-care-description">
+        Perlu penyesuaian instruksi pembersihan atau konfirmasi
+        akses gerbang perumahan? Tim Concierge kami siap melayani Anda.
+    </p>
+
+    <a
+        id="supportLink"
+        class="resik-care-button"
+        href="https://wa.me/6281234567890"
+        target="_blank"
+        rel="noopener noreferrer"
+    >
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        <span>Chat WhatsApp CS GriyaResik</span>
+    </a>
+</section>
+</div>
+            </div>
+        </div>
+
+        <!-- KONTROL DILIPAT AGAR TIDAK MENGGANGGU DESAIN -->
+    </main>
+
+    <!-- BANNER DI LUAR CONTAINER KONTEN -->
+<section class="cta">
+    <div class="cta-inner">
+        <div>
+            <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+            <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
+        </div>
+
+        <a href="Layanan.html">Lihat Layanan</a>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="footer-grid">
+        <div>
+            <div class="footer-brand">
+                <span class="footer-logo-icon">G</span>
+                <span class="footer-logo-text">GriyaResik</span>
+            </div>
+
+            <p>
+                Solusi praktis dan terpercaya untuk hunian yang bersih,
+                rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+            </p>
+        </div>
+
+        <div>
+            <h3>LAYANAN UTAMA</h3>
+
+            <ul>
+                <li>
+                    <a href="Layanan.html">Basic Home Cleaning</a>
+                </li>
+                <li>
+                    <a href="Layanan.html">Standard Room Cleaning</a>
+                </li>
+                <li>
+                    <a href="Layanan.html">Deep Cleaning Menyeluruh</a>
+                </li>
+                <li>
+                    <a href="Layanan.html">Ruangan Lainnya (Custom)</a>
+                </li>
+            </ul>
+        </div>
+
+        <div>
+            <h3>OPERASIONAL</h3>
+            <p>Senin–Minggu: 07.00–19.00 WIB</p>
+            <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+
+            <a
+                class="whatsapp"
+                href="https://wa.me/6281234567890"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                +62 812-3456-7890
+            </a>
+        </div>
+
+        <div>
+            <h3>WILAYAH LAYANAN</h3>
+            <p>
+                Tersedia di Jabodetabek, Bandung, Surabaya,
+                dan sekitarnya.
+            </p>
+            <p>● Siap Melayani 7 Hari Seminggu</p>
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            © <span id="year"></span> GriyaResik Indonesia.
+            Seluruh hak cipta dilindungi undang-undang.
+        </p>
+
+        <div class="footer-links">
+            <a href="#">Syarat &amp; Ketentuan</a>
+            <a href="#">Kebijakan Privasi</a>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

@@ -1,0 +1,2038 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Selesai & Review | GriyaResik</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Inter:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script src="../js/my-bookings%205.js" defer></script>
+
+  <style>
+    :root {
+      --green:#193e2f;
+      --green-light:#e8eee5;
+      --pink:#FAE9E9;
+      --cream:#F8F5F0;
+      --text:#1d352b;
+      --muted:#758078;
+      --border:#e9eae6;
+    }
+
+    * { box-sizing:border-box; }
+
+    body {
+      margin:0;
+      background:var(--cream);
+      color:var(--text);
+      font:13px/1.5 "Plus Jakarta Sans",sans-serif;
+    }
+
+    h1,h2,h3,p { margin:0; }
+    a { color:inherit;text-decoration:none; }
+    button,input,textarea { font:inherit; }
+    button { cursor:pointer; }
+    [hidden] { display:none!important; }
+
+    :focus-visible {
+      outline:3px solid #789477;
+      outline-offset:3px;
+    }
+
+    .icon,.s5-icon {
+      display:block;
+      flex-shrink:0;
+      width:19px;
+      height:19px;
+      fill:none;
+      stroke:currentColor;
+      stroke-width:1.7;
+      stroke-linecap:round;
+      stroke-linejoin:round;
+    }
+
+    .sr-only {
+      position:absolute;
+      width:1px;
+      height:1px;
+      padding:0;
+      margin:-1px;
+      overflow:hidden;
+      clip:rect(0,0,0,0);
+      white-space:nowrap;
+      border:0;
+    }
+
+    /* HEADER */
+
+    .header {
+      position:sticky;
+      top:0;
+      z-index:1000;
+      padding:8px 0;
+      background:var(--pink);
+    }
+
+    .nav {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      max-width:1100px;
+      min-height:65px;
+      margin:auto;
+      padding:0 25px;
+      font-family:Inter,Arial,sans-serif;
+    }
+
+    .brand {
+      display:flex;
+      align-items:center;
+      gap:7px;
+      flex-shrink:0;
+    }
+
+    .brand img {
+      width:38px;
+      height:38px;
+      object-fit:contain;
+    }
+
+    .brand-text {
+      font:800 22px/1.5 "Baloo 2",sans-serif;
+      white-space:nowrap;
+    }
+
+    .brand-griya { color:#292929; }
+    .brand-resik { color:#789477; }
+
+    .nav-menu {
+      display:flex;
+      gap:4px;
+      padding:4px;
+      border-radius:25px;
+      background:#ffffff8c;
+    }
+
+    .nav-menu a {
+      padding:8px 18px;
+      border-radius:25px;
+      color:#344054;
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .nav-menu .active {
+      color:white;
+      background:var(--green);
+    }
+
+    .account {
+      display:flex;
+      align-items:center;
+      gap:5px;
+      padding:8px 13px;
+      border:1px solid var(--border);
+      border-radius:20px;
+      background:white;
+      font-size:11px;
+      font-weight:700;
+      white-space:nowrap;
+    }
+
+    .account .icon { width:13px;height:13px; }
+
+    /* LAYOUT */
+
+    .container {
+      width:calc(100% - 64px);
+      max-width:1200px;
+      margin:auto;
+      padding:32px 0 40px;
+    }
+
+    .card,.s5-card,.h5-history {
+      min-width:0;
+      border:1px solid var(--border);
+      border-radius:17px;
+      background:white;
+      box-shadow:0 2px 3px #193e2f08;
+    }
+
+    .button {
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 15px;
+      border:1px solid var(--green);
+      border-radius:9px;
+      background:var(--green);
+      color:white;
+      font-size:12px;
+      font-weight:600;
+    }
+
+    .state { padding:40px 22px;text-align:center; }
+    .state h1 { font-size:22px; }
+    .state p { margin-top:12px;color:var(--muted); }
+
+    .eyebrow {
+      display:block;
+      color:var(--muted);
+      font-size:9px;
+      letter-spacing:.6px;
+      text-transform:uppercase;
+      margin-bottom:4px;
+    }
+
+    .search-card {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:16px;
+      margin-bottom:24px;
+      padding:14px 20px;
+    }
+
+    .search-title {
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .search-title strong { font-size:12px; }
+    .search-form { display:flex;gap:7px;max-width:100%; }
+
+    .search-form input {
+      min-width:0;
+      width:195px;
+      border:1px solid #cfe2d5;
+      border-radius:9px;
+      padding:9px 11px;
+      background:#e8f5ec;
+      color:var(--green);
+      font-size:11px;
+      font-weight:600;
+    }
+
+    .search-form button { padding:8px 12px;font-size:11px; }
+
+    .search-feedback {
+      margin-bottom:14px;
+      color:#804b51;
+      font-size:11px;
+    }
+
+    .demo-banner {
+      margin-bottom:18px;
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.7;
+    }
+
+    /* RINGKASAN PESANAN */
+
+    .s5-card { padding:27px 28px; }
+
+    .s5-order-header {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:20px;
+      padding-bottom:23px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .s5-order-title {
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:10px;
+      min-width:0;
+    }
+
+    .s5-order-title h2 {
+      font-size:31px;
+      font-weight:800;
+      line-height:1.25;
+      letter-spacing:-.7px;
+      overflow-wrap:anywhere;
+    }
+
+    .s5-pill,.pill {
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      padding:4px 10px;
+      border-radius:25px;
+      background:var(--green-light);
+      font-size:11px;
+      font-weight:500;
+      line-height:1.4;
+    }
+
+    .s5-status::before {
+      content:"";
+      width:7px;
+      height:7px;
+      border-radius:50%;
+      background:var(--green);
+      flex-shrink:0;
+    }
+
+    .s5-package {
+      border:1px solid var(--pink);
+      background:#fcf6f6;
+      color:#804b51;
+    }
+
+    .s5-arrival {
+      display:flex;
+      align-items:center;
+      flex-shrink:0;
+      gap:7px;
+      max-width:365px;
+      padding:8px 12px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--cream);
+      font-size:12px;
+    }
+
+    .s5-arrival .s5-icon {
+      width:16px;
+      height:16px;
+      color:var(--muted);
+    }
+
+    .s5-muted { color:var(--muted);margin-right:3px; }
+
+    .s5-overview {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:16px;
+      margin:24px 0;
+    }
+
+    .s5-overview-item {
+      min-width:0;
+      padding:16px;
+      border:1px solid var(--border);
+      border-radius:12px;
+      background:var(--cream);
+    }
+
+    .s5-label {
+      display:block;
+      margin-bottom:6px;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:600;
+      letter-spacing:.3px;
+    }
+
+    .s5-overview-item strong {
+      font-size:13px;
+      overflow-wrap:anywhere;
+    }
+
+    .s5-overview-item p {
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+      overflow-wrap:anywhere;
+    }
+
+    .s5-worker-name {
+      display:flex;
+      align-items:center;
+      flex-wrap:wrap;
+      gap:6px;
+    }
+
+    .s5-rating {
+      padding:2px 5px;
+      border-radius:4px;
+      background:var(--green-light);
+      font-size:10px;
+      font-weight:700;
+    }
+
+    .s5-worker-actions {
+      display:grid;
+      grid-template-columns:minmax(0,1fr) 33px;
+      gap:8px;
+      margin-top:10px;
+    }
+
+    .s5-worker-actions button {
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:7px;
+      min-width:0;
+      height:33px;
+      padding:0 7px;
+      border:1px solid var(--green);
+      border-radius:7px;
+      background:var(--green);
+      color:white;
+      font-size:11px;
+      font-weight:600;
+      opacity:1;
+    }
+
+    .s5-worker-actions button:disabled { cursor:not-allowed; }
+
+    .s5-worker-actions .s5-phone {
+      background:white;
+      color:var(--green);
+      border-color:var(--border);
+    }
+
+    .s5-worker-actions .s5-icon { width:15px;height:15px; }
+
+    .s5-tracking-heading {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:15px;
+      padding-top:20px;
+      border-top:1px solid var(--border);
+    }
+
+    .s5-tracking-heading h3 { font-size:11px; }
+    .s5-tracking-heading p { color:var(--muted);font-size:10px; }
+    .s5-tracking-heading strong { color:var(--green); }
+
+    .s5-progress {
+      position:relative;
+      isolation:isolate;
+      display:grid;
+      grid-template-columns:repeat(5,minmax(0,1fr));
+      margin:19px 0 0;
+      padding:0;
+      list-style:none;
+    }
+
+    .s5-progress::before {
+      content:"";
+      position:absolute;
+      top:15px;
+      left:14px;
+      right:0;
+      height:4px;
+      background:var(--green);
+      z-index:-1;
+    }
+
+    .s5-progress li {
+      min-width:0;
+      padding-right:12px;
+      text-align:left;
+    }
+
+    .s5-dot {
+      display:grid;
+      place-items:center;
+      width:28px;
+      height:28px;
+      margin-bottom:8px;
+      border-radius:50%;
+      background:#1e3a2f;
+      color:white;
+      box-shadow:0 0 0 4px white;
+    }
+
+    .s5-dot .s5-icon {
+      width:13px;
+      height:13px;
+      stroke-width:2.5;
+    }
+
+    .s5-progress strong {
+      display:block;
+      font-size:11px;
+      color:var(--green);
+    }
+
+    .s5-progress small {
+      display:block;
+      margin-top:2px;
+      color:var(--muted);
+      font-size:10px;
+    }
+
+    /* KOLOM UTAMA */
+
+    .columns {
+      display:grid;
+      grid-template-columns:minmax(0,1.42fr) minmax(0,1fr);
+      gap:24px;
+      align-items:start;
+      margin-top:24px;
+    }
+
+    .stack {
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+      min-width:0;
+    }
+
+    .success-card {
+      display:flex;
+      gap:12px;
+      align-items:center;
+      padding:17px 20px;
+      background:var(--green);
+      color:white;
+      border-radius:12px;
+    }
+
+    .success-card > .icon { width:25px;height:25px; }
+    .success-card h2 { font-size:13px; }
+
+    .success-card p {
+      margin-top:4px;
+      font-size:10px;
+      line-height:1.7;
+      color:#d2dfd5;
+    }
+
+    .review-card,.docs-card,.guarantee { padding:20px; }
+
+    .review-heading,.docs-heading {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:18px;
+    }
+
+    .review-heading {
+      padding-bottom:15px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .review-heading h2,.docs-heading h2 { font-size:14px; }
+
+    .points {
+      flex-shrink:0;
+      padding:3px 8px;
+      border:1px solid #f5d1a5;
+      border-radius:20px;
+      color:#b55222;
+      background:#fff5ec;
+      font-size:9px;
+    }
+
+    .worker-review {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:14px;
+      padding:13px;
+      border:1px solid var(--border);
+      border-radius:10px;
+      background:var(--cream);
+    }
+
+    .worker-profile {
+      display:flex;
+      gap:9px;
+      align-items:center;
+      min-width:0;
+    }
+
+    .avatar {
+      width:39px;
+      height:39px;
+      flex-shrink:0;
+      border-radius:50%;
+      object-fit:cover;
+    }
+
+    .worker-profile strong { font-size:11px; }
+
+    .worker-profile p,.duration {
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.7;
+    }
+
+    .duration { text-align:right; }
+
+    .duration strong {
+      display:block;
+      color:var(--green);
+      font-size:10px;
+    }
+
+    fieldset { border:0;padding:0;margin:0; }
+
+    legend,.field-label {
+      display:block;
+      margin-bottom:8px;
+      font-size:10px;
+      font-weight:600;
+    }
+
+    .rating { margin:20px 0;text-align:center; }
+
+    .rating legend {
+      width:100%;
+      color:var(--muted);
+      font-weight:400;
+    }
+
+    .stars { display:flex;justify-content:center;gap:4px; }
+
+    .star {
+      border:0;
+      background:transparent;
+      padding:2px 4px;
+      color:#b7bdb8;
+      font-size:27px;
+      line-height:1;
+    }
+
+    .star[aria-checked="true"],.star.filled { color:var(--green); }
+
+    .rating-label {
+      display:block;
+      font-size:10px;
+      margin-top:7px;
+    }
+
+    .chips { display:flex;flex-wrap:wrap;gap:6px; }
+
+    .chip {
+      border:1px solid #bde5cb;
+      border-radius:20px;
+      padding:5px 9px;
+      font-size:9px;
+      font-weight:500;
+      color:#1e5638;
+      background:#e8f5ec;
+    }
+
+    .chip[aria-pressed="true"] {
+      background:var(--green);
+      border-color:var(--green);
+      color:white;
+    }
+
+    .field { margin-top:18px; }
+
+    .tip-caption {
+      display:flex;
+      justify-content:space-between;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+
+    .tip-caption small { font-size:9px;color:var(--muted); }
+
+    .tip-options {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:7px;
+    }
+
+    .tip-options button {
+      border:1px solid #e0e4e7;
+      border-radius:8px;
+      padding:8px 4px;
+      background:white;
+      color:var(--green);
+      font-size:10px;
+      font-weight:600;
+    }
+
+    .tip-options button[aria-pressed="true"] {
+      background:var(--green);
+      color:white;
+      border-color:var(--green);
+    }
+
+    .custom-tip {
+      display:block;
+      width:100%;
+      margin-top:8px;
+      padding:10px;
+      border:1px solid #cfe2d5;
+      border-radius:8px;
+      background:white;
+      color:var(--green);
+    }
+
+    .review-card textarea {
+      display:block;
+      width:100%;
+      min-height:85px;
+      resize:vertical;
+      border:1px solid #cfe2d5;
+      border-radius:9px;
+      padding:12px;
+      background:#f0f8f2;
+      color:var(--green);
+      font-size:10px;
+      line-height:1.8;
+    }
+
+    .review-bottom {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      flex-wrap:wrap;
+      margin-top:18px;
+    }
+
+    .review-bottom small {
+      max-width:220px;
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .review-bottom button { font-size:10px;padding:9px 13px; }
+
+    .form-feedback {
+      margin-top:12px;
+      font-size:10px;
+      color:var(--green);
+      line-height:1.7;
+    }
+
+    /* RIWAYAT */
+
+    .h5-history { padding:20px;border-radius:16px; }
+
+    .h5-history-heading {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:20px;
+      padding-bottom:15px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .h5-history-heading h2 {
+      margin-bottom:4px;
+      color:var(--green);
+      font-size:16px;
+      line-height:1.4;
+      letter-spacing:-.2px;
+    }
+
+    .h5-history-heading p { color:var(--muted);font-size:10px; }
+
+    .h5-history-sync {
+      display:inline-flex;
+      align-items:center;
+      flex-shrink:0;
+      gap:5px;
+      padding:4px 10px;
+      border-radius:30px;
+      background:var(--green-light);
+      color:var(--green);
+      font-size:10px;
+      line-height:1.4;
+    }
+
+    .h5-history-sync > span:first-child {
+      width:6px;
+      height:6px;
+      border-radius:50%;
+      background:#009c73;
+    }
+
+    .h5-timeline {
+      margin:0;
+      padding:0 0 0 9px;
+      list-style:none;
+    }
+
+    .h5-timeline li {
+      position:relative;
+      padding:0 0 23px 11px;
+      border-left:2px solid var(--border);
+    }
+
+    .h5-timeline li:last-child { padding-bottom:0; }
+
+    .h5-timeline li::before {
+      content:"";
+      position:absolute;
+      top:0;
+      left:-10px;
+      width:20px;
+      height:20px;
+      background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23193e2f' stroke='white' stroke-width='2'/%3E%3Cpath d='m7 12 3.5 3.5L17 9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/contain no-repeat;
+    }
+
+    .h5-activity {
+      padding:14px;
+      border:1px solid var(--border);
+      border-radius:11px;
+      background:var(--cream);
+    }
+
+    .h5-activity-top {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:8px;
+    }
+
+    .h5-activity h3 { color:var(--green);font-size:11px; }
+
+    .h5-activity time {
+      flex-shrink:0;
+      padding:2px 6px;
+      border:1px solid var(--border);
+      border-radius:3px;
+      background:white;
+      color:var(--muted);
+      font-size:10px;
+      font-weight:500;
+      line-height:1.3;
+    }
+
+    .h5-activity p {
+      color:var(--muted);
+      font-size:10px;
+      line-height:1.8;
+      overflow-wrap:anywhere;
+    }
+
+    .h5-transaction {
+      display:inline-block;
+      max-width:100%;
+      margin-top:9px;
+      padding:4px 8px;
+      border:1px solid var(--border);
+      border-radius:3px;
+      background:white;
+      color:var(--muted);
+      font:9px/1.4 ui-monospace,monospace;
+      overflow-wrap:anywhere;
+    }
+
+    .h5-demo-note {
+      margin-top:14px;
+      color:var(--muted);
+      font-size:9px;
+      line-height:1.6;
+    }
+
+    /* SISI KANAN */
+
+    .p5-side {
+      display:grid;
+      align-content:start;
+      gap:24px;
+      min-width:0;
+    }
+
+    .p5-side .panel { padding:20px; }
+
+    .section-heading {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      margin-bottom:18px;
+      padding-bottom:18px;
+      border-bottom:1px solid var(--border);
+    }
+
+    .section-title {
+      display:flex;
+      align-items:center;
+      gap:9px;
+      min-width:0;
+    }
+
+    .section-title > .icon { width:21px;height:21px; }
+
+    .section-heading h2 {
+      color:var(--green);
+      font-size:15px;
+      line-height:1.4;
+      letter-spacing:-.2px;
+    }
+
+    .p5-side .pill { flex-shrink:0;font-weight:600; }
+
+    .detail-label {
+      display:block;
+      margin-bottom:6px;
+      color:var(--muted);
+      font-size:11px;
+      font-weight:700;
+      line-height:1.4;
+      letter-spacing:.4px;
+    }
+
+    .customer-name {
+      display:block;
+      color:var(--green);
+      font-size:13px;
+    }
+
+    .contact-text {
+      margin-top:1px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.6;
+    }
+
+    .address-label { margin-top:20px; }
+    .home-address-link { display:block; }
+
+    .address {
+      font-size:12px;
+      line-height:1.65;
+      overflow-wrap:anywhere;
+    }
+
+    .landmark {
+      display:flex;
+      align-items:flex-start;
+      gap:11px;
+      margin-top:18px;
+      padding:15px;
+      border:1px solid #e8c9cb;
+      border-radius:12px;
+      background:#f8f1ee;
+    }
+
+    .landmark > .icon {
+      width:17px;
+      height:17px;
+      margin-top:3px;
+      color:#927b51;
+    }
+
+    .landmark p {
+      color:var(--muted);
+      font-size:12px;
+      line-height:1.8;
+      overflow-wrap:anywhere;
+    }
+
+    .landmark strong { color:var(--green); }
+
+    .bill-line {
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:18px;
+      padding:14px 0;
+      border-bottom:1px solid var(--border);
+    }
+
+    .bill-line:first-child { padding-top:0; }
+    .bill-line > div { min-width:0; }
+
+    .bill-line strong {
+      color:var(--green);
+      font-size:12px;
+      overflow-wrap:anywhere;
+    }
+
+    .bill-line p {
+      margin-top:4px;
+      color:var(--muted);
+      font-size:11px;
+      line-height:1.7;
+    }
+
+    .bill-line > b {
+      flex-shrink:0;
+      color:var(--green);
+      font-size:13px;
+      white-space:nowrap;
+    }
+
+    .discount-row {
+      display:flex;
+      align-items:baseline;
+      justify-content:space-between;
+      gap:15px;
+      padding:12px 0;
+      border-bottom:1px solid var(--border);
+      color:var(--muted);
+      font-size:12px;
+    }
+
+    .discount-row strong {
+      color:#2c893b;
+      font-weight:500;
+      white-space:nowrap;
+    }
+
+    .bill-total {
+      display:flex;
+      align-items:flex-end;
+      justify-content:space-between;
+      gap:20px;
+      padding-top:22px;
+    }
+
+    .payment-total { min-width:0; }
+
+    .total-label {
+      display:block;
+      margin-bottom:7px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    #billTotal {
+      display:block;
+      color:var(--green);
+      font-size:26px;
+      font-weight:800;
+      line-height:1.2;
+      letter-spacing:-.4px;
+    }
+
+    .transaction-time {
+      max-width:180px;
+      text-align:right;
+    }
+
+    .transaction-time > span {
+      display:block;
+      margin-bottom:5px;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+    .transaction-time strong {
+      display:block;
+      color:var(--green);
+      font-size:14px;
+      font-weight:500;
+    }
+
+    .payment-meta {
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.8;
+      margin-top:12px;
+      overflow-wrap:anywhere;
+    }
+
+    #paymentNotice {
+      font-size:9px;
+      color:var(--muted);
+      margin-top:10px;
+      line-height:1.7;
+    }
+
+    .receipt-button {
+      display:flex;
+      justify-content:center;
+      width:100%;
+      margin-top:14px;
+      padding:9px 10px;
+      border:1px solid #bde5cb;
+      border-radius:9px;
+      background:#e8f5ec;
+      color:#1e5638;
+      font-size:10px;
+      font-weight:600;
+    }
+
+    .guarantee-head {
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    .guarantee h2 { font-size:13px; }
+    .guarantee-head .icon { width:23px;height:23px; }
+
+    .guarantee p {
+      font-size:10px;
+      line-height:1.8;
+      color:var(--muted);
+      margin-top:10px;
+    }
+
+    .guarantee .button {
+      display:flex;
+      width:100%;
+      margin-top:12px;
+      font-size:10px;
+      background:#e8f5ec;
+      color:#1e5638;
+      border-color:#bde5cb;
+    }
+
+    .guarantee .claim {
+      display:block;
+      margin-top:12px;
+      text-align:center;
+      color:var(--green);
+      font-size:10px;
+      font-weight:600;
+    }
+
+    .impact {
+      display:flex;
+      gap:10px;
+      align-items:center;
+      padding:17px 20px;
+      border:1px solid #cfe2d5;
+      border-radius:13px;
+      background:#e8f5ec;
+    }
+
+    .impact h2 { font-size:11px; }
+
+    .impact p {
+      font-size:10px;
+      color:#5f7368;
+      margin-top:3px;
+      line-height:1.7;
+    }
+
+    /* DOKUMENTASI DAN DIALOG */
+
+    .gallery {
+      display:grid;
+      grid-template-columns:repeat(4,minmax(0,1fr));
+      gap:9px;
+    }
+
+    .photo {
+      position:relative;
+      padding:0;
+      border:1px solid var(--border);
+      border-radius:9px;
+      overflow:hidden;
+      background:var(--cream);
+      aspect-ratio:4/3;
+    }
+
+    .photo img {
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+
+    .photo span {
+      position:absolute;
+      bottom:0;
+      left:0;
+      right:0;
+      padding:5px 3px;
+      background:#193e2fe6;
+      color:white;
+      font-size:8px;
+      text-align:center;
+    }
+
+    .docs-note {
+      font-size:9px;
+      color:var(--muted);
+      line-height:1.7;
+      margin-top:10px;
+    }
+
+    dialog {
+      width:min(760px,calc(100% - 24px));
+      max-height:90vh;
+      overflow:auto;
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:20px;
+      color:var(--green);
+      background:white;
+    }
+
+    dialog::backdrop { background:#112920aa; }
+
+    .dialog-top {
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:12px;
+      margin-bottom:16px;
+    }
+
+    .dialog-top h2 { font-size:16px; }
+
+    .dialog-top button {
+      border:1px solid var(--border);
+      border-radius:7px;
+      padding:6px 10px;
+      background:white;
+      color:var(--green);
+    }
+
+    #fullPhoto {
+      display:block;
+      width:100%;
+      max-height:65vh;
+      object-fit:contain;
+    }
+
+    #photoCaption { font-size:11px;margin-top:10px; }
+
+    .receipt-sheet h3 { font-size:17px;margin-bottom:10px; }
+    .receipt-sheet p { margin:7px 0;font-size:12px; }
+
+    .receipt-total {
+      font-size:20px!important;
+      font-weight:800;
+      margin-top:15px;
+    }
+
+    .receipt-disclaimer {
+      font-size:10px!important;
+      color:var(--muted);
+      border-top:1px solid var(--border);
+      padding-top:10px;
+    }
+
+    /* FOOTER */
+
+    .cta {
+      padding:36px 24px;
+      background:var(--green);
+      color:white;
+      font-family:Inter,Arial,sans-serif;
+    }
+
+    .cta-inner {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:32px;
+      max-width:1120px;
+      margin:auto;
+    }
+
+    .cta h2 { margin-bottom:8px;font-size:24px;line-height:1.35; }
+    .cta p { color:#d2dfd5;font-size:13px;line-height:1.6; }
+
+    .cta a {
+      padding:13px 22px;
+      border-radius:25px;
+      background:#fff0e9;
+      color:var(--green);
+      font-size:12px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+
+    .footer {
+      padding:40px 24px 18px;
+      background:#f8e9e3;
+      font-family:Inter,Arial,sans-serif;
+    }
+
+    .footer-grid {
+      display:grid;
+      grid-template-columns:1.2fr 1fr 1fr 1fr;
+      gap:35px;
+      max-width:1120px;
+      margin:auto;
+    }
+
+    .footer-brand {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:12px;
+    }
+
+    .footer-logo-icon {
+      display:grid;
+      place-items:center;
+      width:38px;
+      height:38px;
+      border-radius:9px;
+      background:#204b38;
+      color:white;
+      font:700 21px "Baloo 2",sans-serif;
+    }
+
+    .footer-logo-text {
+      color:#204b38;
+      font:600 24px "Baloo 2",sans-serif;
+    }
+
+    .footer-grid h3 {
+      margin-bottom:10px;
+      color:var(--green);
+      font-size:11px;
+    }
+
+    .footer-grid p,.footer-grid li,.footer-grid a {
+      color:#77716c;
+      font-size:12px;
+      line-height:1.9;
+    }
+
+    .footer-grid ul { margin:0;padding:0;list-style:none; }
+
+    .footer-grid .whatsapp {
+      color:var(--green);
+      font-weight:800;
+    }
+
+    .footer-bottom {
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:15px;
+      max-width:1120px;
+      margin:28px auto 0;
+      padding-top:17px;
+      border-top:1px solid #eadbd5;
+      color:#89817b;
+      font-size:10px;
+    }
+
+    .footer-links { display:flex;gap:18px; }
+
+    /* RESPONSIF */
+
+    @media(max-width:1000px) {
+      .s5-order-header { align-items:flex-start; }
+      .s5-order-title h2 { font-size:27px; }
+      .s5-arrival { max-width:285px; }
+      .s5-overview { gap:10px; }
+      .s5-overview-item { padding:13px; }
+      .s5-order-title .s5-pill { font-size:10px; }
+    }
+
+    @media(max-width:850px) {
+      .columns { grid-template-columns:1fr; }
+      .nav { flex-wrap:wrap;gap:10px; }
+
+      .nav-menu {
+        order:3;
+        width:100%;
+        justify-content:center;
+        overflow-x:auto;
+      }
+
+      .nav-menu a { padding:8px 12px;font-size:12px; }
+      .s5-order-header { flex-direction:column;gap:14px; }
+      .s5-arrival { max-width:100%; }
+      .search-card { align-items:flex-start;flex-wrap:wrap; }
+    }
+
+    @media(max-width:700px) {
+      .cta-inner {
+        flex-direction:column;
+        align-items:flex-start;
+        gap:22px;
+      }
+
+      .footer-grid {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:25px;
+      }
+
+      .footer-bottom {
+        flex-direction:column;
+        align-items:flex-start;
+      }
+    }
+
+    @media(max-width:640px) {
+      .container {
+        width:calc(100% - 24px);
+        padding-top:18px;
+      }
+
+      .columns,.stack,.p5-side { gap:18px; }
+      .s5-card { padding:19px 16px; }
+
+      .s5-overview {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+        gap:10px;
+        margin:18px 0;
+      }
+
+      .s5-tracking-heading {
+        flex-direction:column;
+        align-items:flex-start;
+        gap:5px;
+      }
+
+      .s5-step-scroll { overflow-x:auto;padding:4px 0; }
+
+      .s5-progress {
+        width:625px;
+        min-width:625px;
+        padding:5px 4px 12px;
+      }
+
+      .s5-progress::before { top:20px; }
+
+      .section-heading,.bill-total,.review-heading,
+      .worker-review,.docs-heading {
+        flex-wrap:wrap;
+      }
+
+      .search-form { width:100%; }
+      .search-form input { flex:1;width:0; }
+
+      .gallery,.tip-options {
+        grid-template-columns:repeat(2,minmax(0,1fr));
+      }
+    }
+
+    @media(max-width:560px) {
+      .nav { padding:10px 14px; }
+      .brand img { width:34px;height:34px; }
+      .brand-text { font-size:20px; }
+      .account { padding:7px 9px;font-size:10px; }
+      .nav-menu a { padding:8px 9px;font-size:11px; }
+
+      .review-card,.docs-card,.guarantee,.h5-history {
+        padding:16px;
+      }
+
+      .h5-history-heading,.h5-activity-top { flex-wrap:wrap; }
+      .h5-history-heading h2 { font-size:15px; }
+      .h5-activity { padding:12px; }
+      .s5-order-title h2 { font-size:24px; }
+      .s5-overview-item strong { font-size:12px; }
+      .s5-overview-item .s5-label { font-size:9px; }
+      .s5-overview-item p { font-size:10px; }
+      .p5-side .panel { padding:19px; }
+      .section-heading h2 { font-size:16px; }
+      .p5-side .pill { font-size:10px; }
+      #billTotal { font-size:25px; }
+      .transaction-time strong { font-size:12px; }
+      .total-label,.transaction-time > span { font-size:11px; }
+    }
+
+    @media(max-width:450px) {
+      .footer-grid { grid-template-columns:1fr; }
+    }
+
+    @media print {
+      body { background:white; }
+      body > * { display:none!important; }
+
+      body > dialog#printDialog[open] {
+        display:block!important;
+        position:static;
+        width:100%;
+        max-height:none;
+        border:0;
+        padding:0;
+      }
+
+      dialog::backdrop,.no-print { display:none!important; }
+    }
+  </style>
+</head>
+
+<body>
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="i-user" viewBox="0 0 24 24">
+        <circle cx="12" cy="7" r="4"/>
+        <path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/>
+      </symbol>
+
+      <symbol id="i-clock" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="9"/>
+        <path d="M12 7v5l3 2"/>
+      </symbol>
+
+      <symbol id="i-wa" viewBox="0 0 24 24">
+        <path d="M20 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 20 11.5Z"/>
+        <path d="M9 8c0 3 2 5 5 6l1-2-2-1-1 1-2-2 1-1-1-2Z"/>
+      </symbol>
+
+      <symbol id="i-phone" viewBox="0 0 24 24">
+        <path d="m7 3 3 5-2 2c1 3 3 5 6 6l2-2 5 3-1 4C10 22 2 14 3 4Z"/>
+      </symbol>
+
+      <symbol id="i-pin" viewBox="0 0 24 24">
+        <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+        <circle cx="12" cy="10" r="2.5"/>
+      </symbol>
+
+      <symbol id="i-list" viewBox="0 0 24 24">
+        <rect x="5" y="4" width="14" height="18" rx="2"/>
+        <path d="M9 4V2h6v2M9 9h6M9 13h6M9 17h4"/>
+      </symbol>
+
+      <symbol id="i-check" viewBox="0 0 24 24">
+        <path d="m5 12 4 4L19 6"/>
+      </symbol>
+
+      <symbol id="i-leaf" viewBox="0 0 24 24">
+        <path d="M20 4C9 3 3 8 5 15c2 7 14 5 15-11Z"/>
+        <path d="M4 21 15 10"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="header">
+    <nav class="nav" aria-label="Navigasi utama">
+      <a class="brand" href="Beranda after login.html">
+        <img src="../images/logo griya Resik.png" alt="Logo GriyaResik">
+        <span class="brand-text">
+          <span class="brand-griya">Griya</span><span class="brand-resik">Resik</span>
+        </span>
+      </a>
+
+      <div class="nav-menu">
+        <a href="Beranda after login.html">Beranda</a>
+        <a href="Layanan.html">Layanan</a>
+        <a href="booking.html">Booking</a>
+        <a href="my-bookings.html" class="active" aria-current="page">
+          Status Pemesanan
+        </a>
+      </div>
+
+      <a href="profile.html" class="account">
+        <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
+        Pengaturan Akun
+      </a>
+    </nav>
+  </header>
+
+  <main class="container">
+    <p id="searchFeedback" class="search-feedback" role="status" hidden></p>
+
+    <section id="pageState" class="card state" role="status" hidden></section>
+
+    <div id="orderContent">
+      <section class="s5-card" aria-label="Ringkasan pesanan">
+        <div class="s5-order-header">
+          <div class="s5-order-title">
+            <h2 id="orderCode">—</h2>
+            <span class="s5-pill s5-status" id="orderStatus">
+              Selesai &amp; Review · Simulasi
+            </span>
+            <span id="serviceType" class="s5-pill s5-package">—</span>
+          </div>
+
+          <div class="s5-arrival">
+            <svg class="s5-icon" aria-hidden="true">
+              <use href="#i-clock"/>
+            </svg>
+            <span>
+              <span class="s5-muted">Jadwal:</span>
+              <strong id="arrivalDate">—</strong>
+            </span>
+          </div>
+        </div>
+
+        <div class="s5-overview">
+          <div class="s5-overview-item">
+            <span class="s5-label">PAKET LAYANAN</span>
+            <strong id="packageName">—</strong>
+            <p id="roomName">—</p>
+          </div>
+
+          <div class="s5-overview-item">
+            <span class="s5-label">AREA TUJUAN</span>
+            <strong id="districtName">—</strong>
+            <p id="addressShort">—</p>
+          </div>
+
+          <div class="s5-overview-item">
+            <span class="s5-label">MITRA BERTUGAS</span>
+
+            <div class="s5-worker-name">
+              <strong id="workerName">Siti Rahmawati</strong>
+              <span class="s5-rating">
+                <span id="workerRating">4.9</span> ★
+              </span>
+            </div>
+
+            <p id="workerCode">Mitra simulasi · ID: DEMO-1102</p>
+          </div>
+
+          <div class="s5-overview-item">
+            <span class="s5-label">AKSI CEPAT MITRA</span>
+
+            <div class="s5-worker-actions">
+              <button
+                id="workerWhatsApp"
+                type="button"
+                disabled
+                title="Belum tersedia untuk mitra simulasi"
+              >
+                <svg class="s5-icon" aria-hidden="true">
+                  <use href="#i-wa"/>
+                </svg>
+                WhatsApp
+              </button>
+
+              <button
+                id="workerPhone"
+                class="s5-phone"
+                type="button"
+                disabled
+                aria-label="Telepon mitra"
+                title="Belum tersedia untuk mitra simulasi"
+              >
+                <svg class="s5-icon" aria-hidden="true">
+                  <use href="#i-phone"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="s5-tracking-heading">
+          <h3>TAHAPAN LAYANAN HARI INI</h3>
+          <p>
+            Terakhir diperbarui:
+            <strong id="lastUpdated">—</strong>
+          </p>
+        </div>
+
+        <div class="s5-step-scroll">
+          <ol
+            class="s5-progress"
+            id="serviceSteps"
+            aria-label="Tahapan layanan simulasi"
+          ></ol>
+        </div>
+      </section>
+
+      <div class="columns">
+        <div class="stack">
+          <section class="success-card">
+            <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+            <div>
+              <h2>Pembersihan Selesai dengan Sempurna!</h2>
+              <p>
+                Seluruh area pesanan ditampilkan selesai.
+                Garansi kepuasan 24 jam tersedia sebagai simulasi presentasi.
+              </p>
+            </div>
+          </section>
+
+          <section class="card review-card" aria-labelledby="reviewHeading">
+            <div class="review-heading">
+              <div>
+                <span class="eyebrow">Ulasan layanan</span>
+                <h2 id="reviewHeading">Bagaimana Hasil Kebersihan Hari Ini?</h2>
+              </div>
+              <span class="points">ϟ +50 ResikPoints · Demo</span>
+            </div>
+
+            <div class="worker-review">
+              <div class="worker-profile">
+                <img
+                  id="workerAvatar"
+                  class="avatar"
+                  alt="Foto contoh mitra"
+                  width="39"
+                  height="39"
+                >
+                <div>
+                  <strong>Siti Rahmawati ✓</strong>
+                  <p>Mitra kebersihan residensial · Simulasi</p>
+                  <p>Rating Kepuasan <b>4.9 / 5.0</b></p>
+                </div>
+              </div>
+
+              <div class="duration">
+                Waktu Pengerjaan
+                <strong id="workDuration"></strong>
+              </div>
+            </div>
+
+            <form id="reviewForm">
+              <fieldset class="rating">
+                <legend>Beri bintang untuk Mitra Siti:</legend>
+
+                <div
+                  class="stars"
+                  id="ratingStars"
+                  role="radiogroup"
+                  aria-label="Rating layanan"
+                >
+                  <button class="star" type="button" role="radio"
+                    aria-checked="false" aria-label="1 bintang" data-rating="1">★</button>
+                  <button class="star" type="button" role="radio"
+                    aria-checked="false" aria-label="2 bintang" data-rating="2">★</button>
+                  <button class="star" type="button" role="radio"
+                    aria-checked="false" aria-label="3 bintang" data-rating="3">★</button>
+                  <button class="star" type="button" role="radio"
+                    aria-checked="false" aria-label="4 bintang" data-rating="4">★</button>
+                  <button class="star" type="button" role="radio"
+                    aria-checked="true" aria-label="5 bintang" data-rating="5">★</button>
+                </div>
+
+                <strong class="rating-label" id="ratingLabel"></strong>
+              </fieldset>
+
+              <fieldset class="field">
+                <legend>Apa yang paling Anda sukai?</legend>
+
+                <div class="chips" id="reviewTags">
+                  <button type="button" class="chip" aria-pressed="true"
+                    data-tag="Sangat Bersih & Detail">Sangat Bersih &amp; Detail</button>
+                  <button type="button" class="chip" aria-pressed="true"
+                    data-tag="Tepat Waktu">Tepat Waktu</button>
+                  <button type="button" class="chip" aria-pressed="true"
+                    data-tag="Ramah & Sopan">Ramah &amp; Sopan</button>
+                  <button type="button" class="chip" aria-pressed="false"
+                    data-tag="Harum Menenangkan">Harum Menenangkan</button>
+                  <button type="button" class="chip" aria-pressed="false"
+                    data-tag="Peralatan Eco Steril">Peralatan Eco Steril</button>
+                </div>
+              </fieldset>
+
+              <fieldset class="field">
+                <legend class="tip-caption">
+                  Beri Apresiasi Tip untuk Mitra (Opsional)
+                  <small>Simulasi nominal; tanpa pembayaran.</small>
+                </legend>
+
+                <div class="tip-options" id="tipOptions">
+                  <button type="button" data-tip="10000" aria-pressed="false">
+                    Rp 10.000
+                  </button>
+                  <button type="button" data-tip="20000" aria-pressed="true">
+                    Rp 20.000
+                  </button>
+                  <button type="button" data-tip="50000" aria-pressed="false">
+                    Rp 50.000
+                  </button>
+                  <button type="button" data-tip="custom" aria-pressed="false">
+                    Nominal Lain
+                  </button>
+                </div>
+
+                <label for="customTip" class="sr-only">
+                  Nominal tip lain dalam rupiah
+                </label>
+
+                <input
+                  id="customTip"
+                  class="custom-tip"
+                  type="number"
+                  min="0"
+                  step="1"
+                  inputmode="numeric"
+                  placeholder="Isi 0 jika tanpa tip"
+                  hidden
+                >
+              </fieldset>
+
+              <div class="field">
+                <label class="field-label" for="reviewMessage">
+                  Tulis pesan atau apresiasi untuk Siti:
+                </label>
+                <textarea
+                  id="reviewMessage"
+                  maxlength="2000"
+                  placeholder="Ceritakan hasil layanan yang Anda rasakan…"
+                ></textarea>
+              </div>
+
+              <div class="review-bottom">
+                <small>
+                  Ulasan dan nominal tip disimpan di browser ini.
+                  Tidak mengirim uang atau menambah poin akun.
+                </small>
+
+                <button type="submit" class="button" id="submitReview">
+                  Kirim Ulasan &amp; Simpan Tip ▸
+                </button>
+              </div>
+
+              <p
+                class="form-feedback"
+                id="reviewFeedback"
+                role="status"
+                aria-live="polite"
+              ></p>
+            </form>
+          </section>
+
+          <section class="h5-history" aria-labelledby="historyHeading">
+            <div class="h5-history-heading">
+              <div>
+                <span class="eyebrow">Catatan perjalanan</span>
+                <h2 id="historyHeading">Riwayat Log Pelacakan Lengkap</h2>
+                <p>Catatan real-time sistem pemrosesan pesanan</p>
+              </div>
+
+              <span class="h5-history-sync">
+                <span aria-hidden="true"></span>
+                <span id="historyCount"></span>
+              </span>
+            </div>
+
+            <ol class="h5-timeline" id="activityList"></ol>
+
+            <p class="h5-demo-note">
+              Seluruh tahapan pada halaman ini merupakan simulasi penyelesaian.
+              Data booking asli tidak diubah.
+            </p>
+          </section>
+
+          <section class="card docs-card">
+            <div class="docs-heading">
+              <div>
+                <span class="eyebrow">Verifikasi hasil kerja</span>
+                <h2>Dokumentasi Pembersihan</h2>
+              </div>
+
+              <span class="eyebrow">Contoh dokumentasi</span>
+            </div>
+
+            <div class="gallery" id="photoGallery"></div>
+
+            <p class="docs-note">
+              Foto contoh dari prototipe, belum merupakan foto pekerjaan
+              pesanan Anda atau arsip akun.
+            </p>
+          </section>
+        </div>
+
+        <div class="p5-side">
+          <section class="card panel">
+            <div class="section-heading">
+              <div class="section-title">
+                <svg class="icon" aria-hidden="true"><use href="#i-pin"/></svg>
+                <h2>Lokasi Hunian</h2>
+              </div>
+
+              <span class="pill">Tujuan Terdaftar</span>
+            </div>
+
+            <span class="detail-label">PEMESAN</span>
+            <strong class="customer-name" id="customerName"></strong>
+            <p class="contact-text" id="customerPhone"></p>
+
+            <span class="detail-label address-label">ALAMAT LENGKAP</span>
+
+            <a
+              id="mapLink"
+              class="home-address-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              title="Buka alamat di Google Maps"
+            >
+              <p class="address" id="customerAddress"></p>
+            </a>
+
+            <div class="landmark">
+              <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 11v6M12 7h.01"/>
+              </svg>
+              <p>
+                <strong>Catatan Patokan:</strong>
+                <span id="customerLandmark"></span>
+              </p>
+            </div>
+          </section>
+
+          <section class="card panel">
+            <div class="section-heading">
+              <div class="section-title">
+                <svg class="icon" aria-hidden="true"><use href="#i-list"/></svg>
+                <h2>Rincian Pemesanan</h2>
+              </div>
+
+              <span class="pill payment-badge" id="paymentBadge"></span>
+            </div>
+
+            <div id="billItems"></div>
+
+            <div class="discount-row">
+              <span>Diskon Promosi Hunian Baru</span>
+              <strong id="discountAmount">- Rp. 0</strong>
+            </div>
+
+            <div class="bill-total">
+              <div class="payment-total">
+                <span class="total-label">Total Pembayaran</span>
+                <strong id="billTotal"></strong>
+              </div>
+
+              <div class="transaction-time">
+                <span id="transactionTimeLabel">Waktu Transaksi</span>
+                <strong id="paymentTimestamp"></strong>
+              </div>
+            </div>
+
+            <div class="payment-meta">
+              <div id="paymentMethod"></div>
+              <div id="paymentRef"></div>
+            </div>
+
+            <p id="paymentNotice" hidden></p>
+
+            <button class="receipt-button" id="receiptButton" type="button">
+              ▤ Cetak Kwitansi Simulasi
+            </button>
+          </section>
+
+          <section class="card guarantee">
+            <div class="guarantee-head">
+              <svg class="icon" aria-hidden="true"><use href="#i-check"/></svg>
+              <div>
+                <h2>Jaminan GriyaResikCare</h2>
+                <span class="eyebrow" id="warrantyUntil"></span>
+              </div>
+            </div>
+
+            <p>
+              Jika hasil kebersihan belum sesuai, hubungi tim Care untuk
+              konsultasi dan permintaan Re-Clean. Pada prototipe ini
+              permintaan dibuka melalui WhatsApp.
+            </p>
+
+            <a
+              class="button"
+              id="careLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ☏ Hubungi Care Center Resik
+            </a>
+
+            <a
+              class="claim"
+              id="claimLink"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              ✓ Klaim Garansi Re-Clean
+            </a>
+          </section>
+
+          <section class="impact">
+            <svg class="icon" aria-hidden="true"><use href="#i-leaf"/></svg>
+            <div>
+              <h2>Dampak Hunian Hijau</h2>
+              <p>
+                Simulasi dampak: hemat 14 L air dan penggunaan bahan
+                biodegradable. Angka ini belum diukur dari pekerjaan aktual.
+              </p>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <dialog id="photoDialog" aria-labelledby="photoTitle">
+    <div class="dialog-top">
+      <h2 id="photoTitle">Dokumentasi Pembersihan</h2>
+      <button type="button" data-close="photoDialog">Tutup ×</button>
+    </div>
+    <img id="fullPhoto" alt="">
+    <p id="photoCaption"></p>
+  </dialog>
+
+  <dialog id="printDialog" aria-labelledby="receiptHeading">
+    <div class="dialog-top no-print">
+      <h2 id="receiptHeading">Kwitansi Simulasi</h2>
+      <button type="button" data-close="printDialog">Tutup ×</button>
+    </div>
+
+    <div id="receiptSheet" class="receipt-sheet"></div>
+
+    <button class="button no-print" type="button" id="printReceipt">
+      Cetak / Simpan PDF
+    </button>
+  </dialog>
+
+  <section class="cta">
+    <div class="cta-inner">
+      <div>
+        <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+        <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
+      </div>
+      <a href="Layanan.html">Lihat Layanan</a>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <span class="footer-logo-icon">G</span>
+          <span class="footer-logo-text">GriyaResik</span>
+        </div>
+        <p>
+          Solusi praktis dan terpercaya untuk hunian yang bersih,
+          rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+        </p>
+      </div>
+
+      <div>
+        <h3>LAYANAN UTAMA</h3>
+        <ul>
+          <li><a href="Layanan.html">Basic Home Cleaning</a></li>
+          <li><a href="Layanan.html">Standard Room Cleaning</a></li>
+          <li><a href="Layanan.html">Deep Cleaning Menyeluruh</a></li>
+          <li><a href="Layanan.html">Ruangan Lainnya (Custom)</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>OPERASIONAL</h3>
+        <p>Senin–Minggu: 07.00–19.00 WIB</p>
+        <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+        <a class="whatsapp"
+          href="https://wa.me/6281234567890"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          +62 812-3456-7890
+        </a>
+      </div>
+
+      <div>
+        <h3>WILAYAH LAYANAN</h3>
+        <p>Tersedia di Jabodetabek, Bandung, Surabaya, dan sekitarnya.</p>
+        <p>● Siap Melayani 7 Hari Seminggu</p>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p>
+        © <span id="year"></span> GriyaResik Indonesia.
+        Seluruh hak cipta dilindungi undang-undang.
+      </p>
+
+      <div class="footer-links">
+        <a href="#">Syarat &amp; Ketentuan</a>
+        <a href="#">Kebijakan Privasi</a>
+      </div>
+    </div>
+  </footer>
+
+  <noscript>
+    <p class="state">Aktifkan JavaScript untuk menampilkan status pesanan.</p>
+  </noscript>
+</body>
+</html>
