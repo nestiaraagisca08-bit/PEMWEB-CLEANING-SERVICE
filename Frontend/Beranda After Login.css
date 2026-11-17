@@ -373,7 +373,9 @@ img {
     background: var(--green);
     color: #fff;
 }
+
 .popular-badge {
+    display: none;
     position: absolute;
     top: -10px;
     left: 50%;
@@ -388,6 +390,11 @@ img {
     line-height: 1.35;
     font-weight: 800;
 }
+
+.service-card.featured .popular-badge {
+    display: block;
+}
+
 .intensive-badge {
     position: absolute;
     top: 10px;
@@ -472,15 +479,22 @@ img {
 }
 
 .btn-service {
+    width: 100%;
     margin-top: 12px;
     padding: 10px;
     display: block;
+
+    border: 0;
     border-radius: 7px;
     background: #f1f2f3;
     color: #425348;
+
+    font-family: inherit;
     text-align: center;
     font-size: 10px;
     font-weight: 700;
+
+    cursor: pointer;
     transition: 0.2s;
 }
 
