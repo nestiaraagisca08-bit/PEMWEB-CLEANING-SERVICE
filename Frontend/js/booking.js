@@ -2177,3 +2177,151 @@ function printBookingReceipt(booking) {
         });
     });
 }
+
+// ==========================================
+// TEMPEL DATA PROFIL KE KONTAK BOOKING
+// ==========================================
+(() => {
+  "use strict";
+
+  function initializeProfilePaste() {
+    const name = document.getElementById(
+      "finalCustomerName"
+    );
+
+    const email = document.getElementById(
+      "finalCustomerEmail"
+    );
+
+    const phone = document.getElementById(
+      "finalCustomerPhone"
+    );
+
+    const status = document.getElementById(
+      "profilePasteStatus"
+    );
+
+    if (!name || !email || !phone) return;
+
+    function say(message, error = false) {
+      if (!status) {
+        if (error) alert(message);
+        return;
+      }
+
+      status.textContent = message;
+      status.style.color = error
+        ? "#a84c43"
+        : "#193e2f";
+    }
+
+    [name, email, phone].forEach(input => {
+      input.addEventListener("paste", event => {
+        const raw =
+          event.clipboardData?.getData("text/plain") || "";
+
+        let data;
+
+        try {
+          data = JSON.parse(raw);
+        } catch {
+          // Teks biasa tetap ditempel seperti biasanya.
+          return;
+        }
+
+        if (
+          !data ||
+          typeof data !== "object" ||
+          data.format !== "griyaresik-profile"
+        ) {
+          return;
+        }
+
+        event.preventDefault();
+
+        const validText = value =>
+          typeof value === "string" &&
+          !!value.trim();
+
+        if (
+          data.version !== 1 ||
+          !validText(data.name) ||
+          !validText(data.email) ||
+          !validText(data.phone)
+        ) {
+          say(
+            "Data profil tidak lengkap. Salin ulang dari halaman Pengaturan Akun.",
+            true
+          );
+          return;
+        }
+
+        const profileName = data.name.trim();
+        const profileEmail = data.email.trim();
+
+        let digits = data.phone.replace(
+          /[^0-9]/g,
+          ""
+        );
+
+        // Booking sudah menampilkan awalan +62.
+        if (digits.startsWith("62")) {
+          digits = digits.slice(2);
+        } else if (digits.startsWith("0")) {
+          digits = digits.slice(1);
+        }
+
+        const emailCheck = document.createElement("input");
+        emailCheck.type = "email";
+        emailCheck.required = true;
+        emailCheck.value = profileEmail;
+
+        if (
+          profileName.length > 120 ||
+          profileEmail.length > 254 ||
+          !emailCheck.checkValidity() ||
+          !/^8\d{8,12}$/.test(digits)
+        ) {
+          say(
+            "Data profil tidak valid. Periksa nama, email, dan nomor telepon di Pengaturan Akun, lalu salin ulang.",
+            true
+          );
+          return;
+        }
+
+        const fields = [
+          [name, profileName],
+          [email, profileEmail],
+          [phone, digits]
+        ];
+
+        fields.forEach(([field, value]) => {
+          field.value = value;
+          field.setCustomValidity("");
+
+          field.dispatchEvent(
+            new Event("input", { bubbles: true })
+          );
+
+          field.dispatchEvent(
+            new Event("change", { bubbles: true })
+          );
+        });
+
+        say(
+          "Data profil berhasil ditempel. Nama, email, dan nomor WhatsApp sudah terisi."
+        );
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeProfilePaste,
+      { once: true }
+    );
+  } else {
+    initializeProfilePaste();
+  }
+})();
