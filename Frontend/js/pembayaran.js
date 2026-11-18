@@ -569,10 +569,12 @@ document.getElementById("mobileToggle")
     });
 
 
-// ================= LOGOUT =================
+// ==================================
+// LOGOUT
+// ==================================
 
 document.getElementById("logoutBtn")
-    .addEventListener("click", function() {
+    .addEventListener("click", function () {
 
         const confirmLogout = confirm(
             "Apakah kamu yakin ingin logout?"
@@ -580,16 +582,16 @@ document.getElementById("logoutBtn")
 
         if (confirmLogout) {
 
+            // Hapus data sesi login
             sessionStorage.removeItem("griyaresikUser");
-
             sessionStorage.removeItem("token");
 
-            window.location.href = "../login.html";
+            // Kembali ke halaman beranda sebelum login
+            window.location.href = "Beranda before login.html";
 
         }
 
     });
-
 
 // ================= INITIAL =================
 

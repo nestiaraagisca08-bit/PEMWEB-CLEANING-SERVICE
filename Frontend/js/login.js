@@ -1,4 +1,3 @@
-
 // ==========================================
 // KONFIGURASI
 // ==========================================
@@ -52,31 +51,34 @@ function redirectByRole(user) {
         return;
     }
 
-    if (user.role === "admin") {
+    const role = String(user.role)
+        .trim()
+        .toLowerCase();
+
+    console.log("DATA USER:", user);
+    console.log("ROLE PENGGUNA:", role);
+
+    if (role === "admin") {
 
         window.location.href = "dashboard_admin.html";
 
-    } else if (user.role === "customer") {
+    } else if (role === "customer") {
 
         window.location.href = "Beranda after login.html";
 
-    } else if (user.role === "staff") {
+    } else if (role === "worker") {
 
-        showMessage(
-            loginMessage,
-            "Halaman petugas belum tersedia."
-        );
+        window.location.href = "dashboard_worker.html";
 
     } else {
 
         showMessage(
             loginMessage,
-            "Role akun tidak dikenali."
+            "Role akun tidak dikenali: " + role
         );
 
     }
 }
-
 
 // ==========================================
 // MENYIMPAN DATA LOGIN
@@ -91,9 +93,11 @@ function saveLoginData(data) {
     });
 
     if (!data || !data.token || !data.user) {
+
         throw new Error(
             "Backend belum mengirim token atau data pengguna dengan benar."
         );
+
     }
 
     // Simpan JWT Token
@@ -125,11 +129,13 @@ form?.addEventListener("submit", async (event) => {
     const email = emailInput.value.trim();
     const password = passwordInput.value;
 
-    // Validasi email
+    // VALIDASI EMAIL
     if (!email) {
 
         emailError.textContent = "Email wajib diisi.";
+
         emailInput.focus();
+
         return;
 
     }
@@ -137,16 +143,20 @@ form?.addEventListener("submit", async (event) => {
     if (!emailInput.validity.valid) {
 
         emailError.textContent = "Format email tidak valid.";
+
         emailInput.focus();
+
         return;
 
     }
 
-    // Validasi password
+    // VALIDASI PASSWORD
     if (!password) {
 
         passwordError.textContent = "Password wajib diisi.";
+
         passwordInput.focus();
+
         return;
 
     }
@@ -174,7 +184,7 @@ form?.addEventListener("submit", async (event) => {
 
         const data = await response.json();
 
-        // Debug respons login email
+        // DEBUG RESPONS LOGIN EMAIL
         console.log("HASIL EMAIL LOGIN:", {
             status: response.status,
             keys: Object.keys(data || {}),
@@ -192,10 +202,10 @@ form?.addEventListener("submit", async (event) => {
 
         }
 
-        // Simpan token dan data pengguna
+        // SIMPAN TOKEN DAN DATA PENGGUNA
         saveLoginData(data);
 
-        // Redirect sesuai role
+        // REDIRECT SESUAI ROLE
         redirectByRole(data.user);
 
     } catch (error) {
@@ -210,6 +220,7 @@ form?.addEventListener("submit", async (event) => {
     } finally {
 
         submitBtn.disabled = false;
+
         submitBtn.textContent = "Masuk ke Akun";
 
     }
@@ -226,6 +237,7 @@ function initializeGoogleLogin() {
     if (!window.google?.accounts?.id) {
 
         setTimeout(initializeGoogleLogin, 300);
+
         return;
 
     }
@@ -254,6 +266,7 @@ function initializeGoogleLogin() {
     if (!googleButton) {
 
         console.error("Elemen googleBtn tidak ditemukan.");
+
         return;
 
     }
@@ -304,7 +317,7 @@ async function handleGoogleLogin(googleResponse) {
 
         const data = await result.json();
 
-        // Debug respons Google Login
+        // DEBUG RESPONS GOOGLE LOGIN
         console.log("HASIL GOOGLE LOGIN:", {
             status: result.status,
             keys: Object.keys(data || {}),
@@ -324,10 +337,10 @@ async function handleGoogleLogin(googleResponse) {
 
         }
 
-        // Simpan token dan data pengguna
+        // SIMPAN TOKEN DAN DATA PENGGUNA
         saveLoginData(data);
 
-        // Redirect sesuai role
+        // REDIRECT SESUAI ROLE
         redirectByRole(data.user);
 
     } catch (error) {
@@ -347,4 +360,5 @@ async function handleGoogleLogin(googleResponse) {
 // ==========================================
 // JALANKAN GOOGLE LOGIN
 // ==========================================
+
 initializeGoogleLogin();

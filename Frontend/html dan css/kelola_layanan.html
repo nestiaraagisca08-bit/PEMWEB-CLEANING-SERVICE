@@ -1530,26 +1530,29 @@
         statusFilter.addEventListener("change", renderServices);
 
 
-        // ======================================
+        // ==================================
         // LOGOUT
-        // ======================================
+        // ==================================
 
         document.getElementById("logoutBtn")
             .addEventListener("click", function () {
 
-                const confirmation = confirm(
+                const confirmLogout = confirm(
                     "Apakah kamu yakin ingin logout?"
                 );
 
-                if (!confirmation) return;
+                if (confirmLogout) {
 
-                sessionStorage.removeItem("griyaresikUser");
-                sessionStorage.removeItem("token");
+                    // Hapus data sesi login
+                    sessionStorage.removeItem("griyaresikUser");
+                    sessionStorage.removeItem("token");
 
-                window.location.href = "../login.html";
+                    // Kembali ke halaman beranda sebelum login
+                    window.location.href = "Beranda before login.html";
+
+                }
 
             });
-
 
         // ======================================
         // JALANKAN

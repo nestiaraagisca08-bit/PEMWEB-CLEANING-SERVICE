@@ -1109,21 +1109,22 @@
         document.getElementById("logoutBtn")
             .addEventListener("click", function () {
 
-                const confirmLogout = confirm(
-                    "Apakah kamu yakin ingin logout?"
-                );
+            const confirmLogout = confirm(
+                "Apakah kamu yakin ingin logout?"
+            );
 
-                if (confirmLogout) {
+            if (confirmLogout) {
 
-                    sessionStorage.removeItem("griyaresikUser");
-                    sessionStorage.removeItem("token");
+                // Hapus data sesi login
+                sessionStorage.removeItem("griyaresikUser");
+                sessionStorage.removeItem("token");
 
-                    window.location.href = "../login.html";
+                // Kembali ke halaman beranda sebelum login
+                window.location.href = "Beranda before login.html";
 
-                }
+            }
 
-            });
-
+        });
 
         // ==================================
         // DASHBOARD DATA

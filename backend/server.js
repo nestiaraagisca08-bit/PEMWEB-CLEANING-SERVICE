@@ -1,8 +1,10 @@
 require("dotenv").config();
+
 const express = require("express");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const crypto = require("crypto");
 const { OAuth2Client } = require("google-auth-library");
 
 const db = require("./db");
@@ -35,7 +37,7 @@ function generateToken(user) {
         throw new Error("JWT_SECRET belum diatur di file .env");
     }
 
-    const token = jwt.sign(
+    return jwt.sign(
         {
             id: user.id,
             name: user.name,
@@ -47,8 +49,6 @@ function generateToken(user) {
             expiresIn: "1d"
         }
     );
-
-    return token;
 }
 
 // ==========================================
@@ -118,7 +118,7 @@ app.post("/api/auth/register", async (req, res) => {
         const existing = await db.query(
             `SELECT id
              FROM public.users
-             WHERE email = $1`,
+             WHERE LOWER(TRIM(email)) = $1`,
             [cleanEmail]
         );
 
@@ -179,11 +179,13 @@ app.post("/api/auth/login", async (req, res) => {
             });
         }
 
+        const cleanEmail = email.trim().toLowerCase();
+
         const result = await db.query(
             `SELECT id, name, email, password, role
              FROM public.users
-             WHERE email = $1`,
-            [email.trim().toLowerCase()]
+             WHERE LOWER(TRIM(email)) = $1`,
+            [cleanEmail]
         );
 
         if (
@@ -217,10 +219,10 @@ app.post("/api/auth/login", async (req, res) => {
 
         const token = generateToken(safeUser);
 
-        console.log("EMAIL JWT CHECK:", {
-            berhasilDibuat: Boolean(token),
-            tipe: typeof token,
-            panjang: token ? token.length : 0
+        console.log("EMAIL LOGIN BERHASIL:", {
+            id: safeUser.id,
+            email: safeUser.email,
+            role: safeUser.role
         });
 
         return res.status(200).json({
@@ -238,140 +240,234 @@ app.post("/api/auth/login", async (req, res) => {
     }
 });
 
-
 // ==========================================
 // LOGIN GOOGLE
 // ==========================================
 
 app.post("/api/auth/google", async (req, res) => {
-  try {
-      const { credential } = req.body;
+    let client;
+    let transactionStarted = false;
 
-      // 1. Validasi credential
-      if (
-          typeof credential !== "string" ||
-          !credential ||
-          !process.env.GOOGLE_CLIENT_ID
-      ) {
-          return res.status(400).json({
-              message: "Credential Google atau Client ID tidak tersedia."
-          });
-      }
+    try {
+        const { credential } = req.body;
 
-      // 2. Verifikasi token Google
-      let ticket;
+        // 1. Validasi credential
+        if (
+            typeof credential !== "string" ||
+            !credential ||
+            !process.env.GOOGLE_CLIENT_ID
+        ) {
+            return res.status(400).json({
+                message: "Credential Google atau Client ID tidak tersedia."
+            });
+        }
 
-      try {
-          ticket = await googleClient.verifyIdToken({
-              idToken: credential,
-              audience: process.env.GOOGLE_CLIENT_ID
-          });
-      } catch (error) {
-          console.error("Verifikasi Google gagal:", error.message);
+        // 2. Verifikasi token Google
+        let ticket;
 
-          return res.status(401).json({
-              message: "Token Google tidak valid."
-          });
-      }
+        try {
+            ticket = await googleClient.verifyIdToken({
+                idToken: credential,
+                audience: process.env.GOOGLE_CLIENT_ID
+            });
 
-      const payload = ticket.getPayload();
+        } catch (error) {
+            console.error(
+                "Verifikasi Google gagal:",
+                error.message
+            );
 
-      if (
-          !payload ||
-          !payload.sub ||
-          !payload.email ||
-          payload.email_verified !== true
-      ) {
-          return res.status(401).json({
-              message: "Akun Google belum terverifikasi."
-          });
-      }
+            return res.status(401).json({
+                message: "Token Google tidak valid."
+            });
+        }
 
-      // 3. Ambil informasi akun Google
-      const googleId = payload.sub;
-      const email = payload.email.toLowerCase();
-      const name = payload.name || email.split("@")[0];
-      const picture = payload.picture || null;
+        const payload = ticket.getPayload();
 
-      // 4. Cari akun berdasarkan Google ID
-      const googleUser = await db.query(
-          `SELECT id, name, email, role
-           FROM public.users
-           WHERE google_id = $1`,
-          [googleId]
-      );
+        if (
+            !payload ||
+            !payload.sub ||
+            !payload.email ||
+            payload.email_verified !== true
+        ) {
+            return res.status(401).json({
+                message: "Akun Google belum terverifikasi."
+            });
+        }
 
-      let user;
-      let message;
+        // 3. Informasi akun Google
+        const googleId = payload.sub;
+        const email = payload.email.trim().toLowerCase();
+        const name = payload.name || email.split("@")[0];
+        const picture = payload.picture || null;
 
-      // 5. Jika akun Google sudah terdaftar
-      if (googleUser.rows.length > 0) {
+        client = await db.connect();
 
-          user = googleUser.rows[0];
+        await client.query("BEGIN");
+        transactionStarted = true;
 
-          message = "Login Google berhasil.";
+        let user;
+        let message;
 
-      } else {
+        // 4. Cari berdasarkan Google ID
+        const googleUser = await client.query(
+            `SELECT id, name, email, role
+             FROM public.users
+             WHERE google_id = $1
+             FOR UPDATE`,
+            [googleId]
+        );
 
-          // 6. Periksa apakah email sudah digunakan
-          const emailUser = await db.query(
-              `SELECT id
-               FROM public.users
-               WHERE email = $1`,
-              [email]
-          );
+        if (googleUser.rows.length > 0) {
 
-          if (emailUser.rows.length > 0) {
-              return res.status(409).json({
-                  message: "Email sudah terdaftar menggunakan metode login lain.",
-                  code: "EMAIL_ALREADY_REGISTERED"
-              });
-          }
+            // Akun Google sudah terhubung
+            user = googleUser.rows[0];
 
-          // 7. Registrasi pengguna Google baru
-          const newUser = await db.query(
-              `INSERT INTO public.users
-                  (name, email, password, role, google_id, profile_picture)
-               VALUES ($1, $2, NULL, $3, $4, $5)
-               RETURNING id, name, email, role`,
-              [
-                  name,
-                  email,
-                  "customer",
-                  googleId,
-                  picture
-              ]
-          );
+            message = "Login Google berhasil.";
 
-          user = newUser.rows[0];
+        } else {
 
-          message = "Registrasi dan login Google berhasil.";
-      }
+            // 5. Cari akun berdasarkan email
+            const emailUser = await client.query(
+                `SELECT id, name, email, role, google_id
+                 FROM public.users
+                 WHERE LOWER(TRIM(email)) = $1
+                 FOR UPDATE`,
+                [email]
+            );
 
-      // 8. Buat JWT aplikasi
-      const token = generateToken(user);
+            if (emailUser.rows.length > 1) {
+                await client.query("ROLLBACK");
+                transactionStarted = false;
 
-      console.log("GOOGLE JWT CHECK:", {
-          berhasilDibuat: Boolean(token),
-          tipe: typeof token,
-          panjang: token.length
-      });
+                return res.status(409).json({
+                    message: "Terdapat lebih dari satu akun dengan email tersebut. Hubungi administrator."
+                });
+            }
 
-      // 9. Kirim token dan data pengguna
-      return res.status(200).json({
-          message: message,
-          token: token,
-          user: user
-      });
+            if (emailUser.rows.length === 1) {
 
-  } catch (error) {
-      console.error("Google Login gagal:", error.message);
+                const existingUser = emailUser.rows[0];
 
-      return res.status(500).json({
-          message: "Terjadi kesalahan pada proses login Google."
-      });
-  }
+                // 6. Periksa konflik Google ID
+                if (
+                    existingUser.google_id &&
+                    existingUser.google_id !== googleId
+                ) {
+                    await client.query("ROLLBACK");
+                    transactionStarted = false;
+
+                    return res.status(409).json({
+                        message: "Email sudah terhubung dengan akun Google lain.",
+                        code: "GOOGLE_ACCOUNT_CONFLICT"
+                    });
+                }
+
+                // 7. Hubungkan Google dengan akun lama
+                // Role, password, dan ID tidak diubah
+                const linkedUser = await client.query(
+                    `UPDATE public.users
+                     SET
+                        google_id = $1,
+                        profile_picture = COALESCE(profile_picture, $2)
+                     WHERE id = $3
+                     RETURNING id, name, email, role`,
+                    [
+                        googleId,
+                        picture,
+                        existingUser.id
+                    ]
+                );
+
+                user = linkedUser.rows[0];
+
+                message = "Akun berhasil dihubungkan dengan Google.";
+
+            } else {
+
+                // 8. Jika belum ada, buat akun Customer baru
+                const newUser = await client.query(
+                    `INSERT INTO public.users
+                        (
+                            name,
+                            email,
+                            password,
+                            role,
+                            google_id,
+                            profile_picture
+                        )
+                     VALUES ($1, $2, NULL, $3, $4, $5)
+                     RETURNING id, name, email, role`,
+                    [
+                        name,
+                        email,
+                        "customer",
+                        googleId,
+                        picture
+                    ]
+                );
+
+                user = newUser.rows[0];
+
+                message = "Registrasi dan login Google berhasil.";
+            }
+        }
+
+        if (!user) {
+            throw new Error("Data pengguna tidak ditemukan.");
+        }
+
+        // 9. Simpan perubahan
+        await client.query("COMMIT");
+        transactionStarted = false;
+
+        // 10. Buat JWT
+        const token = generateToken(user);
+
+        console.log("GOOGLE LOGIN BERHASIL:", {
+            id: user.id,
+            email: user.email,
+            role: user.role
+        });
+
+        // 11. Kirim respons
+        return res.status(200).json({
+            message: message,
+            token: token,
+            user: {
+                id: user.id,
+                name: user.name,
+                email: user.email,
+                role: user.role
+            }
+        });
+
+    } catch (error) {
+
+        if (client && transactionStarted) {
+            try {
+                await client.query("ROLLBACK");
+            } catch (rollbackError) {
+                console.error(
+                    "Rollback gagal:",
+                    rollbackError.message
+                );
+            }
+        }
+
+        console.error("Google Login gagal:", error);
+
+        return res.status(500).json({
+            message: "Terjadi kesalahan pada proses login Google."
+        });
+
+    } finally {
+        if (client) {
+            client.release();
+        }
+    }
 });
+
 // ==========================================
 // DATA PETUGAS - VALIDASI
 // ==========================================
@@ -487,7 +583,10 @@ app.get(
             });
 
         } catch (error) {
-            console.error("Gagal mengambil petugas:", error.message);
+            console.error(
+                "Gagal mengambil petugas:",
+                error.message
+            );
 
             return res.status(500).json({
                 message: "Gagal mengambil data petugas."
@@ -497,7 +596,7 @@ app.get(
 );
 
 // ==========================================
-// TAMBAH PETUGAS
+// TAMBAH PETUGAS + MEMBUAT AKUN WORKER
 // ==========================================
 
 app.post(
@@ -505,6 +604,9 @@ app.post(
     verifyToken,
     verifyAdmin,
     async (req, res) => {
+        let client;
+        let transactionStarted = false;
+
         try {
             const validationError = validateWorker(req.body);
 
@@ -526,24 +628,79 @@ app.post(
                 availability
             } = req.body;
 
+            const cleanName = name.trim();
             const cleanEmail = email.trim().toLowerCase();
 
-            const existing = await db.query(
+            client = await db.connect();
+
+            await client.query("BEGIN");
+            transactionStarted = true;
+
+            // 1. Periksa email pada users
+            const existingUser = await client.query(
                 `SELECT id
-                 FROM public.workers
-                 WHERE LOWER(email) = $1`,
+                 FROM public.users
+                 WHERE LOWER(TRIM(email)) = $1`,
                 [cleanEmail]
             );
 
-            if (existing.rows.length > 0) {
+            if (existingUser.rows.length > 0) {
+                await client.query("ROLLBACK");
+                transactionStarted = false;
+
+                return res.status(409).json({
+                    message: "Email sudah digunakan oleh akun lain."
+                });
+            }
+
+            // 2. Periksa email pada workers
+            const existingWorker = await client.query(
+                `SELECT id
+                 FROM public.workers
+                 WHERE LOWER(TRIM(email)) = $1`,
+                [cleanEmail]
+            );
+
+            if (existingWorker.rows.length > 0) {
+                await client.query("ROLLBACK");
+                transactionStarted = false;
+
                 return res.status(409).json({
                     message: "Email petugas sudah digunakan."
                 });
             }
 
-            const result = await db.query(
+            // 3. Buat password sementara
+            const temporaryPassword = crypto
+                .randomBytes(9)
+                .toString("base64url");
+
+            const hashedPassword = await bcrypt.hash(
+                temporaryPassword,
+                12
+            );
+
+            // 4. Buat akun Worker
+            const userResult = await client.query(
+                `INSERT INTO public.users
+                    (name, email, password, role)
+                 VALUES ($1, $2, $3, $4)
+                 RETURNING id, name, email, role`,
+                [
+                    cleanName,
+                    cleanEmail,
+                    hashedPassword,
+                    "worker"
+                ]
+            );
+
+            const user = userResult.rows[0];
+
+            // 5. Simpan profil Worker
+            const workerResult = await client.query(
                 `INSERT INTO public.workers
                     (
+                        user_id,
                         name,
                         email,
                         phone,
@@ -554,11 +711,11 @@ app.post(
                         status,
                         availability
                     )
-                 VALUES
-                    ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10)
                  RETURNING *`,
                 [
-                    name.trim(),
+                    user.id,
+                    cleanName,
                     cleanEmail,
                     phone.trim(),
                     photo || null,
@@ -570,23 +727,54 @@ app.post(
                 ]
             );
 
+            // 6. Simpan transaksi
+            await client.query("COMMIT");
+            transactionStarted = false;
+
             return res.status(201).json({
-                message: "Petugas berhasil ditambahkan.",
-                worker: result.rows[0]
+                message: "Akun Worker dan data petugas berhasil dibuat.",
+                worker: workerResult.rows[0],
+                account: {
+                    id: user.id,
+                    name: user.name,
+                    email: user.email,
+                    role: user.role
+                },
+                temporaryPassword
             });
 
         } catch (error) {
-            console.error("Tambah petugas gagal:", error.message);
+
+            if (client && transactionStarted) {
+                try {
+                    await client.query("ROLLBACK");
+                } catch (rollbackError) {
+                    console.error(
+                        "Rollback gagal:",
+                        rollbackError.message
+                    );
+                }
+            }
+
+            console.error(
+                "Tambah Worker gagal:",
+                error.message
+            );
 
             return res.status(500).json({
-                message: "Gagal menambahkan petugas."
+                message: "Gagal membuat akun dan data petugas."
             });
+
+        } finally {
+            if (client) {
+                client.release();
+            }
         }
     }
 );
 
 // ==========================================
-// UPDATE DATA PETUGAS
+// UPDATE DATA PETUGAS + SINKRONISASI USERS
 // ==========================================
 
 app.put(
@@ -594,6 +782,9 @@ app.put(
     verifyToken,
     verifyAdmin,
     async (req, res) => {
+        let client;
+        let transactionStarted = false;
+
         try {
             const id = Number(req.params.id);
 
@@ -623,23 +814,99 @@ app.put(
                 availability
             } = req.body;
 
+            const cleanName = name.trim();
             const cleanEmail = email.trim().toLowerCase();
 
-            const existing = await db.query(
+            client = await db.connect();
+
+            await client.query("BEGIN");
+            transactionStarted = true;
+
+            // 1. Cari petugas dan akun yang terhubung
+            const workerResult = await client.query(
+                `SELECT
+                    w.id,
+                    w.user_id,
+                    u.id AS account_id
+                 FROM public.workers w
+                 INNER JOIN public.users u
+                    ON u.id = w.user_id
+                 WHERE w.id = $1
+                 FOR UPDATE OF w, u`,
+                [id]
+            );
+
+            if (workerResult.rows.length === 0) {
+                await client.query("ROLLBACK");
+                transactionStarted = false;
+
+                return res.status(404).json({
+                    message: "Petugas atau akun pengguna tidak ditemukan."
+                });
+            }
+
+            const accountId = workerResult.rows[0].account_id;
+
+            // 2. Periksa email duplikat di users
+            const duplicateUser = await client.query(
+                `SELECT id
+                 FROM public.users
+                 WHERE LOWER(TRIM(email)) = $1
+                 AND id <> $2`,
+                [cleanEmail, accountId]
+            );
+
+            if (duplicateUser.rows.length > 0) {
+                await client.query("ROLLBACK");
+                transactionStarted = false;
+
+                return res.status(409).json({
+                    message: "Email sudah digunakan oleh akun lain."
+                });
+            }
+
+            // 3. Periksa email duplikat di workers
+            const duplicateWorker = await client.query(
                 `SELECT id
                  FROM public.workers
-                 WHERE LOWER(email) = $1
+                 WHERE LOWER(TRIM(email)) = $1
                  AND id <> $2`,
                 [cleanEmail, id]
             );
 
-            if (existing.rows.length > 0) {
+            if (duplicateWorker.rows.length > 0) {
+                await client.query("ROLLBACK");
+                transactionStarted = false;
+
                 return res.status(409).json({
                     message: "Email petugas sudah digunakan."
                 });
             }
 
-            const result = await db.query(
+            // 4. Perbarui akun users
+            const userUpdate = await client.query(
+                `UPDATE public.users
+                 SET
+                    name = $1,
+                    email = $2
+                 WHERE id = $3
+                 AND role = 'worker'
+                 RETURNING id, name, email, role`,
+                [
+                    cleanName,
+                    cleanEmail,
+                    accountId
+                ]
+            );
+
+            if (userUpdate.rows.length === 0) {
+                throw new Error(
+                    "Akun Worker tidak ditemukan atau role tidak sesuai."
+                );
+            }
+
+            // 5. Perbarui data workers
+            const updatedWorker = await client.query(
                 `UPDATE public.workers
                  SET
                     name = $1,
@@ -654,7 +921,7 @@ app.put(
                  WHERE id = $10
                  RETURNING *`,
                 [
-                    name.trim(),
+                    cleanName,
                     cleanEmail,
                     phone.trim(),
                     photo || null,
@@ -667,23 +934,42 @@ app.put(
                 ]
             );
 
-            if (result.rows.length === 0) {
-                return res.status(404).json({
-                    message: "Petugas tidak ditemukan."
-                });
-            }
+            // 6. Simpan kedua perubahan
+            await client.query("COMMIT");
+            transactionStarted = false;
 
             return res.json({
-                message: "Data petugas berhasil diperbarui.",
-                worker: result.rows[0]
+                message: "Data petugas dan akun berhasil diperbarui.",
+                worker: updatedWorker.rows[0],
+                account: userUpdate.rows[0]
             });
 
         } catch (error) {
-            console.error("Update petugas gagal:", error.message);
+
+            if (client && transactionStarted) {
+                try {
+                    await client.query("ROLLBACK");
+                } catch (rollbackError) {
+                    console.error(
+                        "Rollback gagal:",
+                        rollbackError.message
+                    );
+                }
+            }
+
+            console.error(
+                "Update petugas gagal:",
+                error.message
+            );
 
             return res.status(500).json({
                 message: "Gagal memperbarui data petugas."
             });
+
+        } finally {
+            if (client) {
+                client.release();
+            }
         }
     }
 );
@@ -724,9 +1010,11 @@ app.delete(
             });
 
         } catch (error) {
-            console.error("Hapus petugas gagal:", error.message);
+            console.error(
+                "Hapus petugas gagal:",
+                error.message
+            );
 
-            // Foreign key: petugas masih digunakan oleh booking
             if (error.code === "23503") {
                 return res.status(409).json({
                     message: "Petugas tidak dapat dihapus karena masih terhubung dengan data pemesanan. Ubah status menjadi nonaktif."
@@ -734,7 +1022,7 @@ app.delete(
             }
 
             return res.status(500).json({
-                message: "Gagal menghapus petugas."
+                message: "Gagal menghapus data petugas."
             });
         }
     }

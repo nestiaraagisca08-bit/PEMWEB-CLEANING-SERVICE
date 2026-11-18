@@ -43,25 +43,29 @@ document.getElementById("adminAvatar").textContent =
     adminName.charAt(0).toUpperCase();
 
 
-// ==================================================
-// 3. LOGOUT
-// ==================================================
+// ==================================
+// LOGOUT
+// ==================================
 
-document.getElementById("logoutBtn").addEventListener("click", function() {
+document.getElementById("logoutBtn")
+    .addEventListener("click", function () {
 
-    const confirmation = confirm(
-        "Apakah kamu yakin ingin logout?"
-    );
+        const confirmLogout = confirm(
+            "Apakah kamu yakin ingin logout?"
+        );
 
-    if (!confirmation) return;
+        if (confirmLogout) {
 
-    sessionStorage.removeItem("griyaresikUser");
+            // Hapus data sesi login
+            sessionStorage.removeItem("griyaresikUser");
+            sessionStorage.removeItem("token");
 
-    sessionStorage.removeItem("token");
+            // Kembali ke halaman beranda sebelum login
+            window.location.href = "Beranda before login.html";
 
-    window.location.href = "../login.html";
+        }
 
-});
+    });
 
 
 // ==================================================

@@ -1020,18 +1020,28 @@
             });
 
 
+        // ==================================
         // LOGOUT
+        // ==================================
+
         document.getElementById("logoutBtn")
             .addEventListener("click", function () {
 
-                const confirmation = confirm("Apakah kamu yakin ingin logout?");
+                const confirmLogout = confirm(
+                    "Apakah kamu yakin ingin logout?"
+                );
 
-                if (!confirmation) return;
+                if (confirmLogout) {
 
-                sessionStorage.removeItem("griyaresikUser");
-                sessionStorage.removeItem("token");
+                    // Hapus data sesi login
+                    sessionStorage.removeItem("griyaresikUser");
+                    sessionStorage.removeItem("token");
 
-                window.location.href = "../login.html";
+                    // Kembali ke halaman beranda sebelum login
+                    window.location.href = "Beranda before login.html";
+
+                }
+
             });
 
 

@@ -788,23 +788,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     });
 
-    // ==========================================
-    // 23. LOGOUT
-    // ==========================================
+    // ==================================
+    // LOGOUT
+    // ==================================
 
-    logoutBtn.addEventListener("click", () => {
+    document.getElementById("logoutBtn")
+    .addEventListener("click", function () {
 
         const confirmLogout = confirm(
-            "Apakah kamu yakin ingin keluar dari akun?"
+            "Apakah kamu yakin ingin logout?"
         );
 
-        if (!confirmLogout) return;
+        if (confirmLogout) {
 
-        sessionStorage.removeItem("griyaresikUser");
+            // Hapus data sesi login
+            sessionStorage.removeItem("griyaresikUser");
+            sessionStorage.removeItem("token");
 
-        sessionStorage.removeItem("token");
+            // Kembali ke halaman beranda sebelum login
+            window.location.href = "Beranda before login.html";
 
-        window.location.href = "../login.html";
+        }
 
     });
 

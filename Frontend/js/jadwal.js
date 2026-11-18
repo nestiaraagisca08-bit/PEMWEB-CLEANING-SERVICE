@@ -765,29 +765,29 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    // =========================================
-    // 24. LOGOUT
-    // =========================================
+    // ==================================
+    // LOGOUT
+    // ==================================
 
     document.getElementById("logoutBtn")
-        .addEventListener("click", function () {
+    .addEventListener("click", function () {
 
-            const confirmLogout = confirm(
-                "Apakah Anda yakin ingin logout?"
-            );
+        const confirmLogout = confirm(
+            "Apakah kamu yakin ingin logout?"
+        );
 
-            if (!confirmLogout) return;
+        if (confirmLogout) {
 
-
+            // Hapus data sesi login
             sessionStorage.removeItem("griyaresikUser");
             sessionStorage.removeItem("token");
 
+            // Kembali ke halaman beranda sebelum login
+            window.location.href = "Beranda before login.html";
 
-            window.location.href = "../login.html";
+        }
 
-        });
-
-
+    });
     // =========================================
     // 25. INITIAL RENDER
     // =========================================

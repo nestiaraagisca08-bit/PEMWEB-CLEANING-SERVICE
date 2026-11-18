@@ -1007,7 +1007,7 @@
         // ==================================
 
         document.getElementById("logoutBtn")
-            .addEventListener("click", function() {
+            .addEventListener("click", function () {
 
                 const confirmLogout = confirm(
                     "Apakah kamu yakin ingin logout?"
@@ -1015,10 +1015,12 @@
 
                 if (confirmLogout) {
 
+                    // Hapus data sesi login
                     sessionStorage.removeItem("griyaresikUser");
                     sessionStorage.removeItem("token");
 
-                    window.location.href = "../login.html";
+                    // Kembali ke halaman beranda sebelum login
+                    window.location.href = "Beranda before login.html";
 
                 }
 

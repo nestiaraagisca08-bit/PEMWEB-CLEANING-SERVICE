@@ -1049,6 +1049,30 @@
 
         document.getElementById("adminAvatar").textContent =
             currentAdminName.charAt(0).toUpperCase();
+
+        // ==================================
+        // LOGOUT
+        // ==================================
+
+        document.getElementById("logoutBtn")
+            .addEventListener("click", function () {
+
+                const confirmLogout = confirm(
+                    "Apakah kamu yakin ingin logout?"
+                );
+
+                if (confirmLogout) {
+
+                    // Hapus data sesi login
+                    sessionStorage.removeItem("griyaresikUser");
+                    sessionStorage.removeItem("token");
+
+                    // Kembali ke halaman beranda sebelum login
+                    window.location.href = "Beranda before login.html";
+
+                }
+
+            });
     </script>
 
     <script src="../js/data_petugas.js"></script>

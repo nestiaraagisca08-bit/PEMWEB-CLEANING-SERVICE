@@ -560,15 +560,11 @@ form.addEventListener("submit", async function(event) {
 
     event.preventDefault();
 
-
     const id = document.getElementById("staffId").value;
-
 
     const packages = getSelectedPackages();
 
-
     if (!validatePackages(packages)) return;
-
 
     const staffData = {
 
@@ -593,22 +589,19 @@ form.addEventListener("submit", async function(event) {
 
     };
 
-
     const submitButton = form.querySelector(
         'button[type="submit"]'
     );
-
 
     submitButton.disabled = true;
 
     submitButton.textContent = "Menyimpan...";
 
-
     try {
 
         if (id) {
 
-            // UPDATE DATA
+            // UPDATE DATA PETUGAS
 
             await apiRequest(`${API_URL}/${id}`, {
 
@@ -618,14 +611,13 @@ form.addEventListener("submit", async function(event) {
 
             });
 
-
             alert("Data petugas berhasil diperbarui.");
 
         } else {
 
-            // TAMBAH DATA
+            // TAMBAH PETUGAS SEKALIGUS MEMBUAT AKUN WORKER
 
-            await apiRequest(API_URL, {
+            const result = await apiRequest(API_URL, {
 
                 method: "POST",
 
@@ -633,22 +625,66 @@ form.addEventListener("submit", async function(event) {
 
             });
 
+            // Backend harus mengirim account dan temporaryPassword.
 
-            alert("Petugas berhasil ditambahkan.");
+            if (!result.account || !result.temporaryPassword) {
+
+                console.error(
+                    "Respons tambah petugas tidak lengkap:",
+                    result
+                );
+
+                alert(
+                    "Data petugas telah diproses, tetapi informasi akun " +
+                    "tidak diterima dari backend. Periksa respons server " +
+                    "sebelum mencoba menambahkan ulang."
+                );
+
+                closeModal();
+
+                await loadStaff();
+
+                return;
+
+            }
+
+            // Password sementara hanya ditampilkan kepada Admin satu kali.
+
+            alert(
+
+                "PETUGAS BERHASIL DITAMBAHKAN!\n\n" +
+
+                "INFORMASI AKUN WORKER\n\n" +
+
+                "Nama: " +
+                (result.account.name || staffData.name) + "\n" +
+
+                "Email: " +
+                result.account.email + "\n" +
+
+                "Role: " +
+                result.account.role + "\n" +
+
+                "Password sementara: " +
+                result.temporaryPassword + "\n\n" +
+
+                "Simpan informasi login ini dan berikan kepada petugas."
+
+            );
 
         }
-
 
         closeModal();
 
         await loadStaff();
 
-
     } catch (error) {
 
         console.error("Gagal menyimpan petugas:", error);
 
-        alert(error.message);
+        alert(
+            error.message || "Terjadi kesalahan saat menyimpan petugas."
+        );
 
     } finally {
 
@@ -827,31 +863,27 @@ if (refreshButton) {
 
 }
 
-
-// ==================================================
-// 18. LOGOUT
-// ==================================================
+// ==================================
+// LOGOUT
+// ==================================
 
 document.getElementById("logoutBtn")
-    .addEventListener("click", function(event) {
+    .addEventListener("click", function () {
 
-        event.preventDefault();
-
-
-        const confirmation = confirm(
-            "Apakah kamu yakin ingin keluar?"
+        const confirmLogout = confirm(
+            "Apakah kamu yakin ingin logout?"
         );
 
+        if (confirmLogout) {
 
-        if (!confirmation) return;
+            // Hapus data sesi login
+            sessionStorage.removeItem("griyaresikUser");
+            sessionStorage.removeItem("token");
 
+            // Kembali ke halaman beranda sebelum login
+            window.location.href = "Beranda before login.html";
 
-        sessionStorage.removeItem("griyaresikUser");
-
-        sessionStorage.removeItem("token");
-
-
-        window.location.href = "../login.html";
+        }
 
     });
 
