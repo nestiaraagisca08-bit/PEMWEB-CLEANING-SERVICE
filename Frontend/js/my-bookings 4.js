@@ -3,7 +3,7 @@
 
   const BOOKINGS_KEY = "griyaResikBookings";
   const DEMO_KEY = "griyaResikStep4Demo";
-  const CS_PHONE = "6281234567890";
+  const CS_PHONE = "62881026380060";
   const TIME_ZONE = "Asia/Jakarta";
 
   // Pembayaran lunas untuk presentasi.
@@ -539,10 +539,10 @@
 
     const list = $("serviceSteps");
 
-    // Awal garis sudah melewati Menuju Lokasi.
+    // Samakan isi ruas 4 → 5 dengan persentase di Ceklis Progres Ruangan.
     list.style.setProperty(
       "--work-progress",
-      String(50 + overall / 2)
+      String(Math.floor(overall))
     );
 
     list.classList.toggle("is-complete", complete);

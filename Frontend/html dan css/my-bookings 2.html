@@ -559,15 +559,23 @@
 .s2-progress li::after {
     content: "";
     position: absolute;
-    top: 15px;
-    left: 17px;
-    right: -1px;
+    top: 12px;
+    left: 14px;
+    right: -14px;
     height: 4px;
+    border-radius: 999px;
     background: #e9eae6;
 }
 
+.s2-progress li.done::after,
+.s2-progress li.current::after {
+    background: #193e2f;
+}
+
 .s2-progress li:last-child::after {
-    right: 0;
+    content: "";
+    right: 20px;
+    background: #e9eae6;
 }
 
 /* HANYA SAMPAI TITIK DIKONFIRMASI */
@@ -594,12 +602,16 @@
 /* CEKLIS PUTIH */
 .s2-progress .done .s2-dot,
 .s2-progress .current .s2-dot {
-    background: #1E3A2F;
-    color: #ffffff;
-    box-shadow: 0 0 0 4px #ffffff;
+    background: #1e3a2f;
+    color: #fff;
+    box-shadow: 0 0 0 4px #fff;
 }
 
-.s2-dot .s2-icon {
+.s2-progress .current .s2-dot {
+    box-shadow: 0 0 0 4px #e0ece4;
+}
+
+.s2-progress .s2-dot .s2-icon {
     width: 13px;
     height: 13px;
     stroke-width: 2.5;
@@ -1426,6 +1438,212 @@
     }
 }
 
+
+/* =====================================
+   CTA - SAMA DENGAN BERANDA
+===================================== */
+
+.cta {
+    background: #193e2f;
+    color: white;
+    padding: 35px 24px;
+    line-height: 1.5;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.cta-inner {
+    max-width: 1120px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.cta h2 {
+    margin: 0 0 8px;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.cta p {
+    margin: 0;
+    color: #c5d3c9;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.btn-cta {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 14px 24px;
+    border-radius: 10px;
+    background: #fff0e9;
+    color: #193e2f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+/* =====================================
+   FOOTER - SAMA DENGAN BERANDA
+===================================== */
+
+.footer {
+    background: #fbede7;
+    padding: 40px 24px 18px;
+    color: #1d352b;
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.footer-grid {
+    max-width: 1120px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 35px;
+}
+
+/* LOGO FOOTER */
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #193e2f;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.footer-logo-image {
+    display: block;
+    width: auto;
+    height: 32px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.footer-brand .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.footer-brand .logo-griya {
+    color: #292929;
+}
+
+.footer-brand .logo-resik {
+    color: #789477;
+}
+
+/* HEADING DAN TEKS FOOTER */
+
+.footer-grid h3 {
+    margin: 0 0 13px;
+    color: #193e2f;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.footer-grid p,
+.footer-grid li,
+.footer-grid a {
+    color: #77716c;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.footer-grid ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-grid a {
+    text-decoration: none;
+}
+
+.footer-grid a:hover {
+    color: #193e2f;
+}
+
+/* WHATSAPP */
+
+.footer-grid .whatsapp {
+    display: inline-block;
+    color: #193e2f;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+/* FOOTER BOTTOM */
+
+.footer-bottom {
+    max-width: 1120px;
+    margin: 28px auto 0;
+    padding-top: 17px;
+    border-top: 1px solid #eadbd5;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+    margin: 0;
+    color: #89817b;
+    font-size: 10px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 18px;
+}
+
+.footer-links a {
+    text-decoration: none;
+}
+
+/* =====================================
+   RESPONSIVE CTA DAN FOOTER
+===================================== */
+
+@media (max-width: 700px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .cta-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 450px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
     </style>
 </head>
 
@@ -1935,7 +2153,7 @@
         <a
             id="supportLink"
             class="resik-care-button"
-            href="https://wa.me/6281234567890"
+            href="https://wa.me/62881026380060"
             target="_blank"
             rel="noopener noreferrer"
         >
@@ -1952,165 +2170,131 @@
     <!-- BANNER CTA -->
     <!-- ===================================== -->
 
-    <section class="w-full bg-[#163628] text-white py-16 px-4 sm:px-6 lg:px-8 mt-12">
-
-        <div class="max-w-[1240px] mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-
-            <div class="space-y-2 text-center md:text-left">
-
-                <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight text-white">
-                    Siap Rasakan Rumah yang Lebih Segar?
-                </h2>
-
-                <p class="text-sm text-[#E2EAE5] max-w-xl">
-                    Booking dalam 2 menit, mitra kebersihan profesional kami siap datang tepat waktu.
-                </p>
-            </div>
-
-            <a href="booking.html"
-               class="bg-[#FFF7F0] hover:bg-[#F7EBE3] text-[#163628] font-bold text-sm sm:text-base px-8 py-3.5 rounded-xl transition shadow hover:shadow-lg whitespace-nowrap inline-block text-center">
-
-                Jadwalkan Sekarang
-            </a>
+<!-- CTA - SAMA DENGAN BERANDA -->
+<section class="cta">
+    <div class="cta-inner">
+        <div>
+            <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+            <p>
+                Booking dalam 2 menit, mitra kebersihan profesional
+                kami siap datang tepat waktu.
+            </p>
         </div>
-    </section>
+
+        <a href="booking.html" class="btn-cta">
+            Jadwalkan Sekarang
+        </a>
+    </div>
+</section>
 
     <!-- ===================================== -->
     <!-- FOOTER -->
     <!-- ===================================== -->
 
-    <footer class="bg-[#F7ECE7] text-[#4A5D53] pt-14 pb-8 border-t border-[#EAE0D8]">
 
-        <div class="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
+<!-- =====================================
+     FOOTER - SAMA DENGAN BERANDA
+===================================== -->
 
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-10">
+<footer class="footer">
+    <div class="footer-grid">
 
-                <!-- BRAND -->
-                <div class="lg:col-span-4 space-y-4">
+        <!-- BRAND -->
+        <div>
+            <div class="footer-brand">
+                <img
+                    class="footer-logo-image"
+                    src="../images/logo griya Resik.png"
+                    alt=""
+                >
 
-                    <div class="flex items-center gap-3">
-
-                        <div class="w-8 h-8 rounded-lg bg-[#163628] text-white flex items-center justify-center font-bold text-base">
-                            G
-                        </div>
-
-                        <span class="text-xl font-extrabold text-[#163628] tracking-tight">
-                            GriyaResik
-                        </span>
-                    </div>
-
-                    <p class="text-xs leading-relaxed text-[#5F7368] pr-6">
-
-                        Solusi praktis dan terpercaya untuk hunian yang bersih, rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
-
-                    </p>
-                </div>
-
-                <!-- LAYANAN -->
-                <div class="lg:col-span-3 space-y-3">
-
-                    <h4 class="text-xs font-bold text-[#163628] uppercase tracking-wider">
-                        Layanan Utama
-                    </h4>
-
-                    <ul class="text-xs space-y-2 text-[#56685F]">
-
-                        <li>
-                            <a href="Layanan.html" class="hover:text-[#163628] transition">
-                                Basic Home Cleaning
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="Layanan.html" class="hover:text-[#163628] transition">
-                                Standard Room Cleaning
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="Layanan.html" class="hover:text-[#163628] transition">
-                                Deep Cleaning Menyeluruh
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="Layanan.html" class="hover:text-[#163628] transition">
-                                Ruangan Lainnya (Custom)
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-
-                <!-- OPERASIONAL -->
-                <div class="lg:col-span-2 space-y-3">
-
-                    <h4 class="text-xs font-bold text-[#163628] uppercase tracking-wider">
-                        Operasional
-                    </h4>
-
-                    <p class="text-xs leading-relaxed text-[#56685F]">
-                        Senin–Minggu: 07.00–19.00 WIB
-                    </p>
-
-                    <div class="pt-1 space-y-1">
-
-                        <span class="text-xs font-bold text-[#163628] block">
-                            Pusat Bantuan WhatsApp:
-                        </span>
-
-                        <a href="https://wa.me/6281234567890"
-                           target="_blank"
-                           rel="noopener noreferrer"
-                           class="text-xs font-bold text-[#163628] hover:underline block">
-
-                            +62 812-3456-7890
-                        </a>
-                    </div>
-                </div>
-
-                <!-- WILAYAH -->
-                <div class="lg:col-span-3 space-y-3">
-
-                    <h4 class="text-xs font-bold text-[#163628] uppercase tracking-wider">
-                        Wilayah Layanan
-                    </h4>
-
-                    <p class="text-xs leading-relaxed text-[#56685F]">
-
-                        Tersedia di Jabodetabek, Bandung, Surabaya, dan sekitarnya.
-
-                    </p>
-
-                    <div class="pt-1 flex items-center gap-1.5 text-xs text-[#56685F]">
-
-                        <span class="text-[#28A745] font-bold text-sm leading-none">•</span>
-
-                        <span>Siap Melayani 7 Hari Seminggu</span>
-                    </div>
-                </div>
+                <span class="logo-text">
+                    <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+                </span>
             </div>
 
-            <!-- COPYRIGHT -->
-            <div class="pt-6 border-t border-[#E5D9D2] flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-[#7A8C82]">
-
-                <p>
-                    © <span id="footerYear">2025</span> GriyaResik Indonesia.
-                    Seluruh hak cipta dilindungi undang-undang.
-                </p>
-
-                <div class="flex items-center gap-6">
-
-                    <a href="#" class="hover:text-[#163628] transition">
-                        Syarat &amp; Ketentuan
-                    </a>
-
-                    <a href="#" class="hover:text-[#163628] transition">
-                        Kebijakan Privasi
-                    </a>
-                </div>
-            </div>
+            <p>
+                Solusi praktis dan terpercaya untuk hunian yang bersih,
+                rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+            </p>
         </div>
-    </footer>
+
+        <!-- LAYANAN UTAMA -->
+        <div>
+            <h3>LAYANAN UTAMA</h3>
+
+            <ul>
+                <li>
+                    <a href="Layanan.html#roomGrid">
+                        Basic Home Cleaning
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Layanan.html#roomGrid">
+                        Standard Room Cleaning
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Layanan.html#roomGrid">
+                        Deep Cleaning Menyeluruh
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Layanan.html#customForm">
+                        Ruangan Lainnya (Custom)
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- OPERASIONAL -->
+        <div>
+            <h3>OPERASIONAL</h3>
+
+            <p>Senin–Minggu: 07.00–19.00 WIB</p>
+
+            <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+
+            <a
+                class="whatsapp"
+                href="https://wa.me/62881026380060"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                +62 881-0263-80060
+            </a>
+        </div>
+
+        <!-- WILAYAH LAYANAN -->
+        <div>
+            <h3>WILAYAH LAYANAN</h3>
+
+            <p>
+                Tersedia di Jabodetabek, Bandung, Surabaya,
+                dan sekitarnya.
+            </p>
+
+            <p>● Siap Melayani 7 Hari Seminggu</p>
+        </div>
+
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <p>
+            © <span id="footerYear">2025</span> GriyaResik Indonesia.
+            Seluruh hak cipta dilindungi undang-undang.
+        </p>
+
+        <div class="footer-links">
+            <a href="#">Syarat &amp; Ketentuan</a>
+            <a href="#">Kebijakan Privasi</a>
+        </div>
+    </div>
+</footer>
 
 </body>
 </html>

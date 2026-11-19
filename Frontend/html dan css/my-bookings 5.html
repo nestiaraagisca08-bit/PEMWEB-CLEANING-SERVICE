@@ -419,21 +419,32 @@
       list-style:none;
     }
 
-    .s5-progress::before {
-      content:"";
-      position:absolute;
-      top:15px;
-      left:14px;
-      right:0;
-      height:4px;
-      background:var(--green);
-      z-index:-1;
+        .s5-progress li {
+        position: relative;
+        min-width: 0;
+        padding-right: 12px;
+        text-align: left;
     }
 
-    .s5-progress li {
-      min-width:0;
-      padding-right:12px;
-      text-align:left;
+    .s5-progress li::after {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 14px;
+        right: -14px;
+        height: 4px;
+        border-radius: 999px;
+        background: var(--green);
+        z-index: -1;
+    }
+
+    .s5-progress li:last-child::after {
+        right: 20px;
+        background: var(--border);
+    }
+
+    .s5-progress.review-submitted li:last-child::after {
+        background: var(--green);
     }
 
     .s5-dot {
@@ -446,6 +457,10 @@
       background:#1e3a2f;
       color:white;
       box-shadow:0 0 0 4px white;
+    }
+
+    .s5-progress li:last-child .s5-dot {
+        box-shadow: 0 0 0 4px #e0ece4;
     }
 
     .s5-dot .s5-icon {
@@ -1211,40 +1226,62 @@
 
     /* FOOTER */
 
-    .cta {
-      padding:36px 24px;
-      background:var(--green);
-      color:white;
-      font-family:Inter,Arial,sans-serif;
-    }
+    
+/* CTA - SAMA DENGAN BERANDA */
 
-    .cta-inner {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:32px;
-      max-width:1120px;
-      margin:auto;
-    }
+.cta {
+    background: #193e2f;
+    color: white;
+    padding: 35px 24px;
+    line-height: 1.5;
+    font-family: 'Inter', Arial, sans-serif;
+}
 
-    .cta h2 { margin-bottom:8px;font-size:24px;line-height:1.35; }
-    .cta p { color:#d2dfd5;font-size:13px;line-height:1.6; }
+.cta-inner {
+    max-width: 1120px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
 
-    .cta a {
-      padding:13px 22px;
-      border-radius:25px;
-      background:#fff0e9;
-      color:var(--green);
-      font-size:12px;
-      font-weight:800;
-      white-space:nowrap;
-    }
+.cta h2 {
+    margin: 0 0 8px;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+}
 
-    .footer {
-      padding:40px 24px 18px;
-      background:#f8e9e3;
-      font-family:Inter,Arial,sans-serif;
-    }
+.cta p {
+    margin: 0;
+    color: #c5d3c9;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.btn-cta {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 14px 24px;
+    border-radius: 10px;
+    background: #fff0e9;
+    color: #193e2f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+.footer {
+    background: #fbede7;
+    padding: 40px 24px 18px;
+    color: #1d352b;
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.5;
+    text-align: left;
+}
 
     .footer-grid {
       display:grid;
@@ -1254,62 +1291,98 @@
       margin:auto;
     }
 
-    .footer-brand {
-      display:flex;
-      align-items:center;
-      gap:10px;
-      margin-bottom:12px;
-    }
+    
+/* LOGO FOOTER GRIYARESIK */
 
-    .footer-logo-icon {
-      display:grid;
-      place-items:center;
-      width:38px;
-      height:38px;
-      border-radius:9px;
-      background:#204b38;
-      color:white;
-      font:700 21px "Baloo 2",sans-serif;
-    }
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #193e2f;
+    font-size: 20px;
+    font-weight: 800;
+}
 
-    .footer-logo-text {
-      color:#204b38;
-      font:600 24px "Baloo 2",sans-serif;
-    }
+.footer-logo-image {
+    display: block;
+    width: auto;
+    height: 32px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
 
-    .footer-grid h3 {
-      margin-bottom:10px;
-      color:var(--green);
-      font-size:11px;
-    }
+.footer-brand .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    white-space: nowrap;
+}
 
-    .footer-grid p,.footer-grid li,.footer-grid a {
-      color:#77716c;
-      font-size:12px;
-      line-height:1.9;
-    }
+.footer-brand .logo-griya {
+    color: #292929;
+}
 
-    .footer-grid ul { margin:0;padding:0;list-style:none; }
+.footer-brand .logo-resik {
+    color: #789477;
+}
+   
+.footer-grid h3 {
+    margin: 0 0 13px;
+    color: #193e2f;
+    font-size: 11px;
+    font-weight: 700;
+}
 
-    .footer-grid .whatsapp {
-      color:var(--green);
-      font-weight:800;
-    }
+.footer-grid p,
+.footer-grid li,
+.footer-grid a {
+    color: #77716c;
+    font-size: 12px;
+    line-height: 1.9;
+}
 
-    .footer-bottom {
-      display:flex;
-      justify-content:space-between;
-      flex-wrap:wrap;
-      gap:15px;
-      max-width:1120px;
-      margin:28px auto 0;
-      padding-top:17px;
-      border-top:1px solid #eadbd5;
-      color:#89817b;
-      font-size:10px;
-    }
+.footer-grid ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
 
-    .footer-links { display:flex;gap:18px; }
+.footer-grid a:hover {
+    color: #193e2f;
+}
+
+.footer-grid .whatsapp {
+    display: inline-block;
+    color: #193e2f;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+    
+.footer-bottom {
+    max-width: 1120px;
+    margin: 28px auto 0;
+    padding-top: 17px;
+    border-top: 1px solid #eadbd5;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+    margin: 0;
+    color: #89817b;
+    font-size: 10px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 18px;
+}
 
     /* RESPONSIF */
 
@@ -1339,23 +1412,25 @@
       .search-card { align-items:flex-start;flex-wrap:wrap; }
     }
 
-    @media(max-width:700px) {
-      .cta-inner {
-        flex-direction:column;
-        align-items:flex-start;
-        gap:22px;
-      }
-
-      .footer-grid {
-        grid-template-columns:repeat(2,minmax(0,1fr));
-        gap:25px;
-      }
-
-      .footer-bottom {
-        flex-direction:column;
-        align-items:flex-start;
-      }
+@media (max-width: 700px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
     }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .cta-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+}
 
     @media(max-width:640px) {
       .container {
@@ -1385,8 +1460,6 @@
         min-width:625px;
         padding:5px 4px 12px;
       }
-
-      .s5-progress::before { top:20px; }
 
       .section-heading,.bill-total,.review-heading,
       .worker-review,.docs-heading {
@@ -1966,22 +2039,35 @@
   </dialog>
 
   <section class="cta">
-    <div class="cta-inner">
-      <div>
-        <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
-        <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
-      </div>
-      <a href="Layanan.html">Lihat Layanan</a>
+  <div class="cta-inner">
+    <div>
+      <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+      <p>
+        Booking dalam 2 menit, mitra kebersihan profesional
+        kami siap datang tepat waktu.
+      </p>
     </div>
-  </section>
+
+    <a href="booking.html" class="btn-cta">
+      Jadwalkan Sekarang
+    </a>
+  </div>
+</section>
 
   <footer class="footer">
     <div class="footer-grid">
-      <div>
-        <div class="footer-brand">
-          <span class="footer-logo-icon">G</span>
-          <span class="footer-logo-text">GriyaResik</span>
-        </div>
+      <div>   
+<div class="footer-brand">
+  <img
+    class="footer-logo-image"
+    src="../images/logo griya Resik.png"
+    alt=""
+  >
+
+  <span class="logo-text">
+    <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+  </span>
+</div>
         <p>
           Solusi praktis dan terpercaya untuk hunian yang bersih,
           rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
@@ -1990,25 +2076,26 @@
 
       <div>
         <h3>LAYANAN UTAMA</h3>
-        <ul>
-          <li><a href="Layanan.html">Basic Home Cleaning</a></li>
-          <li><a href="Layanan.html">Standard Room Cleaning</a></li>
-          <li><a href="Layanan.html">Deep Cleaning Menyeluruh</a></li>
-          <li><a href="Layanan.html">Ruangan Lainnya (Custom)</a></li>
-        </ul>
+<ul>
+  <li><a href="Layanan.html#roomGrid">Basic Home Cleaning</a></li>
+  <li><a href="Layanan.html#roomGrid">Standard Room Cleaning</a></li>
+  <li><a href="Layanan.html#roomGrid">Deep Cleaning Menyeluruh</a></li>
+  <li><a href="Layanan.html#customForm">Ruangan Lainnya (Custom)</a></li>
+</ul>
       </div>
 
       <div>
         <h3>OPERASIONAL</h3>
         <p>Senin–Minggu: 07.00–19.00 WIB</p>
         <p><strong>Pusat Bantuan WhatsApp:</strong></p>
-        <a class="whatsapp"
-          href="https://wa.me/6281234567890"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          +62 812-3456-7890
-        </a>
+<a
+  class="whatsapp"
+  href="https://wa.me/62881026380060"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  +62 881-0263-80060
+</a>
       </div>
 
       <div>
@@ -2020,7 +2107,7 @@
 
     <div class="footer-bottom">
       <p>
-        © <span id="year"></span> GriyaResik Indonesia.
+        © <span id="year">2026</span> GriyaResik Indonesia.
         Seluruh hak cipta dilindungi undang-undang.
       </p>
 

@@ -6,7 +6,7 @@
   const TIMES = "griyaResikStep5Demo";
   const PAYMENT = "griyaResikPaymentDemo";
 
-  const CS = "6281234567890";
+  const CS = "62881026380060";
   const ZONE = "Asia/Jakarta";
 
   const $ = id => document.getElementById(id);
@@ -664,7 +664,7 @@
         String(value === rating)
       );
 
-      button.tabIndex = value === rating ? 0 : -1;
+      button.tabIndex = value === (rating || 1) ? 0 : -1;
     });
 
     const labels = [
@@ -677,9 +677,11 @@
     ];
 
     put(
-      "ratingLabel",
-      labels[rating] + " (" + rating + ".0 / 5.0)"
-    );
+    "ratingLabel",
+    rating === 0
+        ? "Pilih jumlah bintang"
+        : labels[rating] + " (" + rating + ".0 / 5.0)"
+  );
   }
 
   function setTip(choice) {
@@ -697,61 +699,21 @@
   }
 
   function loadReview() {
-    const saved = entry(
-      recordStore(REVIEWS),
-      normalize(selected.id)
-    );
-
-    rating = [1, 2, 3, 4, 5].includes(saved.rating)
-      ? saved.rating
-      : 5;
-
+    rating = 0;
     updateRating();
 
-    const tags = Array.isArray(saved.tags)
-      ? saved.tags
-      : [
-          "Sangat Bersih & Detail",
-          "Tepat Waktu",
-          "Ramah & Sopan"
-        ];
-
     document.querySelectorAll("[data-tag]").forEach(button => {
-      button.setAttribute(
-        "aria-pressed",
-        String(tags.includes(button.dataset.tag))
-      );
+        button.setAttribute("aria-pressed", "false");
     });
 
-    $("reviewMessage").value = clean(saved.message);
+    setTip("0");
+    $("customTip").value = "";
+    $("reviewMessage").value = "";
+    $("reviewFeedback").textContent = "";
 
-    const tip = number(saved.tip);
-
-    if (tip !== null) {
-      const choice = [10000, 20000, 50000].includes(tip)
-        ? String(tip)
-        : "custom";
-
-      setTip(choice);
-      $("customTip").value = String(tip);
-    } else {
-      setTip("20000");
-      $("customTip").value = "";
-    }
-
-    put(
-      "submitReview",
-      saved.savedAt
-        ? "Simpan Perubahan Ulasan"
-        : "Kirim Ulasan & Simpan Tip ▸"
-    );
-
-    $("reviewFeedback").textContent = saved.savedAt
-      ? "Ulasan simulasi tersimpan di browser ini pada " +
-        stamp(saved.savedAt) +
-        ". Belum dikirim ke server."
-      : "";
-  }
+    put("submitReview", "Kirim Ulasan");
+    $("serviceSteps").classList.remove("review-submitted");
+}
 
   function gallery() {
     $("workerAvatar").src = photos[0].url;
@@ -990,6 +952,11 @@
     event.preventDefault();
     if (!selected) return;
 
+    if (rating < 1) {
+        put("reviewFeedback", "Pilih minimal satu bintang sebelum mengirim ulasan.");
+        return;
+    }
+
     const tip = number(
       tipChoice === "custom"
         ? $("customTip").value
@@ -1023,6 +990,7 @@
     assign(store, normalize(selected.id), record);
 
     if (write(REVIEWS, store)) {
+      $("serviceSteps").classList.add("review-submitted");
       put(
         "reviewFeedback",
         "Ulasan " +

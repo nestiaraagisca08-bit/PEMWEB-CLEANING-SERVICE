@@ -155,8 +155,8 @@ button, input, select, textarea {
 
 /* KONTEN BOOKING */
 .booking-container {
-    width: calc(100% - 64px);
-    max-width: 1200px;
+    width: calc(100% - 48px);
+    max-width: 1120px;
     margin: 0 auto;
     padding: 34px 0 60px;
 }
@@ -301,7 +301,8 @@ button, input, select, textarea {
     letter-spacing: 0.3px;
 }
 
-.intro h1 {
+.intro h1, 
+.intro h2 {
     margin-bottom: 6px;
     color: var(--green);
     font-size: 30px;
@@ -404,14 +405,14 @@ button, input, select, textarea {
 
 .room-card h3 {
     margin-bottom: 4px;
-    font-size: 14px;
+    font-size: 17px;
     color: var(--text);
 }
 
 .room-card p {
     min-height: 31px;
     color: #69736d;
-    font-size: 10px;
+    font-size: 12px;
 }
 
 .room-meta {
@@ -419,9 +420,9 @@ button, input, select, textarea {
     align-items: center;
     justify-content: space-between;
     gap: 5px;
-    margin-top: 9px;
+    margin-top: 11px;
     color: #65786a;
-    font-size: 9px;
+    font-size: 10px;
 }
 
 .room-check {
@@ -445,22 +446,23 @@ button, input, select, textarea {
 .benefit-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
+    gap: 16px;
     margin-top: 22px;
 }
 
 .benefit {
     display: flex;
     align-items: center;
-    gap: 9px;
-    padding: 12px;
+    gap: 12px;
+    padding: 16px 18px;
     background: white;
-    border-radius: 10px;
+    border-radius: 14px;
+    min-height: 78px;
 }
 
 .benefit-icon {
-    width: 30px;
-    height: 30px;
+    width: 38px;
+    height: 38px;
     display: grid;
     place-items: center;
     flex-shrink: 0;
@@ -470,12 +472,15 @@ button, input, select, textarea {
 
 .benefit strong {
     display: block;
-    font-size: 10px;
+    font-size: 14px;
+    line-height: 1.3;
 }
 
 .benefit p {
     color: var(--muted);
-    font-size: 9px;
+    font-size: 12px;
+    line-height: 1.4;
+    margin-top: 3px;
 }
 
 /* PAKET, ADD-ON, FORM */
@@ -506,7 +511,7 @@ button, input, select, textarea {
     display: inline-flex;
     align-items: center;
     gap: 7px;
-    margin-bottom: 18px;
+    margin: 12px 0 0;
     padding: 7px 13px;
     border-radius: 20px;
     background: #f4dfe0;
@@ -525,115 +530,232 @@ button, input, select, textarea {
     position: relative;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
     min-width: 0;
-    min-height: 210px;
-    padding: 18px;
-    border: 1px solid var(--border);
-    border-radius: 13px;
-    background: white;
-    cursor: pointer;
-    text-align: left;
+    padding: 20px;
+    border: 1px solid #e5ddcf;
+    border-radius: 20px;
+    background: #fff;
     color: var(--text);
-    transition: .2s ease;
+    box-shadow: 0 5px 16px rgb(25 62 47 / 5%);
+    font: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
 }
 
 .option-card:hover {
     border-color: #a9c9ad;
-    transform: translateY(-2px);
 }
 
 .option-card.selected {
-      border: 2px solid var(--green);
-    background: #fbfdf9;
-    box-shadow: 0 0 0 1px var(--green);
+    border-color: var(--green);
+    box-shadow: 0 0 0 1px var(--green), 0 8px 20px rgb(25 62 47 / 10%);
+    transform: translateY(-5px);
 }
 
-.option-card img {
-    width: 100%;
-    height: 115px;
-    margin: 12px 0 8px;
-    border-radius: 7px;
-    object-fit: cover;
+.option-card::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border: 2px solid #a0edd0;
+    border-radius: 50%;
+    background: radial-gradient(circle, #8ae0bf 0 38%, transparent 42%);
 }
 
-.option-card h3 {
-    margin: 7px 0 4px;
-    font-size: 15px;
-    color: var(--green);
+.option-card.selected::after {
+    content: "✔";
+    border-color: var(--green);
+    background: var(--green);
+    color: #fff;
+    font-size: 11px;
+    line-height: 1;
 }
 
-.option-card p {
-    min-height: 30px;
-    color: var(--muted);
-    font-size: 12px;
+.package-popular {
+    position: absolute;
+    top: -12px;
+    right: 20px;
+    padding: 4px 10px;
+    border: 1px solid #f1c9c2;
+    border-radius: 999px;
+    background: #fff0eb;
+    color: #8f4034;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.3;
 }
 
 .package-label {
-    display: inline-block;
     align-self: flex-start;
-    margin-bottom: 10px;
-    padding: 4px 7px;
+    max-width: calc(100% - 26px);
+    padding: 5px 8px;
     border-radius: 5px;
-    background: #dcf4e0;
+    background: #e8f1e9;
     color: var(--green);
-    font-size: 9px;
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.package-title {
+    margin-top: 14px;
+    color: var(--green);
+    font-size: 21px;
     font-weight: 800;
+    line-height: 1.25;
+}
+
+.package-description {
+    min-height: 3em;
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.package-media {
+    position: relative;
+    display: block;
+    overflow: hidden;
+    margin-top: 12px;
+    border-radius: 14px;
+}
+
+.option-card img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.9;
+    object-fit: cover;
+}
+
+.package-media::after {
+    content: "";
+    position: absolute;
+    inset: 50% 0 0;
+    background: linear-gradient(transparent, rgb(25 62 47 / 50%));
+    pointer-events: none;
 }
 
 .option-duration {
-    display: block;
-    color: var(--muted);
-    font-size: 9px;
+    position: absolute;
+    z-index: 1;
+    bottom: 9px;
+    left: 9px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    background: rgb(28 25 23 / 78%);
+    color: #fff;
+    font-size: 11px;
+    line-height: 1.25;
 }
 
-.option-card small {
-    display: block;
-    margin-top: 8px;
-    color: var(--muted);
-    font-size: 10px;
+.package-price-row {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 14px;
 }
 
 .option-price {
-    display: block;
-    margin-top: 10px;
     color: var(--green);
-    font-size: 19px;
+    font-size: 26px;
     font-weight: 800;
+    line-height: 1.2;
+}
+
+.package-price-unit,
+.option-card small {
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.option-card small {
+    min-height: calc(2.8em + 15px);
+    margin-top: 4px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #edf0ed;
 }
 
 .package-features {
     display: flex;
+    flex: 1;
     flex-direction: column;
     gap: 8px;
-    margin-top: 14px;
-    padding: 12px;
-    border-radius: 8px;
-    background: #f1fbf2;
-    font-size: 9px;
-    line-height: 1.5;
+    margin-top: 16px;
+    padding: 14px;
+    border: 1px solid #dcebe0;
+    border-radius: 14px;
+    background: #f4f8f4;
+    font-size: 13px;
+    line-height: 1.45;
 }
 
 .package-features strong {
-    font-size: 9px;
     color: var(--green);
+    font-size: 11px;
+}
+
+.package-checklist {
+    display: grid;
+    gap: 8px;
+}
+
+.package-checklist > span {
+    position: relative;
+    padding-left: 20px;
+}
+
+.package-checklist > span::before {
+    content: "✓";
+    position: absolute;
+    top: 0.2em;
+    left: 0;
+    display: grid;
+    place-items: center;
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #cdf5e4;
+    color: #14654b;
+    font-size: 10px;
+    line-height: 1;
+}
+
+.option-card.selected .package-checklist > span::before {
+    background: #07966c;
+    color: #fff;
 }
 
 .package-choose {
-    display: block;
-    margin-top: auto;
-    padding: 10px;
-    border-radius: 7px;
-    background: #dcf4e0;
+    display: grid;
+    place-items: center;
+    min-height: 40px;
+    margin-top: 18px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    background: #e3eee7;
     color: var(--green);
-    font-size: 10px;
+    font-size: 13px;
     font-weight: 700;
     text-align: center;
 }
 
 .option-card.selected .package-choose {
     background: var(--green);
-    color: white;
+    color: #fff;
+    box-shadow: 0 5px 12px rgb(25 62 47 / 15%);
 }
 
 .form-card {
@@ -744,6 +866,26 @@ button, input, select, textarea {
 
 .navigation-buttons .btn {
     flex-shrink: 0;
+    min-height: 42px;
+}
+
+.booking-nav-label {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    vertical-align: middle;
+}
+
+.booking-nav-label svg {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 2.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
 }
 
 .navigation-actions {
@@ -810,73 +952,72 @@ button, input, select, textarea {
 }
 
 
+
+/* =====================================
+   CTA - SAMA DENGAN BERANDA
+===================================== */
+
 .cta {
+    background: var(--green);
+    color: white;
+    padding: 35px 24px;
+    line-height: 1.5;
+}
+
+.cta-inner {
+    max-width: 1120px;
+    margin: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 32px;
-    padding: 36px max(24px, calc((100% - 1120px) / 2));
-    background: var(--green);
-    color: #ffffff;
-}
-
-.cta > div {
-    flex: 1;
-    min-width: 0;
+    gap: 25px;
 }
 
 .cta h2 {
-    margin: 0 0 8px;
     font-size: 24px;
-    font-weight: 800;
-    line-height: 1.35;
+    margin-bottom: 8px;
 }
 
 .cta p {
-    margin: 0;
-    color: #d2dfd5;
+    color: #c5d3c9;
     font-size: 13px;
-    line-height: 1.6;
 }
 
-.cta a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.btn-cta {
+    display: inline-block;
     flex-shrink: 0;
-    min-width: 150px;
-    padding: 13px 22px;
-    border-radius: 25px;
+    padding: 14px 24px;
+    border-radius: 10px;
     background: #fff0e9;
     color: var(--green);
+    font-weight: 700;
     font-size: 12px;
-    font-weight: 800;
-    line-height: 1.4;
-    text-align: center;
-    text-decoration: none;
-    white-space: nowrap;
 }
 
+
+/* =====================================
+   FOOTER - SAMA DENGAN BERANDA
+===================================== */
+
 .footer {
+    background: #fbede7;
     padding: 40px 24px 18px;
-    background: #f8e9e3;
-    color: #1d352b;
+    line-height: 1.5;
     text-align: left;
-    font-size: 12px;
 }
 
 .footer-grid {
-    max-width: var(--content-width);
-    margin: 0 auto;
+    max-width: 1120px;
+    margin: auto;
     display: grid;
     grid-template-columns: 1.2fr 1fr 1fr 1fr;
     gap: 35px;
 }
 
 .footer-grid h3 {
-    margin-bottom: 10px;
-    color: #193e2f;
+    color: var(--green);
     font-size: 11px;
+    margin-bottom: 13px;
 }
 
 .footer-grid p,
@@ -893,24 +1034,25 @@ button, input, select, textarea {
 }
 
 .footer-grid a:hover {
-    color: #193e2f;
+    color: var(--green);
 }
 
 .footer-grid .whatsapp {
-    color: #193e2f;
-    font-weight: 800;
+    display: inline-block;
+    color: var(--green);
+    font-weight: 700;
+    margin-top: 5px;
 }
 
 .footer-bottom {
-    max-width: var(--content-width);
+    max-width: 1120px;
     margin: 28px auto 0;
     padding-top: 17px;
+    border-top: 1px solid #eadbd5;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: 15px;
     flex-wrap: wrap;
-    border-top: 1px solid #eadbd5;
 }
 
 .footer-bottom p,
@@ -921,7 +1063,6 @@ button, input, select, textarea {
 
 .footer-links {
     display: flex;
-    flex-wrap: wrap;
     gap: 18px;
 }
 
@@ -995,8 +1136,12 @@ button, input, select, textarea {
         font-size: 10px;
     }
 
-    .booking-container {
+    .booking-container,
+    .bc {
         width: calc(100% - 28px);
+    }
+
+    .booking-container {
         padding-top: 16px;
     }
 
@@ -1069,54 +1214,62 @@ button, input, select, textarea {
         grid-column: auto;
     }
 
-    .cta {
+   
+    .cta-inner {
         align-items: flex-start;
         flex-direction: column;
     }
+
 
     .navigation-buttons .btn {
         padding: 11px 13px;
     }
 }
 
+/* =====================================
+   LOGO FOOTER GRIYARESIK
+===================================== */
+
 .footer-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 12px;
-    font-family: 'Baloo 2', sans-serif;
+    color: var(--green);
     font-size: 20px;
     font-weight: 800;
 }
 
-.footer-logo-icon {
-    width: 38px;
-    height: 38px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    border-radius: 9px;
-    background-color: #204b38;
-    color: #ffffff;
-    font-size: 21px;
-    font-weight: 700;
+.footer-logo-image {
+    display: block;
+    width: auto;
+    height: 32px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
 }
 
-.footer-logo-text {
-    color: #204b38;
+.footer-brand .logo-text {
     font-family: 'Baloo 2', sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
+    font-weight: 800;
+    white-space: nowrap;
 }
+
+.footer-brand .logo-griya {
+    color: #292929;
+}
+
+.footer-brand .logo-resik {
+    color: #789477;
+}
+
 
 .package-heading-row {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 24px;
-    margin-bottom: 24px;
+    gap: 40px;
+    margin-bottom: 30px;
 }
 
 .package-heading-row .section-heading {
@@ -1134,7 +1287,6 @@ button, input, select, textarea {
     min-height: 65px;
     padding: 12px 16px;
     margin: 0;
-    transform: translateY(-85px);
     background: #dcf4e0;
     border-radius: 14px;
 }
@@ -1161,10 +1313,6 @@ button, input, select, textarea {
     margin-top: 3px;
     color: #65786a;
     font-size: 10px;
-}
-
-.option-card .option-price {
-    margin-top: auto;
 }
 
 @media (max-width: 850px) {
@@ -1254,115 +1402,120 @@ button, input, select, textarea {
    RINGKASAN & TOTAL PESANAN
 ===================================== */
 
-/* Kartu utama */
+.booking-step[data-step="3"] .section-heading {
+    margin-bottom: 30px;
+}
+
+.booking-step[data-step="3"] .section-heading h2 {
+    margin-bottom: 6px;
+    color: var(--green);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+}
+
+.booking-step[data-step="3"] .section-heading p {
+    max-width: 700px;
+    color: #505650;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
 .booking-step[data-step="3"] .summary-card {
     margin-top: 0;
     padding: 0;
     overflow: hidden;
-    background: #ffffff;
     border: 1px solid #e8e1d7;
-    border-radius: 17px;
-    box-shadow: 0 2px 5px rgba(35, 50, 40, 0.04);
+    border-radius: 18px;
+    background: #fff;
+    box-shadow: 0 2px 5px rgb(35 50 40 / 4%);
 }
 
-/* Header Ringkasan Layanan */
 .booking-step[data-step="3"] .summary-card h3 {
     margin: 0;
-    padding: 19px 26px;
-    background: #f5f8f5;
+    padding: 16px 22px;
+    border-bottom: 1px solid #e8eee5;
+    background: #f4f8f4;
     color: var(--green);
-    font-size: 18px;
-    font-weight: 700;
-    border-bottom: 1px solid #eee9e1;
+    font-size: 17px;
+    font-weight: 800;
 }
 
-/* Detail pesanan */
 .booking-step[data-step="3"] .summary-line {
-    padding: 14px 26px;
-    gap: 15px;
-    background: #ffffff;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: start;
+    gap: 16px;
+    padding: 14px 22px;
     border-bottom: 1px solid #eeeae4;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
-/* Label informasi */
 .booking-step[data-step="3"] .summary-line span {
-    color: #737b8b;
-    font-size: 13px;
+    color: #505650;
 }
 
-/* Isi informasi */
 .booking-step[data-step="3"] .summary-line strong {
-    color: #182230;
-    font-size: 13px;
+    color: var(--text);
+    font-size: inherit;
     font-weight: 700;
     text-align: right;
+    overflow-wrap: anywhere;
 }
 
-/* Area total estimasi */
 .booking-step[data-step="3"] .summary-total {
-    padding: 19px 26px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 20px;
     margin: 0;
-    background: #faf8f4;
-    color: #182230;
+    padding: 18px 22px;
+    background: #f4f8f4;
 }
 
-/* Label total dan keterangan */
 .booking-step[data-step="3"] .summary-total > div {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
 }
 
 .booking-step[data-step="3"] .summary-total span {
-    color: #182230;
-    font-size: 17px;
-    font-weight: 700;
+    color: var(--green);
+    font-size: 16px;
+    font-weight: 800;
 }
 
 .booking-step[data-step="3"] .summary-total small {
-    color: #737b8b;
-    font-size: 12px;
+    color: #505650;
+    font-size: 13px;
     font-weight: 400;
+    line-height: 1.45;
 }
 
-/* Nominal harga */
-.booking-step[data-step="3"] .summary-total strong {
+.booking-step[data-step="3"] .summary-total > strong {
     color: var(--green);
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 800;
-    letter-spacing: -0.7px;
+    line-height: 1.2;
+    letter-spacing: -0.5px;
 }
 
-/* Responsive */
 @media (max-width: 560px) {
-    .booking-step[data-step="3"] .summary-card h3 {
-        padding: 16px 17px;
-        font-size: 16px;
+    .booking-step[data-step="3"] .summary-card h3,
+    .booking-step[data-step="3"] .summary-total {
+        padding: 16px;
     }
 
     .booking-step[data-step="3"] .summary-line {
-        padding: 12px 17px;
-        gap: 10px;
+        gap: 12px;
+        padding: 12px 16px;
+        font-size: 13px;
     }
 
-    .booking-step[data-step="3"] .summary-line span,
-    .booking-step[data-step="3"] .summary-line strong {
-        font-size: 11px;
-    }
-
-    .booking-step[data-step="3"] .summary-total {
-        padding: 16px 17px;
-    }
-
-    .booking-step[data-step="3"] .summary-total span {
-        font-size: 14px;
-    }
-
-    .booking-step[data-step="3"] .summary-total small {
-        font-size: 10px;
-    }
-
-    .booking-step[data-step="3"] .summary-total strong {
+    .booking-step[data-step="3"] .summary-total > strong {
         font-size: 23px;
     }
 }
@@ -1376,14 +1529,19 @@ button, input, select, textarea {
 }
 
 .booking-step[data-step="2"] .step3-heading h2 {
-    color: #172d25;
-    font-size: 26px;
+     margin-bottom: 6px;
+    color: var(--green);
+    font-size: 30px;
     font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
 }
 
 .booking-step[data-step="2"] .step3-heading p {
-    color: #758078;
+   max-width: 700px;
+    color: #505650;
     font-size: 13px;
+    line-height: 1.5;
 }
 
 /* BANNER RUANGAN */
@@ -1787,14 +1945,10 @@ button, input, select, textarea {
     }
 }
 
-/* CATATAN DAN PREFERENSI */
+/* CATATAN KHUSUS */
 
 .step3-note-card {
     margin-top: 24px;
-}
-
-.step3-preference {
-    margin-top: 25px;
 }
 
 .step3-field-label {
@@ -1803,55 +1957,6 @@ button, input, select, textarea {
     font-size: 11px;
     font-weight: 800;
     letter-spacing: .2px;
-}
-
-.step3-cleaner-options {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 9px;
-    margin-top: 10px;
-}
-
-.step3-cleaner-option {
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    min-height: 43px;
-    padding: 10px;
-    border: 1px solid #dce2dc;
-    border-radius: 10px;
-    background: white;
-    cursor: pointer;
-    text-align: center;
-    transition: .2s ease;
-}
-
-.step3-cleaner-option input {
-    position: absolute;
-    opacity: 0;
-    pointer-events: none;
-}
-
-.step3-cleaner-option span {
-    color: #435047;
-    font-size: 11px;
-    font-weight: 600;
-}
-
-.step3-cleaner-option:has(input:checked) {
-    border-color: var(--green);
-    background: var(--green);
-}
-
-.step3-cleaner-option:has(input:checked) span {
-    color: white;
-}
-
-.step3-preference-note {
-    margin-top: 9px;
-    color: #a0a8a1;
-    font-size: 10px;
 }
 
 .step3-instruction {
@@ -1975,10 +2080,6 @@ button, input, select, textarea {
     }
 
     .step3-extra-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .step3-cleaner-options {
         grid-template-columns: 1fr;
     }
 
@@ -2521,7 +2622,7 @@ button, input, select, textarea {
 }
 
 .booking-step[data-step="4"] .final-property-option:has(input:checked)::after {
-    content: "✓";
+    content: "✔";
     display: grid;
     place-items: center;
     border-color: #67e0b8;
@@ -3607,7 +3708,7 @@ button, input, select, textarea {
 
 .bc {
     width: calc(100% - 40px);
-    max-width: 1200px;
+    max-width: 1120px;
     margin: 36px auto 60px;
     color: #193e2f;
 }
@@ -5242,6 +5343,159 @@ textarea,
     user-select: text;
 }
 
+/* STEP 3 — Add-on & Catatan */
+.booking-step[data-step="2"] .step3-heading {
+    margin-bottom: 30px;
+}
+
+.booking-step[data-step="2"] .step3-heading h2 {
+    margin-bottom: 6px;
+    color: var(--green);
+    font-size: 30px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -0.6px;
+}
+
+.booking-step[data-step="2"] .step3-heading p {
+    max-width: 700px;
+    color: #505650;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+/* Banner dan subtotal */
+.booking-step[data-step="2"] .step3-room-banner {
+    height: 260px;
+    border-radius: 18px;
+}
+
+.booking-step[data-step="2"] .step3-room-overlay p,
+.booking-step[data-step="2"] .step3-room-total span {
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+.booking-step[data-step="2"] .step3-room-total strong {
+    font-size: 24px;
+}
+
+/* Jarak dan bentuk kartu */
+.booking-step[data-step="2"] :is(
+    .step3-price-information,
+    .step3-addon-list,
+    .step3-extra-grid,
+) {
+    gap: 16px;
+}
+
+.booking-step[data-step="2"] .step3-section-card {
+    margin-top: 24px;
+    padding: 22px;
+    border-radius: 18px;
+}
+
+.booking-step[data-step="2"] :is(
+    .step3-price-item,
+    .step3-addon-card,
+    .step3-extra-card,
+    .step3-guarantee,
+    .step3-help
+) {
+    padding: 16px;
+    border-radius: 14px;
+}
+
+.booking-step[data-step="2"] .step3-extra-card:has(input:checked) {
+    border-width: 1px;
+    box-shadow: 0 0 0 1px var(--green);
+}
+
+/* Judul, deskripsi, dan harga */
+.booking-step[data-step="2"] .step3-section-title h3 {
+    color: var(--green);
+    font-size: 17px;
+    line-height: 1.3;
+}
+
+.booking-step[data-step="2"] :is(
+    .step3-addon-info strong,
+    .step3-extra-card > strong
+) {
+    color: var(--green);
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.booking-step[data-step="2"] :is(
+    .step3-section-title p,
+    .step3-addon-info p,
+    .step3-extra-card > p,
+    .step3-guarantee p,
+    .step3-help p
+) {
+    color: #505650;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.booking-step[data-step="2"] :is(
+    .step3-price-item,
+    .step3-field-label,
+) {
+    font-size: 13px;
+}
+
+.booking-step[data-step="2"] :is(
+    .step3-price-item strong,
+    .step3-addon-price,
+    .step3-extra-footer strong,
+    .step3-guarantee strong,
+    .step3-help strong
+) {
+    color: var(--green);
+    font-size: 14px;
+}
+
+.booking-step[data-step="2"] .step3-extra-card > p {
+    margin-bottom: 14px;
+}
+
+/* Kolom catatan */
+.booking-step[data-step="2"] .step3-instruction textarea {
+    min-height: 110px;
+    padding: 14px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+@media (max-width: 560px) {
+    .booking-step[data-step="2"] .step3-room-banner {
+        height: 220px;
+    }
+
+    .booking-step[data-step="2"] .step3-room-overlay {
+        padding-bottom: 66px;
+    }
+
+    .booking-step[data-step="2"] .step3-room-total strong {
+        font-size: 18px;
+    }
+
+    .booking-step[data-step="2"] .step3-section-card {
+        padding: 16px;
+    }
+
+    .booking-step[data-step="2"] .step3-addon-card {
+        flex-wrap: wrap;
+    }
+
+    .booking-step[data-step="2"] .step3-addon-info {
+        flex-basis: calc(100% - 32px);
+    }
+}
+
 </style>
 </head>
 
@@ -5280,7 +5534,7 @@ textarea,
             <li><a href="Beranda after login.html">Beranda</a></li>
             <li><a href="Layanan.html">Layanan</a></li>
             <li><a href="booking after login.html" class="active">Booking</a></li>
-            <li><a href="my-bookings.html">Status Pemesanan</a></li>
+            <li><a href="my-bookings%201.html">Status Pemesanan</a></li>
         </ul>
 
         <a href="profile.html" class="btn-account">
@@ -5374,7 +5628,16 @@ textarea,
 
         <div class="benefit-grid">
             <div class="benefit">
-                <span class="benefit-icon">⛉</span>
+                <span class="benefit-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.1"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M8 5a2 2 0 1 0 4 0M7 4h6M8 4a2 2 0 0 1 4 0"/>
+                        <path d="m9 8-2 4-3 1m5-5 3 1 2 4m-2-4-1 6H8l1-7m-1 7-2 6H4m6-6 2 4 2 2h1"/>
+                        <path d="m4 13-2 8m-1 0h4m9-8c4 0 0 6 4 6m0-3h4v4h-4zm1-2h2v2"/>
+                        <circle cx="21" cy="21" r="1"/>
+                    </svg>
+                </span>
                 <div>
                     <strong>Terapis Terlatih & Asuransi</strong>
                     <p>Perlindungan tenaga profesional.</p>
@@ -5382,7 +5645,17 @@ textarea,
             </div>
 
             <div class="benefit">
-                <span class="benefit-icon">☘︎</span>
+                <span class="benefit-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.1"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 11h17v2H3zm2 2 1.5 8h9M18 13l-.6 4"/>
+                        <path d="M5 11V8l2-2V3h2v3l2 2v3M5 8h6"/>
+                        <path d="M13 11V8l2-2h3l2 2v3M15 6V4h3v2m-4-2a3 3 0 0 1 3-2h4v2h-3m1 0 1 2"/>
+                        <rect x="15" y="17" width="8" height="5" rx="2"/>
+                        <path d="M16 19.5q1.5-1 3 0t3 0"/>
+                    </svg>
+                </span>
                 <div>
                     <strong>Cairan Pembersih Non-Toksik</strong>
                     <p>Lebih ramah bagi keluarga.</p>
@@ -5390,7 +5663,14 @@ textarea,
             </div>
 
             <div class="benefit">
-                <span class="benefit-icon">✧</span>
+                <span class="benefit-icon" aria-hidden="true">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="1.1"
+                        stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M9 22v-2c0-1.3-.5-2.6-1.4-3.6L4 12.3a1.3 1.3 0 0 1 2-1.7l2 2V6a1.2 1.2 0 0 1 2.4 0v5-7a1.2 1.2 0 0 1 2.4 0v7-5.5a1.2 1.2 0 0 1 2.4 0V12 8a1.2 1.2 0 0 1 2.4 0v6.5c0 1.2-.3 2.3-.9 3.4-.6 1-.9 2-.9 3.1v1"/>
+                        <path d="M8 12.6c2 0 3.5.8 4 2.4M3.5 2.5Q3.5 5 1 5q2.5 0 2.5 2.5Q3.5 5 6 5 3.5 5 3.5 2.5ZM21 10q0 2-2 2 2 0 2 2 0-2 2-2-2 0-2-2Z"/>
+                    </svg>
+                </span>
                 <div>
                     <strong>Garansi Resik Sempurna</strong>
                     <p>Garansi sesuai ketentuan layanan.</p>
@@ -5400,97 +5680,154 @@ textarea,
 
     </section>
 
-
     <!-- LANGKAH 2: JENIS PEMBERSIHAN -->
     <section class="booking-step" data-step="1">
+    <div class="intro-row">
+        <div class="intro">
+        <span class="eyebrow">
+            <span aria-hidden="true">▣</span> TAHAP 02 — JENIS PEMBERSIHAN
+        </span>
 
-    <div class="section-heading">
-    <h2>Pilih Jenis Pembersihan</h2>
-    <p>Tentukan tingkat pembersihan yang sesuai dengan kebutuhan ruangan Anda.</p>
-    </div>
+        <h2>Pilih Jenis Pembersihan</h2>
 
-    <!-- INFORMASI RUANGAN DAN HOSPITAL-GRADE -->
-    <div class="package-heading-row">
+        <p>
+            Pilih tingkat pembersihan sesuai kebutuhan ruangan Anda,
+            mulai dari perawatan rutin hingga pembersihan mendalam.
+        </p>
 
         <div class="selected-room-label" id="selectedRoomLabel">
             ♧ Ruangan: <span id="selectedRoomName">Belum dipilih</span>
             <span>•</span>
             <a href="#" id="changeRoomBtn">Ubah Ruangan</a>
         </div>
-
-        <div class="hospital-card" id="hospitalCard">
-            <span class="hospital-icon">♧</span>
-            <div>
-                <strong>Standard Hospital-Grade</strong>
-                <p>Peralatan sanitasi disinfeksi berlisensi.</p>
-            </div>
-        </div>
-
     </div>
 
-        <!-- TIGA PILIHAN PAKET: TIDAK DIGANDAKAN -->
-        <div class="option-grid" id="packageGrid">
+    <div class="hospital-card" id="hospitalCard">
+    <span class="hospital-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24"
+            fill="none" stroke="currentColor" stroke-width="2"
+            stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 3 19 6v5c0 4.5-3 7.5-7 10-4-2.5-7-5.5-7-10V6l7-3Z"/>
+            <path fill="currentColor" stroke="none"
+                d="M12 15.5c-.8-.5-3.5-2.4-3.5-4.2a1.9 1.9 0 0 1 3.5-1 1.9 1.9 0 0 1 3.5 1c0 1.8-2.7 3.7-3.5 4.2Z"/>
+        </svg>
+    </span>
 
-    <!-- BASIC CLEANING -->
+            <div>
+            <strong>Standard Hospital-Grade</strong>
+            <p>Peralatan sanitasi disinfeksi berlisensi</p>
+        </div>
+    </div><!-- tutup .hospital-card -->
+</div><!-- tutup .intro-row -->
+
+<!-- TIGA PILIHAN PAKET: TIDAK DIGANDAKAN -->
+<div class="option-grid" id="packageGrid">
     <button type="button" class="option-card" data-package="Basic">
         <span class="package-label">ESENSIAL HARIAN</span>
-        <h3>Basic Cleaning</h3>
-        <p>Segar, rapi, dan bebas debu permukaan.</p>
+        <span class="package-title">Basic Clean</span>
+        <span class="package-description">
+            Segar, rapi, dan bebas debu permukaan.
+        </span>
 
-        <img src="../images/Basic Clean.png" alt="Basic Cleaning">
+        <span class="package-media">
+            <img src="../images/Basic Clean.png" alt="">
+            <span class="option-duration">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M6 18a4 4 0 0 1-.5-8A5 5 0 0 1 15 9a4.5 4.5 0 0 1 2.5 9H6ZM11 9v5m-2-2h4"/>
+                </svg>
+                Est. ~45–60 Menit
+            </span>
+        </span>
 
-        <span class="option-duration">◷ Durasi menyesuaikan kondisi ruangan</span>
-        <span class="option-price" id="priceBasic">Rp 50.000</span>
+        <span class="package-price-row">
+            <span class="option-price" id="priceBasic">Rp 50.000</span>
+            <span class="package-price-unit">/ ruangan</span>
+        </span>
         <small>Cocok untuk perawatan rutin mingguan.</small>
 
         <span class="package-features">
-    <strong>CAKUPAN SOP PENGERJAAN:</strong>
-    <span id="detailBasic">Pembersihan dasar sesuai ruangan.</span>
-</span>
+            <strong>CAKUPAN SOP PENGERJAAN:</strong>
+            <span class="package-checklist" id="detailBasic">
+                <span>Pembersihan dasar sesuai ruangan.</span>
+            </span>
+        </span>
 
         <span class="package-choose">Pilih Paket Ini</span>
     </button>
 
-    <!-- STANDARD CLEANING -->
     <button type="button" class="option-card" data-package="Standard">
+        <span class="package-popular">★ Paling Populer</span>
         <span class="package-label">REKOMENDASI UTAMA</span>
-        <h3>Standard Cleaning</h3>
-        <p>Pembersihan sirkulasi udara dan alergen kasur.</p>
+        <span class="package-title">Standard Clean</span>
+        <span class="package-description">
+            Pembersihan sirkulasi udara dan alergen kasur.
+        </span>
 
-        <img src="../images/Standard Cleaning.png" alt="Standard Cleaning">
+        <span class="package-media">
+            <img src="../images/Standard Cleaning.png" alt="">
+            <span class="option-duration">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/>
+                    <path d="M12 7v5l3 2"/>
+                </svg>
+                Est. ~75–90 Menit
+            </span>
+        </span>
 
-        <span class="option-duration">◷ Durasi menyesuaikan kondisi ruangan</span>
-        <span class="option-price" id="priceStandard">Rp 80.000</span>
+        <span class="package-price-row">
+            <span class="option-price" id="priceStandard">Rp 80.000</span>
+            <span class="package-price-unit">/ ruangan</span>
+        </span>
         <small>Mencakup pembersihan lebih detail.</small>
 
         <span class="package-features">
-        <strong>SEMUA CAKUPAN BASIC, DITAMBAH:</strong>
-        <span id="detailStandard">Pembersihan lebih detail sesuai ruangan.</span>
+            <strong>SEMUA CAKUPAN BASIC, DITAMBAH:</strong>
+            <span class="package-checklist" id="detailStandard">
+                <span>Pembersihan lebih detail sesuai ruangan.</span>
+            </span>
         </span>
 
         <span class="package-choose">Pilih Paket Ini</span>
     </button>
 
-    <!-- DEEP SANITIZING -->
     <button type="button" class="option-card" data-package="Deep">
         <span class="package-label">STERILISASI MENYELURUH</span>
-        <h3>Deep Sanitizing</h3>
-        <p>Eradikasi tungau, kuman, dan noda membandel.</p>
+        <span class="package-title">Deep Sanitizing</span>
+        <span class="package-description">
+            Eradikasi tungau, kuman, dan noda membandel.
+        </span>
 
-        <img src="../images/Deep Sanitizing.png" alt="Deep Sanitizing">
+        <span class="package-media">
+            <img src="../images/Deep Sanitizing.png" alt="">
+            <span class="option-duration">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="1.8"
+                    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 8h12a2 2 0 1 0-2-2M3 12h16a2 2 0 1 1-2 2M3 16h9a2 2 0 1 1-2 2"/>
+                </svg>
+                Est. ~120 Menit Intensif
+            </span>
+        </span>
 
-        <span class="option-duration">◷ Durasi menyesuaikan kondisi ruangan</span>
-        <span class="option-price" id="priceDeep">Rp 120.000</span>
+        <span class="package-price-row">
+            <span class="option-price" id="priceDeep">Rp 120.000</span>
+            <span class="package-price-unit">/ ruangan</span>
+        </span>
         <small>Untuk pembersihan mendalam.</small>
 
         <span class="package-features">
-        <strong>SEMUA CAKUPAN STANDARD, DITAMBAH:</strong>
-        <span id="detailDeep">Pembersihan menyeluruh sesuai ruangan.</span>
+            <strong>SEMUA CAKUPAN STANDARD, DITAMBAH:</strong>
+            <span class="package-checklist" id="detailDeep">
+                <span>Pembersihan menyeluruh sesuai ruangan.</span>
+            </span>
         </span>
 
         <span class="package-choose">Pilih Paket Ini</span>
     </button>
-
 </div>
 
     </section>
@@ -5500,7 +5837,8 @@ textarea,
 
     <!-- JUDUL STEP 3 -->
     <div class="section-heading step3-heading">
-        <h2>Add-on & Catatan</h2>
+       <span class="eyebrow"><span aria-hidden="true">▣</span> TAHAP 03 — LAYANAN TAMBAHAN</span>
+        <h2>Add-on &amp; Catatan</h2>
         <p>Pilih tambahan layanan jika diperlukan. Bagian ini boleh dilewati.</p>
     </div>
 
@@ -5559,10 +5897,8 @@ textarea,
 
         <div>
             <strong>Garansi Bersih 100%</strong>
-            <p>
-                Bila ada sudut terlewat, mitra kami bersihkan ulang
-                tanpa biaya tambahan.
-            </p>
+            <p>Bila ada sudut terlewat, tim GriyaResik akan membersihkannya kembali
+               tanpa biaya tambahan.</p>
         </div>
 
         <span class="step3-guarantee-note">Sudah termasuk PPN</span>
@@ -5802,70 +6138,22 @@ textarea,
 
 </div>
   
-    <!-- CATATAN KHUSUS DAN PREFERENSI MITRA -->
+    <!-- CATATAN KHUSUS -->
     <div class="step3-section-card step3-note-card">
 
         <div class="step3-section-title">
             <div>
-                <h3>☷ Catatan Khusus & Preferensi Mitra</h3>
+                <h3>☷ Catatan Khusus</h3>
                 <p>Pastikan kenyamanan dan privasi keluarga Anda terjaga optimal.</p>
             </div>
         </div>
-
-
-        <!-- PREFERENSI GENDER CLEANER -->
-        <div class="step3-preference">
-
-            <label class="step3-field-label">
-                PREFERENSI GENDER MITRA CLEANER
-            </label>
-
-            <div class="step3-cleaner-options">
-
-                <label class="step3-cleaner-option">
-                    <input
-                        type="radio"
-                        name="cleanerPreference"
-                        value="Bebas"
-                        checked
-                    >
-                    <span>Bebas / Fleksibel</span>
-                </label>
-
-                <label class="step3-cleaner-option">
-                    <input
-                        type="radio"
-                        name="cleanerPreference"
-                        value="Pria"
-                    >
-                    <span>Mitra Pria</span>
-                </label>
-
-                <label class="step3-cleaner-option">
-                    <input
-                        type="radio"
-                        name="cleanerPreference"
-                        value="Wanita"
-                    >
-                    <span>Mitra Wanita</span>
-                </label>
-
-            </div>
-
-            <p class="step3-preference-note">
-                Preferensi mitra disesuaikan dengan ketersediaan petugas
-                pada jadwal pemesanan.
-            </p>
-
-        </div>
-
 
         <!-- INSTRUKSI KHUSUS -->
         <div class="step3-instruction">
 
             <div class="step3-instruction-heading">
                 <label for="notes" class="step3-field-label">
-                    INSTRUKSI KHUSUS UNTUK CLEANER
+                    INSTRUKSI KHUSUS UNTUK PETUGAS KEBERSIHAN
                 </label>
 
                 <span>Maks. 300 karakter</span>
@@ -5891,7 +6179,7 @@ textarea,
             <p>Hubungi CS 24 Jam via WhatsApp</p>
         </div>
 
-        <a href="https://wa.me/6281234567890" target="_blank">
+        <a href="https://wa.me/62881026380060" target="_blank">
             ↗
         </a>
     </div>
@@ -5901,7 +6189,10 @@ textarea,
         <!-- LANGKAH 4 -->
         <section class="booking-step" data-step="3">
             <div class="section-heading">
-                <h2>Ringkasan & Total Pesanan</h2>
+                <span class="eyebrow">
+                    <span aria-hidden="true">▣</span> TAHAP 04 — TINJAU PESANAN
+                </span>
+                <h2>Ringkasan &amp; Total Pesanan</h2>
                 <p>Periksa pilihan layanan sebelum melanjutkan ke data pelanggan.</p>
             </div>
 
@@ -5923,10 +6214,7 @@ textarea,
                     <span>Estimasi durasi</span>
                     <strong id="sumDuration">Belum dipilih</strong>
                 </div>
-                <div class="summary-line">
-                <span>Preferensi Mitra Cleaner</span>
-                <strong id="sumCleaner">Bebas</strong>
-                </div>
+            
                 <div class="summary-line">
                 <span>Instruksi khusus</span>
                 <strong id="sumNotes">Belum ada instruksi khusus</strong>
@@ -6296,7 +6584,7 @@ textarea,
         </div>
 
         <div>
-            <h3>Jadwal Kedatangan Mitra Housekeeping</h3>
+            <h3>Jadwal Kedatangan Petugas Kebersihan</h3>
             <p>Pilih tanggal dan sesi kedatangan petugas ke rumah Anda</p>
         </div>
 
@@ -6540,7 +6828,7 @@ textarea,
     <div class="final-guarantees">
         <p>
             <svg><use href="#s5-check"/></svg>
-            Mitra melalui proses verifikasi GriyaResik.
+            Petugas kebersihan melalui proses verifikasi GriyaResik.
         </p>
         <p>
             <svg><use href="#s5-check"/></svg>
@@ -6557,7 +6845,7 @@ textarea,
 <!-- BANTUAN PELANGGAN VIA WHATSAPP -->
 <a
     class="final-concierge"
-    href="https://wa.me/6281234567890?text=Halo%20GriyaResik%2C%20saya%20ingin%20bertanya%20tentang%20pemesanan%20layanan."
+    href="https://wa.me/62881026380060?text=Halo%20GriyaResik%2C%20saya%20ingin%20bertanya%20tentang%20pemesanan%20layanan."
     target="_blank"
     rel="noopener noreferrer"
 >
@@ -6605,7 +6893,12 @@ textarea,
             id="backBtn"
             style="display: none;"
         >
-            ← Kembali
+           <span class="booking-nav-label">
+                <svg viewBox="0 0 24 24" aria-hidden="true">
+                    <path d="M20 12H5m6-6-6 6 6 6"/>
+                </svg>
+                <span>Kembali</span>
+            </span>
         </button>
     </div>
 
@@ -6758,7 +7051,7 @@ textarea,
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="m5 12 4 4L19 6"/>
                 </svg>
-                <span>Jaminan Mitra Tiba Tepat Waktu</span>
+                <span>Jaminan Ketepatan Waktu</span>
             </div>
         </div>
 
@@ -6831,7 +7124,6 @@ textarea,
     <div id="bcItems"></div>
 
     <div id="bcPackageNotes" hidden>
-        <p id="bcCleaner"></p>
         <p id="bcNotes"></p>
     </div>
 </section>
@@ -6859,28 +7151,22 @@ textarea,
 
     <div class="bc-next-grid">
         <article class="bc-next-card">
-            <div class="bc-next-card-top">
-                <span class="bc-next-number">1</span>
-                <span class="bc-next-time">5 – 10 Menit</span>
-            </div>
+    <div class="bc-next-card-top">
+        <span class="bc-next-number">1</span>
+    </div>
 
-            <h3>Penugasan Mitra Profesional</h3>
-            <p id="bcNextAssignment"></p>
-        </article>
+    <h3>Persiapan Layanan</h3>
+    <p>Siapkan akses ke ruangan yang akan dibersihkan sesuai jadwal pemesanan.</p>
+    </article>
 
-        <article class="bc-next-card">
-            <div class="bc-next-card-top">
-                <span class="bc-next-number">2</span>
-                <span class="bc-next-time">Notifikasi Otomatis</span>
-            </div>
+    <article class="bc-next-card">
+        <div class="bc-next-card-top">
+            <span class="bc-next-number">2</span>
+        </div>
 
-            <h3>Profil &amp; Armada via WhatsApp</h3>
-            <p>
-                Anda akan menerima biodata mitra, kontak langsung,
-                foto ID, dan nomor plat armada operasional sebelum
-                keberangkatan.
-            </p>
-        </article>
+        <h3>Cek Detail Pemesanan</h3>
+        <p>Periksa kembali alamat, jadwal, dan catatan khusus di ringkasan pemesanan.</p>
+    </article>
 
         <article class="bc-next-card">
             <div class="bc-next-card-top">
@@ -6889,11 +7175,8 @@ textarea,
             </div>
 
             <h3>Kedatangan &amp; Eksekusi Steril</h3>
-            <p>
-                Mitra hadir mengenakan seragam resmi, membawa
-                peralatan higienis bersegel dan cairan pembersih
-                ramah lingkungan.
-            </p>
+            <p>Petugas kebersihan hadir mengenakan seragam resmi dan membawa
+               peralatan higienis serta cairan pembersih ramah lingkungan.</p>
         </article>
 
         <article class="bc-next-card">
@@ -6919,11 +7202,6 @@ textarea,
 
         <div class="bc-bill-breakdown">
             <div id="bcBillItems"></div>
-
-            <div class="bc-row">
-                <span>Biaya Transportasi Mitra</span>
-                <strong>Gratis</strong>
-            </div>
 
             <div class="bc-row">
                 <span>Pajak &amp; Biaya Layanan</span>
@@ -6953,9 +7231,9 @@ textarea,
         </div>
 
         <div class="bc-bill-actions">
-            <a href="my-bookings.html"
-               id="bcTrack"
-               class="bc-side-action bc-side-primary">
+            <a href="my-bookings%201.html"
+                id="bcTrack"
+                class="bc-side-action bc-side-primary">
                 <svg viewBox="0 0 24 24" aria-hidden="true">
                     <path d="m3 10 18-7-7 18-3-8Z"/>
                 </svg>
@@ -6973,7 +7251,7 @@ textarea,
             </button>
 
             <a id="bcSupport"
-               href="https://wa.me/6281234567890"
+               href="https://wa.me/62881026380060"
                target="_blank"
                rel="noopener noreferrer"
                class="bc-side-action bc-side-support">
@@ -7007,8 +7285,8 @@ textarea,
             <div>
                 <h3>Garansi Cuci Ulang 24 Jam</h3>
                 <p>
-                    Jika ada area yang terlewat, mitra kami kembali
-                    membersihkan tanpa tambahan biaya.
+                    Jika ada area yang terlewat, tim GriyaResik akan
+                    membersihkannya kembali tanpa biaya tambahan.</p>
                 </p>
             </div>
         </div>
@@ -7023,7 +7301,7 @@ textarea,
                 </svg>
             </span>
             <div>
-                <h3>Mitra Terverifikasi &amp; SKCK</h3>
+                <h3>Petugas Kebersihan Terverifikasi</h3>
                 <p>
                     Setiap tenaga kebersihan telah melalui pemeriksaan
                     identitas &amp; pelatihan hospital grade.
@@ -7051,21 +7329,42 @@ textarea,
   </div>
 </section>
 
+
+<!-- CTA -->
 <section class="cta">
-    <div>
-        <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
-        <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
+    <div class="cta-inner">
+        <div>
+            <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+            <p>
+                Booking dalam 2 menit, mitra kebersihan profesional
+                kami siap datang tepat waktu.
+            </p>
+        </div>
+
+        <a href="#stepLabel" class="btn-cta">
+            Jadwalkan Sekarang
+        </a>
     </div>
-    <a href="Layanan.html">Lihat Layanan</a>
 </section>
+
 
 <footer class="footer">
     <div class="footer-grid">
         <div>
+
 <div class="footer-brand">
-    <span class="footer-logo-icon">G</span>
-    <span class="footer-logo-text">GriyaResik</span>
-</div>            <p>
+    <img
+        class="footer-logo-image"
+        src="../images/Logo griya Resik.png"
+        alt=""
+    >
+
+    <span class="logo-text">
+        <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+    </span>
+</div>
+     
+            <p>
                 Solusi praktis dan terpercaya untuk hunian yang bersih,
                 rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
             </p>
@@ -7085,9 +7384,11 @@ textarea,
             <h3>OPERASIONAL</h3>
             <p>Senin–Minggu: 07.00–19.00 WIB</p>
             <p><strong>Pusat Bantuan WhatsApp:</strong></p>
-            <a class="whatsapp" href="https://wa.me/6281234567890">
-                +62 812-3456-7890
+            
+            <a class="whatsapp" href="https://wa.me/62881026380060" target="_blank" rel="noopener noreferrer">
+                +62 881-0263-80060
             </a>
+
         </div>
 
         <div>

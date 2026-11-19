@@ -238,9 +238,26 @@ rooms.forEach((room, index) => {
         <span class="room-icon">${room.icon}</span>
         <h3>${room.name}</h3>
         <p>${room.desc}</p>
-    <div class="room-meta">
-         <span>♧ ${room.meta}</span>
-         <span>${room.label}</span>
+        <div class="room-meta">
+        <span>
+            <svg
+                width="1em"
+                height="1em"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                style="vertical-align: -0.15em; margin-right: 0.2em;"
+                aria-hidden="true"
+            >
+                <path d="M13 2H5a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h11a2 2 0 0 0 2-2v-3M18 10V7l-5-5v5h5"/>
+                <path d="M6.5 7h3M6.5 10.5h7M6.5 14h5.5M6.5 17.5h3"/>
+                <path d="m12 20 1-3.5 6.5-6.5a1.6 1.6 0 0 1 2.3 2.3l-6.5 6.5L12 20Zm1-3.5 2.3 2.3m2.9-7.5 2.3 2.3"/>
+            </svg>${room.meta}
+        </span>
+        <span>${room.label}</span>
     </div>
     `;
 
@@ -401,7 +418,17 @@ function updateSelectedRoomLabels() {
 
     document.querySelectorAll(".selected-room-label").forEach(label => {
         label.innerHTML = `
-            ♧ Ruangan: ${roomName}
+            <span style="display: inline-flex; align-items: center; gap: 5px;">
+               <svg width="18" height="18" viewBox="0 0 24 24"
+                fill="none" stroke="currentColor" stroke-width="2.3"
+                stroke-linecap="round" stroke-linejoin="round"
+                style="flex-shrink: 0;" aria-hidden="true">
+                <path d="M3 11V8a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v3"/>
+                <path d="M12 11V8a2 2 0 0 1 2-2h5a2 2 0 0 1 2 2v3"/>
+                <path d="M2 19v-5a3 3 0 0 1 3-3h14a3 3 0 0 1 3 3v5M2 16h20"/>
+            </svg>
+                <span>Ruangan: ${roomName}</span>
+            </span>
             <span>•</span>
             <a href="#" class="changeRoomBtn">Ubah Ruangan</a>
         `;
@@ -523,17 +550,6 @@ if (finalOrderItems) {
     }
 }
 
-    const cleanerSelected = document.querySelector(
-    'input[name="cleanerPreference"]:checked'
-    );
-
-    const sumCleaner = document.getElementById("sumCleaner");
-
-    if (sumCleaner) {
-        sumCleaner.textContent = cleanerSelected
-            ? cleanerSelected.value
-            : "Bebas";
-    }
     const notesInput = document.getElementById("notes");
     const sumNotes = document.getElementById("sumNotes");
 
@@ -626,15 +642,27 @@ if (detailSubtotalNow) {
         const detailStandard = document.getElementById("detailStandard");
         const detailDeep = document.getElementById("detailDeep");
 
-        if (detailBasic) detailBasic.textContent = currentDetails[0];
-        if (detailStandard) detailStandard.textContent = currentDetails[1];
-        if (detailDeep) detailDeep.textContent = currentDetails[2];
+        [detailBasic, detailStandard, detailDeep].forEach((container, index) => {
+    if (!container) return;
+
+    const items = String(currentDetails[index] ?? "")
+        .split(/[;\n]+|,\s*/)
+        .map(item => item.trim())
+        .filter(Boolean);
+
+    container.replaceChildren(...items.map(item => {
+        const line = document.createElement("span");
+        line.textContent = item;
+        return line;
+       }));
+});
     }
 }
 
-document.querySelectorAll('input[name="addon"], input[name="cleanerPreference"], #notes').forEach(input => {
+document.querySelectorAll('input[name="addon"], #notes').forEach(input => {
     input.addEventListener("change", updateSummary);
 });
+
 const notesInput = document.getElementById("notes");
 
 if (notesInput) {
@@ -714,12 +742,20 @@ if (backBtn) {
         currentStep > 0 ? "inline-block" : "none";
 }
 
-    document.getElementById("nextBtn").textContent =
-        currentStep === 4 ? "Konfirmasi Booking ✓" :
-        currentStep === 3 ? "Lanjut: Alamat & Biodata →" :
-        currentStep === 2 ? "Lanjut: Ringkasan & Total →" :
-        currentStep === 1 ? "Lanjut: Add-on & Catatan →" :
-        "Lanjut: Pilih Jenis Pembersihan →";
+    const bookingNextLabel =
+    currentStep === 3 ? "Lanjut: Alamat &amp; Biodata" :
+    currentStep === 2 ? "Lanjut: Ringkasan &amp; Total" :
+    currentStep === 1 ? "Lanjut: Add-on &amp; Catatan" :
+    "Lanjut: Pilih Jenis Pembersihan";
+
+    document.getElementById("nextBtn").innerHTML = currentStep === 4
+    ? "Konfirmasi Booking ✓"
+    : `<span class="booking-nav-label">
+        <span>${bookingNextLabel}</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4 12h15m-6-6 6 6-6 6"/>
+        </svg>
+    </span>`;
 
     const selectedRoomLabel = document.getElementById("selectedRoomLabel");
  
@@ -836,7 +872,6 @@ if (!selectedPayment) {
                 { Basic: 0, Standard: 1, Deep: 2 }[selectedPackage]
             ],
             notes: document.getElementById("notes").value.trim(),
-            cleanerPreference: document.querySelector('input[name="cleanerPreference"]:checked')?.value || "Bebas",
             date: selectedBookingDate,
             time: validSelectedTime.value,
             payment: selectedPayment.value,
@@ -1165,25 +1200,8 @@ if (districtInput) {
 // Sinkronisasi pilihan awal tanpa menghapus input pengguna
 updateDistrictLocation();
 
-// UPDATE PREFERENSI CLEANER DI SIDEBAR
-function updateFinalCleaner() {
-    const cleanerSelected = document.querySelector(
-        'input[name="cleanerPreference"]:checked'
-    );
-
-    const finalCleaner = document.getElementById("finalCleaner");
-
-    if (finalCleaner) {
-        finalCleaner.textContent = cleanerSelected
-            ? cleanerSelected.value
-            : "Bebas";
-    }
-}
-
-
 function updateFinalBookingSummary() {
     updateSummary();
-    updateFinalCleaner();
 
     const finalSchedule = document.getElementById("finalScheduleSummary");
     const selectedTime = document.querySelector(
@@ -1303,19 +1321,13 @@ function showBookingConfirmation(booking) {
 
     updateBookingConfirmationProgress(booking);
 
-// Informasi lanjutan mengikuti lokasi pesanan.
-document.getElementById("bcNextAssignment").textContent =
-    "Sistem mengalokasikan staf terlatih dan bersertifikasi " +
-    "SKCK resmi dengan rating minimum 4.9/5.0 di area " +
-    (booking.region || "Kota Surabaya") + ".";
-
 // Jam kedatangan mengikuti pilihan step 5.
 document.getElementById("bcNextArrival").textContent =
     booking.time + " WIB";
 
 // Metode dan nominal mengikuti pesanan aktual.
 document.getElementById("bcNextPayment").textContent =
-    "Periksa hasil kebersihan bersama mitra. " +
+    "Periksa hasil pembersihan. " +
     "Jika sudah sesuai, konfirmasikan penyelesaian layanan. " +
     "Pembayaran dilakukan sebelum kunjungan, sehingga tidak " +
     "ada pembayaran ulang untuk layanan yang telah dibayar.";
@@ -1475,7 +1487,7 @@ set(
 
 // Status menggunakan halaman pemesanan yang sudah ada.
 document.getElementById("bcTrack").href =
-    "my-bookings.html?id=" + encodeURIComponent(booking.id);
+    "my-bookings%201.html?id=" + encodeURIComponent(booking.id);
 
 // Pakai nomor bantuan yang sama dengan footer website.
 const footerSupport = document.querySelector(
@@ -1655,27 +1667,13 @@ if (!addons.length) {
     row("bcBillItems", "Add-on: tidak ada", 0);
 }
 
-// Tampilkan catatan hanya jika memang ada,
-// agar tidak menyisakan kotak kosong seperti sebelumnya.
-const cleaner = document.getElementById("bcCleaner");
 const notes = document.getElementById("bcNotes");
+const noteText = booking.notes?.trim() || "";
 
-const hasCleanerPreference = Boolean(
-    booking.cleanerPreference &&
-    booking.cleanerPreference !== "Bebas"
-);
+notes.textContent = noteText ? "Instruksi khusus: " + noteText : "";
+notes.hidden = !noteText;
 
-const hasNotes = Boolean(booking.notes?.trim());
-
-cleaner.textContent =
-    "Preferensi cleaner: " + (booking.cleanerPreference || "Bebas");
-cleaner.hidden = !hasCleanerPreference;
-
-notes.textContent = "Instruksi khusus: " + (booking.notes || "");
-notes.hidden = !hasNotes;
-
-document.getElementById("bcPackageNotes").hidden =
-    !hasCleanerPreference && !hasNotes;
+document.getElementById("bcPackageNotes").hidden = !noteText;
 
     document.getElementById("bcCopy").onclick = async () => {
         try {
@@ -2035,11 +2033,6 @@ function printBookingReceipt(booking) {
                         <dt>Lokasi</dt>
                         <dd id="receiptAddress"></dd>
                     </div>
-
-                    <div class="row">
-                        <dt>Mitra</dt>
-                        <dd><strong id="receiptWorker"></strong></dd>
-                    </div>
                 </dl>
 
                 <footer class="total">
@@ -2131,13 +2124,6 @@ function printBookingReceipt(booking) {
 
     set("receiptSchedule", dateLabel + ", " + sessionLabel);
     set("receiptAddress", address);
-
-    set(
-        "receiptWorker",
-        booking.workerName ||
-        booking.worker?.name ||
-        "Belum ditugaskan"
-    );
 
     set(
         "receiptTotal",

@@ -403,13 +403,13 @@
       font-size: 10px;
     }
 
-    .s4-tracking-heading strong {
+    .s4-tracking--heading strong {
       color: #193e2f;
       font-weight: 700;
     }
 
     .s4-progress {
-      --work-progress: 55;
+      --work-progress: 10;
       position: relative;
       isolation: isolate;
       display: grid;
@@ -419,65 +419,72 @@
       list-style: none;
     }
 
-    .s4-progress::before,
-    .s4-progress::after {
-      content: "";
-      position: absolute;
-      top: 15px;
-      left: 14px;
-      height: 4px;
-      z-index: -1;
-    }
-
-    .s4-progress::before {
-      right: 0;
-      background: #e9eae6;
-    }
-
-    .s4-progress::after {
-      width: calc(var(--work-progress) * .8%);
-      background: #193e2f;
-      transition: width .45s ease;
-    }
-
-    .s4-progress.is-complete::after {
-      width: calc(100% - 14px);
-    }
-
     .s4-progress li {
-      position: relative;
-      min-width: 0;
-      padding-right: 12px;
-      text-align: left;
+        position: relative;
+        min-width: 0;
+        padding-right: 12px;
+        text-align: left;
     }
 
-    .s4-dot {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      place-items: center;
-      width: 28px;
-      height: 28px;
-      margin-bottom: 8px;
-      border-radius: 50%;
-      background: #e9eae6;
-      color: #758078;
-      font-size: 12px;
-      line-height: 1;
-    }
+    .s4-progress li::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    right: -14px;
+    height: 4px;
+    border-radius: 999px;
+    background: #e9eae6;
+}
 
-    .s4-progress .done .s4-dot,
-    .s4-progress .current .s4-dot {
-      background: #1E3A2F;
-      color: #ffffff;
-      box-shadow: 0 0 0 4px #ffffff;
-    }
+.s4-progress li.done::after {
+    background: #193e2f;
+}
 
-    .s4-dot .s4-icon {
-      width: 13px;
-      height: 13px;
-      stroke-width: 2.5;
-    }
+.s4-progress li.current::after {
+    background: linear-gradient(
+        to right,
+        #193e2f 0 calc(var(--work-progress, 10) * 1%),
+        #e9eae6 calc(var(--work-progress, 10) * 1%) 100%
+    );
+}
+
+.s4-progress li:last-child::after {
+    right: 20px;
+    background: #e9eae6;
+}
+
+.s4-dot {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background: #e9eae6;
+    color: #758078;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.s4-progress .done .s4-dot,
+.s4-progress .current .s4-dot {
+    background: #1e3a2f;
+    color: #fff;
+    box-shadow: 0 0 0 4px #fff;
+}
+
+.s4-progress .current .s4-dot {
+    box-shadow: 0 0 0 4px #e0ece4;
+}
+
+.s4-progress .s4-dot .s4-icon {
+    width: 13px;
+    height: 13px;
+    stroke-width: 2.5;
+}
 
     .s4-progress strong {
       display: block;
@@ -1281,63 +1288,63 @@
 
     /* CTA DAN FOOTER */
 
-    .cta {
-      padding: 36px 24px;
-      background: var(--green);
-      color: var(--white);
-      font-family: Inter, Arial, sans-serif;
-    }
+    
+/* CTA - SAMA DENGAN BERANDA */
 
-    .cta-inner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 32px;
-      max-width: 1120px;
-      margin: 0 auto;
-    }
+.cta {
+    background: #193e2f;
+    color: white;
+    padding: 35px 24px;
+    line-height: 1.5;
+    font-family: 'Inter', Arial, sans-serif;
+}
 
-    .cta-inner > div { flex: 1; min-width: 0; }
+.cta-inner {
+    max-width: 1120px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
 
-    .cta h2 {
-      margin: 0 0 8px;
-      font-size: 24px;
-      font-weight: 800;
-      line-height: 1.35;
-    }
+.cta h2 {
+    margin: 0 0 8px;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+}
 
-    .cta p {
-      margin: 0;
-      color: #d2dfd5;
-      font-size: 13px;
-      line-height: 1.6;
-    }
+.cta p {
+    margin: 0;
+    color: #c5d3c9;
+    font-size: 13px;
+    line-height: 1.5;
+}
 
-    .cta a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      min-width: 150px;
-      padding: 13px 22px;
-      border-radius: 25px;
-      background: #fff0e9;
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 800;
-      line-height: 1.4;
-      text-align: center;
-      white-space: nowrap;
-    }
+.btn-cta {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 14px 24px;
+    border-radius: 10px;
+    background: #fff0e9;
+    color: #193e2f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+}
+   
+.footer {
+    background: #fbede7;
+    padding: 40px 24px 18px;
+    color: #1d352b;
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.5;
+    text-align: left;
+}
 
-    .footer {
-      padding: 40px 24px 18px;
-      background: #f8e9e3;
-      color: #1d352b;
-      font-family: Inter, Arial, sans-serif;
-      font-size: 12px;
-      text-align: left;
-    }
 
     .footer-grid {
       display: grid;
@@ -1347,78 +1354,99 @@
       margin: 0 auto;
     }
 
-    .footer-brand {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 12px;
-    }
+    
+/* LOGO FOOTER GRIYARESIK */
 
-    .footer-logo-icon {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      width: 38px;
-      height: 38px;
-      border-radius: 9px;
-      background: #204b38;
-      color: var(--white);
-      font-family: "Baloo 2", sans-serif;
-      font-size: 21px;
-      font-weight: 700;
-    }
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #193e2f;
+    font-size: 20px;
+    font-weight: 800;
+}
 
-    .footer-logo-text {
-      color: #204b38;
-      font-family: "Baloo 2", sans-serif;
-      font-size: 24px;
-      font-weight: 600;
-      letter-spacing: -.5px;
-    }
+.footer-logo-image {
+    display: block;
+    width: auto;
+    height: 32px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
 
-    .footer-grid h3 {
-      margin: 0 0 10px;
-      color: var(--green);
-      font-size: 11px;
-      font-weight: 700;
-    }
+.footer-brand .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    white-space: nowrap;
+}
 
-    .footer-grid p,
-    .footer-grid li,
-    .footer-grid a {
-      color: #77716c;
-      font-size: 12px;
-      line-height: 1.9;
-    }
+.footer-brand .logo-griya {
+    color: #292929;
+}
 
-    .footer-grid ul { margin: 0; padding: 0; list-style: none; }
-    .footer-grid a:hover { color: var(--green); }
-    .footer-grid .whatsapp { color: var(--green); font-weight: 800; }
+.footer-brand .logo-resik {
+    color: #789477;
+}
 
-    .footer-bottom {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 15px;
-      max-width: 1120px;
-      margin: 28px auto 0;
-      padding-top: 17px;
-      border-top: 1px solid #eadbd5;
-    }
+    
+.footer-grid h3 {
+    margin: 0 0 13px;
+    color: #193e2f;
+    font-size: 11px;
+    font-weight: 700;
+}
 
-    .footer-bottom p,
-    .footer-bottom a {
-      color: #89817b;
-      font-size: 10px;
-    }
+.footer-grid p,
+.footer-grid li,
+.footer-grid a {
+    color: #77716c;
+    font-size: 12px;
+    line-height: 1.9;
+}
 
-    .footer-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 18px;
-    }
+.footer-grid ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-grid a:hover {
+    color: #193e2f;
+}
+
+.footer-grid .whatsapp {
+    display: inline-block;
+    color: #193e2f;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+    
+.footer-bottom {
+    max-width: 1120px;
+    margin: 28px auto 0;
+    padding-top: 17px;
+    border-top: 1px solid #eadbd5;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+    margin: 0;
+    color: #89817b;
+    font-size: 10px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 18px;
+}
 
     /* RESPONSIF */
 
@@ -1461,21 +1489,23 @@
     }
 
     @media (max-width: 700px) {
-      .cta-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 22px;
-      }
+        .footer-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 25px;
+        }
 
-      .footer-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 25px;
-      }
+        .footer-bottom {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+    }
 
-      .footer-bottom {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+    @media (max-width: 560px) {
+        .cta-inner {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 25px;
+        }
     }
 
     @media (max-width: 640px) {
@@ -1518,11 +1548,6 @@
         min-width: 625px;
         grid-template-columns: repeat(5, minmax(0, 1fr));
         padding: 5px 4px 12px;
-      }
-
-      .s4-progress::before,
-      .s4-progress::after {
-        top: 20px;
       }
 
       .p4-side .section-heading,
@@ -1916,7 +1941,7 @@
             <a
               id="supportLink"
               class="resik-care-button"
-              href="https://wa.me/6281234567890"
+              href="https://wa.me/62881026380060"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -1929,24 +1954,37 @@
     </div>
   </main>
 
-  <section class="cta">
+<section class="cta">
     <div class="cta-inner">
-      <div>
-        <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
-        <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
-      </div>
+        <div>
+            <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+            <p>
+                Booking dalam 2 menit, mitra kebersihan profesional
+                kami siap datang tepat waktu.
+            </p>
+        </div>
 
-      <a href="Layanan.html">Lihat Layanan</a>
+        <a href="booking.html" class="btn-cta">
+            Jadwalkan Sekarang
+        </a>
     </div>
-  </section>
+</section>
 
   <footer class="footer">
     <div class="footer-grid">
       <div>
-        <div class="footer-brand">
-          <span class="footer-logo-icon">G</span>
-          <span class="footer-logo-text">GriyaResik</span>
-        </div>
+        
+      <div class="footer-brand">
+          <img
+              class="footer-logo-image"
+              src="../images/logo griya Resik.png"
+              alt=""
+          >
+
+          <span class="logo-text">
+              <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+          </span>
+      </div>
 
         <p>
           Solusi praktis dan terpercaya untuk hunian yang bersih,
@@ -1956,30 +1994,30 @@
 
       <div>
         <h3>LAYANAN UTAMA</h3>
+    
+<ul>
+    <li><a href="Layanan.html#roomGrid">Basic Home Cleaning</a></li>
+    <li><a href="Layanan.html#roomGrid">Standard Room Cleaning</a></li>
+    <li><a href="Layanan.html#roomGrid">Deep Cleaning Menyeluruh</a></li>
+    <li><a href="Layanan.html#customForm">Ruangan Lainnya (Custom)</a></li>
+</ul>
 
-        <ul>
-          <li><a href="Layanan.html">Basic Home Cleaning</a></li>
-          <li><a href="Layanan.html">Standard Room Cleaning</a></li>
-          <li><a href="Layanan.html">Deep Cleaning Menyeluruh</a></li>
-          <li><a href="Layanan.html">Ruangan Lainnya (Custom)</a></li>
-        </ul>
       </div>
 
       <div>
         <h3>OPERASIONAL</h3>
         <p>Senin–Minggu: 07.00–19.00 WIB</p>
         <p><strong>Pusat Bantuan WhatsApp:</strong></p>
-
-        <a
-          class="whatsapp"
-          href="https://wa.me/6281234567890"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          +62 812-3456-7890
-        </a>
-      </div>
-
+        
+<a
+    class="whatsapp"
+    href="https://wa.me/62881026380060"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    +62 881-0263-80060
+</a>
+</div>  
       <div>
         <h3>WILAYAH LAYANAN</h3>
 
@@ -1990,7 +2028,7 @@
 
     <div class="footer-bottom">
       <p>
-        © <span id="year"></span> GriyaResik Indonesia.
+        © <span id="year">2026</span> GriyaResik Indonesia.
         Seluruh hak cipta dilindungi undang-undang.
       </p>
 

@@ -13,7 +13,7 @@
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
     >
 
-    <script src="../js/my-bookings.js" defer></script>
+    <script src="../js/my-bookings 1.js" defer></script>
 
     <style>
         :root {
@@ -115,7 +115,22 @@
         .worker-name { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; }
         .rating { padding: 2px 5px; border-radius: 4px; background: var(--green-light); font-size: 10px; font-weight: 700; }
         .worker-actions { display: grid; grid-template-columns: minmax(0, 1fr) 33px; gap: 8px; margin-top: 10px; }
-        .worker-actions button { display: flex; align-items: center; justify-content: center; gap: 7px; min-width: 0; height: 33px; padding: 0 7px; border: 1px solid var(--green); border-radius: 7px; background: var(--green); color: white; font-size: 11px; font-weight: 600; }
+        .worker-actions button,
+        .worker-actions a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 7px;
+            min-width: 0;
+            height: 33px;
+            padding: 0 7px;
+            border: 1px solid var(--green);
+            border-radius: 7px;
+            background: var(--green);
+            color: white;
+            font-size: 11px;
+            font-weight: 600;
+        }        
         .worker-actions button:disabled { cursor: not-allowed; }
         .worker-actions .phone { border-color: var(--border); background: white; color: var(--green); }
         .worker-actions .icon { width: 15px; height: 15px; }
@@ -126,10 +141,30 @@
         .tracking-heading p { color: var(--muted); font-size: 10px; }
         .tracking-heading strong { color: var(--green); }
         .progress { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); margin: 19px 0 0; padding: 0; list-style: none; }
-        .progress li { position: relative; min-width: 0; padding-right: 12px; }
-        .progress li::after { content: ""; position: absolute; top: 15px; left: 17px; right: -1px; height: 4px; background: var(--border); }
-        .progress li:last-child::after { right: 0; }
-        .progress li.done::after { background: var(--green); }
+        .progress li {
+            position: relative;
+            min-width: 0;
+            padding-inline: 6px;
+            text-align: center;
+        }
+        .progress li::after {
+            content: "";
+            position: absolute;
+            top: 12px;
+            left: 50%;
+            right: -50%;
+            height: 4px;
+            background: var(--border);
+        }
+
+        .progress li.done::after,
+        .progress li.current::after {
+            background: var(--green);
+        }
+
+        .progress li:last-child::after {
+            content: none;
+        }
         /* Lingkaran dan nomor tahap yang belum aktif. */
         .step-dot {
             position: relative;
@@ -138,7 +173,7 @@
             place-items: center;
             width: 28px;
             height: 28px;
-            margin-bottom: 8px;
+            margin-bottom: 0 auto 8px;
             border-radius: 50%;
             background: var(--border);
             color: var(--muted);
@@ -449,7 +484,11 @@
         .safety h3 { font-size: 12px; }
         .safety p { margin-top: 6px; color: var(--green-light); font-size: 11px; line-height: 1.8; }
         .prep { overflow: hidden; border-radius: 13px; background: var(--green); color: white; }
-        .prep img { display: block; width: 100%; height: 130px; object-fit: cover; }
+        .prep img {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
         .prep-copy { padding: 18px; }
         .prep h3 { font-size: 11px; }
         .prep p { margin-top: 6px; color: var(--green-light); font-size: 11px; line-height: 1.8; }
@@ -842,69 +881,56 @@
         .empty p { margin: 12px 0 20px; color: var(--muted); }
 
         /* BANNER DAN FOOTER — MENGIKUTI HALAMAN BOOKING */
+
+/* =====================================
+   CTA - SAMA DENGAN BERANDA
+===================================== */
+
 .cta {
-    padding: 36px 24px;
     background: var(--green);
-    color: var(--white);
-    font-family: "Inter", Arial, sans-serif;
+    color: white;
+    padding: 35px 24px;
+    line-height: 1.5;
+    font-family: 'Inter', Arial, sans-serif;
 }
 
 .cta-inner {
+    max-width: 1120px;
+    margin: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 32px;
-
-    max-width: 1120px;
-    margin: 0 auto;
-}
-
-.cta-inner > div {
-    flex: 1;
-    min-width: 0;
+    gap: 25px;
 }
 
 .cta h2 {
-    margin: 0 0 8px;
     font-size: 24px;
-    font-weight: 800;
-    line-height: 1.35;
+    font-weight: 700;
+    margin-bottom: 8px;
 }
 
 .cta p {
-    margin: 0;
-    color: #d2dfd5;
+    color: #c5d3c9;
     font-size: 13px;
-    line-height: 1.6;
 }
 
-.cta a {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.btn-cta {
+    display: inline-block;
     flex-shrink: 0;
-
-    min-width: 150px;
-    padding: 13px 22px;
-
-    border-radius: 25px;
+    padding: 14px 24px;
+    border-radius: 10px;
     background: #fff0e9;
     color: var(--green);
-
+    font-weight: 700;
     font-size: 12px;
-    font-weight: 800;
-    line-height: 1.4;
-    text-align: center;
-    white-space: nowrap;
 }
 
 .footer {
+    background: #fbede7;
     padding: 40px 24px 18px;
-    background: #f8e9e3;
+    line-height: 1.5;
     color: #1d352b;
-
-    font-family: "Inter", Arial, sans-serif;
-    font-size: 12px;
+    font-family: 'Inter', Arial, sans-serif;
     text-align: left;
 }
 
@@ -917,41 +943,46 @@
     margin: 0 auto;
 }
 
+
+/* =====================================
+   LOGO FOOTER GRIYARESIK
+===================================== */
+
 .footer-brand {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
     margin-bottom: 12px;
+    color: var(--green);
+    font-size: 20px;
+    font-weight: 800;
 }
 
-.footer-logo-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-
-    width: 38px;
-    height: 38px;
-    border-radius: 9px;
-
-    background: #204b38;
-    color: var(--white);
-
-    font-family: "Baloo 2", sans-serif;
-    font-size: 21px;
-    font-weight: 700;
+.footer-logo-image {
+    display: block;
+    width: auto;
+    height: 32px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
 }
 
-.footer-logo-text {
-    color: #204b38;
-    font-family: "Baloo 2", sans-serif;
-    font-size: 24px;
-    font-weight: 600;
-    letter-spacing: -.5px;
+.footer-brand .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.footer-brand .logo-griya {
+    color: #292929;
+}
+
+.footer-brand .logo-resik {
+    color: #789477;
 }
 
 .footer-grid h3 {
-    margin: 0 0 10px;
+    margin: 0 0 13px;
     color: var(--green);
     font-size: 11px;
     font-weight: 700;
@@ -976,22 +1007,21 @@
 }
 
 .footer-grid .whatsapp {
+    display: inline-block;
     color: var(--green);
-    font-weight: 800;
+    font-weight: 700;
+    margin-top: 5px;
 }
 
 .footer-bottom {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 15px;
-
     max-width: 1120px;
     margin: 28px auto 0;
     padding-top: 17px;
-
     border-top: 1px solid #eadbd5;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
 }
 
 .footer-bottom p,
@@ -1002,17 +1032,14 @@
 
 .footer-links {
     display: flex;
-    flex-wrap: wrap;
     gap: 18px;
 }
 
-@media (max-width: 700px) {
-    .cta-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 22px;
-    }
+/* =====================================
+   RESPONSIVE FOOTER & CTA
+===================================== */
 
+@media (max-width: 700px) {
     .footer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 25px;
@@ -1021,6 +1048,14 @@
     .footer-bottom {
         flex-direction: column;
         align-items: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .cta-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
     }
 }
 
@@ -1045,7 +1080,6 @@
             .nav-menu { order: 3; width: 100%; justify-content: center; overflow-x: auto; }
             .nav-menu a { padding: 8px 12px; font-size: 12px; }
             .columns { grid-template-columns: 1fr; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
             .search-title p { font-size: 12px; }
             .search-title h1 { font-size: 19px; }
             .search-icon { width: 46px; height: 46px; }
@@ -1077,7 +1111,33 @@
             .overview-item strong { font-size: 12px; }
             .overview-item .label { font-size: 9px; }
             .overview-item p { font-size: 10px; }
-            .footer-grid { gap: 22px; }
+        }
+
+        /* Tahapan Layanan Hari Ini */
+        #progress > li {
+            padding: 0 12px 0 0;
+            text-align: left;
+        }
+
+        #progress > li > .step-dot {
+            margin: 0 0 8px;
+        }
+
+        #progress > li::after {
+            top: 12px;
+            left: 14px;
+            right: -14px;
+            border-radius: 999px;
+        }
+
+        #progress > li:last-child::after {
+            content: "";
+            right: 20px;
+            background: var(--border);
+        }
+
+        #progress > li.current > .step-dot {
+            box-shadow: 0 0 0 4px #e0ece4;
         }
 
     </style>
@@ -1220,31 +1280,25 @@
         <strong id="overviewPackage"></strong>
         <p id="overviewRoom"></p>
     </div>
+<div class="overview-item">
+    <span class="label">AREA TUJUAN</span>
+    <strong id="overviewDistrict"></strong>
+    <p id="overviewAddress"></p>
+</div>
 
-    <div class="overview-item">
-        <span class="label">AREA TUJUAN</span>
-        <strong id="overviewDistrict"></strong>
-        <p id="overviewAddress"></p>
+<div class="overview-item">
+    <span class="label">MITRA BERTUGAS</span>
+    <div class="worker-name">
+        <strong>Siti Rahmawati</strong>
+        <span class="rating">4.9 ★</span>
     </div>
-
-    <div class="overview-item">
-        <span class="label">MITRA BERTUGAS</span>
-        <div class="worker-name">
-            <strong>Siti Rahmawati</strong>
-            <span class="rating">4.9 ★</span>
-        </div>
-        <p>Mitra simulasi · ID: DEMO-1102</p>
-    </div>
-
-    <div class="overview-item">
+    <p>Mitra simulasi · ID: DEMO-1102</p>
+</div>
+        <div class="overview-item">
         <span class="label">AKSI CEPAT MITRA</span>
 
         <div class="worker-actions">
-            <button
-                type="button"
-                disabled
-                title="Belum tersedia untuk mitra simulasi"
-            >
+            <button type="button" disabled title="Nomor WhatsApp mitra belum tersedia">
                 <svg class="icon" aria-hidden="true">
                     <use href="#i-wa"/>
                 </svg>
@@ -1256,15 +1310,15 @@
                 class="phone"
                 disabled
                 aria-label="Telepon mitra"
-                title="Belum tersedia untuk mitra simulasi"
+                title="Nomor telepon mitra belum tersedia"
             >
                 <svg class="icon" aria-hidden="true">
                     <use href="#i-phone"/>
                 </svg>
             </button>
-        </div>
-    </div>
-</div>
+        </div><!-- penutup worker-actions -->
+    </div><!-- penutup kotak Aksi Cepat Mitra -->
+</div><!-- penutup grid empat kotak -->
 
                 <div class="tracking-heading">
                     <h3>TAHAPAN LAYANAN HARI INI</h3>
@@ -1432,7 +1486,7 @@
     <a
         id="supportLink"
         class="resik-care-button"
-        href="https://wa.me/6281234567890"
+        href="https://wa.me/62881026380060"
         target="_blank"
         rel="noopener noreferrer"
     >
@@ -1448,24 +1502,36 @@
     </main>
 
     <!-- BANNER DI LUAR CONTAINER KONTEN -->
+
 <section class="cta">
     <div class="cta-inner">
         <div>
             <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
-            <p>Booking bersama mitra kebersihan profesional GriyaResik.</p>
+            <p>Booking dalam 2 menit, mitra kebersihan profesional kami siap datang tepat waktu.</p>
         </div>
 
-        <a href="Layanan.html">Lihat Layanan</a>
+        <a href="booking.html" class="btn-cta">
+            Jadwalkan Sekarang
+        </a>
     </div>
 </section>
+
 
 <footer class="footer">
     <div class="footer-grid">
         <div>
-            <div class="footer-brand">
-                <span class="footer-logo-icon">G</span>
-                <span class="footer-logo-text">GriyaResik</span>
-            </div>
+            
+<div class="footer-brand">
+    <img
+        class="footer-logo-image"
+        src="../images/Logo griya Resik.png"
+        alt=""
+    >
+
+    <span class="logo-text">
+        <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+    </span>
+</div>
 
             <p>
                 Solusi praktis dan terpercaya untuk hunian yang bersih,
@@ -1496,15 +1562,16 @@
             <h3>OPERASIONAL</h3>
             <p>Senin–Minggu: 07.00–19.00 WIB</p>
             <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+        
+<a
+    class="whatsapp"
+    href="https://wa.me/62881026380060"
+    target="_blank"
+    rel="noopener noreferrer"
+>
+    +62 881-0263-80060
+</a>
 
-            <a
-                class="whatsapp"
-                href="https://wa.me/6281234567890"
-                target="_blank"
-                rel="noopener noreferrer"
-            >
-                +62 812-3456-7890
-            </a>
         </div>
 
         <div>

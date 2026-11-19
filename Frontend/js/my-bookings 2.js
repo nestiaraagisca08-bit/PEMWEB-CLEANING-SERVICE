@@ -3,7 +3,7 @@
 
     const BOOKINGS_KEY = "griyaResikBookings";
     const DEMO_KEY = "griyaResikStep2Demo";
-    const SUPPORT_PHONE = "6281234567890";
+    const SUPPORT_PHONE = "62881026380060";
 
     const $ = id => document.getElementById(id);
 
