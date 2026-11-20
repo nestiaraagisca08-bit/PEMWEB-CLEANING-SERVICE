@@ -125,7 +125,7 @@
         ];
 
         const packageNames = ["Basic", "Standard", "Deep"];
-        const packageDurations = ["60–90 menit", "90–150 menit", "180–240 menit"];
+        const packageDurations = ["45–60 menit", "60–120 menit", "120–180 menit"];
         const defaultEstimate = "Estimasi kerja: Pilih paket";
         const roomGrid = document.getElementById("roomGrid");
 
