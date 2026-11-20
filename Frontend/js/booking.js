@@ -2371,15 +2371,15 @@ address.addEventListener("keydown", async event => {
         return;
     }
 
-    const street = place.match(
-    /^(?:jl\.?|jalan)\s+(.+?)\s*,?\s+(?:no\.?|nomor)\s*\d/i
-)?.[1]?.trim();
+   const street = place
+    .replace(/^(?:jl\.?|jalan)\s+/i, "")
+    .split(/\s+(?:no\.?|nomor)\s*\d|[,\r\n]/i)[0]
+    .trim();
 
-if (!street) {
-    status.textContent =
-        "Isi dengan format Jl. Nama Jalan No. 50, atau klik peta untuk menaruh pin.";
-    return;
-}
+    if (!street) {
+        status.textContent = "Isi nama jalan, lalu tekan Enter.";
+        return;
+    }
 
 const query = `${street}, ${area}, Surabaya, Jawa Timur`;
     searching = true;
