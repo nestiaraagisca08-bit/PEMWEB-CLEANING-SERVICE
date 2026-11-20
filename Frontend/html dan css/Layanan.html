@@ -1057,6 +1057,10 @@
         .house-front::before { left: 8%; }
         .house-front::after { right: 8%; }
 
+        #logoutBtn[hidden] {
+            display: none;
+        }
+
     </style>
 </head>
 
@@ -1079,8 +1083,12 @@
             </ul>
 
             <a href="profile.html" class="btn-login">
-                <span class="user-icon">♙</span> Pengaturan Akun
-            </a>
+    <span class="user-icon">♙</span>
+    <span data-account-name>Pengaturan Akun</span>
+</a>
+<button type="button" id="logoutBtn" class="btn-login" hidden>
+    Logout
+</button>
         </nav>
     </header>
 
@@ -1313,6 +1321,7 @@
         </div>
     </footer>
     <script src="../js/layanan.js" defer></script>
+    <script src="../js/account-navbar.js" defer></script>
     
 </body>
 </html>
