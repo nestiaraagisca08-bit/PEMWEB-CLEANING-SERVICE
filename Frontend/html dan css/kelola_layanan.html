@@ -1051,206 +1051,214 @@
 
     <script>
 
-        // ======================================
-        // DATA ADMIN
-        // ======================================
+       // ==========================================
+            // KONFIGURASI DAN AUTENTIKASI
+            // ==========================================
 
-        const userData = sessionStorage.getItem("griyaresikUser");
+            const API_BASE = "http://localhost:3000";
 
-        if (!userData) {
-            window.location.href = "../login.html";
-        }
+            const token = sessionStorage.getItem("token");
+            const userData = sessionStorage.getItem("griyaresikUser");
 
-        let user = {};
-
-        try {
-            user = JSON.parse(userData) || {};
-        } catch (error) {
-            user = {};
-        }
-
-        const adminName =
-            user.name ||
-            user.nama ||
-            user.fullName ||
-            "Administrator";
-
-        document.getElementById("adminName").textContent = adminName;
-
-        document.getElementById("profileAvatar").textContent =
-            adminName.charAt(0).toUpperCase();
-
-
-        // ======================================
-        // MOBILE SIDEBAR
-        // ======================================
-
-        const sidebar = document.getElementById("sidebar");
-
-        document.getElementById("mobileToggle")
-            .addEventListener("click", function () {
-                sidebar.classList.toggle("show");
-            });
-
-
-        // ======================================
-        // DATA LAYANAN
-        // ======================================
-
-        const STORAGE_KEY = "griyaresikAdminServices";
-
-        const defaultServices = [
-            {
-                id: 1,
-                name: "Kamar Tidur",
-                category: "Ruangan",
-                basic: 50000,
-                standard: 75000,
-                deep: 105000,
-                status: "active"
-            },
-            {
-                id: 2,
-                name: "Ruang Tamu",
-                category: "Ruangan",
-                basic: 50000,
-                standard: 75000,
-                deep: 105000,
-                status: "active"
-            },
-            {
-                id: 3,
-                name: "Dapur",
-                category: "Ruangan",
-                basic: 60000,
-                standard: 90000,
-                deep: 125000,
-                status: "active"
-            },
-            {
-                id: 4,
-                name: "Kamar Mandi",
-                category: "Ruangan",
-                basic: 50000,
-                standard: 75000,
-                deep: 105000,
-                status: "active"
+            if (!token || !userData) {
+                alert("Silakan login kembali.");
+                window.location.href = "login.html";
             }
-        ];
 
-        let services;
+            let user = {};
 
-        try {
-            services = JSON.parse(localStorage.getItem(STORAGE_KEY));
-        } catch (error) {
-            services = null;
-        }
+            try {
+                user = JSON.parse(userData) || {};
+            } catch (error) {
+                console.error("Data pengguna tidak valid:", error);
+            }
 
-        if (!Array.isArray(services)) {
-            services = defaultServices;
-            saveData();
-        }
+            if (String(user.role || "").toLowerCase() !== "admin") {
+                alert("Halaman hanya dapat diakses oleh admin.");
+                window.location.href = "login.html";
+            }
 
+            // ==========================================
+            // PROFIL ADMIN
+            // ==========================================
 
-        // ======================================
-        // ELEMENT
-        // ======================================
+            const adminName =
+                user.name ||
+                user.nama ||
+                user.fullName ||
+                "Administrator";
 
-        const serviceTable = document.getElementById("serviceTable");
-        const modalOverlay = document.getElementById("modalOverlay");
-        const serviceForm = document.getElementById("serviceForm");
+            document.getElementById("adminName").textContent = adminName;
 
-        const searchInput = document.getElementById("searchInput");
-        const statusFilter = document.getElementById("statusFilter");
+            document.getElementById("profileAvatar").textContent =
+                adminName.charAt(0).toUpperCase();
 
+            // ==========================================
+            // MOBILE SIDEBAR
+            // ==========================================
 
-        // ======================================
-        // SIMPAN DATA
-        // ======================================
+            const sidebar = document.getElementById("sidebar");
 
-        function saveData() {
-            localStorage.setItem(
-                STORAGE_KEY,
-                JSON.stringify(services)
-            );
-        }
+            document.getElementById("mobileToggle")
+                .addEventListener("click", () => {
+                    sidebar.classList.toggle("show");
+                });
 
+            // ==========================================
+            // ELEMENT
+            // ==========================================
 
-        // ======================================
-        // FORMAT RUPIAH
-        // ======================================
+            const serviceTable = document.getElementById("serviceTable");
+            const modalOverlay = document.getElementById("modalOverlay");
+            const serviceForm = document.getElementById("serviceForm");
+            const searchInput = document.getElementById("searchInput");
+            const statusFilter = document.getElementById("statusFilter");
 
-        function formatRupiah(number) {
-            return "Rp " + Number(number).toLocaleString("id-ID");
-        }
+            let services = [];
 
+            // ==========================================
+            // REQUEST API
+            // ==========================================
 
-        // ======================================
-        // ESCAPE HTML
-        // ======================================
+            async function apiRequest(endpoint, options = {}) {
+                const response = await fetch(`${API_BASE}${endpoint}`, {
+                    ...options,
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${token}`,
+                        ...(options.headers || {})
+                    }
+                });
 
-        function escapeHTML(value) {
-            return String(value).replace(/[&<>"']/g, char => ({
-                "&": "&amp;",
-                "<": "&lt;",
-                ">": "&gt;",
-                '"': "&quot;",
-                "'": "&#039;"
-            })[char]);
-        }
+                const result = await response.json();
 
+                if (!response.ok) {
+                    throw new Error(
+                        result.message || "Permintaan ke server gagal."
+                    );
+                }
 
-        // ======================================
-        // TAMPILKAN DATA
-        // ======================================
+                return result;
+            }
 
-        function renderServices() {
+            // ==========================================
+            // FORMAT RUPIAH
+            // ==========================================
 
-            const keyword = searchInput.value.toLowerCase();
-            const filter = statusFilter.value;
+            function formatRupiah(number) {
+                return "Rp " + Number(number || 0).toLocaleString("id-ID");
+            }
 
-            const filteredServices = services.filter(service => {
+            // ==========================================
+            // ESCAPE HTML
+            // ==========================================
 
-                const matchName =
-                    service.name.toLowerCase().includes(keyword);
+            function escapeHTML(value) {
+                return String(value ?? "").replace(/[&<>"']/g, char => ({
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#039;"
+                })[char]);
+            }
 
-                const matchStatus =
-                    filter === "all" || service.status === filter;
+            // ==========================================
+            // NORMALISASI DATA
+            // ==========================================
 
-                return matchName && matchStatus;
+            function normalizeService(service) {
+                const packages = service.packages || {};
 
-            });
+                return {
+                    id: Number(service.id),
+                    name: service.name || "",
+                    category: service.category || "",
+                    basic: Number(packages.Basic?.price || 0),
+                    standard: Number(packages.Standard?.price || 0),
+                    deep: Number(packages.Deep?.price || 0),
+                    status: String(service.status).toLowerCase() === "aktif"
+                        || service.status === "active"
+                        ? "active"
+                        : "inactive"
+                };
+            }
 
+            // ==========================================
+            // AMBIL DATA DARI POSTGRESQL
+            // ==========================================
 
-            document.getElementById("totalServices").textContent =
-                services.length;
-
-            document.getElementById("activeServices").textContent =
-                services.filter(item => item.status === "active").length;
-
-            document.getElementById("inactiveServices").textContent =
-                services.filter(item => item.status === "inactive").length;
-
-
-            if (filteredServices.length === 0) {
-
+            async function loadServices() {
                 serviceTable.innerHTML = `
                     <tr>
                         <td colspan="7" class="empty">
-                            Tidak ada layanan yang ditemukan.
+                            Memuat data layanan...
                         </td>
                     </tr>
                 `;
 
-                return;
+                try {
+                    const result = await apiRequest("/api/admin/services");
+
+                    services = (result.services || []).map(normalizeService);
+
+                    renderServices();
+
+                    console.log("Data layanan dari PostgreSQL:", services);
+
+                } catch (error) {
+                    console.error("Gagal mengambil layanan:", error);
+
+                    serviceTable.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="empty">
+                                ${escapeHTML(error.message)}
+                            </td>
+                        </tr>
+                    `;
+                }
             }
 
+            // ==========================================
+            // TAMPILKAN DATA
+            // ==========================================
 
-            serviceTable.innerHTML = filteredServices.map((service, index) => {
+            function renderServices() {
+                const keyword = searchInput.value.toLowerCase();
+                const filter = statusFilter.value;
 
-                return `
+                const filteredServices = services.filter(service => {
+                    const matchName = service.name.toLowerCase()
+                        .includes(keyword);
+
+                    const matchStatus =
+                        filter === "all" || service.status === filter;
+
+                    return matchName && matchStatus;
+                });
+
+                document.getElementById("totalServices").textContent =
+                    services.length;
+
+                document.getElementById("activeServices").textContent =
+                    services.filter(item => item.status === "active").length;
+
+                document.getElementById("inactiveServices").textContent =
+                    services.filter(item => item.status === "inactive").length;
+
+                if (filteredServices.length === 0) {
+                    serviceTable.innerHTML = `
+                        <tr>
+                            <td colspan="7" class="empty">
+                                Tidak ada layanan yang ditemukan.
+                            </td>
+                        </tr>
+                    `;
+                    return;
+                }
+
+                serviceTable.innerHTML = filteredServices.map((service, index) => `
                     <tr>
-
                         <td>${index + 1}</td>
 
                         <td>
@@ -1259,21 +1267,13 @@
                             </div>
 
                             <div class="service-category">
-                                ${escapeHTML(service.category)}
+                                ${escapeHTML(service.category || "Belum dikategorikan")}
                             </div>
                         </td>
 
-                        <td class="price">
-                            ${formatRupiah(service.basic)}
-                        </td>
-
-                        <td class="price">
-                            ${formatRupiah(service.standard)}
-                        </td>
-
-                        <td class="price">
-                            ${formatRupiah(service.deep)}
-                        </td>
+                        <td class="price">${formatRupiah(service.basic)}</td>
+                        <td class="price">${formatRupiah(service.standard)}</td>
+                        <td class="price">${formatRupiah(service.deep)}</td>
 
                         <td>
                             <span class="status ${service.status}">
@@ -1283,282 +1283,225 @@
 
                         <td>
                             <div class="actions">
-
-                                <button
-                                    class="btn-edit"
-                                    onclick="editService(${service.id})"
-                                >
+                                <button class="btn-edit"
+                                    onclick="editService(${service.id})">
                                     Edit
                                 </button>
 
-                                <button
-                                    class="btn-delete"
-                                    onclick="deleteService(${service.id})"
-                                >
+                                <button class="btn-delete"
+                                    onclick="deleteService(${service.id})">
                                     Hapus
                                 </button>
-
                             </div>
                         </td>
-
                     </tr>
-                `;
-
-            }).join("");
-
-        }
-
-
-        // ======================================
-        // BUKA MODAL
-        // ======================================
-
-        function openModal() {
-            modalOverlay.classList.add("show");
-        }
-
-
-        // ======================================
-        // TUTUP MODAL
-        // ======================================
-
-        function closeModal() {
-
-            modalOverlay.classList.remove("show");
-
-            serviceForm.reset();
-
-            document.getElementById("serviceId").value = "";
-
-            document.getElementById("modalTitle").textContent =
-                "Tambah Layanan";
-
-        }
-
-
-        document.getElementById("addBtn").addEventListener("click", () => {
-
-            serviceForm.reset();
-
-            document.getElementById("serviceId").value = "";
-
-            document.getElementById("modalTitle").textContent =
-                "Tambah Layanan";
-
-            openModal();
-
-        });
-
-
-        document.getElementById("closeModal")
-            .addEventListener("click", closeModal);
-
-        document.getElementById("cancelBtn")
-            .addEventListener("click", closeModal);
-
-
-        modalOverlay.addEventListener("click", event => {
-
-            if (event.target === modalOverlay) {
-                closeModal();
+                `).join("");
             }
 
-        });
+            // ==========================================
+            // MODAL
+            // ==========================================
 
-
-        // ======================================
-        // TAMBAH / EDIT LAYANAN
-        // ======================================
-
-        serviceForm.addEventListener("submit", event => {
-
-            event.preventDefault();
-
-            const id = document.getElementById("serviceId").value;
-
-            const name =
-                document.getElementById("serviceName").value.trim();
-
-            const category =
-                document.getElementById("serviceCategory").value;
-
-            const basic =
-                Number(document.getElementById("basicPrice").value);
-
-            const standard =
-                Number(document.getElementById("standardPrice").value);
-
-            const deep =
-                Number(document.getElementById("deepPrice").value);
-
-            const status =
-                document.getElementById("serviceStatus").value;
-
-
-            if (
-                !name ||
-                !category ||
-                !Number.isFinite(basic) ||
-                !Number.isFinite(standard) ||
-                !Number.isFinite(deep) ||
-                basic < 0 ||
-                standard < 0 ||
-                deep < 0
-            ) {
-                alert("Periksa kembali data layanan dan harga.");
-                return;
+            function openModal() {
+                modalOverlay.classList.add("show");
             }
 
+            function closeModal() {
+                modalOverlay.classList.remove("show");
+                serviceForm.reset();
 
-            const duplicate = services.some(service =>
-                service.name.toLowerCase() === name.toLowerCase() &&
-                String(service.id) !== id
-            );
+                document.getElementById("serviceId").value = "";
 
-            if (duplicate) {
-                alert("Nama layanan tersebut sudah tersedia.");
-                return;
+                document.getElementById("modalTitle").textContent =
+                    "Tambah Layanan";
             }
 
+            document.getElementById("addBtn").addEventListener("click", () => {
+                serviceForm.reset();
 
-            const serviceData = {
-                id: id ? Number(id) : Date.now(),
-                name,
-                category,
-                basic,
-                standard,
-                deep,
-                status
-            };
+                document.getElementById("serviceId").value = "";
 
+                document.getElementById("modalTitle").textContent =
+                    "Tambah Layanan";
 
-            if (id) {
-
-                services = services.map(service =>
-                    service.id === Number(id) ? serviceData : service
-                );
-
-                alert("Layanan berhasil diperbarui.");
-
-            } else {
-
-                services.push(serviceData);
-
-                alert("Layanan berhasil ditambahkan.");
-
-            }
-
-
-            saveData();
-            renderServices();
-            closeModal();
-
-        });
-
-
-        // ======================================
-        // EDIT LAYANAN
-        // ======================================
-
-        function editService(id) {
-
-            const service = services.find(item => item.id === id);
-
-            if (!service) return;
-
-
-            document.getElementById("serviceId").value = service.id;
-
-            document.getElementById("serviceName").value = service.name;
-
-            document.getElementById("serviceCategory").value =
-                service.category;
-
-            document.getElementById("basicPrice").value = service.basic;
-
-            document.getElementById("standardPrice").value =
-                service.standard;
-
-            document.getElementById("deepPrice").value = service.deep;
-
-            document.getElementById("serviceStatus").value =
-                service.status;
-
-
-            document.getElementById("modalTitle").textContent =
-                "Edit Layanan";
-
-            openModal();
-
-        }
-
-
-        // ======================================
-        // HAPUS LAYANAN
-        // ======================================
-
-        function deleteService(id) {
-
-            const service = services.find(item => item.id === id);
-
-            if (!service) return;
-
-
-            const confirmation = confirm(
-                `Apakah kamu yakin ingin menghapus layanan "${service.name}"?`
-            );
-
-            if (!confirmation) return;
-
-
-            services = services.filter(item => item.id !== id);
-
-            saveData();
-            renderServices();
-
-            alert("Layanan berhasil dihapus.");
-
-        }
-
-
-        // ======================================
-        // PENCARIAN DAN FILTER
-        // ======================================
-
-        searchInput.addEventListener("input", renderServices);
-
-        statusFilter.addEventListener("change", renderServices);
-
-
-        // ==================================
-        // LOGOUT
-        // ==================================
-
-        document.getElementById("logoutBtn")
-            .addEventListener("click", function () {
-
-                const confirmLogout = confirm(
-                    "Apakah kamu yakin ingin logout?"
-                );
-
-                if (confirmLogout) {
-
-                    // Hapus data sesi login
-                    sessionStorage.removeItem("griyaresikUser");
-                    sessionStorage.removeItem("token");
-
-                    // Kembali ke halaman beranda sebelum login
-                    window.location.href = "Beranda before login.html";
-
-                }
-
+                openModal();
             });
 
-        // ======================================
-        // JALANKAN
-        // ======================================
+            document.getElementById("closeModal")
+                .addEventListener("click", closeModal);
 
-        renderServices();
+            document.getElementById("cancelBtn")
+                .addEventListener("click", closeModal);
+
+            modalOverlay.addEventListener("click", event => {
+                if (event.target === modalOverlay) {
+                    closeModal();
+                }
+            });
+
+            // ==========================================
+            // TAMBAH DAN EDIT LAYANAN
+            // ==========================================
+
+            serviceForm.addEventListener("submit", async event => {
+                event.preventDefault();
+
+                const id = document.getElementById("serviceId").value;
+
+                const serviceData = {
+                    name: document.getElementById("serviceName").value.trim(),
+                    category: document.getElementById("serviceCategory").value,
+                    basic: Number(document.getElementById("basicPrice").value),
+                    standard: Number(document.getElementById("standardPrice").value),
+                    deep: Number(document.getElementById("deepPrice").value),
+                    status: document.getElementById("serviceStatus").value
+                };
+
+                if (
+                    !serviceData.name ||
+                    !serviceData.category ||
+                    !Number.isFinite(serviceData.basic) ||
+                    !Number.isFinite(serviceData.standard) ||
+                    !Number.isFinite(serviceData.deep) ||
+                    serviceData.basic < 0 ||
+                    serviceData.standard < 0 ||
+                    serviceData.deep < 0
+                ) {
+                    alert("Periksa kembali data layanan.");
+                    return;
+                }
+
+                const duplicate = services.some(service =>
+                    service.name.toLowerCase() === serviceData.name.toLowerCase() &&
+                    String(service.id) !== id
+                );
+
+                if (duplicate) {
+                    alert("Nama layanan sudah tersedia.");
+                    return;
+                }
+
+                const submitButton = serviceForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+                submitButton.disabled = true;
+                submitButton.textContent = "Menyimpan...";
+
+                try {
+                    if (id) {
+                        await apiRequest(`/api/admin/services/${id}`, {
+                            method: "PUT",
+                            body: JSON.stringify(serviceData)
+                        });
+
+                        alert("Layanan berhasil diperbarui.");
+
+                    } else {
+                        await apiRequest("/api/admin/services", {
+                            method: "POST",
+                            body: JSON.stringify(serviceData)
+                        });
+
+                        alert("Layanan berhasil ditambahkan.");
+                    }
+
+                    closeModal();
+                    await loadServices();
+
+                } catch (error) {
+                    console.error(error);
+                    alert(error.message);
+
+                } finally {
+                    submitButton.disabled = false;
+                    submitButton.textContent = "Simpan Layanan";
+                }
+            });
+
+            // ==========================================
+            // EDIT LAYANAN
+            // ==========================================
+
+            function editService(id) {
+                const service = services.find(item => item.id === Number(id));
+
+                if (!service) {
+                    alert("Layanan tidak ditemukan.");
+                    return;
+                }
+
+                document.getElementById("serviceId").value = service.id;
+                document.getElementById("serviceName").value = service.name;
+                document.getElementById("serviceCategory").value = service.category;
+                document.getElementById("basicPrice").value = service.basic;
+                document.getElementById("standardPrice").value = service.standard;
+                document.getElementById("deepPrice").value = service.deep;
+                document.getElementById("serviceStatus").value = service.status;
+
+                document.getElementById("modalTitle").textContent =
+                    "Edit Layanan";
+
+                openModal();
+            }
+
+            // ==========================================
+            // HAPUS LAYANAN
+            // ==========================================
+
+            async function deleteService(id) {
+                const service = services.find(item => item.id === Number(id));
+
+                if (!service) return;
+
+                const confirmation = confirm(
+                    `Yakin ingin menghapus layanan "${service.name}"?`
+                );
+
+                if (!confirmation) return;
+
+                try {
+                    await apiRequest(`/api/admin/services/${id}`, {
+                        method: "DELETE"
+                    });
+
+                    alert("Layanan berhasil dihapus.");
+
+                    await loadServices();
+
+                } catch (error) {
+                    console.error(error);
+                    alert(error.message);
+                }
+            }
+
+            // ==========================================
+            // PENCARIAN DAN FILTER
+            // ==========================================
+
+            searchInput.addEventListener("input", renderServices);
+            statusFilter.addEventListener("change", renderServices);
+
+            // ==========================================
+            // LOGOUT
+            // ==========================================
+
+            document.getElementById("logoutBtn")
+                .addEventListener("click", () => {
+
+                    if (confirm("Apakah kamu yakin ingin logout?")) {
+                        sessionStorage.removeItem("griyaresikUser");
+                        sessionStorage.removeItem("token");
+
+                        window.location.href = "Beranda before login.html";
+                    }
+                });
+
+            // ==========================================
+            // JALANKAN
+            // ==========================================
+
+            loadServices();
 
     </script>
 

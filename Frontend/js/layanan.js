@@ -1,239 +1,229 @@
+        // ==========================================
+        // DATA LAYANAN DARI DATABASE POSTGRESQL
+        // ==========================================
 
-        // DATA KATALOG 11 RUANGAN
-        const rooms = [
-            {
-                name: "Kamar Tidur",
-                desc: "Ruang Istirahat & Pribadi",
-                prices: [50000, 80000, 120000],
-                time: "45–90 menit",
-                details: [
-                    "Sapu, pel, lap meja, lap furnitur, bersihkan debu, rapikan tempat tidur, area sekitar tempat tidur, tempat sampah, sudut mudah dijangkau.",
-                    "Semua Basic + vacuum seluruh lantai, vacuum karpet, kaca/cermin, lemari luar, bawah furnitur mudah dijangkau, sudut/sela, kursi/sofa, detail area tempat tidur.",
-                    "Semua Standard + deep vacuum karpet, vacuum kasur, bantal, guling, sofa/kursi, kolong tempat tidur, sela furnitur, kusen/sela jendela, noda membandel, detail seluruh kamar."
-                ]
-            },
-            {
-                name: "Ruang Tamu",
-                desc: "Area Utama Kunjungan Keluarga",
-                prices: [50000, 85000, 130000],
-                time: "50–90 menit",
-                details: [
-                    "Sapu, pel, lap meja, lap furnitur, debu, sampah, area utama.",
-                    "Basic + vacuum lantai, vacuum karpet, vacuum ringan sofa, kaca/cermin, sudut, detail furnitur, bawah furnitur mudah dijangkau.",
-                    "Standard + deep vacuum sofa/karpet, sela dan bawah sofa, detail meja/furnitur, noda membandel, seluruh sudut, area sulit dijangkau."
-                ]
-            },
-            {
-                name: "Dapur (Kitchen)",
-                desc: "Area Persiapan Makanan",
-                prices: [55000, 90000, 145000],
-                time: "60–120 menit",
-                details: [
-                    "Sapu, pel, lap meja dapur, lap permukaan, debu/kotoran ringan, sampah.",
-                    "Basic + kompor, wastafel, backsplash, kabinet luar, area sekitar peralatan, minyak ringan, sudut.",
-                    "Standard + deep cleaning kompor, kerak, deep cleaning wastafel, kabinet dalam yang kosong, sela kabinet, minyak membandel, belakang/bawah peralatan yang terjangkau, detail seluruh dapur."
-                ]
-            },
-            {
-                name: "Kamar Mandi",
-                desc: "Anti Kerak & Bakteri",
-                prices: [50000, 80000, 120000],
-                time: "45–90 menit",
-                details: [
-                    "Sapu, pel, toilet, wastafel, permukaan, sampah.",
-                    "Basic + sikat lantai, shower, kaca/cermin, dinding, detail toilet, noda ringan, sudut.",
-                    "Standard + kerak membandel, deep toilet, deep shower, deep wastafel, sela lantai, sudut sulit, detail seluruh kamar mandi."
-                ]
-            },
-            {
-                name: "Ruang Makan",
-                desc: "Dining Room Bersih & Rapi",
-                prices: [50000, 80000, 115000],
-                time: "35–75 menit",
-                details: [
-                    "Sapu & pel, lap meja makan, lap kursi, debu, sampah.",
-                    "Basic + vacuum lantai, kaca, furnitur, sudut, area bawah meja mudah dijangkau.",
-                    "Standard + vacuum karpet, kursi/sofa, kolong meja, sela furnitur, detail rak, seluruh area, area sulit."
-                ]
-            },
-            {
-                name: "Ruang Kerja (Home Office)",
-                desc: "Fokus Bersih Bebas Debu",
-                prices: [50000, 80000, 115000],
-                time: "35–75 menit",
-                details: [
-                    "Sapu & pel, lap meja kerja, debu, lap furnitur, sampah, area utama.",
-                    "Basic + vacuum lantai, kursi, kaca, rak luar, sudut, detail meja/furnitur.",
-                    "Standard + vacuum karpet, kursi/sofa, kolong meja, sela furnitur, detail rak, seluruh area kerja, area sulit."
-                ]
-            },
-            {
-                name: "Ruang Belajar",
-                desc: "Kenyamanan Belajar Anak",
-                prices: [50000, 80000, 115000],
-                time: "35–75 menit",
-                details: [
-                    "Sapu & pel, lap meja, debu, lap furnitur, sampah.",
-                    "Basic + vacuum lantai, rak luar, kursi, kaca, sudut, detail furnitur.",
-                    "Standard + vacuum karpet, kursi, detail rak, sela furnitur, kolong meja, area sulit."
-                ]
-            },
-            {
-                name: "Ruang Laundry",
-                desc: "Area Mesin Cuci & Penjemuran",
-                prices: [50000, 80000, 115000],
-                time: "35–75 menit",
-                details: [
-                    "Sapu & pel, lap permukaan, debu, sampah.",
-                    "Basic + lap mesin cuci luar, wastafel, vacuum, sudut, area sekitar peralatan.",
-                    "Standard + detail mesin cuci, bawah mesin, sela mesin, kerak, detail lantai/sudut/area sulit."
-                ]
-            },
-            {
-                name: "Teras Rumah",
-                desc: "Area Outdoor Depan & Belakang",
-                prices: [50000, 70000, 100000],
-                time: "30–60 menit",
-                details: [
-                    "Menyapu, mengepel, lap permukaan, debu/kotoran ringan, sampah.",
-                    "Basic + pintu, kaca, furnitur, sudut.",
-                    "Standard + detail lantai, noda membandel, sela-sela, sudut, area sulit."
-                ]
-            },
-            {
-                name: "Garasi / Carport",
-                desc: "Area Parkir Kendaraan",
-                prices: [50000, 80000, 115000],
-                time: "40–75 menit",
-                details: [
-                    "Menyapu, mengepel area sesuai, debu, area utama, sampah ringan.",
-                    "Basic + detail lantai, sudut, lap permukaan, noda ringan, area bawah mudah dijangkau.",
-                    "Standard + detail lantai, bercak/noda membandel, sudut, sela, area sulit."
-                ]
-            },
-            {
-                name: "Gudang Penyimpanan",
-                desc: "Storage & Barang Koleksi",
-                prices: [55000, 90000, 140000],
-                time: "45–90 menit",
-                details: [
-                    "Menyapu, mengepel, debu, sampah ringan, area utama mudah dijangkau.",
-                    "Basic + vacuum, rak, sudut, permukaan, area yang mudah terlewat.",
-                    "Standard + detail rak, vacuum sela, area sulit, debu/kotoran berat, detail lantai/sudut."
-                ]
-            }
-        ];
+        const API_BASE = "http://localhost:3000";
 
         const packageNames = ["Basic", "Standard", "Deep"];
-        const packageDurations = ["45–60 menit", "60–120 menit", "120–180 menit"];
         const defaultEstimate = "Estimasi kerja: Pilih paket";
+
         const roomGrid = document.getElementById("roomGrid");
 
-        function rupiah(value) {
-            return "Rp " + value.toLocaleString("id-ID");
-        }
-
-        // MENAMPILKAN SEMUA KARTU RUANGAN
+        let rooms = [];
         let selectedRoom = null;
         let selectedPackageIndex = null;
 
-        rooms.forEach((room, index) => {
-            const card = document.createElement("article");
-            card.className = "room-card";
+        // Format Rupiah
+        function rupiah(value) {
+            return "Rp " + Number(value).toLocaleString("id-ID");
+        }
 
-            const priceHTML = room.prices.map((price, i) => `
-                <div class="price-option ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}"
-                     data-package-index="${i}"
-                     role="button"
-                     tabindex="0">
-                     <span>${packageNames[i].toUpperCase()}</span>
-                     <strong>${rupiah(price)}</strong>
-                </div>
-            `).join("");
+        // ==========================================
+        // AMBIL DATA LAYANAN DARI BACKEND
+        // ==========================================
 
-            const detailHTML = room.details.map((detail, i) => `
-                <div class="package-detail ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}">
-                    <h3>Paket ${packageNames[i]}:</h3>
-                    <p>${detail}</p>
-                </div>
-            `).join("");
+        async function loadServices() {
+            try {
+                roomGrid.innerHTML = "<p>Memuat layanan...</p>";
 
-            card.innerHTML = `
-                <div class="room-heading">
-                    <div class="room-number">${String(index + 1).padStart(2, "0")}</div>
-                    <div class="room-title">
-                        <h2>${room.name}</h2>
-                        <p>${room.desc}</p>
+                const response = await fetch(`${API_BASE}/api/services`);
+
+                if (!response.ok) {
+                    throw new Error("Gagal mengambil data layanan.");
+                }
+
+                const result = await response.json();
+
+                rooms = result.services.map(service => {
+                    const packages = packageNames.map(packageName => {
+                        const item = service.packages.find(
+                            p => p.name === packageName
+                        );
+
+                        return item || {
+                            name: packageName,
+                            price: 0,
+                            description: "Detail layanan belum tersedia.",
+                            duration: "-"
+                        };
+                    });
+
+                    return {
+                        id: service.id,
+                        name: service.name,
+                        desc: service.description || service.category || "",
+                        category: service.category,
+                        prices: packages.map(item => Number(item.price)),
+                        details: packages.map(item => item.description),
+                        durations: packages.map(item => item.duration)
+                    };
+                });
+
+                renderServices();
+
+            } catch (error) {
+                console.error("Gagal memuat layanan:", error);
+
+                roomGrid.innerHTML = `
+                    <p style="text-align:center; padding:30px;">
+                        Gagal memuat layanan. Pastikan backend GriyaResik berjalan.
+                    </p>
+                `;
+            }
+        }
+
+        // ==========================================
+        // TAMPILKAN KARTU LAYANAN
+        // ==========================================
+
+        function renderServices() {
+            roomGrid.innerHTML = "";
+
+            selectedRoom = null;
+            selectedPackageIndex = null;
+
+            rooms.forEach((room, index) => {
+                const card = document.createElement("article");
+                card.className = "room-card";
+
+                const priceHTML = room.prices.map((price, i) => `
+                    <div class="price-option ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}"
+                        data-package-index="${i}"
+                        role="button"
+                        tabindex="0">
+
+                        <span>${packageNames[i].toUpperCase()}</span>
+                        <strong>${rupiah(price)}</strong>
                     </div>
-                    <span class="package-label">3 Pilihan Paket</span>
-                </div>
+                `).join("");
 
-                <div class="price-row">${priceHTML}</div>
-                ${detailHTML}
+                const detailHTML = room.details.map((detail, i) => `
+                    <div class="package-detail ${i === 1 ? "standard" : ""} ${i === 2 ? "deep" : ""}">
+                        <h3>Paket ${packageNames[i]}:</h3>
+                        <p>${detail}</p>
+                    </div>
+                `).join("");
 
-                <div class="room-footer">
-                   <span class="duration" aria-live="polite">${defaultEstimate}</span>
-                    <a class="book-room" href="#">
-                        Booking Ruangan Ini →
-                    </a>
-                </div>
-            `;
+                card.innerHTML = `
+                    <div class="room-heading">
+                        <div class="room-number">
+                            ${String(index + 1).padStart(2, "0")}
+                        </div>
 
-roomGrid.appendChild(card);
+                        <div class="room-title">
+                            <h2>${room.name}</h2>
+                            <p>${room.desc}</p>
+                        </div>
 
-// PILIH SATU PAKET UNTUK SELURUH RUANGAN
-const durationLabel = card.querySelector(".duration");
-card.querySelectorAll(".price-option").forEach(option => {
-    option.addEventListener("click", () => {
-        const packageIndex = Number(option.dataset.packageIndex);
-        const cancelSelection = option.classList.contains("selected");
-        const previous = roomGrid.querySelector(".price-option.selected");
+                        <span class="package-label">3 Pilihan Paket</span>
+                    </div>
 
-        if (previous) {
-            previous.classList.remove("selected");
-            previous.closest(".room-card").querySelector(".duration").textContent =
-                defaultEstimate;
-        }
+                    <div class="price-row">
+                        ${priceHTML}
+                    </div>
 
-        selectedRoom = cancelSelection ? null : index;
-        selectedPackageIndex = cancelSelection ? null : packageIndex;
-        if (cancelSelection) return;
+                    ${detailHTML}
 
-        option.classList.add("selected");
-        durationLabel.textContent = "Estimasi kerja: " + packageDurations[packageIndex];
-    });
+                    <div class="room-footer">
+                        <span class="duration" aria-live="polite">
+                            ${defaultEstimate}
+                        </span>
 
-    option.addEventListener("keydown", event => {
-        if (event.key === "Enter" || event.key === " ") {
-            event.preventDefault();
-            if (!event.repeat) option.click();
-        }
-    });
-});
+                        <a class="book-room" href="#">
+                            Booking Ruangan Ini →
+                        </a>
+                    </div>
+                `;
 
-// BOOKING RUANGAN DAN PAKET TERPILIH
-const bookButton = card.querySelector(".book-room");
+                roomGrid.appendChild(card);
 
-bookButton.addEventListener("click", (event) => {
-    event.preventDefault();
+                const durationLabel = card.querySelector(".duration");
 
-        if (selectedRoom !== index || selectedPackageIndex === null) {
-            alert("Silakan pilih paket untuk ruangan ini terlebih dahulu.");
-            return;
-        }
+                // PILIH PAKET
+                card.querySelectorAll(".price-option").forEach(option => {
 
-        const params = new URLSearchParams({
-            room: room.name,
-            package: packageNames[selectedPackageIndex],
-            price: room.prices[selectedPackageIndex],
-            prices: JSON.stringify(room.prices),
-            details: JSON.stringify(room.details),
-            time: packageDurations[selectedPackageIndex]
-        });
+                    option.addEventListener("click", () => {
+                        const packageIndex = Number(
+                            option.dataset.packageIndex
+                        );
 
-        window.location.href = "booking.html?" + params.toString();
+                        const cancelSelection =
+                            option.classList.contains("selected");
+
+                        const previous =
+                            roomGrid.querySelector(".price-option.selected");
+
+                        if (previous) {
+                            previous.classList.remove("selected");
+
+                            previous.closest(".room-card")
+                                .querySelector(".duration")
+                                .textContent = defaultEstimate;
+                        }
+
+                        selectedRoom = cancelSelection ? null : index;
+
+                        selectedPackageIndex =
+                            cancelSelection ? null : packageIndex;
+
+                        if (cancelSelection) return;
+
+                        option.classList.add("selected");
+
+                        durationLabel.textContent =
+                            "Estimasi kerja: " +
+                            room.durations[packageIndex];
+                    });
+
+                    // AKSESIBILITAS KEYBOARD
+                    option.addEventListener("keydown", event => {
+                        if (event.key === "Enter" || event.key === " ") {
+                            event.preventDefault();
+
+                            if (!event.repeat) {
+                                option.click();
+                            }
+                        }
+                    });
+                });
+
+                // ==========================================
+                // BOOKING LAYANAN
+                // ==========================================
+
+                const bookButton = card.querySelector(".book-room");
+
+                bookButton.addEventListener("click", event => {
+                    event.preventDefault();
+
+                    if (
+                        selectedRoom !== index ||
+                        selectedPackageIndex === null
+                    ) {
+                        alert(
+                            "Silakan pilih paket untuk ruangan ini terlebih dahulu."
+                        );
+                        return;
+                    }
+
+                    const params = new URLSearchParams({
+                        room: room.name,
+                        package: packageNames[selectedPackageIndex],
+                        price: room.prices[selectedPackageIndex],
+                        prices: JSON.stringify(room.prices),
+                        details: JSON.stringify(room.details),
+                        time: room.durations[selectedPackageIndex]
+                    });
+
+                    window.location.href =
+                        "booking.html?" + params.toString();
+                });
             });
-        });
+        }
+
+        // Jalankan pengambilan data
+        loadServices();
+
 
         // KALKULATOR HARGA CUSTOM
         const customPrices = [
