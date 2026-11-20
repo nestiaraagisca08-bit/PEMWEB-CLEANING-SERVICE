@@ -5,23 +5,92 @@ document.addEventListener("DOMContentLoaded", function () {
     const serviceBtns = document.querySelectorAll(".btn-service");
     const ctaBtn = document.querySelector(".btn-cta");
 
-    // TAMPILKAN NAMA PENGGUNA SETELAH LOGIN
-    const savedUser = JSON.parse(
-        sessionStorage.getItem("griyaresikUser") || "null"
-    );
+    const sessionKey = "griyaresikUser";
 
-    const userName = document.getElementById("userName");
-
-    if (savedUser && userName) {
-        userName.textContent = savedUser.name;
+function readSession() {
+    try {
+        const user = JSON.parse(sessionStorage.getItem(sessionKey) || "null");
+        const email = typeof user?.email === "string" ? user.email.trim() : "";
+        return /^[^\s@]+@[^\s@]+$/.test(email) ? { ...user, email } : null;
+    } catch {
+        return null;
     }
+}
 
-    // DETEKSI HALAMAN SETELAH LOGIN
-    const namaHalaman = decodeURIComponent(
-    window.location.pathname.split("/").pop()
-).toLowerCase();
+const savedUser = readSession();
+const setelahLogin = Boolean(savedUser);
+const userName = document.getElementById("userName");
+const logoutBtn = document.getElementById("logoutBtn");
+const profile = document.getElementById("accountProfile");
 
-const setelahLogin = namaHalaman === "beranda after login.html";
+if (savedUser && userName && logoutBtn && profile && loginBtn) {
+    const localPart = savedUser.email.split("@")[0];
+    const name = localPart.split("+")[0]
+        .replace(/\d+$/, "")
+        .replace(/[._-]+/g, " ")
+        .trim() || localPart;
+    const firstName = typeof savedUser.firstName === "string"
+        ? savedUser.firstName.trim()
+        : "";
+
+    const form = profile.querySelector("form");
+    const { profileName, profileEmail, profilePhone } = form.elements;
+    const status = document.getElementById("profileStatus");
+    const phoneKey = "griyaresikPhone:" + savedUser.email.toLowerCase();
+
+    userName.textContent = firstName || name.split(/\s+/)[0];
+    loginBtn.href = "#accountProfile";
+    logoutBtn.hidden = false;
+    profileName.value = name;
+    profileEmail.value = savedUser.email;
+    profilePhone.value = localStorage.getItem(phoneKey) || "";
+
+    loginBtn.addEventListener("click", event => {
+        event.preventDefault();
+        status.textContent = "";
+        profile.showModal();
+    });
+
+    document.getElementById("closeProfile").addEventListener("click", () => {
+        profile.close();
+    });
+
+    form.addEventListener("submit", event => {
+        event.preventDefault();
+        localStorage.setItem(phoneKey, profilePhone.value.trim());
+        status.textContent = "Nomor telepon tersimpan.";
+    });
+
+    document.getElementById("copyProfile").addEventListener("click", async () => {
+        if (!profilePhone.reportValidity()) return;
+
+        try {
+            await navigator.clipboard.writeText(JSON.stringify({
+                format: "griyaresik-profile",
+                version: 1,
+                name: profileName.value,
+                email: profileEmail.value,
+                phone: profilePhone.value.trim()
+            }));
+
+            status.textContent = "Data profil disalin.";
+        } catch {
+            status.textContent = "Gagal menyalin. Coba buka lewat localhost atau HTTPS.";
+        }
+    });
+
+        logoutBtn.addEventListener("click", () => {
+        sessionStorage.removeItem(sessionKey);
+        sessionStorage.removeItem("token");
+        window.location.reload();
+    });
+    
+    window.addEventListener("pageshow", event => {
+        if (event.persisted && readSession()?.email !== savedUser.email) {
+            window.location.reload();
+        }
+    });
+}
 
     // NAVBAR MENU AKTIF
     navLinks.forEach(function (link) {
@@ -91,7 +160,7 @@ const setelahLogin = namaHalaman === "beranda after login.html";
     // TOMBOL PILIH LAYANAN
     if (!setelahLogin) {
         serviceBtns.forEach(function (button) {
-            button.href = "login.html";
+            button.dataset.target = "login.html";
         });
     }
 
@@ -133,7 +202,7 @@ function initHomeServiceSelection() {
             event.preventDefault();
 
             selectService(card);
-            window.location.href = "Layanan.html";
+            window.location.href = serviceButton.dataset.target || "Layanan.html";
             return;
         }
 

@@ -5497,6 +5497,10 @@ textarea,
 }
 
 </style>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" defer></script>
+
 </head>
 
 <body>
@@ -6528,42 +6532,17 @@ textarea,
 
 </div>
 
-<!-- PREVIEW PETA -->
 <div class="final-map-section">
     <div class="final-map-heading">
         <strong>VERIFIKASI PINPOINT LOKASI SURABAYA</strong>
     </div>
-
-    <div class="final-map-placeholder">
-
-        <svg class="final-map-roads" viewBox="0 0 500 200"
-            preserveAspectRatio="none">
-            <path d="M-10,40 Q100,20 220,80 T520,70"
-                stroke-width="10"/>
-            <path d="M180,-20 L240,220" stroke-width="7"/>
-            <path d="M80,220 L380,-20" stroke-width="5"/>
-            <path d="M30,120 L490,130" stroke-width="4"/>
-        </svg>
-
-        <div class="final-map-pin">
-            <svg><use href="#s5-pin"/></svg>
-        </div>
-
-        <div class="final-map-address" id="mapDistrictLabel">
-            Pilih kecamatan terlebih dahulu
-        </div>
-
-        <div class="final-map-status">
-            <span>
-                <i class="map-dot"></i>
-                Area Layanan Terverifikasi:
-                <b id="mapZoneLabel">Surabaya</b>
-            </span>
-            <span>Preview ilustrasi — bukan peta GPS</span>
-        </div>
-
-            </div> <!-- Penutup final-map-placeholder -->
-        </div> <!-- Penutup final-map-section -->
+    <div id="bookingMap"
+        style="height: 280px; border-radius: 12px; overflow: hidden;"
+        aria-label="Peta lokasi booking"></div>
+    <p id="bookingMapStatus" role="status">
+        Pilih kecamatan dan isi alamat lengkap.
+    </p>
+</div>
 
     </div> <!-- Penutup final-location-details -->
 

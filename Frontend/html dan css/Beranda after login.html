@@ -25,12 +25,48 @@
                 <li><a href="my-bookings.html">Status Pemesanan</a></li>
             </ul>
 
-            <a href="profile.html" class="btn-login">
-                <span class="user-icon">♙</span>
-                <span id="userName">Akun Saya</span>
-            </a>
+            <div class="account-actions">
+                <a href="login.html" class="btn-login" id="accountLink">
+                    <span class="user-icon" aria-hidden="true">♙</span>
+                    <span id="userName">Akun Saya</span>
+                </a>
+                <button type="button" class="btn-login" id="logoutBtn" hidden>
+                    Logout
+                </button>
+            </div>      
         </nav>
     </header>
+    <dialog id="accountProfile" aria-labelledby="profileTitle">
+    <div class="account-actions profile-heading">
+        <h2 id="profileTitle">Informasi Profil</h2>
+        <button type="button" class="btn-login" id="closeProfile">Tutup</button>
+    </div>
+
+    <form>
+        <label>
+            Nama Lengkap
+            <input name="profileName" type="text" readonly>
+        </label>
+        <label>
+            Alamat Email
+            <input name="profileEmail" type="email" readonly>
+        </label>
+        <label>
+            Nomor Telepon
+            <input name="profilePhone" type="tel" autocomplete="tel"
+            placeholder="Contoh: 081234567890"
+            pattern="(?:\+?62|0)?8[0-9]{8,12}" required>
+        </label>
+
+        <div class="account-actions">
+            <button type="submit" class="btn-login">Simpan Nomor</button>
+            <button type="button" class="btn-login" id="copyProfile">
+                Salin Data Profil
+            </button>
+        </div>
+        <p id="profileStatus" role="status"></p>
+    </form>
+</dialog>
 
     <main>
         <!-- HERO -->
@@ -1824,6 +1860,53 @@
         .reviews.section {
             padding-top: 28px;
         }
+
+        .account-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+#logoutBtn[hidden] { display: none; }
+
+.account-actions button { cursor: pointer; }
+
+#accountProfile {
+    width: min(460px, calc(100% - 32px));
+    max-height: calc(100dvh - 32px);
+    margin: auto;
+    padding: 24px;
+    border: 1px solid #dfe5dc;
+    border-radius: 18px;
+    background: #fff;
+    color: #193e2f;
+}
+
+#accountProfile::backdrop { background: rgb(0 0 0 / 35%); }
+
+.profile-heading { justify-content: space-between; }
+
+#accountProfile form,
+#accountProfile label {
+    display: grid;
+    gap: 8px;
+}
+
+#accountProfile form {
+    gap: 14px;
+    margin-top: 18px;
+}
+
+#accountProfile input {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #dfe5dc;
+    border-radius: 10px;
+    font: inherit;
+}
+
+#accountProfile input[readonly] { background: #f4f6f3; }
 
     </style>
 </body>

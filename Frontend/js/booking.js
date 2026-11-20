@@ -2311,3 +2311,133 @@ function printBookingReceipt(booking) {
     initializeProfilePaste();
   }
 })();
+
+(() => {
+    const mapElement = document.getElementById("bookingMap");
+    const status = document.getElementById("bookingMapStatus");
+
+    if (!mapElement || !status) return;
+
+    function initializeMap() {
+    observer.disconnect();
+    addressInput.removeEventListener("focus", initializeMap);
+
+        if (!window.L) {
+            status.textContent = "Leaflet gagal dimuat. Coba muat ulang halaman.";
+            return;
+        }
+
+        const map = L.map(mapElement, { scrollWheelZoom: false })
+            .setView([-7.2575, 112.7521], 12);
+
+        L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+            maxZoom: 19,
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        const marker = L.marker(map.getCenter(), {
+            draggable: true,
+            title: "Pin lokasi booking"
+        });
+
+        map.on("click", event => {
+            marker.setLatLng(event.latlng).addTo(map);
+            status.textContent = "Geser pin kalau titiknya perlu disesuaikan.";
+        });
+
+        marker.on("dragend", () => {
+            status.textContent = "Pin sudah disesuaikan di peta.";
+        });
+
+        const address = document.getElementById("address");
+const district = document.getElementById("district");
+
+const cache = new Map();
+let lastRequest = 0;
+
+let searching = false;
+
+address.addEventListener("keydown", async event => {
+    if (event.key !== "Enter" || event.shiftKey || event.isComposing) return;
+
+    event.preventDefault();
+    if (event.repeat || searching) return;
+    const place = address.value.trim();
+    const area = district.value;
+
+    if (!area || !place) {
+        status.textContent = "Pilih kecamatan dan isi nama jalan atau tempat umum.";
+        return;
+    }
+
+    const street = place.match(
+    /^(?:jl\.?|jalan)\s+(.+?)\s*,?\s+(?:no\.?|nomor)\s*\d/i
+)?.[1]?.trim();
+
+if (!street) {
+    status.textContent =
+        "Isi dengan format Jl. Nama Jalan No. 50, atau klik peta untuk menaruh pin.";
+    return;
+}
+
+const query = `${street}, ${area}, Surabaya, Jawa Timur`;
+    searching = true;
+    status.textContent = "Mencari lokasi…";
+
+    try {
+        if (!cache.has(query)) {
+            const wait = Math.max(0, 1100 - (Date.now() - lastRequest));
+            await new Promise(resolve => setTimeout(resolve, wait));
+
+            const params = new URLSearchParams({
+                q: query,
+                format: "jsonv2",
+                countrycodes: "id",
+                viewbox: "112.55,-7.15,112.95,-7.40",
+                bounded: "1",
+                limit: "1"
+            });
+
+            lastRequest = Date.now();
+            const response = await fetch(
+                "https://nominatim.openstreetmap.org/search?" + params
+            );
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            cache.set(query, await response.json());
+        }
+
+        if (address.value.trim() !== place || district.value !== area) {
+            status.textContent = "Alamat berubah. Tekan Enter di kolom alamat untuk mencari lagi.";
+            return;
+        }
+
+        const [result] = cache.get(query);
+        if (!result) {
+            status.textContent = "Lokasi belum ditemukan. Coba nama jalan atau klik peta untuk menaruh pin.";
+            return;
+        }
+
+        const point = [Number(result.lat), Number(result.lon)];
+        marker.setLatLng(point).addTo(map);
+        map.setView(point, 17);
+        status.textContent = "Cek hasilnya. Geser pin kalau titiknya kurang pas.";
+    } catch {
+        status.textContent = "Pencarian gagal. Coba lagi atau taruh pin lewat peta.";
+    } finally {
+        searching = false;
+    }
+});
+
+status.textContent = "Isi alamat, lalu tekan Enter untuk mencari jalan di peta.";
+       }
+
+    const addressInput = document.getElementById("address");
+    const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) initializeMap();
+    });
+
+    addressInput.addEventListener("focus", initializeMap);
+    observer.observe(mapElement);
+})();
