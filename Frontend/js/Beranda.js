@@ -29,18 +29,13 @@ if (savedUser && userName && logoutBtn && profile && loginBtn) {
         .replace(/\d+$/, "")
         .replace(/[._-]+/g, " ")
         .trim() || localPart;
-    const firstName = typeof savedUser.firstName === "string"
-        ? savedUser.firstName.trim()
-        : "";
 
     const form = profile.querySelector("form");
     const { profileName, profileEmail, profilePhone } = form.elements;
     const status = document.getElementById("profileStatus");
     const phoneKey = "griyaresikPhone:" + savedUser.email.toLowerCase();
 
-    userName.textContent = firstName || name.split(/\s+/)[0];
     loginBtn.href = "#accountProfile";
-    logoutBtn.hidden = false;
     profileName.value = name;
     profileEmail.value = savedUser.email;
     profilePhone.value = localStorage.getItem(phoneKey) || "";
@@ -79,12 +74,6 @@ if (savedUser && userName && logoutBtn && profile && loginBtn) {
         }
     });
 
-        logoutBtn.addEventListener("click", () => {
-        sessionStorage.removeItem(sessionKey);
-        sessionStorage.removeItem("token");
-        window.location.reload();
-    });
-    
     window.addEventListener("pageshow", event => {
         if (event.persisted && readSession()?.email !== savedUser.email) {
             window.location.reload();

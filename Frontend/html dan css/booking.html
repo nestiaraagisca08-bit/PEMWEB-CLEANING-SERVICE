@@ -5496,6 +5496,10 @@ textarea,
     }
 }
 
+#logoutBtn[hidden] {
+    display: none;
+}
+
 </style>
 
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
@@ -5537,13 +5541,16 @@ textarea,
         <ul class="nav-menu">
             <li><a href="Beranda after login.html">Beranda</a></li>
             <li><a href="Layanan.html">Layanan</a></li>
-            <li><a href="booking after login.html" class="active">Booking</a></li>
+            <li><a href="booking.html" class="active">Booking</a></li>
             <li><a href="my-bookings%201.html">Status Pemesanan</a></li>
         </ul>
 
         <a href="profile.html" class="btn-account">
-            ♙ Pengaturan Akun
-        </a>
+    ♙ <span data-account-name>Pengaturan Akun</span>
+</a>
+<button type="button" id="logoutBtn" class="btn-account" hidden>
+    Logout
+</button>
     </nav>
 </header>
 
@@ -7386,6 +7393,8 @@ textarea,
     </div>
 </footer>
 
-<script src="../js/booking.js" defer></script>
+        <script src="../js/booking.js" defer></script>
+        <script src="../js/account-navbar.js" defer></script>
+
 </body>
 </html>
