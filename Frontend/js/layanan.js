@@ -125,6 +125,8 @@
         ];
 
         const packageNames = ["Basic", "Standard", "Deep"];
+        const packageDurations = ["60–90 menit", "90–150 menit", "180–240 menit"];
+        const defaultEstimate = "Estimasi kerja: Pilih paket";
         const roomGrid = document.getElementById("roomGrid");
 
         function rupiah(value) {
@@ -170,7 +172,7 @@
                 ${detailHTML}
 
                 <div class="room-footer">
-                    <span class="duration">Estimasi kerja: ${room.time}</span>
+                   <span class="duration" aria-live="polite">${defaultEstimate}</span>
                     <a class="book-room" href="#">
                         Booking Ruangan Ini →
                     </a>
@@ -180,34 +182,32 @@
 roomGrid.appendChild(card);
 
 // PILIH SATU PAKET UNTUK SELURUH RUANGAN
-const priceOptions = card.querySelectorAll(".price-option");
-
-priceOptions.forEach(option => {
+const durationLabel = card.querySelector(".duration");
+card.querySelectorAll(".price-option").forEach(option => {
     option.addEventListener("click", () => {
         const packageIndex = Number(option.dataset.packageIndex);
+        const cancelSelection = option.classList.contains("selected");
+        const previous = roomGrid.querySelector(".price-option.selected");
 
-        // Jika paket yang sama diklik lagi, batalkan pilihan
-        if (selectedRoom === index && selectedPackageIndex === packageIndex) {
-            selectedRoom = null;
-            selectedPackageIndex = null;
-
-            document.querySelectorAll(".price-option").forEach(item => {
-                item.classList.remove("selected");
-            });
-
-            return;
+        if (previous) {
+            previous.classList.remove("selected");
+            previous.closest(".room-card").querySelector(".duration").textContent =
+                defaultEstimate;
         }
 
-        // Hapus pilihan sebelumnya di seluruh kartu
-        document.querySelectorAll(".price-option").forEach(item => {
-            item.classList.remove("selected");
-        });
-
-        // Simpan pilihan baru
-        selectedRoom = index;
-        selectedPackageIndex = packageIndex;
+        selectedRoom = cancelSelection ? null : index;
+        selectedPackageIndex = cancelSelection ? null : packageIndex;
+        if (cancelSelection) return;
 
         option.classList.add("selected");
+        durationLabel.textContent = "Estimasi kerja: " + packageDurations[packageIndex];
+    });
+
+    option.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            if (!event.repeat) option.click();
+        }
     });
 });
 
@@ -228,7 +228,7 @@ bookButton.addEventListener("click", (event) => {
             price: room.prices[selectedPackageIndex],
             prices: JSON.stringify(room.prices),
             details: JSON.stringify(room.details),
-            time: room.time
+            time: packageDurations[selectedPackageIndex]
         });
 
         window.location.href = "booking.html?" + params.toString();
