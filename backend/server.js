@@ -468,6 +468,45 @@ app.post("/api/auth/google", async (req, res) => {
     }
 });
 // ==========================================
+// DATA CUSTOMER - ADMIN
+// ==========================================
+
+app.get(
+    "/api/admin/customers",
+    verifyToken,
+    verifyAdmin,
+    async (req, res) => {
+        try {
+            const result = await db.query(
+                `SELECT
+                    id,
+                    name,
+                    email,
+                    google_id,
+                    profile_picture
+                 FROM public.users
+                 WHERE LOWER(TRIM(role)) = 'customer'
+                 ORDER BY id DESC`
+            );
+
+            return res.json({
+                message: "Data customer berhasil diambil.",
+                customers: result.rows
+            });
+
+        } catch (error) {
+            console.error(
+                "Gagal mengambil data customer:",
+                error.message
+            );
+
+            return res.status(500).json({
+                message: "Gagal mengambil data customer."
+            });
+        }
+    }
+);
+// ==========================================
 // DATA PETUGAS - VALIDASI
 // ==========================================
 
@@ -1530,6 +1569,173 @@ app.delete(
         }
     }
 );
+
+// ==========================================
+// PROFIL CUSTOMER
+// ==========================================
+
+// GET PROFIL PENGGUNA
+app.get("/api/profile", verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+
+        const result = await db.query(
+            `SELECT id, name, email, phone, role
+             FROM public.users
+             WHERE id = $1`,
+            [userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Data pengguna tidak ditemukan."
+            });
+        }
+
+        return res.json({
+            message: "Profil berhasil diambil.",
+            user: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error("GET profil gagal:", error.message);
+
+        return res.status(500).json({
+            message: "Gagal mengambil profil."
+        });
+    }
+});
+
+
+// UPDATE PROFIL PENGGUNA
+app.put("/api/profile", verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { name, phone } = req.body;
+
+        if (!name || !name.trim()) {
+            return res.status(400).json({
+                message: "Nama lengkap wajib diisi."
+            });
+        }
+
+        if (name.trim().length > 100) {
+            return res.status(400).json({
+                message: "Nama maksimal 100 karakter."
+            });
+        }
+
+        if (
+            phone &&
+            !/^[0-9+\-\s]{8,20}$/.test(phone)
+        ) {
+            return res.status(400).json({
+                message: "Format nomor telepon tidak valid."
+            });
+        }
+
+        const result = await db.query(
+            `UPDATE public.users
+             SET name = $1,
+                 phone = $2
+             WHERE id = $3
+             RETURNING id, name, email, phone, role`,
+            [
+                name.trim(),
+                phone ? phone.trim() : null,
+                userId
+            ]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Pengguna tidak ditemukan."
+            });
+        }
+
+        return res.json({
+            message: "Profil berhasil diperbarui.",
+            user: result.rows[0]
+        });
+
+    } catch (error) {
+        console.error("UPDATE profil gagal:", error.message);
+
+        return res.status(500).json({
+            message: "Gagal memperbarui profil."
+        });
+    }
+});
+
+
+// HAPUS AKUN PENGGUNA
+app.delete("/api/profile", verifyToken, async (req, res) => {
+    try {
+        const userId = req.user.id;
+        const { password } = req.body;
+
+        if (!password) {
+            return res.status(400).json({
+                message: "Password wajib diisi."
+            });
+        }
+
+        const result = await db.query(
+            `SELECT id, password
+             FROM public.users
+             WHERE id = $1`,
+            [userId]
+        );
+
+        if (result.rows.length === 0) {
+            return res.status(404).json({
+                message: "Pengguna tidak ditemukan."
+            });
+        }
+
+        const user = result.rows[0];
+
+        if (!user.password) {
+            return res.status(400).json({
+                message: "Akun ini tidak memiliki password lokal."
+            });
+        }
+
+        const passwordMatch = await bcrypt.compare(
+            password,
+            user.password
+        );
+
+        if (!passwordMatch) {
+            return res.status(401).json({
+                message: "Password yang dimasukkan salah."
+            });
+        }
+
+        await db.query(
+            `DELETE FROM public.users
+             WHERE id = $1`,
+            [userId]
+        );
+
+        return res.json({
+            message: "Akun berhasil dihapus."
+        });
+
+    } catch (error) {
+        console.error("DELETE profil gagal:", error.message);
+
+        if (error.code === "23503") {
+            return res.status(409).json({
+                message: "Akun tidak dapat dihapus karena masih memiliki riwayat transaksi atau pemesanan."
+            });
+        }
+
+        return res.status(500).json({
+            message: "Gagal menghapus akun."
+        });
+    }
+});
 
 // ==========================================
 // MENJALANKAN SERVER
