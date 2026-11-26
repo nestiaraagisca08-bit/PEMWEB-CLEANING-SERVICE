@@ -7,11 +7,61 @@ const jwt = require("jsonwebtoken");
 const crypto = require("crypto");
 const { OAuth2Client } = require("google-auth-library");
 
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+
 const db = require("./db");
 const { verifyToken, verifyAdmin } = require("./middleware/auth");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// ==========================================
+// UPLOAD FOTO PROFIL
+// ==========================================
+
+const profileUploadDir = path.join(__dirname, "uploads", "profile");
+
+// Pastikan folder upload tersedia
+if (!fs.existsSync(profileUploadDir)) {
+    fs.mkdirSync(profileUploadDir, { recursive: true });
+}
+
+// Konfigurasi penyimpanan Multer
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, profileUploadDir);
+    },
+
+    filename: function (req, file, cb) {
+        const ext = path.extname(file.originalname).toLowerCase();
+
+        const filename = `profile-${req.user.id}-${Date.now()}${ext}`;
+
+        cb(null, filename);
+    }
+});
+
+// Validasi file foto
+const fileFilter = (req, file, cb) => {
+    const allowedTypes = ["image/jpeg", "image/png", "image/webp"];
+
+    if (allowedTypes.includes(file.mimetype)) {
+        cb(null, true);
+    } else {
+        cb(new Error("Foto harus berformat JPG, PNG, atau WEBP."));
+    }
+};
+
+// Batas ukuran foto 5 MB
+const uploadProfilePhoto = multer({
+    storage: storage,
+    fileFilter: fileFilter,
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
 
 // ==========================================
 // KONFIGURASI GOOGLE
@@ -27,6 +77,9 @@ const googleClient = new OAuth2Client(
 
 app.use(cors());
 app.use(express.json());
+
+// Akses file upload melalui browser
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 // ==========================================
 // KONFIGURASI JWT
@@ -1574,13 +1627,23 @@ app.delete(
 // PROFIL CUSTOMER
 // ==========================================
 
+// ==========================================
+// PROFIL CUSTOMER
+// ==========================================
+
 // GET PROFIL PENGGUNA
 app.get("/api/profile", verifyToken, async (req, res) => {
     try {
         const userId = req.user.id;
 
         const result = await db.query(
-            `SELECT id, name, email, phone, role
+            `SELECT
+                id,
+                name,
+                email,
+                phone,
+                role,
+                profile_picture
              FROM public.users
              WHERE id = $1`,
             [userId]
@@ -1592,9 +1655,19 @@ app.get("/api/profile", verifyToken, async (req, res) => {
             });
         }
 
+        const user = result.rows[0];
+
+        // Jika foto merupakan file lokal, ubah menjadi URL
+        if (
+            user.profile_picture &&
+            !user.profile_picture.startsWith("http")
+        ) {
+            user.profile_picture = `${req.protocol}://${req.get("host")}${user.profile_picture}`;
+        }
+
         return res.json({
             message: "Profil berhasil diambil.",
-            user: result.rows[0]
+            user
         });
 
     } catch (error) {
@@ -1607,135 +1680,279 @@ app.get("/api/profile", verifyToken, async (req, res) => {
 });
 
 
-// UPDATE PROFIL PENGGUNA
-app.put("/api/profile", verifyToken, async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { name, phone } = req.body;
+// UPDATE PROFIL PENGGUNA + FOTO
+app.put(
+    "/api/profile",
+    verifyToken,
+    uploadProfilePhoto.single("profilePhoto"),
+    async (req, res) => {
+        try {
+            const userId = req.user.id;
+            const { name, phone } = req.body;
 
-        if (!name || !name.trim()) {
-            return res.status(400).json({
-                message: "Nama lengkap wajib diisi."
+            if (
+                typeof name !== "string" ||
+                !name.trim()
+            ) {
+                return res.status(400).json({
+                    message: "Nama lengkap wajib diisi."
+                });
+            }
+
+            if (name.trim().length > 100) {
+                return res.status(400).json({
+                    message: "Nama maksimal 100 karakter."
+                });
+            }
+
+            if (
+                phone &&
+                !/^[0-9+\-\s]{8,20}$/.test(phone.trim())
+            ) {
+                return res.status(400).json({
+                    message: "Format nomor telepon tidak valid."
+                });
+            }
+
+            // Ambil foto lama
+            const oldProfile = await db.query(
+                `SELECT profile_picture
+                 FROM public.users
+                 WHERE id = $1`,
+                [userId]
+            );
+
+            if (oldProfile.rows.length === 0) {
+                return res.status(404).json({
+                    message: "Pengguna tidak ditemukan."
+                });
+            }
+
+            const oldPhoto = oldProfile.rows[0].profile_picture;
+
+            // Foto baru jika ada upload
+            let profilePicture = oldPhoto;
+
+            if (req.file) {
+                profilePicture = `/uploads/profile/${req.file.filename}`;
+            }
+
+            // Update database
+            const result = await db.query(
+                `UPDATE public.users
+                 SET
+                    name = $1,
+                    phone = $2,
+                    profile_picture = $3
+                 WHERE id = $4
+                 RETURNING
+                    id,
+                    name,
+                    email,
+                    phone,
+                    role,
+                    profile_picture`,
+                [
+                    name.trim(),
+                    phone ? phone.trim() : null,
+                    profilePicture,
+                    userId
+                ]
+            );
+
+            const user = result.rows[0];
+
+            // Buat URL foto agar dapat ditampilkan browser
+            if (
+                user.profile_picture &&
+                !user.profile_picture.startsWith("http")
+            ) {
+                user.profile_picture = `${req.protocol}://${req.get("host")}${user.profile_picture}`;
+            }
+
+            return res.json({
+                message: "Profil berhasil diperbarui.",
+                user
+            });
+
+        } catch (error) {
+            console.error("UPDATE profil gagal:", error);
+
+            return res.status(500).json({
+                message: "Gagal memperbarui profil."
             });
         }
-
-        if (name.trim().length > 100) {
-            return res.status(400).json({
-                message: "Nama maksimal 100 karakter."
-            });
-        }
-
-        if (
-            phone &&
-            !/^[0-9+\-\s]{8,20}$/.test(phone)
-        ) {
-            return res.status(400).json({
-                message: "Format nomor telepon tidak valid."
-            });
-        }
-
-        const result = await db.query(
-            `UPDATE public.users
-             SET name = $1,
-                 phone = $2
-             WHERE id = $3
-             RETURNING id, name, email, phone, role`,
-            [
-                name.trim(),
-                phone ? phone.trim() : null,
-                userId
-            ]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                message: "Pengguna tidak ditemukan."
-            });
-        }
-
-        return res.json({
-            message: "Profil berhasil diperbarui.",
-            user: result.rows[0]
-        });
-
-    } catch (error) {
-        console.error("UPDATE profil gagal:", error.message);
-
-        return res.status(500).json({
-            message: "Gagal memperbarui profil."
-        });
     }
-});
+);
+
+// ==========================================
+// DASHBOARD ADMIN
+// ==========================================
+
+app.get(
+    "/api/admin/dashboard",
+    verifyToken,
+    verifyAdmin,
+    async (req, res) => {
+        try {
+            // ==========================================
+            // 1. STATISTIK CUSTOMER
+            // ==========================================
+
+            const customerResult = await db.query(`
+                SELECT COUNT(*) AS total
+                FROM public.users
+                WHERE LOWER(TRIM(role)) = 'customer'
+            `);
 
 
-// HAPUS AKUN PENGGUNA
-app.delete("/api/profile", verifyToken, async (req, res) => {
-    try {
-        const userId = req.user.id;
-        const { password } = req.body;
+            // ==========================================
+            // 2. STATISTIK PETUGAS
+            // ==========================================
 
-        if (!password) {
-            return res.status(400).json({
-                message: "Password wajib diisi."
+            const workerResult = await db.query(`
+                SELECT COUNT(*) AS total
+                FROM public.workers
+            `);
+
+
+            // ==========================================
+            // 3. STATISTIK PEMESANAN
+            // ==========================================
+
+            const bookingResult = await db.query(`
+                SELECT
+                    COUNT(*) AS total,
+
+                    COUNT(*) FILTER (
+                        WHERE LOWER(TRIM(status)) IN (
+                            'pending',
+                            'menunggu',
+                            'menunggu konfirmasi'
+                        )
+                    ) AS pending,
+
+                    COUNT(*) FILTER (
+                        WHERE LOWER(TRIM(status)) IN (
+                            'selesai',
+                            'completed',
+                            'complete'
+                        )
+                    ) AS completed,
+
+                    COUNT(*) FILTER (
+                        WHERE LOWER(TRIM(status)) IN (
+                            'diproses',
+                            'processing',
+                            'confirmed',
+                            'dikonfirmasi'
+                        )
+                    ) AS processing
+
+                FROM public.bookings
+            `);
+
+
+            // ==========================================
+            // 4. TOTAL PENDAPATAN
+            // ==========================================
+
+            const revenueResult = await db.query(`
+                SELECT COALESCE(SUM(amount), 0) AS total_revenue
+                FROM public.payments
+                WHERE LOWER(TRIM(payment_status)) IN (
+                    'paid',
+                    'success',
+                    'successful',
+                    'completed',
+                    'lunas'
+                )
+            `);
+
+
+            // ==========================================
+            // 5. PEMESANAN TERBARU
+            // ==========================================
+
+            const recentBookingResult = await db.query(`
+                SELECT
+                    b.id,
+                    b.booking_date,
+                    b.booking_time,
+                    b.status,
+                    b.total_price,
+
+                    u.name AS customer_name,
+
+                    s.name AS service_name
+
+                FROM public.bookings b
+
+                LEFT JOIN public.users u
+                    ON b.user_id = u.id
+
+                LEFT JOIN public.services s
+                    ON b.service_id = s.id
+
+                ORDER BY b.id DESC
+
+                LIMIT 5
+            `);
+
+
+            // ==========================================
+            // 6. KIRIM DATA KE FRONTEND
+            // ==========================================
+
+            return res.json({
+                message: "Dashboard berhasil mengambil data.",
+
+                statistics: {
+                    totalCustomers: Number(
+                        customerResult.rows[0].total
+                    ),
+
+                    totalWorkers: Number(
+                        workerResult.rows[0].total
+                    ),
+
+                    totalBookings: Number(
+                        bookingResult.rows[0].total
+                    ),
+
+                    pendingBookings: Number(
+                        bookingResult.rows[0].pending
+                    ),
+
+                    processingBookings: Number(
+                        bookingResult.rows[0].processing
+                    ),
+
+                    completedBookings: Number(
+                        bookingResult.rows[0].completed
+                    ),
+
+                    totalRevenue: Number(
+                        revenueResult.rows[0].total_revenue
+                    )
+                },
+
+                recentBookings: recentBookingResult.rows
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Dashboard admin gagal mengambil data:",
+                error.message
+            );
+
+            return res.status(500).json({
+                message: "Gagal mengambil data dashboard."
             });
         }
-
-        const result = await db.query(
-            `SELECT id, password
-             FROM public.users
-             WHERE id = $1`,
-            [userId]
-        );
-
-        if (result.rows.length === 0) {
-            return res.status(404).json({
-                message: "Pengguna tidak ditemukan."
-            });
-        }
-
-        const user = result.rows[0];
-
-        if (!user.password) {
-            return res.status(400).json({
-                message: "Akun ini tidak memiliki password lokal."
-            });
-        }
-
-        const passwordMatch = await bcrypt.compare(
-            password,
-            user.password
-        );
-
-        if (!passwordMatch) {
-            return res.status(401).json({
-                message: "Password yang dimasukkan salah."
-            });
-        }
-
-        await db.query(
-            `DELETE FROM public.users
-             WHERE id = $1`,
-            [userId]
-        );
-
-        return res.json({
-            message: "Akun berhasil dihapus."
-        });
-
-    } catch (error) {
-        console.error("DELETE profil gagal:", error.message);
-
-        if (error.code === "23503") {
-            return res.status(409).json({
-                message: "Akun tidak dapat dihapus karena masih memiliki riwayat transaksi atau pemesanan."
-            });
-        }
-
-        return res.status(500).json({
-            message: "Gagal menghapus akun."
-        });
     }
-});
+);
 
 // ==========================================
 // MENJALANKAN SERVER

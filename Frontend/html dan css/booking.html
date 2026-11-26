@@ -76,28 +76,38 @@ button, input, select, textarea {
 .logo {
     display: flex;
     align-items: center;
-    gap: 7px;
+    gap: 10px;
+    height: 45px;
     flex-shrink: 0;
+    text-decoration: none;
 }
 
 .logo img {
     width: 38px;
     height: 38px;
     object-fit: contain;
+    display: block;
+    flex-shrink: 0;
 }
 
-.logo .logo-text {
+.logo-text {
+    display: flex;
+    align-items: center;
+    height: 45px;
     font-family: 'Baloo 2', sans-serif;
     font-size: 22px;
     font-weight: 800;
+    line-height: 45px;
+    margin: 0;
+    padding: 0;
     white-space: nowrap;
 }
 
-.logo .logo-griya {
+.logo-griya {
     color: #292929;
 }
 
-.logo .logo-resik {
+.logo-resik {
     color: #789477;
 }
 
@@ -5529,30 +5539,52 @@ textarea,
   <symbol id="s5-shield" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></symbol>
 </svg>
 
+<!-- HEADER -->
+<!-- HEADER -->
 <header class="header">
     <nav class="navbar">
+
+        <!-- LOGO -->
         <a href="Beranda after login.html" class="logo">
-            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <img src="../images/Logo griya Resik.png" alt="GriyaResik">
+
             <span class="logo-text">
                 <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
             </span>
         </a>
 
+        <!-- MENU -->
         <ul class="nav-menu">
-            <li><a href="Beranda after login.html">Beranda</a></li>
-            <li><a href="Layanan.html">Layanan</a></li>
-            <li><a href="booking.html" class="active">Booking</a></li>
-            <li><a href="my-bookings%201.html">Status Pemesanan</a></li>
+            <li>
+                <a href="Beranda after login.html">Beranda</a>
+            </li>
+
+            <li>
+                <a href="Layanan.html">Layanan</a>
+            </li>
+
+            <li>
+                <a href="booking.html" class="active">Booking</a>
+            </li>
+
+            <li>
+                <a href="my-bookings.html">Status Pemesanan</a>
+            </li>
         </ul>
 
-        <a href="profile.html" class="btn-account">
-    ♙ <span data-account-name>Pengaturan Akun</span>
-</a>
-<button type="button" id="logoutBtn" class="btn-account" hidden>
-    Logout
-</button>
+        <!-- AKUN -->
+        <div class="account-actions">
+            <a href="profile.html?from=booking.html"
+               class="btn-login"
+               id="accountLink">
+                <span class="user-icon"></span>
+                <span id="userName" data-account-name>Akun Saya</span>
+            </a>
+        </div>
+
     </nav>
 </header>
+
 
 <main class="booking-container">
 

@@ -26,8 +26,7 @@
             </ul>
 
             <div class="account-actions">
-                <a href="profile.html" class="btn-login" id="accountLink">
-                    <span class="user-icon" aria-hidden="true">♙</span>
+                <a href="profile.html?from=Beranda%20after%20login.html" class="btn-login">
                     <span id="userName" data-account-name>Akun Saya</span>
                 </a>
                 
@@ -671,34 +670,38 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 7px;
+            gap: 10px;
+            height: 45px;
             flex-shrink: 0;
+            text-decoration: none;
         }
 
         .logo img {
             width: 38px;
             height: 38px;
             object-fit: contain;
+            display: block;
+            flex-shrink: 0;
         }
 
-        .logo .logo-text,
-        .footer-brand .logo-text {
+        .logo-text {
+            display: flex;
+            align-items: center;
+            height: 45px;
             font-family: 'Baloo 2', sans-serif;
+            font-size: 22px;
             font-weight: 800;
+            line-height: 45px;
+            margin: 0;
+            padding: 0;
             white-space: nowrap;
         }
 
-        .logo .logo-text {
-            font-size: 22px;
-        }
-
-        .logo .logo-griya,
-        .footer-brand .logo-griya {
+        .logo-griya {
             color: #292929;
         }
 
-        .logo .logo-resik,
-        .footer-brand .logo-resik {
+        .logo-resik {
             color: #789477;
         }
 

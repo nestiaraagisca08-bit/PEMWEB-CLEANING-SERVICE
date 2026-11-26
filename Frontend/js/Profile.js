@@ -50,12 +50,12 @@ function getToken() {
     return sessionStorage.getItem(TOKEN_KEY);
 }
 
+const token = getToken();
+
 
 // ============================================
 // CEK LOGIN
 // ============================================
-
-const token = getToken();
 
 if (!token) {
     alert("Silakan login terlebih dahulu.");
@@ -64,14 +64,14 @@ if (!token) {
 
 
 // ============================================
-// DATA PROFIL SEMENTARA
+// DATA PROFIL
 // ============================================
 
 let originalProfile = {};
 
 
 // ============================================
-// FORMAT NAMA DAN INISIAL
+// FORMAT INISIAL
 // ============================================
 
 function getInitials(name) {
@@ -91,7 +91,7 @@ function getInitials(name) {
 
 
 // ============================================
-// TAMPILKAN FOTO / INISIAL
+// TAMPILKAN INISIAL
 // ============================================
 
 function showInitial(name) {
@@ -99,6 +99,32 @@ function showInitial(name) {
     avatarInitial.innerHTML = "";
 
     avatarInitial.textContent = getInitials(name);
+}
+
+
+// ============================================
+// TAMPILKAN FOTO PROFIL
+// ============================================
+
+function showProfilePhoto(photoUrl, name) {
+
+    avatarInitial.innerHTML = "";
+
+    if (!photoUrl) {
+        showInitial(name);
+        return;
+    }
+
+    const img = document.createElement("img");
+
+    img.src = photoUrl;
+    img.alt = "Foto Profil";
+
+    img.onerror = function () {
+        showInitial(name);
+    };
+
+    avatarInitial.appendChild(img);
 }
 
 
@@ -148,29 +174,32 @@ function displayProfile(user) {
     const email = user.email || "";
     const phone = user.phone || "";
     const role = user.role || "customer";
+    const profilePicture = user.profile_picture || null;
 
     // Isi form
     profileName.value = name;
     profileEmail.value = email;
     profilePhone.value = phone;
 
-    // Isi informasi samping
+    // Informasi samping
     sideName.textContent = name || "Nama belum diisi";
     sideEmail.textContent = email;
 
-    // Tampilkan role
+    // Role
     roleBadge.textContent = formatRole(role);
 
-    // Tampilkan inisial
-    showInitial(name);
+    // Foto atau inisial
+    showProfilePhoto(profilePicture, name);
 
-    // Simpan data awal untuk tombol batal
+    // Data awal
     originalProfile = {
+        id: user.id,
         name,
         email,
-        phone
+        phone,
+        role,
+        profile_picture: profilePicture
     };
-
 }
 
 
@@ -185,22 +214,20 @@ async function loadProfile() {
     try {
 
         const response = await fetch(`${API_BASE}/profile`, {
-
             method: "GET",
-
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+                Authorization: `Bearer ${token}`
             }
-
         });
-
 
         const data = await response.json();
 
         if (!response.ok) {
 
-            if (response.status === 401 || response.status === 403) {
+            if (
+                response.status === 401 ||
+                response.status === 403
+            ) {
 
                 clearSession();
 
@@ -211,19 +238,19 @@ async function loadProfile() {
                 return;
             }
 
-            throw new Error(data.message || "Gagal mengambil data profil.");
-
+            throw new Error(
+                data.message || "Gagal mengambil data profil."
+            );
         }
 
-
-        // Mendukung respons { user: {...} } maupun {...}
         const user = data.user || data.data || data;
 
         displayProfile(user);
 
-        // Perbarui data user di sessionStorage
-        sessionStorage.setItem(USER_KEY, JSON.stringify(user));
-
+        sessionStorage.setItem(
+            USER_KEY,
+            JSON.stringify(user)
+        );
 
     } catch (error) {
 
@@ -233,14 +260,65 @@ async function loadProfile() {
             error.message || "Tidak dapat terhubung ke server.",
             "error"
         );
-
     }
-
 }
 
 
 // ============================================
-// SIMPAN PERUBAHAN PROFIL
+// PREVIEW FOTO SAAT DIPILIH
+// ============================================
+
+profilePhoto.addEventListener("change", function () {
+
+    const file = profilePhoto.files[0];
+
+    if (!file) return;
+
+    const allowedTypes = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+    ];
+
+    if (!allowedTypes.includes(file.type)) {
+
+        alert("Format foto harus JPG, PNG, atau WEBP.");
+
+        profilePhoto.value = "";
+
+        return;
+    }
+
+    // Maksimal 5 MB sesuai backend
+    if (file.size > 5 * 1024 * 1024) {
+
+        alert("Ukuran foto maksimal 5 MB.");
+
+        profilePhoto.value = "";
+
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function (event) {
+
+        avatarInitial.innerHTML = "";
+
+        const img = document.createElement("img");
+
+        img.src = event.target.result;
+        img.alt = "Preview Foto Profil";
+
+        avatarInitial.appendChild(img);
+    };
+
+    reader.readAsDataURL(file);
+});
+
+
+// ============================================
+// SIMPAN PROFIL + FOTO
 // ============================================
 
 profileForm.addEventListener("submit", async function (event) {
@@ -249,7 +327,7 @@ profileForm.addEventListener("submit", async function (event) {
 
     const name = profileName.value.trim();
     const phone = profilePhone.value.trim();
-
+    const photoFile = profilePhoto.files[0];
 
     // Validasi nama
     if (!name) {
@@ -261,9 +339,11 @@ profileForm.addEventListener("submit", async function (event) {
         return;
     }
 
-
     // Validasi nomor telepon
-    if (phone && !/^[0-9+\-\s]{8,15}$/.test(phone)) {
+    if (
+        phone &&
+        !/^[0-9+\-\s]{8,20}$/.test(phone)
+    ) {
 
         showMessage("Format nomor telepon tidak valid.", "error");
 
@@ -272,7 +352,6 @@ profileForm.addEventListener("submit", async function (event) {
         return;
     }
 
-
     try {
 
         saveProfile.disabled = true;
@@ -280,64 +359,48 @@ profileForm.addEventListener("submit", async function (event) {
 
         profileMessage.textContent = "";
 
+        // FormData untuk mengirim foto dan data teks
+        const formData = new FormData();
+
+        formData.append("name", name);
+        formData.append("phone", phone);
+
+        if (photoFile) {
+            formData.append("profilePhoto", photoFile);
+        }
 
         const response = await fetch(`${API_BASE}/profile`, {
 
             method: "PUT",
 
             headers: {
-                "Authorization": `Bearer ${token}`,
-                "Content-Type": "application/json"
+                Authorization: `Bearer ${token}`
             },
 
-            body: JSON.stringify({
-                name,
-                phone
-            })
-
+            body: formData
         });
-
 
         const data = await response.json();
 
-
         if (!response.ok) {
-
-            throw new Error(data.message || "Gagal memperbarui profil.");
-
+            throw new Error(
+                data.message || "Gagal memperbarui profil."
+            );
         }
 
-
-        // Ambil data terbaru dari respons backend
         const updatedUser = data.user || data.data || data;
 
+        // Tampilkan data baru
+        displayProfile(updatedUser);
 
-        // Perbarui tampilan
-        displayProfile({
-            ...originalProfile,
-            ...updatedUser,
-            name: updatedUser.name || name,
-            phone: updatedUser.phone ?? phone
-        });
-
-
-        // Perbarui sessionStorage
-        const oldUser = JSON.parse(
-            sessionStorage.getItem(USER_KEY) || "{}"
-        );
-
-        const newUser = {
-            ...oldUser,
-            ...updatedUser,
-            name,
-            phone
-        };
-
+        // Update session
         sessionStorage.setItem(
             USER_KEY,
-            JSON.stringify(newUser)
+            JSON.stringify(updatedUser)
         );
 
+        // Bersihkan input foto
+        profilePhoto.value = "";
 
         showMessage("Profil berhasil diperbarui.");
 
@@ -354,9 +417,7 @@ profileForm.addEventListener("submit", async function (event) {
 
         saveProfile.disabled = false;
         saveProfile.textContent = "Simpan Perubahan";
-
     }
-
 });
 
 
@@ -370,72 +431,23 @@ cancelProfile.addEventListener("click", function () {
     profileEmail.value = originalProfile.email || "";
     profilePhone.value = originalProfile.phone || "";
 
-    sideName.textContent = originalProfile.name || "Nama belum diisi";
-    sideEmail.textContent = originalProfile.email || "";
+    sideName.textContent =
+        originalProfile.name || "Nama belum diisi";
 
-    showInitial(originalProfile.name);
+    sideEmail.textContent =
+        originalProfile.email || "";
+
+    roleBadge.textContent =
+        formatRole(originalProfile.role);
+
+    showProfilePhoto(
+        originalProfile.profile_picture,
+        originalProfile.name
+    );
+
+    profilePhoto.value = "";
 
     profileMessage.textContent = "";
-
-});
-
-
-// ============================================
-// PREVIEW FOTO PROFIL
-// ============================================
-
-profilePhoto.addEventListener("change", function () {
-
-    const file = profilePhoto.files[0];
-
-    if (!file) return;
-
-
-    // Validasi tipe file
-    const allowedTypes = [
-        "image/jpeg",
-        "image/png",
-        "image/webp"
-    ];
-
-    if (!allowedTypes.includes(file.type)) {
-
-        alert("Format foto harus JPG, PNG, atau WEBP.");
-
-        profilePhoto.value = "";
-
-        return;
-    }
-
-
-    // Validasi ukuran maksimal 2 MB
-    if (file.size > 2 * 1024 * 1024) {
-
-        alert("Ukuran foto maksimal 2 MB.");
-
-        profilePhoto.value = "";
-
-        return;
-    }
-
-
-    const reader = new FileReader();
-
-    reader.onload = function (event) {
-
-        avatarInitial.innerHTML = "";
-
-        const img = document.createElement("img");
-
-        img.src = event.target.result;
-        img.alt = "Foto Profil";
-
-        avatarInitial.appendChild(img);
-
-    };
-
-    reader.readAsDataURL(file);
-
 });
 
 
@@ -447,7 +459,6 @@ function clearSession() {
 
     sessionStorage.removeItem(TOKEN_KEY);
     sessionStorage.removeItem(USER_KEY);
-
 }
 
 
@@ -461,16 +472,13 @@ logoutButton.addEventListener("click", function () {
         "Apakah kamu yakin ingin keluar dari akun GriyaResik?"
     );
 
-
     if (!confirmation) return;
-
 
     clearSession();
 
     alert("Kamu berhasil keluar dari akun.");
 
     window.location.href = "login.html";
-
 });
 
 
@@ -483,11 +491,9 @@ deleteAccountButton.addEventListener("click", function () {
     deleteModal.classList.add("show");
 
     deletePassword.value = "";
-
     deleteMessage.textContent = "";
 
     deletePassword.focus();
-
 });
 
 
@@ -500,24 +506,19 @@ function closeDeleteModal() {
     deleteModal.classList.remove("show");
 
     deletePassword.value = "";
-
     deleteMessage.textContent = "";
-
 }
-
 
 cancelDelete.addEventListener("click", closeDeleteModal);
 
 
 // Klik area luar modal
+
 deleteModal.addEventListener("click", function (event) {
 
     if (event.target === deleteModal) {
-
         closeDeleteModal();
-
     }
-
 });
 
 
@@ -529,24 +530,21 @@ confirmDelete.addEventListener("click", async function () {
 
     const password = deletePassword.value;
 
-
     if (!password) {
 
-        deleteMessage.textContent = "Masukkan password terlebih dahulu.";
+        deleteMessage.textContent =
+            "Masukkan password terlebih dahulu.";
 
         deletePassword.focus();
 
         return;
     }
 
-
     const confirmation = confirm(
         "PERINGATAN: Akun akan dihapus. Tindakan ini tidak dapat dibatalkan. Lanjutkan?"
     );
 
-
     if (!confirmation) return;
-
 
     try {
 
@@ -555,43 +553,34 @@ confirmDelete.addEventListener("click", async function () {
 
         deleteMessage.textContent = "";
 
-
         const response = await fetch(`${API_BASE}/profile`, {
 
             method: "DELETE",
 
             headers: {
-                "Authorization": `Bearer ${token}`,
+                Authorization: `Bearer ${token}`,
                 "Content-Type": "application/json"
             },
 
             body: JSON.stringify({
                 password
             })
-
         });
 
-
         const data = await response.json();
-
 
         if (!response.ok) {
 
             throw new Error(
                 data.message || "Gagal menghapus akun."
             );
-
         }
 
-
-        // Hapus sesi login
         clearSession();
-
 
         alert("Akun GriyaResik berhasil dihapus.");
 
         window.location.href = "register.html";
-
 
     } catch (error) {
 
@@ -604,9 +593,7 @@ confirmDelete.addEventListener("click", async function () {
 
         confirmDelete.disabled = false;
         confirmDelete.textContent = "Ya, Hapus Akun";
-
     }
-
 });
 
 
@@ -619,5 +606,4 @@ document.addEventListener("DOMContentLoaded", function () {
     if (token) {
         loadProfile();
     }
-
 });
