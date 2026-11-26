@@ -107,10 +107,19 @@
             color: white;
         }
 
-        .menu-icon {
+        .menu-icon,
+        .sidebar-menu .icon,
+        .sidebar-menu .menu-icon {
             width: 20px;
+            min-width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
             font-size: 17px;
+            line-height: 1;
+            flex-shrink: 0;
         }
 
         .sidebar-bottom {
@@ -713,6 +722,12 @@
         <ul class="sidebar-menu">
             <li><a href="dashboard_admin.html"><span class="menu-icon">▦</span>Dashboard</a></li>
             <li><a href="kelola_layanan.html"><span class="menu-icon">🧹</span>Kelola Layanan</a></li>
+            <li>
+                <a href="admin-addons.html">
+                    <span class="icon">✨</span>
+                    Kelola Add-on
+                </a>
+            </li>
             <li><a href="data_customer.html"><span class="menu-icon">👥</span>Data Customer</a></li>
             <li><a href="data_petugas.html" class="active"><span class="menu-icon">🧑‍🔧</span>Data Petugas</a></li>
             <li><a href="pemesanan.html"><span class="menu-icon">📋</span>Pemesanan</a></li>

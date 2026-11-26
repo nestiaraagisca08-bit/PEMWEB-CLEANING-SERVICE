@@ -132,10 +132,19 @@
             color: white;
         }
 
-        .menu-icon {
+        .menu-icon,
+        .sidebar-menu .icon,
+        .sidebar-menu .menu-icon {
             width: 20px;
+            min-width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-align: center;
             font-size: 17px;
+            line-height: 1;
+            flex-shrink: 0;
         }
 
         .sidebar-bottom {
@@ -752,6 +761,13 @@
                 <a href="kelola_layanan.html">
                     <span class="menu-icon">🧹</span>
                     Kelola Layanan
+                </a>
+            </li>
+
+            <li>
+                <a href="admin-addons.html">
+                    <span class="icon">✨</span>
+                    Kelola Add-on
                 </a>
             </li>
 

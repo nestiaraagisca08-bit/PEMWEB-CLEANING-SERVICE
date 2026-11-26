@@ -207,6 +207,7 @@
                     }
 
                     const params = new URLSearchParams({
+                        service_id: room.id,
                         room: room.name,
                         package: packageNames[selectedPackageIndex],
                         price: room.prices[selectedPackageIndex],

@@ -202,6 +202,8 @@ let selectedPackage = null;
 // AMBIL DATA DARI HALAMAN LAYANAN
 const bookingParams = new URLSearchParams(window.location.search);
 
+const selectedServiceId = bookingParams.get("service_id");
+
 const roomFromLayanan = bookingParams.get("room");
 const packageFromLayanan = bookingParams.get("package");
 const priceFromLayanan = Number(bookingParams.get("price"));
@@ -659,8 +661,14 @@ if (detailSubtotalNow) {
     }
 }
 
-document.querySelectorAll('input[name="addon"], #notes').forEach(input => {
-    input.addEventListener("change", updateSummary);
+// LISTENER ADD-ON DINAMIS
+document.addEventListener("change", event => {
+    if (
+        event.target.matches('input[name="addon"]') ||
+        event.target.matches("#notes")
+    ) {
+        updateSummary();
+    }
 });
 
 const notesInput = document.getElementById("notes");
@@ -770,7 +778,7 @@ const standardCard = document.querySelector(".standard-card");
 
 const nextBtn = document.getElementById("nextBtn");
 
-nextBtn.addEventListener("click", () => {
+nextBtn.addEventListener("click", async () => {
     // Validasi pilihan ruangan pada langkah pertama
     if (currentStep === 0 && selectedRoom === null) {
         alert("Pilih ruangan terlebih dahulu, ya!");
@@ -848,7 +856,7 @@ if (!selectedPayment) {
 }
 
         const booking = {
-            id: "GR-" + Date.now().toString().slice(-8),
+            id: null,
             customerName: document.getElementById("finalCustomerName").value.trim(),
             phone: "+62" + phoneNumber,
             email: document.getElementById("finalCustomerEmail").value.trim(),
@@ -856,7 +864,13 @@ if (!selectedPayment) {
             landmark: document.getElementById("landmark").value.trim(),
             region: document.getElementById("region").value,
             district: document.getElementById("district").value,
-            address: document.getElementById("address").value.trim(),
+            address: [
+                document.getElementById("address").value.trim(),
+                document.getElementById("district").value,
+                document.getElementById("region").value,
+                "Surabaya",
+                "Jawa Timur"
+            ].filter(Boolean).join(", "),
             room: rooms[selectedRoom].name,
             package: selectedPackage,
             addons: getAddonNames(),
@@ -883,21 +897,80 @@ if (!selectedPayment) {
         };
 
         try {
-            const bookings = JSON.parse(
-                localStorage.getItem("griyaResikBookings") || "[]"
-            );
+            if (!selectedServiceId) {
+                alert(
+                    "Layanan tidak valid. Silakan kembali ke halaman Layanan dan pilih layanan terlebih dahulu."
+                );
+                return;
+            }
+        
+            const token = sessionStorage.getItem("token");
+        
+            if (!token) {
+                alert("Silakan login terlebih dahulu.");
+                window.location.href = "login.html";
+                return;
+            }
+        
+            const response = await fetch("http://localhost:3000/api/bookings", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    service_id: selectedServiceId,
+                
+                    // PAKET YANG DIPILIH CUSTOMER
+                    package_name: booking.package,
+                
+                    booking_date: booking.date,
+                    booking_time: booking.time,
+                    address: booking.address,
+                
+                    // Sementara tetap dikirim, nanti backend tidak akan mempercayainya
+                    total_price: booking.price,
+                
+                    payment_method:
+                        booking.payment === "QRIS"
+                            ? "qris"
+                            : "bank_transfer",
+                
+                    place_type: booking.propertyType,
+                    room_count: null,
+                
+                    // DATA ADD-ON
+                    addons: booking.addonItems,
+                    addon_total: booking.addonTotal,
+                
+                    // CATATAN CUSTOMER
+                    notes: booking.notes
+                })
+            });
+        
+            const result = await response.json();
 
-            bookings.push(booking);
-
-            localStorage.setItem(
-                "griyaResikBookings",
-                JSON.stringify(bookings)
-            );
-
+            if (!response.ok) {
+                throw new Error(result.message || "Booking gagal disimpan.");
+            }
+            
+            // ID booking asli dari database
+            booking.id = result.booking.id;
+            
+            // Gunakan harga aktual dari database jika backend mengirimkannya
+            if (result.booking.total_price !== undefined) {
+                booking.price = Number(result.booking.total_price);
+                booking.subtotal = Number(result.booking.total_price);
+            }
+            
             showBookingConfirmation(booking);
-
+        
         } catch (error) {
-            alert("Booking belum dapat disimpan di browser. Silakan coba lagi.");
+            console.error("Booking error:", error);
+        
+            alert(
+                error.message || "Booking gagal disimpan ke database. Silakan coba lagi."
+            );
         }
 
         return;
