@@ -7,7 +7,7 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Inter:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@800&family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link
     rel="stylesheet"
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
@@ -52,27 +52,93 @@
         /* HEADER */
         .header { position: sticky; top: 0; z-index: 1000; padding: 8px 0; background: var(--pink); }
         .nav {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 20px;
-            width: 100%;
-            max-width: 1100px;
-            min-height: 65px;
-            margin: auto;
-            padding: 0 25px;
-            font-family: Inter, Arial, sans-serif;
-        }
-        .brand { display: flex; align-items: center; flex-shrink: 0; gap: 7px; }
-        .brand img { width: 38px; height: 38px; object-fit: contain; }
-        .brand-text { font: 800 22px/1.5 "Baloo 2", sans-serif; white-space: nowrap; }
-        .brand-griya { color: #292929; }
-        .brand-resik { color: #789477; }
-        .nav-menu { display: flex; align-items: center; gap: 4px; padding: 4px; border-radius: 25px; background: rgb(255 255 255 / 55%); }
-        .nav-menu a { display: block; padding: 8px 18px; border-radius: 25px; color: #344054; font-size: 13px; line-height: normal; white-space: nowrap; }
-        .nav-menu .active { color: white; background: var(--green); }
-        .account { display: flex; align-items: center; gap: 5px; padding: 8px 13px; border: 1px solid var(--border); border-radius: 20px; background: white; font-size: 11px; font-weight: 700; white-space: nowrap; }
-        .account .icon { width: 13px; height: 13px; }
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 20px;
+    max-width: 1100px;
+    min-height: 65px;
+    margin: 0 auto;
+    padding: 0 25px;
+    font-family: Inter, Arial, sans-serif;
+    line-height: normal;
+}
+
+.nav > .brand {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 7px;
+}
+
+.brand img {
+    display: block;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    object-fit: contain;
+}
+
+.brand-text {
+    font: 800 22px/normal 'Baloo 2', sans-serif;
+    white-space: nowrap;
+}
+
+.brand-griya { color: #292929; }
+.brand-resik { color: #789477; }
+
+.nav-menu {
+    display: flex;
+    align-items: stretch;
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+    border-radius: 25px;
+    background: rgb(255 255 255 / 55%);
+}
+
+.nav-menu a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 4px 18px;
+    border-radius: 22px;
+    font: 500 13px / 1.25 'Inter', Arial, sans-serif;
+    text-align: center;
+    white-space: nowrap;
+    color: #344054;
+}
+
+.nav-menu a:hover {
+    background: #e4eee4;
+}
+
+.nav-menu a.active {
+    color: #fff;
+    background: #193e2f;
+}
+
+.nav > .account {
+    justify-self: end;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    padding: 8px 13px;
+    border: 1px solid #dfe5dc;
+    border-radius: 20px;
+    background: #fff;
+    color: var(--green);
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+.account .user-icon {
+    font-size: 15px;
+}
 
         /* UMUM */
         .container{width:calc(100% - 64px);max-width:1200px;margin:26px auto 40px}
@@ -1076,9 +1142,26 @@
         }
 
         @media (max-width: 850px) {
-            .nav { flex-wrap: wrap; gap: 10px; }
-            .nav-menu { order: 3; width: 100%; justify-content: center; overflow-x: auto; }
-            .nav-menu a { padding: 8px 12px; font-size: 12px; }
+            .nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 4px 14px;
+}
+
+.nav-menu {
+    order: 3;
+    flex: 0 0 100%;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-radius: 16px;
+}
+
+.nav-menu a {
+    padding-inline: 6px;
+    white-space: normal;
+}
             .columns { grid-template-columns: 1fr; }
             .search-title p { font-size: 12px; }
             .search-title h1 { font-size: 19px; }
@@ -1099,14 +1182,13 @@
 
         }
 
-        @media (max-width: 560px) {
-            .nav {
-                padding: 10px 14px;
-            }
-            .brand img { width: 34px; height: 34px; }
-            .brand-text { font-size: 20px; }
-            .account { padding: 7px 9px; font-size: 10px; }
-            .nav-menu a { padding: 8px 9px; font-size: 11px; }
+        @media (max-width: 480px) {
+    .nav-menu {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 560px) {
             .order-title h2 { font-size: 24px; }
             .overview-item strong { font-size: 12px; }
             .overview-item .label { font-size: 9px; }
@@ -1191,7 +1273,7 @@
     <header class="header">
         <nav class="nav" aria-label="Navigasi utama">
             <a class="brand" href="Beranda after login.html">
-                <img src="../images/logo griya Resik.png" alt="Logo GriyaResik">
+                <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
                 <span class="brand-text">
                     <span class="brand-griya">Griya</span><span class="brand-resik">Resik</span>
                 </span>
@@ -1207,8 +1289,8 @@
             </div>
 
             <a href="profile.html" class="account">
-                <svg class="icon" aria-hidden="true"><use href="#i-user"/></svg>
-                Pengaturan Akun
+                <span class="user-icon" aria-hidden="true">♙</span>
+                <span>Akun Saya</span>
             </a>
         </nav>
     </header>

@@ -157,20 +157,6 @@ const rooms = [
             "Standard + detail rak, vacuum sela, area sulit, debu/kotoran berat, detail lantai/sudut."
         ]
     },
-    {
-        name: "Ruangan Kustom",
-        icon: "🛋️",
-        desc: "Musholla, studio, gym, balkon",
-        meta: "Kebutuhan spesifik",
-        label: "Kustom",
-        prices: [50000, 75000, 105000],
-        time: "Sesuai luas ruangan",
-        details: [
-            "Pembersihan dasar sesuai kondisi ruangan.",
-            "Pembersihan lebih detail sesuai kebutuhan ruangan.",
-            "Pembersihan menyeluruh sesuai kondisi ruangan."
-        ]
-    }
 ];
 
 const packageNames = ["Basic Cleaning","Standard Cleaning","Deep Cleaning"];
@@ -192,7 +178,6 @@ const roomImages = {
     "Teras Rumah": "../images/9. Teras.png",
     "Garasi / Carport": "../images/10. Garasi : Carport.png",
     "Gudang Penyimpanan": "../images/11. Gudang.png",
-    "Ruangan Kustom": "../images/12. Studio Kreatif.png"
 };
 
 let currentStep = 0;
@@ -204,8 +189,6 @@ const bookingParams = new URLSearchParams(window.location.search);
 
 const roomFromLayanan = bookingParams.get("room");
 const packageFromLayanan = bookingParams.get("package");
-const priceFromLayanan = Number(bookingParams.get("price"));
-const areaFromLayanan = bookingParams.get("area");
 const timeFromLayanan = bookingParams.get("time");
 
 let pricesFromLayanan = null;
@@ -289,12 +272,8 @@ rooms.forEach((room, index) => {
 // OTOMATIS MEMILIH DATA DARI HALAMAN LAYANAN
 if (roomFromLayanan && packageFromLayanan) {
 
-    const roomName = areaFromLayanan
-        ? "Ruangan Kustom"
-        : roomFromLayanan;
-
-    selectedRoom = rooms.findIndex(
-        room => room.name === roomName
+        selectedRoom = rooms.findIndex(
+        room => room.name === roomFromLayanan
     );
 
     const validPackages = ["Basic", "Standard", "Deep"];
@@ -354,23 +333,8 @@ function getBasePrice() {
 
     const currentRoom = rooms[selectedRoom];
 
-    // Harga kustom berdasarkan daftar harga kalkulator Layanan
-    if (
-        areaFromLayanan &&
-        currentRoom.name === "Ruangan Kustom" &&
-        Array.isArray(pricesFromLayanan) &&
-        pricesFromLayanan.length === 3
-    ) {
-        const customPrice = Number(pricesFromLayanan[packageIndex]);
-
-        if (Number.isFinite(customPrice) && customPrice > 0) {
-            return customPrice;
-        }
-    }
-
     // Harga asli dari Layanan untuk paket yang sedang dipilih
     if (
-        !areaFromLayanan &&
         roomFromLayanan === currentRoom.name &&
         Array.isArray(pricesFromLayanan) &&
         pricesFromLayanan.length === 3
@@ -380,17 +344,6 @@ function getBasePrice() {
         if (Number.isFinite(servicePrice) && servicePrice > 0) {
             return servicePrice;
         }
-    }
-
-    // Harga kalkulator tunggal hanya untuk paket asal
-    if (
-        areaFromLayanan &&
-        currentRoom.name === "Ruangan Kustom" &&
-        selectedPackage === packageFromLayanan &&
-        Number.isFinite(priceFromLayanan) &&
-        priceFromLayanan > 0
-    ) {
-        return priceFromLayanan;
     }
 
     return currentRoom.prices[packageIndex];
@@ -608,14 +561,7 @@ if (detailSubtotalNow) {
         let currentPrices = currentRoom.prices;
         let currentDetails = currentRoom.details;
 
-        if (
-            areaFromLayanan &&
-            currentRoom.name === "Ruangan Kustom" &&
-            Array.isArray(pricesFromLayanan) &&
-            pricesFromLayanan.length === 3
-        ) {
-            currentPrices = pricesFromLayanan;
-        } else if (
+                if (
             roomFromLayanan === currentRoom.name &&
             Array.isArray(pricesFromLayanan) &&
             pricesFromLayanan.length === 3
@@ -624,10 +570,7 @@ if (detailSubtotalNow) {
         }
 
         if (
-            (
-                (areaFromLayanan && currentRoom.name === "Ruangan Kustom") ||
-                (!areaFromLayanan && roomFromLayanan === currentRoom.name)
-            ) &&
+            roomFromLayanan === currentRoom.name &&
             Array.isArray(detailsFromLayanan) &&
             detailsFromLayanan.length === 3
         ) {

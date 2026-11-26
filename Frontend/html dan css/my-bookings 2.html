@@ -115,21 +115,20 @@
 }
 
 .gr-header .gr-nav {
-    display: flex;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
-    justify-content: space-between;
     gap: 20px;
-
-    width: 100%;
     max-width: 1100px;
     min-height: 65px;
     margin: 0 auto;
     padding: 0 25px;
-
     font-family: Inter, Arial, sans-serif;
+    line-height: normal;
 }
 
 .gr-header .gr-brand {
+    justify-self: start;
     display: flex;
     align-items: center;
     flex-shrink: 0;
@@ -148,133 +147,95 @@
 }
 
 .gr-header .gr-brand-text {
-    font: 800 22px/1.5 "Baloo 2", sans-serif;
-    letter-spacing: normal;
+    font: 800 22px/normal 'Baloo 2', sans-serif;
     white-space: nowrap;
 }
 
-.gr-header .gr-brand-griya {
-    color: #292929;
-}
-
-.gr-header .gr-brand-resik {
-    color: #789477;
-}
+.gr-header .gr-brand-griya { color: #292929; }
+.gr-header .gr-brand-resik { color: #789477; }
 
 .gr-header .gr-nav-menu {
     display: flex;
-    align-items: center;
+    align-items: stretch;
     gap: 4px;
     margin: 0;
     padding: 4px;
-
-    border: 0;
     border-radius: 25px;
     background: rgb(255 255 255 / 55%);
-    box-shadow: none;
 }
 
 .gr-header .gr-nav-menu a {
-    display: block;
-    padding: 8px 18px;
-
-    border: 0;
-    border-radius: 25px;
-    background: transparent;
-    color: #344054;
-
-    font-family: Inter, Arial, sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: normal;
-    letter-spacing: normal;
-
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 44px;
+    padding: 4px 18px;
+    border-radius: 22px;
+    font: 500 13px / 1.25 'Inter', Arial, sans-serif;
+    text-align: center;
     text-decoration: none;
     white-space: nowrap;
+    color: #344054;
+}
+
+.gr-header .gr-nav-menu a:hover {
+    background: #e4eee4;
 }
 
 .gr-header .gr-nav-menu a.active {
     background: #193e2f;
-    color: #ffffff;
+    color: #fff;
 }
 
 .gr-header .gr-account {
-    display: flex;
+    justify-self: end;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     padding: 8px 13px;
-
-    border: 1px solid #e9eae6;
+    border: 1px solid #dfe5dc;
     border-radius: 20px;
-    background: #ffffff;
-    color: #1d352b;
-    box-shadow: none;
-
-    font-family: Inter, Arial, sans-serif;
+    background: #fff;
+    color: #193e2f;
     font-size: 11px;
-    font-weight: 700;
-    line-height: 1.5;
-    letter-spacing: normal;
-
+    font-weight: 600;
     text-decoration: none;
     white-space: nowrap;
 }
 
 .gr-header .gr-account-icon {
-    display: block;
-    flex-shrink: 0;
-    width: 13px;
-    height: 13px;
-
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 1.7;
-    stroke-linecap: round;
-    stroke-linejoin: round;
+    font-size: 15px;
 }
 
-/* RESPONSIF — MENGIKUTI PART 1 */
 @media (max-width: 850px) {
     .gr-header .gr-nav {
+        display: flex;
         flex-wrap: wrap;
-        gap: 10px;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 4px 14px;
     }
 
     .gr-header .gr-nav-menu {
         order: 3;
-        width: 100%;
-        justify-content: center;
-        overflow-x: auto;
+        flex: 0 0 100%;
+        box-sizing: border-box;
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        border-radius: 16px;
     }
 
     .gr-header .gr-nav-menu a {
-        padding: 8px 12px;
-        font-size: 12px;
+        padding-inline: 6px;
+        white-space: normal;
     }
 }
 
-@media (max-width: 560px) {
-    .gr-header .gr-nav {
-        padding: 10px 14px;
-    }
-
-    .gr-header .gr-brand img {
-        width: 34px;
-        height: 34px;
-    }
-
-    .gr-header .gr-brand-text {
-        font-size: 20px;
-    }
-
-    .gr-header .gr-account {
-        padding: 7px 9px;
-        font-size: 10px;
-    }
-
-    .gr-header .gr-nav-menu a {
-        padding: 8px 9px;
-        font-size: 11px;
+@media (max-width: 480px) {
+    .gr-header .gr-nav-menu {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
 
@@ -1659,7 +1620,7 @@
         <!-- LOGO -->
         <a class="gr-brand" href="Beranda after login.html">
             <img
-                src="../images/logo griya Resik.png"
+                src="../images/Logo griya Resik.png"
                 alt="Logo GriyaResik"
             >
 
@@ -1693,16 +1654,8 @@
 
         <!-- PENGATURAN AKUN -->
         <a href="profile.html" class="gr-account">
-            <svg
-                class="gr-account-icon"
-                viewBox="0 0 24 24"
-                aria-hidden="true"
-            >
-                <circle cx="12" cy="7" r="4"/>
-                <path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/>
-            </svg>
-
-            Pengaturan Akun
+            <span class="gr-account-icon" aria-hidden="true">♙</span>
+            <span>Akun Saya</span>
         </a>
 
     </nav>
@@ -2204,14 +2157,14 @@
             <div class="footer-brand">
                 <img
                     class="footer-logo-image"
-                    src="../images/logo griya Resik.png"
+                    src="../images/Logo griya Resik.png"
                     alt=""
                 >
 
                 <span class="logo-text">
                     <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
                 </span>
-            </div>
+            </div> 
 
             <p>
                 Solusi praktis dan terpercaya untuk hunian yang bersih,
