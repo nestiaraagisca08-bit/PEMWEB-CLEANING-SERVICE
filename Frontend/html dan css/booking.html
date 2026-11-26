@@ -149,18 +149,27 @@ button, input, select, textarea {
     background: #e8eee5;
 }
 
-.btn-account {
+.navbar .account-actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.navbar .btn-login {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 5px;
     padding: 8px 13px;
-    background: white;
     border: 1px solid #dfe5dc;
     border-radius: 20px;
+    background: #fff;
     color: var(--green);
     font-size: 11px;
-    font-weight: 700;
+    font-weight: 600;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 /* KONTEN BOOKING */
@@ -1141,7 +1150,7 @@ button, input, select, textarea {
     font-size: 20px;
     }
 
-    .btn-account {
+    .navbar .btn-login {
         padding: 7px 9px;
         font-size: 10px;
     }
@@ -5575,9 +5584,8 @@ textarea,
         <!-- AKUN -->
         <div class="account-actions">
             <a href="profile.html?from=booking.html"
-               class="btn-login"
-               id="accountLink">
-                <span class="user-icon"></span>
+            class="btn-login"
+            id="accountLink">
                 <span id="userName" data-account-name>Akun Saya</span>
             </a>
         </div>
