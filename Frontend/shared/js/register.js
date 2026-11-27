@@ -1,7 +1,6 @@
 const API_URL = window.API_URL;
 
-// GANTI dengan Client ID yang sama seperti login.js
-const GOOGLE_CLIENT_ID = "312360754155-ub7nf17c1p6vo9n69dsjaoj5odrucval.apps.googleusercontent.com";
+let GOOGLE_CLIENT_ID = "";
 
 const form = document.getElementById("registerForm");
 const nameInput = document.getElementById("name");
@@ -185,11 +184,15 @@ function handleGoogleRegister(response) {
 }
 
 // TAMPILKAN TOMBOL GOOGLE
-function initializeGoogleButton() {
+async function initializeGoogleButton() {
   if (!window.google || !window.google.accounts) {
     setTimeout(initializeGoogleButton, 300);
     return;
   }
+
+  await window.GriyaConfig?.ready;
+
+  GOOGLE_CLIENT_ID = window.GriyaConfig?.googleClientId || "";
 
   if (
     !GOOGLE_CLIENT_ID ||

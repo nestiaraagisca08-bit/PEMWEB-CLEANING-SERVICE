@@ -4,8 +4,7 @@
 
 const API_URL = window.API_URL;
 
-const GOOGLE_CLIENT_ID =
-    "312360754155-ub7nf17c1p6vo9n69dsjaoj5odrucval.apps.googleusercontent.com";
+let GOOGLE_CLIENT_ID = "";
 
 
 // ==========================================
@@ -232,7 +231,7 @@ form?.addEventListener("submit", async (event) => {
 // GOOGLE LOGIN
 // ==========================================
 
-function initializeGoogleLogin() {
+async function initializeGoogleLogin() {
 
     if (!window.google?.accounts?.id) {
 
@@ -241,6 +240,11 @@ function initializeGoogleLogin() {
         return;
 
     }
+
+    await window.GriyaConfig?.ready;
+
+    GOOGLE_CLIENT_ID =
+        window.GriyaConfig?.googleClientId || "";
 
     if (!GOOGLE_CLIENT_ID) {
 

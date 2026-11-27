@@ -28,6 +28,15 @@ router.get("/health", (req, res) => {
     });
 });
 
+// Konfigurasi publik yang aman dipakai frontend.
+// Tidak mengirim JWT_SECRET, koneksi database, atau nilai rahasia lainnya.
+router.get("/api/config", (req, res) => {
+    res.json({
+        appName: "GriyaResik",
+        googleClientId: process.env.GOOGLE_CLIENT_ID || ""
+    });
+});
+
 // ==========================================
 // TES DATABASE
 // ==========================================
