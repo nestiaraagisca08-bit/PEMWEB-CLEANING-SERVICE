@@ -104,7 +104,8 @@ Add-on diambil dari `GET /api/addons` lalu difilter sesuai layanan yang sedang d
 Sudah terhubung ke database:
 
 - register/login email, JWT, bcrypt
-- login Google (kode verifikasi ada; perlu ditinjau keamanan account linking)
+- login Google (token diverifikasi; email wajib `email_verified`)
+- auto-link Google hanya untuk akun `customer`; admin/worker tidak otomatis terhubung lewat email yang sama
 - Client ID Google dibaca frontend dari `GET /api/config`; `config.js` hanya menyimpan fallback publik
 - CORS membatasi origin; `localhost`/`127.0.0.1` tetap diizinkan, origin lain daftarkan di `ALLOWED_ORIGINS`
 - katalog layanan dan add-on

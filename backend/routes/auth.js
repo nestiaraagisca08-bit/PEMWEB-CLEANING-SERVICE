@@ -292,7 +292,28 @@ router.post("/api/auth/google", async (req, res) => {
                     });
                 }
 
-                // 7. Hubungkan Google dengan akun lama
+                // 7. Auto-link hanya untuk customer.
+                // Google membuktikan kepemilikan email, bukan hak akses
+                // admin/worker. Akun privileged tidak boleh nhận kunci
+                // hanya karena email Google-nya sama.
+                const existingRole = String(
+                    existingUser.role || ""
+                )
+                    .trim()
+                    .toLowerCase();
+
+                if (existingRole !== "customer") {
+                    await client.query("ROLLBACK");
+                    transactionStarted = false;
+
+                    return res.status(403).json({
+                        message:
+                            "Akun admin/worker tidak dapat dihubungkan otomatis dengan Google. Silakan login dengan password atau hubungi administrator.",
+                        code: "PRIVILEGED_LINK_REQUIRES_ADMIN"
+                    });
+                }
+
+                // 8. Hubungkan Google dengan akun customer lama
                 // Role, password, dan ID tidak diubah
                 const linkedUser = await client.query(
                     `UPDATE public.users
@@ -314,7 +335,7 @@ router.post("/api/auth/google", async (req, res) => {
 
             } else {
 
-                // 8. Jika belum ada, buat akun Customer baru
+                // 9. Jika belum ada, buat akun Customer baru
                 const newUser = await client.query(
                     `INSERT INTO public.users
                         (
@@ -346,20 +367,21 @@ router.post("/api/auth/google", async (req, res) => {
             throw new Error("Data pengguna tidak ditemukan.");
         }
 
-        // 9. Simpan perubahan
+        // 10. Simpan perubahan
         await client.query("COMMIT");
         transactionStarted = false;
 
-        // 10. Buat JWT
+        // 11. Buat JWT
         const token = generateToken(user);
 
+        // 12. Audit ringan tanpa credential/token
         console.log("GOOGLE LOGIN BERHASIL:", {
             id: user.id,
             email: user.email,
             role: user.role
         });
 
-        // 11. Kirim respons
+        // 13. Kirim respons
         return res.status(200).json({
             message: message,
             token: token,
