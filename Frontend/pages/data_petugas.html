@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Petugas | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="../images/Logo griya Resik.png">
+
+    <style>
+        html { overflow-y: scroll; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --green: #193e2f;
+            --green-light: #e8eee5;
+            --background: #f7f8f5;
+            --text: #1d352b;
+            --muted: #758078;
+            --border: #e9eae6;
+            --white: #fff;
+            --red: #d94b4b;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--background);
+            color: var(--text);
+        }
+
+        button, input, select, textarea { font: inherit; }
+        button { cursor: pointer; }
+        a { text-decoration: none; color: inherit; }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--green);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: .3s;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 30px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
+        }
+
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .brand-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-name span { color: #a8c3a4; }
+
+        .menu-label {
+            font-size: 10px;
+            color: #a9c0b1;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 25px 12px 12px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #d7e2da;
+            transition: .2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,.14);
+            color: white;
+        }
+
+        .menu-icon,
+        .sidebar-menu .icon,
+        .sidebar-menu .menu-icon {
+            width: 20px;
+            min-width: 20px;
+            height: 20px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 17px;
+            line-height: 1;
+            flex-shrink: 0;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #ffdada;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            text-align: left;
+        }
+
+        .logout-btn:hover {
+            background: rgba(255,255,255,.12);
+        }
+
+        /* MAIN & TOPBAR */
+        .main {
+            margin-left: 250px;
+            padding: 28px 32px;
+            min-height: 100vh;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            color: var(--green);
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 12px;
+        }
+
+        .admin-profile .profile-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: var(--green-light);
+            color: var(--green);
+            display: grid;
+            place-items: center;
+            font-weight: 800;
+            font-size: 16px;
+            flex-shrink: 0;
+        }
+
+        .profile-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .profile-info span {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+        }
+
+        /* RINGKASAN */
+        .section-title {
+            font-size: 16px;
+            color: var(--green);
+            margin-bottom: 16px;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .summary-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 19px;
+            min-width: 0;
+        }
+
+        .summary-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .summary-label {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .summary-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .icon-green { background: #e8f2e8; }
+        .icon-blue { background: #e8f0fb; }
+        .icon-yellow { background: #fff4df; }
+
+        .summary-card h2 {
+            color: var(--green);
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .summary-card p {
+            color: #9a9f99;
+            font-size: 10px;
+        }
+
+        /* KONTEN */
+        .content-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 21px;
+            min-width: 0;
+        }
+
+        .content-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .content-heading h2 {
+            font-size: 14px;
+            color: var(--green);
+        }
+
+        .content-heading p {
+            color: var(--muted);
+            font-size: 11px;
+            margin-top: 5px;
+        }
+
+        .btn-refresh,
+        .btn-primary {
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 11px 16px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+            transition: .2s;
+        }
+
+        .btn-refresh:hover,
+        .btn-primary:hover {
+            background: #285b43;
+        }
+
+        .filter-area {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+        }
+
+        .search-box,
+        .filter-select,
+        .form-control {
+            border: 1px solid var(--border);
+            background: white;
+            border-radius: 9px;
+            padding: 10px 13px;
+            outline: none;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .search-box { width: 300px; }
+        .filter-select { min-width: 190px; }
+
+        .search-box:focus,
+        .filter-select:focus,
+        .form-control:focus {
+            border-color: var(--green);
+        }
+
+        /* TABEL */
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 850px;
+        }
+
+        th {
+            text-align: left;
+            color: #8b938c;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+            background: #fafbf9;
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #f1f1ed;
+            font-size: 11px;
+            vertical-align: middle;
+        }
+
+        tbody tr:hover { background: #fbfcfa; }
+        tr:last-child td { border-bottom: none; }
+
+        .customer-info,
+        .person {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+        }
+
+        .avatar,
+        .person-avatar {
+            width: 40px;
+            height: 40px;
+            flex-shrink: 0;
+            border-radius: 50%;
+            background: var(--green-light);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 14px;
+            font-weight: 800;
+            color: var(--green);
+            overflow: hidden;
+        }
+
+        .avatar img,
+        .person-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .customer-name,
+        .person strong {
+            display: block;
+            font-weight: 700;
+            color: var(--text);
+            font-size: 11px;
+        }
+
+        .customer-email,
+        .person small {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 4px;
+        }
+
+        .method,
+        .badge {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .method.email {
+            background: #eaf2ff;
+            color: #3775c8;
+        }
+
+        .badge.active {
+            background: #e0f5e9;
+            color: #21824c;
+        }
+
+        .badge.inactive {
+            background: #ffe7e7;
+            color: #c34b4b;
+        }
+
+        .badge.available {
+            background: #e3f1ff;
+            color: #2871ae;
+        }
+
+        .badge.busy {
+            background: #fff0d9;
+            color: #b47a20;
+        }
+
+        .actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .btn-detail {
+            border: none;
+            background: #e8eee5;
+            color: var(--green);
+            padding: 8px 12px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .btn-detail:hover { background: #dce8d9; }
+
+        .btn-edit {
+            border: none;
+            background: #e5f0ff;
+            color: #2865a6;
+            padding: 8px 11px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .btn-delete {
+            border: none;
+            background: #ffe8e8;
+            color: #c34242;
+            padding: 8px 11px;
+            border-radius: 7px;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        .empty,
+        .message-row {
+            text-align: center;
+            padding: 35px;
+            color: var(--muted);
+        }
+
+        .message-row.error { color: var(--red); }
+
+        /* MODAL */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,35,26,.45);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
+        .modal-overlay.show { display: flex; }
+
+        .modal {
+            width: 100%;
+            max-width: 650px;
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 22px;
+        }
+
+        .modal-header h2 {
+            font-size: 19px;
+            color: var(--green);
+        }
+
+        .close,
+        .close-btn {
+            border: none;
+            background: #f1f5f2;
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            font-size: 18px;
+            color: var(--text);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0 15px;
+        }
+
+        .form-group { margin-bottom: 15px; }
+
+        .form-group label {
+            display: block;
+            font-size: 11px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #394a43;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            border: 1px solid var(--border);
+            border-radius: 9px;
+            padding: 11px 12px;
+            outline: none;
+            font-size: 11px;
+            color: var(--text);
+            background: white;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+        }
+
+        .full { grid-column: 1 / -1; }
+
+        .helper {
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .package-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .package-options label {
+            border: 1px solid #dce3e8;
+            padding: 10px 13px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+        }
+
+        .package-options label:has(input:checked) {
+            border-color: #17664f;
+            background: #edf7f1;
+            color: #17664f;
+        }
+
+        .package-options input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 22px;
+        }
+
+        .btn-cancel {
+            border: none;
+            background: #edf0f2;
+            color: #53616a;
+            padding: 11px 17px;
+            border-radius: 9px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        footer {
+            text-align: center;
+            color: #9ba19a;
+            font-size: 10px;
+            padding: 20px 0 5px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1100px) {
+            .summary {
+                grid-template-columns: repeat(2,minmax(0,1fr));
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-toggle { display: block; }
+            .topbar { flex-wrap: wrap; }
+
+            .content-heading {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .filter-area { flex-direction: column; }
+
+            .search-box,
+            .filter-select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .summary {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .summary-card { padding: 14px; }
+            .summary-card h2 { font-size: 21px; }
+            .admin-profile { width: 100%; }
+            .page-title h1 { font-size: 21px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .full { grid-column: auto; }
+            .modal { padding: 18px; }
+
+            .modal-actions button { flex: 1; }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img src="../images/Logo griya Resik.png" alt="Logo GriyaResik">
+            <div class="brand-name">Griya<span>Resik</span></div>
+        </div>
+
+        <div class="menu-label">MENU UTAMA</div>
+
+        <ul class="sidebar-menu">
+            <li><a href="dashboard_admin.html"><span class="menu-icon">▦</span>Dashboard</a></li>
+            <li><a href="kelola_layanan.html"><span class="menu-icon">🧹</span>Kelola Layanan</a></li>
+            <li>
+                <a href="admin-addons.html">
+                    <span class="icon">✨</span>
+                    Kelola Add-on
+                </a>
+            </li>
+            <li><a href="data_customer.html"><span class="menu-icon">👥</span>Data Customer</a></li>
+            <li><a href="data_petugas.html" class="active"><span class="menu-icon">🧑‍🔧</span>Data Petugas</a></li>
+            <li><a href="pemesanan.html"><span class="menu-icon">📋</span>Pemesanan</a></li>
+            <li><a href="jadwal.html"><span class="menu-icon">📅</span>Jadwal</a></li>
+            <li><a href="pembayaran.html"><span class="menu-icon">💳</span>Pembayaran</a></li>
+            <li><a href="laporan.html"><span class="menu-icon">📊</span>Laporan</a></li>
+            <li><a href="pengaturan.html"><span class="menu-icon">⚙️</span>Pengaturan</a></li>
+        </ul>
+
+        <div class="sidebar-bottom">
+            <button class="logout-btn" id="logoutBtn" type="button">
+                <span class="menu-icon">↪</span>Logout
+            </button>
+        </div>
+
+    </aside>
+
+    <!-- MAIN CONTENT -->
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex;align-items:center;gap:13px;">
+                <button class="mobile-toggle" id="mobileToggle" type="button">☰</button>
+
+                <div class="page-title">
+                    <h1>Data Petugas</h1>
+                    <p>Kelola informasi dan wilayah operasional petugas GriyaResik.</p>
+                </div>
+            </div>
+
+            <div class="admin-profile">
+                <div class="profile-avatar" id="adminAvatar">A</div>
+
+                <div class="profile-info">
+                    <strong id="adminName">Administrator</strong>
+                    <span>Admin GriyaResik</span>
+                </div>
+            </div>
+
+        </header>
+
+        <!-- RINGKASAN -->
+        <section>
+
+            <h2 class="section-title">Ringkasan Petugas</h2>
+
+            <div class="summary">
+
+                <div class="summary-card">
+                    <div class="summary-top">
+                        <span class="summary-label">Total Petugas</span>
+                        <div class="summary-icon icon-green">🧑‍🔧</div>
+                    </div>
+
+                    <h2 id="totalPetugas">0</h2>
+                    <p>Seluruh petugas terdaftar</p>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-top">
+                        <span class="summary-label">Petugas Aktif</span>
+                        <div class="summary-icon icon-blue">✅</div>
+                    </div>
+
+                    <h2 id="petugasAktif">0</h2>
+                    <p>Petugas dengan status aktif</p>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-top">
+                        <span class="summary-label">Petugas Tersedia</span>
+                        <div class="summary-icon icon-yellow">🟢</div>
+                    </div>
+
+                    <h2 id="petugasTersedia">0</h2>
+                    <p>Petugas siap menerima pekerjaan</p>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- DAFTAR PETUGAS -->
+        <section class="content-card">
+
+            <div class="content-heading">
+
+                <div>
+                    <h2>Daftar Petugas</h2>
+                    <p>Informasi petugas kebersihan yang terdaftar di GriyaResik.</p>
+                </div>
+
+                <div style="display:flex;gap:9px;flex-wrap:wrap;">
+                    <button class="btn-primary" id="addBtn" type="button">
+                        ＋ Tambah Petugas
+                    </button>
+
+                    <button class="btn-refresh" id="refreshBtn" type="button">
+                        ↻ Refresh Data
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- FILTER -->
+            <div class="filter-area">
+
+                <input
+                    type="text"
+                    class="search-box"
+                    id="searchInput"
+                    placeholder="Cari nama atau email petugas..."
+                >
+
+                <select class="filter-select" id="regionFilter">
+                    <option value="">Semua Wilayah</option>
+                    <option value="SB">Surabaya Barat</option>
+                    <option value="ST">Surabaya Timur</option>
+                    <option value="SU">Surabaya Utara</option>
+                    <option value="SS">Surabaya Selatan</option>
+                    <option value="SP">Surabaya Pusat</option>
+                </select>
+
+                <select class="filter-select" id="statusFilter">
+                    <option value="">Semua Status</option>
+                    <option value="Aktif">Aktif</option>
+                    <option value="Nonaktif">Nonaktif</option>
+                </select>
+
+            </div>
+
+            <!-- TABEL -->
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>PETUGAS</th>
+                            <th>NOMOR HP</th>
+                            <th>WILAYAH</th>
+                            <th>KEMAMPUAN PAKET</th>
+                            <th>STATUS</th>
+                            <th>KETERSEDIAAN</th>
+                            <th>AKSI</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="staffTableBody">
+                        <tr>
+                            <td colspan="7" class="message-row">
+                                Memuat data petugas...
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+        <footer>
+            © 2026 GriyaResik Indonesia. All Rights Reserved.
+        </footer>
+
+    </main>
+
+    <!-- MODAL TAMBAH / EDIT PETUGAS -->
+    <div class="modal-overlay" id="staffModal">
+
+        <div class="modal">
+
+            <div class="modal-header">
+                <h2 id="modalTitle">Tambah Petugas</h2>
+
+                <button type="button" class="close" id="closeModal">
+                    ×
+                </button>
+            </div>
+
+            <form id="staffForm">
+
+                <input type="hidden" id="staffId">
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label for="name">Nama Lengkap *</label>
+                        <input
+                            type="text"
+                            id="name"
+                            required
+                            placeholder="Nama lengkap petugas"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email *</label>
+                        <input
+                            type="email"
+                            id="email"
+                            required
+                            placeholder="nama@email.com"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Nomor HP *</label>
+                        <input
+                            type="tel"
+                            id="phone"
+                            required
+                            placeholder="08xxxxxxxxxx"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="photo">Foto Petugas (URL)</label>
+                        <input
+                            type="url"
+                            id="photo"
+                            placeholder="https://..."
+                        >
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="address">Alamat Lengkap *</label>
+                        <textarea
+                            id="address"
+                            rows="3"
+                            required
+                            placeholder="Masukkan alamat petugas"
+                        ></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="region">Wilayah Operasional *</label>
+
+                        <select id="region" required>
+                            <option value="">Pilih Wilayah</option>
+                            <option value="SB">Surabaya Barat</option>
+                            <option value="ST">Surabaya Timur</option>
+                            <option value="SU">Surabaya Utara</option>
+                            <option value="SS">Surabaya Selatan</option>
+                            <option value="SP">Surabaya Pusat</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="status">Status Petugas *</label>
+
+                        <select id="status" required>
+                            <option value="Aktif">Aktif</option>
+                            <option value="Nonaktif">Nonaktif</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group full">
+                        <label>Kemampuan Paket Cleaning *</label>
+
+                        <div class="package-options">
+                            <label>
+                                <input type="checkbox" name="packages" value="Basic">
+                                Basic
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="packages" value="Standard">
+                                Standard
+                            </label>
+
+                            <label>
+                                <input type="checkbox" name="packages" value="Deep">
+                                Deep
+                            </label>
+                        </div>
+
+                        <p class="helper">
+                            Pilih minimal dua paket. Kombinasi Basic + Deep saja tidak diperbolehkan.
+                        </p>
+                    </div>
+
+                    <div class="form-group full">
+                        <label for="availability">Ketersediaan Petugas *</label>
+
+                        <select id="availability" required>
+                            <option value="Tersedia">Tersedia</option>
+                            <option value="Sedang Bertugas">Sedang Bertugas</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" id="cancelBtn">
+                        Batal
+                    </button>
+
+                    <button type="submit" class="btn-primary">
+                        Simpan Petugas
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+
+    <!-- PROFIL ADMIN -->
+    <script src="../js/api.js"></script>
+    <script>
+        const userData = sessionStorage.getItem("griyaresikUser");
+
+        if (!userData) {
+            window.location.href = "login.html";
+        }
+
+        let currentUser = {};
+
+        try {
+            currentUser = JSON.parse(userData) || {};
+        } catch (error) {
+            currentUser = {};
+        }
+
+        const currentAdminName =
+            currentUser.name ||
+            currentUser.nama ||
+            currentUser.fullName ||
+            currentUser.username ||
+            "Administrator";
+
+        document.getElementById("adminName").textContent = currentAdminName;
+
+        document.getElementById("adminAvatar").textContent =
+            currentAdminName.charAt(0).toUpperCase();
+
+        // ==================================
+        // LOGOUT
+        // ==================================
+
+        document.getElementById("logoutBtn")
+            .addEventListener("click", function () {
+
+                const confirmLogout = confirm(
+                    "Apakah kamu yakin ingin logout?"
+                );
+
+                if (confirmLogout) {
+
+                    // Hapus data sesi login
+                    sessionStorage.removeItem("griyaresikUser");
+                    sessionStorage.removeItem("token");
+
+                    // Kembali ke halaman beranda sebelum login
+                    window.location.href = "Beranda before login.html";
+
+                }
+
+            });
+    </script>
+
+    <script src="../js/data_petugas.js"></script>
+
+</body>
+</html>

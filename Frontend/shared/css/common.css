@@ -1,0 +1,68 @@
+/* =========================================
+   CSS BERSAMA GRIYARESIK
+   =========================================
+   File ini sengaja hanya berisi variabel dan
+   utility class dengan awalan `griya-`.
+
+   CSS inline lama di setiap halaman masih
+   dipertahankan agar tampilan tidak berubah
+   mendadak. Pemindahan CSS dilakukan bertahap.
+*/
+
+:root {
+    --griya-green: #193e2f;
+    --griya-green-light: #e8eee5;
+    --griya-text: #1d352b;
+    --griya-muted: #758078;
+    --griya-border: #e9eae6;
+    --griya-bg: #f7f8f5;
+}
+
+.griya-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.griya-inline {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.griya-label {
+    color: var(--griya-muted);
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: .5px;
+    text-transform: uppercase;
+}
+
+.griya-status {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 20px;
+    font-size: 9px;
+    font-weight: 700;
+    white-space: nowrap;
+}
+
+.griya-status-pending {
+    background: #fff3dc;
+    color: #bd841c;
+}
+
+.griya-status-process {
+    background: #e8f0fb;
+    color: #4775aa;
+}
+
+.griya-status-success {
+    background: #e4f5e8;
+    color: #39834a;
+}
+
+.griya-status-danger {
+    background: #fdeaea;
+    color: #b84d4d;
+}

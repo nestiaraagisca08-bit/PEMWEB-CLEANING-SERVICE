@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Dashboard Worker | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="icon" type="image/png"
+        href="../images/Logo griya Resik.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <link rel="stylesheet" href="../shared/css/common.css">
+
+    <style>
+        html {
+            overflow-y: scroll;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #193e2f;
+            --green-light: #e8eee5;
+            --pink: #fae9e9;
+            --cream: #fffdfa;
+            --text: #1d352b;
+            --muted: #758078;
+            --border: #e9eae6;
+            --white: #ffffff;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f8f5;
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font: inherit;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--green);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: .3s;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 30px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
+        }
+
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .brand-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-name span {
+            color: #a8c3a4;
+        }
+
+        .menu-label {
+            font-size: 10px;
+            color: #a9c0b1;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 25px 12px 12px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #d7e2da;
+            transition: .2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,.14);
+            color: white;
+        }
+
+        .sidebar-menu .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #ffdada;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: left;
+            transition: .2s;
+        }
+
+        .logout-btn .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .logout-btn:hover {
+            background: transparent;
+            color: white;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 250px;
+            padding: 28px 32px;
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            color: var(--green);
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: var(--green-light);
+            display: grid;
+            place-items: center;
+            color: var(--green);
+            font-weight: 800;
+        }
+
+        .profile-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .profile-info span {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* WELCOME */
+
+        .welcome-card {
+            background: var(--green);
+            color: white;
+            padding: 27px 30px;
+            border-radius: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 28px;
+        }
+
+        .welcome-card h2 {
+            font-size: 22px;
+            margin-bottom: 8px;
+        }
+
+        .welcome-card p {
+            font-size: 12px;
+            color: #d0ded3;
+            line-height: 1.7;
+        }
+
+        .welcome-icon {
+            font-size: 55px;
+            opacity: .8;
+        }
+
+        /* SECTION */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            font-size: 16px;
+            color: var(--green);
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* STATISTICS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 19px;
+            min-width: 0;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .icon-green {
+            background: #e8f2e8;
+        }
+
+        .icon-yellow {
+            background: #fff4df;
+        }
+
+        .icon-blue {
+            background: #e8f0fb;
+        }
+
+        .icon-purple {
+            background: #f0eafa;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .stat-number {
+            color: var(--green);
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .stat-description {
+            color: #9a9f99;
+            font-size: 10px;
+        }
+
+        /* CONTENT GRID */
+
+        .content-grid {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 21px;
+            min-width: 0;
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .panel-heading h3 {
+            font-size: 14px;
+            color: var(--green);
+        }
+
+        .panel-heading a {
+            color: #64846a;
+            font-size: 10px;
+            font-weight: 700;
+        }
+
+        /* TABLE */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 450px;
+        }
+
+        th {
+            text-align: left;
+            color: #8b938c;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 12px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 14px 10px;
+            border-bottom: 1px solid #f1f1ed;
+            font-size: 11px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 30px 10px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-block;
+            padding: 5px 9px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: #fff3dc;
+            color: #bd841c;
+        }
+
+        .status-process {
+            background: #e8f0fb;
+            color: #4775aa;
+        }
+
+        .status-success {
+            background: #e4f5e8;
+            color: #39834a;
+        }
+
+        /* QUICK LINKS */
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .quick-link {
+            border: 1px solid var(--border);
+            border-radius: 11px;
+            padding: 15px 12px;
+            transition: .2s;
+        }
+
+        .quick-link:hover {
+            border-color: #9bb39a;
+            background: #f9fbf8;
+            transform: translateY(-2px);
+        }
+
+        .quick-link .quick-icon {
+            font-size: 22px;
+            margin-bottom: 9px;
+        }
+
+        .quick-link strong {
+            display: block;
+            font-size: 11px;
+            color: var(--green);
+            margin-bottom: 4px;
+        }
+
+        .quick-link span {
+            color: var(--muted);
+            font-size: 9px;
+            line-height: 1.5;
+        }
+
+        /* JADWAL */
+
+        .schedule-list {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .schedule-item {
+            display: flex;
+            gap: 13px;
+            padding: 13px 0;
+            border-bottom: 1px solid #f0f0ed;
+        }
+
+        .schedule-item:last-child {
+            border-bottom: none;
+        }
+
+        .schedule-time {
+            min-width: 65px;
+            color: var(--green);
+            font-size: 11px;
+            font-weight: 700;
+        }
+
+        .schedule-info strong {
+            display: block;
+            font-size: 11px;
+            margin-bottom: 5px;
+        }
+
+        .schedule-info span {
+            color: var(--muted);
+            font-size: 10px;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #9ba19a;
+            font-size: 10px;
+            padding: 20px 0 5px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .topbar {
+                flex-wrap: wrap;
+            }
+
+            .welcome-card {
+                padding: 23px 20px;
+            }
+
+            .welcome-icon {
+                display: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-number {
+                font-size: 21px;
+            }
+
+            .quick-links {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .admin-profile {
+                width: 100%;
+            }
+
+            .page-title h1 {
+                font-size: 21px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img src="../images/Logo griya Resik.png"
+                alt="Logo GriyaResik">
+
+            <div class="brand-name">
+                Griya<span>Resik</span>
+            </div>
+        </div>
+
+        <div class="menu-label">MENU UTAMA</div>
+
+        <ul class="sidebar-menu">
+
+            <li>
+                <a href="dashboard_worker.html" class="active">
+                    <span class="icon">▦</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="tugas_saya.html">
+                    <span class="icon">📋</span>
+                    Tugas Saya
+                </a>
+            </li>
+
+            <li>
+                <a href="jadwal_worker.html">
+                    <span class="icon">📅</span>
+                    Jadwal Kerja
+                </a>
+            </li>
+
+            <li>
+                <a href="riwayat_worker.html">
+                    <span class="icon">▤</span>
+                    Riwayat Pekerjaan
+                </a>
+            </li>
+
+            <li>
+                <a href="profile_.html">
+                    <span class="icon">♙</span>
+                    Profil Saya
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-bottom">
+
+            <button class="logout-btn" id="logoutBtn">
+                <span class="icon">↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+
+    <main class="main">
+
+        <header class="topbar">
+
+            <div style="display:flex; align-items:center; gap:13px;">
+
+                <button class="mobile-toggle" id="mobileToggle">
+                    ☰
+                </button>
+
+                <div class="page-title">
+                    <h1>Dashboard Worker</h1>
+                    <p>Selamat datang di sistem GriyaResik.</p>
+                </div>
+
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    W
+                </div>
+
+                <div class="profile-info">
+                    <strong id="workerName">Worker</strong>
+                    <span>Petugas GriyaResik</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- WELCOME -->
+
+        <section class="welcome-card">
+
+            <div>
+
+                <h2>
+                    Selamat Datang,
+                    <span id="welcomeName">Worker</span>! 👋
+                </h2>
+
+                <p>
+                    Pantau tugas kebersihan, jadwal kerja,
+                    dan aktivitas pekerjaanmu melalui dashboard ini.
+                </p>
+
+            </div>
+
+            <div class="welcome-icon">
+                🧹
+            </div>
+
+        </section>
+
+
+        <!-- STATISTIK -->
+
+        <section>
+
+            <div class="section-heading">
+                <h2>Ringkasan Pekerjaan</h2>
+                <p>Aktivitas pekerjaan petugas</p>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Tugas Hari Ini</span>
+                        <div class="stat-icon icon-green">📋</div>
+                    </div>
+
+                    <div class="stat-number" id="totalTask">—</div>
+
+                    <div class="stat-description">
+                        Total tugas yang dijadwalkan
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Menunggu</span>
+                        <div class="stat-icon icon-yellow">⏳</div>
+                    </div>
+
+                    <div class="stat-number" id="pendingTask">—</div>
+
+                    <div class="stat-description">
+                        Tugas belum dikerjakan
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Sedang Dikerjakan</span>
+                        <div class="stat-icon icon-blue">🧹</div>
+                    </div>
+
+                    <div class="stat-number" id="processTask">—</div>
+
+                    <div class="stat-description">
+                        Pekerjaan sedang berlangsung
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Selesai</span>
+                        <div class="stat-icon icon-purple">✅</div>
+                    </div>
+
+                    <div class="stat-number" id="completedTask">—</div>
+
+                    <div class="stat-description">
+                        Pekerjaan telah diselesaikan
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CONTENT -->
+
+        <section class="content-grid">
+
+            <!-- TUGAS HARI INI -->
+
+            <div class="panel">
+
+                <div class="panel-heading">
+                    <h3>Tugas Hari Ini</h3>
+
+                    <a href="tugas_saya.html">
+                        Lihat Semua →
+                    </a>
+                </div>
+
+                <div class="table-wrap">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>ID BOOKING</th>
+                                <th>LAYANAN</th>
+                                <th>JADWAL</th>
+                                <th>STATUS</th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="taskTable">
+
+                            <tr>
+                                <td colspan="4" class="empty-state">
+                                    Belum ada tugas yang ditampilkan.
+                                </td>
+                            </tr>
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            </div>
+
+
+            <!-- AKSES CEPAT -->
+
+            <div class="panel">
+
+                <div class="panel-heading">
+                    <h3>Akses Cepat</h3>
+                </div>
+
+                <div class="quick-links">
+
+                    <a href="tugas_saya.html" class="quick-link">
+
+                        <div class="quick-icon">📋</div>
+
+                        <strong>Tugas Saya</strong>
+
+                        <span>
+                            Lihat daftar pekerjaan
+                        </span>
+
+                    </a>
+
+                    <a href="jadwal_worker.html" class="quick-link">
+
+                        <div class="quick-icon">📅</div>
+
+                        <strong>Jadwal Kerja</strong>
+
+                        <span>
+                            Lihat jadwal pekerjaan
+                        </span>
+
+                    </a>
+
+                    <a href="riwayat_worker.html" class="quick-link">
+
+                        <div class="quick-icon">📊</div>
+
+                        <strong>Riwayat</strong>
+
+                        <span>
+                            Lihat pekerjaan sebelumnya
+                        </span>
+
+                    </a>
+
+                    <a href="profile_.html" class="quick-link">
+
+                        <div class="quick-icon">👤</div>
+
+                        <strong>Profil Saya</strong>
+
+                        <span>
+                            Kelola informasi akun
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- JADWAL BERIKUTNYA -->
+
+        <section class="panel">
+
+            <div class="panel-heading">
+
+                <h3>Jadwal Pekerjaan Berikutnya</h3>
+
+                <a href="jadwal_worker.html">
+                    Lihat Jadwal →
+                </a>
+
+            </div>
+
+            <div class="schedule-list" id="scheduleList">
+
+                <div class="empty-state">
+                    Belum ada jadwal pekerjaan.
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+            © 2026 GriyaResik Indonesia. All Rights Reserved.
+        </footer>
+
+    </main>
+
+
+    <!-- VALIDASI AKSES WORKER -->
+
+    <script src="../js/api.js"></script>
+    <script src="../shared/js/auth.js"></script>
+    <script>
+
+        // ==================================
+        // VALIDASI AKSES WORKER
+        // ==================================
+
+        const authUser =
+            window.GriyaAuth.require({
+                role: "worker",
+                loginUrl: "login.html",
+                homeUrl: "Beranda after login.html"
+            });
+
+        if (authUser) {
+
+            const user = authUser;
+
+            // ==================================
+            // TAMPILKAN IDENTITAS WORKER
+            // ==================================
+
+            const workerName =
+                user.name ||
+                user.nama ||
+                user.fullName ||
+                "Petugas";
+
+            document.getElementById("workerName").textContent =
+                workerName;
+
+            document.getElementById("welcomeName").textContent =
+                workerName.split(" ")[0];
+
+            document.getElementById("profileAvatar").textContent =
+                workerName.charAt(0).toUpperCase();
+
+
+            // ==================================
+            // MOBILE SIDEBAR
+            // ==================================
+
+            const sidebar =
+                document.getElementById("sidebar");
+
+            const mobileToggle =
+                document.getElementById("mobileToggle");
+
+            if (mobileToggle && sidebar) {
+
+                mobileToggle.addEventListener("click", function () {
+                    sidebar.classList.toggle("show");
+                });
+
+            }
+
+
+            // ==================================
+            // LOGOUT
+            // ==================================
+
+            document.getElementById("logoutBtn")
+                .addEventListener("click", function () {
+
+                    const confirmLogout = confirm(
+                        "Apakah kamu yakin ingin logout?"
+                    );
+
+                    if (confirmLogout) {
+
+                        // Hapus data sesi login
+                        sessionStorage.removeItem("griyaresikUser");
+                        sessionStorage.removeItem("token");
+
+                        // Kembali ke halaman beranda sebelum login
+                        window.location.href = "Beranda before login.html";
+
+                    }
+
+                });
+
+
+            // ==================================
+            // RINGKASAN TUGAS DARI API
+            // ==================================
+
+            const apiToken = window.GriyaAuth.getToken();
+            const taskTable = document.getElementById("taskTable");
+
+            function statusLabel(status) {
+                const labels = {
+                    pending: "Menunggu",
+                    assigned: "Menunggu Konfirmasi",
+                    processing: "Dikerjakan",
+                    completed: "Selesai",
+                    cancelled: "Dibatalkan"
+                };
+
+                const value =
+                    String(status || "").trim().toLowerCase();
+
+                return labels[value] || value || "—";
+            }
+
+            function formatDate(value) {
+                if (!value) return "—";
+
+                const date = new Date(value);
+
+                if (Number.isNaN(date.getTime())) {
+                    return String(value);
+                }
+
+                return new Intl.DateTimeFormat("id-ID", {
+                    dateStyle: "medium",
+                    timeZone: "Asia/Jakarta"
+                }).format(date);
+            }
+
+            function makeCell(row, value) {
+                const cell = document.createElement("td");
+                cell.textContent = value ?? "—";
+                row.append(cell);
+                return cell;
+            }
+
+            function emptyRow(message) {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.colSpan = 4;
+                cell.className = "empty-state";
+                cell.textContent = message;
+                row.append(cell);
+                return row;
+            }
+
+            async function loadWorkerSummary() {
+                try {
+                    const response = await fetch(
+                        window.API_URL + "/api/bookings",
+                        {
+                            headers: {
+                                Authorization: `Bearer ${apiToken}`
+                            }
+                        }
+                    );
+
+                    const payload =
+                        await response.json().catch(() => ({}));
+
+                    if (!response.ok) {
+                        throw new Error(
+                            payload.message ||
+                                "Gagal memuat data tugas."
+                        );
+                    }
+
+                    const rows = Array.isArray(payload.bookings)
+                        ? payload.bookings
+                        : [];
+
+                    const count = status => {
+                        const value =
+                            String(status || "")
+                                .trim()
+                                .toLowerCase();
+
+                        return rows.filter(booking =>
+                            String(booking.status || "")
+                                .trim()
+                                .toLowerCase() === value
+                        ).length;
+                    };
+
+                    document.getElementById("totalTask").textContent =
+                        rows.length;
+                    document.getElementById("pendingTask").textContent =
+                        count("assigned") + count("pending");
+                    document.getElementById("processTask").textContent =
+                        count("processing");
+                    document.getElementById("completedTask").textContent =
+                        count("completed");
+
+                    taskTable.replaceChildren();
+
+                    if (!rows.length) {
+                        taskTable.append(
+                            emptyRow(
+                                "Belum ada tugas yang ditugaskan kepada Anda."
+                            )
+                        );
+                        return;
+                    }
+
+                    rows.slice(0, 5).forEach(booking => {
+                        const row = document.createElement("tr");
+
+                        makeCell(row, `#${booking.id}`);
+                        makeCell(
+                            row,
+                            booking.service_name || "Layanan"
+                        );
+                        makeCell(
+                            row,
+                            formatDate(booking.booking_date)
+                        );
+                        makeCell(
+                            row,
+                            statusLabel(booking.status)
+                        );
+
+                        taskTable.append(row);
+                    });
+                } catch (error) {
+                    taskTable.replaceChildren(
+                        emptyRow(error.message)
+                    );
+                }
+            }
+
+            loadWorkerSummary();
+
+            }
+
+    </script>
+
+</body>
+</html>

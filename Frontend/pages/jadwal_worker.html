@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Jadwal Kerja | GriyaResik</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link rel="icon" type="image/png"
+        href="../images/Logo griya Resik.png">
+
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --green: #193e2f;
+            --green-light: #e8eee5;
+            --text: #1d352b;
+            --muted: #758078;
+            --border: #e9eae6;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f7f8f5;
+            color: var(--text);
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button, input, select {
+            font: inherit;
+        }
+
+        /* SIDEBAR */
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            position: fixed;
+            left: 0;
+            top: 0;
+            background: var(--green);
+            color: white;
+            padding: 25px 17px;
+            display: flex;
+            flex-direction: column;
+            z-index: 1000;
+            transition: .3s;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 0 10px 30px;
+            border-bottom: 1px solid rgba(255,255,255,.15);
+        }
+
+        .brand img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            background: white;
+            border-radius: 10px;
+        }
+
+        .brand-name {
+            font-family: 'Baloo 2', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+        }
+
+        .brand-name span {
+            color: #a8c3a4;
+        }
+
+        .menu-label {
+            font-size: 10px;
+            color: #a9c0b1;
+            font-weight: 700;
+            letter-spacing: 1px;
+            padding: 25px 12px 12px;
+        }
+
+        .sidebar-menu {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .sidebar-menu a {
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #d7e2da;
+            transition: .2s;
+        }
+
+        .sidebar-menu a:hover,
+        .sidebar-menu a.active {
+            background: rgba(255,255,255,.14);
+            color: white;
+        }
+
+        .sidebar-menu .icon,
+        .logout-btn .icon {
+            width: 20px;
+            text-align: center;
+            font-size: 17px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-bottom {
+            margin-top: auto;
+            border-top: 1px solid rgba(255,255,255,.15);
+            padding-top: 15px;
+        }
+
+        .logout-btn {
+            width: 100%;
+            border: none;
+            background: transparent;
+            color: #ffdada;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 12px;
+            text-align: left;
+            transition: .2s;
+        }
+
+        .logout-btn:hover {
+            background: transparent;
+            color: white;
+        }
+
+        /* MAIN */
+
+        .main {
+            margin-left: 250px;
+            padding: 28px 32px;
+            min-height: 100vh;
+        }
+
+        /* TOPBAR */
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .page-title h1 {
+            color: var(--green);
+            font-size: 25px;
+            margin-bottom: 5px;
+        }
+
+        .page-title p {
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .admin-profile {
+            display: flex;
+            align-items: center;
+            gap: 11px;
+            background: white;
+            border: 1px solid var(--border);
+            padding: 8px 14px;
+            border-radius: 12px;
+        }
+
+        .profile-avatar {
+            width: 37px;
+            height: 37px;
+            border-radius: 50%;
+            background: var(--green-light);
+            display: grid;
+            place-items: center;
+            color: var(--green);
+            font-weight: 800;
+        }
+
+        .profile-info strong {
+            display: block;
+            font-size: 12px;
+        }
+
+        .profile-info span {
+            display: block;
+            font-size: 10px;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+
+        .mobile-toggle {
+            display: none;
+            border: none;
+            background: var(--green);
+            color: white;
+            padding: 9px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        /* SECTION */
+
+        .section-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .section-heading h2 {
+            font-size: 16px;
+            color: var(--green);
+        }
+
+        .section-heading p {
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        /* STATISTICS */
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 19px;
+            min-width: 0;
+        }
+
+        .stat-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .stat-icon {
+            width: 42px;
+            height: 42px;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            font-size: 20px;
+        }
+
+        .icon-green {
+            background: #e8f2e8;
+        }
+
+        .icon-yellow {
+            background: #fff4df;
+        }
+
+        .icon-blue {
+            background: #e8f0fb;
+        }
+
+        .stat-number {
+            color: var(--green);
+            font-size: 25px;
+            font-weight: 800;
+            margin-bottom: 5px;
+        }
+
+        .stat-description {
+            color: #9a9f99;
+            font-size: 10px;
+        }
+
+        /* PANEL */
+
+        .panel {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 15px;
+            padding: 22px;
+            margin-bottom: 22px;
+        }
+
+        .panel-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .panel-heading h3 {
+            font-size: 14px;
+            color: var(--green);
+        }
+
+        /* FILTER */
+
+        .filter-area {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 200px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 12px 15px 12px 38px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            outline: none;
+            font-size: 12px;
+            background: white;
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 13px;
+            top: 11px;
+            color: var(--muted);
+        }
+
+        .filter-select,
+        .filter-date {
+            padding: 11px 14px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: white;
+            color: var(--text);
+            font-size: 12px;
+            outline: none;
+            min-width: 155px;
+        }
+
+        .filter-select:focus,
+        .filter-date:focus,
+        .search-box input:focus {
+            border-color: #8ba88e;
+        }
+
+        /* TABLE */
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        th {
+            text-align: left;
+            color: #8b938c;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 13px 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        td {
+            padding: 16px 10px;
+            border-bottom: 1px solid #f1f1ed;
+            font-size: 11px;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 45px 10px;
+            color: var(--muted);
+            font-size: 12px;
+        }
+
+        .empty-icon {
+            font-size: 35px;
+            margin-bottom: 12px;
+        }
+
+        /* STATUS */
+
+        .status {
+            display: inline-block;
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 9px;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .status-pending {
+            background: #fff3dc;
+            color: #bd841c;
+        }
+
+        .status-process {
+            background: #e8f0fb;
+            color: #4775aa;
+        }
+
+        .status-success {
+            background: #e4f5e8;
+            color: #39834a;
+        }
+
+        /* FOOTER */
+
+        .footer {
+            text-align: center;
+            color: #9ba19a;
+            font-size: 10px;
+            padding: 20px 0 5px;
+        }
+
+        /* RESPONSIVE */
+
+        @media (max-width: 1100px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 750px) {
+            .sidebar {
+                transform: translateX(-100%);
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main {
+                margin-left: 0;
+                padding: 20px 15px;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+
+            .topbar {
+                flex-wrap: wrap;
+            }
+
+            .admin-profile {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-number {
+                font-size: 21px;
+            }
+
+            .page-title h1 {
+                font-size: 21px;
+            }
+
+            .filter-area {
+                flex-direction: column;
+            }
+
+            .filter-select,
+            .filter-date {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- SIDEBAR -->
+
+    <aside class="sidebar" id="sidebar">
+
+        <div class="brand">
+            <img src="../images/Logo griya Resik.png"
+                alt="Logo GriyaResik">
+
+            <div class="brand-name">
+                Griya<span>Resik</span>
+            </div>
+        </div>
+
+        <div class="menu-label">MENU UTAMA</div>
+
+        <ul class="sidebar-menu">
+
+            <li>
+                <a href="dashboard_worker.html">
+                    <span class="icon">▦</span>
+                    Dashboard
+                </a>
+            </li>
+
+            <li>
+                <a href="tugas_saya.html">
+                    <span class="icon">📋</span>
+                    Tugas Saya
+                </a>
+            </li>
+
+            <li>
+                <a href="jadwal_worker.html" class="active">
+                    <span class="icon">📅</span>
+                    Jadwal Kerja
+                </a>
+            </li>
+
+            <li>
+                <a href="riwayat_worker.html">
+                    <span class="icon">▤</span>
+                    Riwayat Pekerjaan
+                </a>
+            </li>
+
+            <li>
+                <a href="profile_.html">
+                    <span class="icon">♙</span>
+                    Profil Saya
+                </a>
+            </li>
+
+        </ul>
+
+        <div class="sidebar-bottom">
+
+            <button class="logout-btn" id="logoutBtn">
+                <span class="icon">↪</span>
+                Logout
+            </button>
+
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN -->
+
+    <main class="main">
+
+        <!-- TOPBAR -->
+
+        <header class="topbar">
+
+            <div style="display:flex; align-items:center; gap:13px;">
+
+                <button class="mobile-toggle" id="mobileToggle">
+                    ☰
+                </button>
+
+                <div class="page-title">
+                    <h1>Jadwal Kerja</h1>
+                    <p>Lihat dan pantau jadwal pekerjaanmu.</p>
+                </div>
+
+            </div>
+
+            <div class="admin-profile">
+
+                <div class="profile-avatar" id="profileAvatar">
+                    P
+                </div>
+
+                <div class="profile-info">
+                    <strong id="workerName">Petugas</strong>
+                    <span>Petugas GriyaResik</span>
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- RINGKASAN -->
+
+        <section>
+
+            <div class="section-heading">
+                <h2>Ringkasan Jadwal</h2>
+                <p>Informasi jadwal pekerjaan petugas</p>
+            </div>
+
+            <div class="stats-grid">
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Jadwal Hari Ini</span>
+                        <div class="stat-icon icon-green">📅</div>
+                    </div>
+
+                    <div class="stat-number" id="todaySchedule">0</div>
+
+                    <div class="stat-description">
+                        Pekerjaan yang dijadwalkan hari ini
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Jadwal Mendatang</span>
+                        <div class="stat-icon icon-yellow">⏳</div>
+                    </div>
+
+                    <div class="stat-number" id="upcomingSchedule">0</div>
+
+                    <div class="stat-description">
+                        Pekerjaan yang belum dilaksanakan
+                    </div>
+
+                </div>
+
+                <div class="stat-card">
+
+                    <div class="stat-top">
+                        <span class="stat-label">Total Jadwal</span>
+                        <div class="stat-icon icon-blue">📋</div>
+                    </div>
+
+                    <div class="stat-number" id="totalSchedule">0</div>
+
+                    <div class="stat-description">
+                        Seluruh jadwal pekerjaan
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- DAFTAR JADWAL -->
+
+        <section class="panel">
+
+            <div class="panel-heading">
+                <h3>Daftar Jadwal Pekerjaan</h3>
+            </div>
+
+            <!-- FILTER -->
+
+            <div class="filter-area">
+
+                <div class="search-box">
+                    <span class="search-icon">⌕</span>
+
+                    <input
+                        type="text"
+                        id="searchSchedule"
+                        placeholder="Cari ID booking atau layanan..."
+                    >
+                </div>
+
+                <input
+                    type="date"
+                    id="filterDate"
+                    class="filter-date"
+                    title="Filter berdasarkan tanggal"
+                >
+
+                <select class="filter-select" id="filterStatus">
+                    <option value="semua">Semua Status</option>
+                    <option value="menunggu">Menunggu</option>
+                    <option value="dikerjakan">Dikerjakan</option>
+                    <option value="selesai">Selesai</option>
+                </select>
+
+            </div>
+
+
+            <!-- TABLE -->
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>ID BOOKING</th>
+                            <th>LAYANAN</th>
+                            <th>TANGGAL</th>
+                            <th>JAM</th>
+                            <th>ALAMAT</th>
+                            <th>STATUS</th>
+                        </tr>
+                    </thead>
+
+                    <tbody id="scheduleTable">
+
+                        <tr>
+                            <td colspan="6">
+                                <div class="empty-state">
+                                    <div class="empty-icon">📅</div>
+
+                                    <strong>Belum Ada Jadwal</strong>
+
+                                    <p style="margin-top:7px;">
+                                        Jadwal pekerjaan yang diberikan
+                                        akan ditampilkan di sini.
+                                    </p>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </section>
+
+
+        <!-- FOOTER -->
+
+        <footer class="footer">
+            © 2026 GriyaResik Indonesia. All Rights Reserved.
+        </footer>
+
+    </main>
+
+
+    <!-- VALIDASI AKSES WORKER -->
+
+    <script>
+
+        // ==================================
+        // VALIDASI AKSES WORKER
+        // ==================================
+
+        const token = sessionStorage.getItem("token");
+
+        const userData =
+            sessionStorage.getItem("griyaresikUser");
+
+        let user = null;
+
+        try {
+            user = userData ? JSON.parse(userData) : null;
+        } catch (error) {
+            user = null;
+        }
+
+        // Periksa role akun
+        const userRole = String(user?.role || "")
+            .trim()
+            .toLowerCase();
+
+        // Hanya Worker yang boleh masuk
+        if (!token || !user || userRole !== "worker") {
+
+            alert(
+                !token || !user
+                    ? "Silakan login menggunakan akun Worker terlebih dahulu."
+                    : "Akses ditolak! Halaman ini khusus untuk Worker."
+            );
+
+            sessionStorage.removeItem("griyaresikUser");
+            sessionStorage.removeItem("token");
+
+            window.location.replace("login.html");
+
+        } else {
+
+            // ==================================
+            // DATA WORKER
+            // ==================================
+
+            const workerName =
+                user.name ||
+                user.nama ||
+                user.fullName ||
+                "Petugas";
+
+            document.getElementById("workerName").textContent =
+                workerName;
+
+            document.getElementById("profileAvatar").textContent =
+                workerName.charAt(0).toUpperCase();
+
+
+            // ==================================
+            // MOBILE SIDEBAR
+            // ==================================
+
+            const sidebar =
+                document.getElementById("sidebar");
+
+            const mobileToggle =
+                document.getElementById("mobileToggle");
+
+            if (mobileToggle && sidebar) {
+                mobileToggle.addEventListener("click", function () {
+                    sidebar.classList.toggle("show");
+                });
+            }
+
+
+        // ==================================
+        // LOGOUT
+        // ==================================
+
+        document.getElementById("logoutBtn")
+            .addEventListener("click", function () {
+
+                const confirmLogout = confirm(
+                    "Apakah kamu yakin ingin logout?"
+                );
+
+                if (confirmLogout) {
+
+                    // Hapus data sesi login
+                    sessionStorage.removeItem("griyaresikUser");
+                    sessionStorage.removeItem("token");
+
+                    // Kembali ke halaman beranda sebelum login
+                    window.location.href = "Beranda before login.html";
+
+                }
+
+            });
+
+            // ==================================
+            // FILTER JADWAL
+            // ==================================
+
+            const searchSchedule =
+                document.getElementById("searchSchedule");
+
+            const filterDate =
+                document.getElementById("filterDate");
+
+            const filterStatus =
+                document.getElementById("filterStatus");
+
+            searchSchedule.addEventListener("input", filterSchedules);
+            filterDate.addEventListener("change", filterSchedules);
+            filterStatus.addEventListener("change", filterSchedules);
+
+            function filterSchedules() {
+
+                const keyword =
+                    searchSchedule.value.toLowerCase();
+
+                const selectedDate =
+                    filterDate.value;
+
+                const selectedStatus =
+                    filterStatus.value;
+
+                /*
+                    Filter akan bekerja pada data jadwal
+                    setelah dihubungkan dengan database.
+                */
+            }
+
+
+            // ==================================
+            // DATA JADWAL
+            // ==================================
+
+            /*
+                Data jadwal belum dihubungkan ke database.
+
+                Nantinya halaman ini menampilkan:
+                - ID Booking
+                - Nama Layanan
+                - Tanggal Pekerjaan
+                - Jam Pekerjaan
+                - Alamat Customer
+                - Status Pekerjaan
+
+                Data hanya ditampilkan berdasarkan
+                worker yang sedang login.
+            */
+
+        }
+
+    </script>
+
+</body>
+</html>

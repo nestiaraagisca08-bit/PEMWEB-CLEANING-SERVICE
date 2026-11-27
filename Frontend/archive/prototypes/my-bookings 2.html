@@ -1,0 +1,2300 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesanan Dikonfirmasi | GriyaResik</title>
+
+    <!-- FONT -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Baloo+2:wght@800&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- TAILWIND CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif']
+                    },
+                    colors: {
+                        brand: {
+                            cream: '#F9F6F0',
+                            beige: '#F5EFE6',
+                            border: '#E8DFD8',
+                            forest: '#1E3A2F',
+                            forestDark: '#152C23',
+                            sage: '#E8F5EC',
+                            sageDark: '#2C5E47',
+                            mint: '#EBF4EE',
+                            muted: '#7A8B82'
+                        }
+                    }
+                }
+            }
+        };
+    </script>
+
+    <!-- JAVASCRIPT KHUSUS STEP 2 -->
+    <script src="../js/my-bookings 2.js" defer></script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background-color: #F8F5EE;
+            color: #2A3B33;
+            font-family: "Plus Jakarta Sans", sans-serif;
+            font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+            -webkit-font-smoothing: antialiased;
+        }
+
+        [hidden] {
+            display: none !important;
+        }
+
+        .stepper-progress-fill {
+            background: linear-gradient(
+                90deg,
+                #1E3A2F 0%,
+                #1E3A2F 55%,
+                #CBD5E1 55%,
+                #CBD5E1 100%
+            );
+        }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #D1D5DB;
+            border-radius: 9999px;
+        }
+
+        button:disabled {
+            cursor: not-allowed;
+        }
+
+        :focus-visible {
+            outline: 3px solid #789477;
+            outline-offset: 3px;
+        }
+
+        /* HEADER PART 2 — DISAMAKAN DENGAN PART 1 */
+.gr-header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    flex-shrink: 0;
+    width: 100%;
+    padding: 8px 0;
+    border: 0;
+    background: #FAE9E9;
+    color: #1d352b;
+    box-shadow: none;
+    backdrop-filter: none;
+
+    font-family: Inter, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    font-feature-settings: normal;
+    -webkit-font-smoothing: auto;
+}
+
+.gr-header .gr-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+
+    width: 100%;
+    max-width: 1100px;
+    min-height: 65px;
+    margin: 0 auto;
+    padding: 0 25px;
+
+    font-family: Inter, Arial, sans-serif;
+}
+
+.gr-header .gr-brand {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 7px;
+    color: inherit;
+    text-decoration: none;
+}
+
+.gr-header .gr-brand img {
+    display: block;
+    flex-shrink: 0;
+    width: 38px;
+    height: 38px;
+    max-width: none;
+    object-fit: contain;
+}
+
+.gr-header .gr-brand-text {
+    font: 800 22px/1.5 "Baloo 2", sans-serif;
+    letter-spacing: normal;
+    white-space: nowrap;
+}
+
+.gr-header .gr-brand-griya {
+    color: #292929;
+}
+
+.gr-header .gr-brand-resik {
+    color: #789477;
+}
+
+.gr-header .gr-nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin: 0;
+    padding: 4px;
+
+    border: 0;
+    border-radius: 25px;
+    background: rgb(255 255 255 / 55%);
+    box-shadow: none;
+}
+
+.gr-header .gr-nav-menu a {
+    display: block;
+    padding: 8px 18px;
+
+    border: 0;
+    border-radius: 25px;
+    background: transparent;
+    color: #344054;
+
+    font-family: Inter, Arial, sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: normal;
+
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.gr-header .gr-nav-menu a.active {
+    background: #193e2f;
+    color: #ffffff;
+}
+
+.gr-header .gr-account {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 13px;
+
+    border: 1px solid #e9eae6;
+    border-radius: 20px;
+    background: #ffffff;
+    color: #1d352b;
+    box-shadow: none;
+
+    font-family: Inter, Arial, sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+    letter-spacing: normal;
+
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.gr-header .gr-account-icon {
+    display: block;
+    flex-shrink: 0;
+    width: 13px;
+    height: 13px;
+
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* RESPONSIF — MENGIKUTI PART 1 */
+@media (max-width: 850px) {
+    .gr-header .gr-nav {
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .gr-header .gr-nav-menu {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        overflow-x: auto;
+    }
+
+    .gr-header .gr-nav-menu a {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 560px) {
+    .gr-header .gr-nav {
+        padding: 10px 14px;
+    }
+
+    .gr-header .gr-brand img {
+        width: 34px;
+        height: 34px;
+    }
+
+    .gr-header .gr-brand-text {
+        font-size: 20px;
+    }
+
+    .gr-header .gr-account {
+        padding: 7px 9px;
+        font-size: 10px;
+    }
+
+    .gr-header .gr-nav-menu a {
+        padding: 8px 9px;
+        font-size: 11px;
+    }
+}
+
+            /* KONTEN PART 2 — SAMA DENGAN BOOKING DAN PART 1 */
+        .booking-main {
+            width: calc(100% - 64px);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-left: 0;
+            padding-right: 0;
+        }
+
+        @media (max-width: 640px) {
+            .booking-main {
+                width: calc(100% - 24px);
+            }
+        }
+
+        /* RINGKASAN PART 2 — MENGIKUTI PART 1 */
+.s2-card {
+    min-width: 0;
+    padding: 27px 28px;
+    border: 1px solid #e9eae6;
+    border-radius: 17px;
+    background: #ffffff;
+    color: #1d352b;
+    box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+
+    font: 400 13px/1.5 "Plus Jakarta Sans", sans-serif;
+    font-feature-settings: normal;
+    -webkit-font-smoothing: auto;
+}
+
+.s2-card h2,
+.s2-card h3,
+.s2-card p {
+    margin: 0;
+}
+
+.s2-card .s2-icon {
+    display: block;
+    flex-shrink: 0;
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* NOMOR PESANAN */
+.s2-order-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding-bottom: 23px;
+    border-bottom: 1px solid #e9eae6;
+}
+
+.s2-order-title {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-width: 0;
+}
+
+.s2-order-title h2 {
+    font-size: 31px;
+    font-weight: 800;
+    line-height: 1.25;
+    letter-spacing: -.7px;
+    overflow-wrap: anywhere;
+}
+
+/* BADGE STATUS DAN PAKET */
+.s2-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 10px;
+    border-radius: 25px;
+    background: #e8eee5;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.4;
+}
+
+.s2-status::before {
+    content: "";
+    flex-shrink: 0;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #193e2f;
+}
+
+.s2-package {
+    border: 1px solid #FAE9E9;
+    background: color-mix(
+        in srgb,
+        #FAE9E9 40%,
+        white
+    );
+    color: #804b51;
+}
+
+/* JADWAL */
+.s2-arrival {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 7px;
+    max-width: 365px;
+    padding: 8px 12px;
+    border: 1px solid #e9eae6;
+    border-radius: 12px;
+    background: #F8F5F0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.s2-arrival > .s2-icon {
+    width: 16px;
+    height: 16px;
+    color: #758078;
+}
+
+.s2-arrival strong {
+    font-weight: 700;
+}
+
+.s2-muted {
+    color: #758078;
+    margin-right: 3px;
+}
+
+/* EMPAT KARTU */
+.s2-overview {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+    margin: 24px 0;
+}
+
+.s2-overview-item {
+    min-width: 0;
+    padding: 16px;
+    border: 1px solid #e9eae6;
+    border-radius: 12px;
+    background: #F8F5F0;
+}
+
+.s2-label {
+    display: block;
+    margin-bottom: 6px;
+    color: #758078;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: .3px;
+}
+
+.s2-overview-item strong {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.s2-overview-item p {
+    margin-top: 4px;
+    color: #758078;
+    font-size: 11px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.s2-worker-name {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.s2-rating {
+    padding: 2px 5px;
+    border-radius: 4px;
+    background: #e8eee5;
+    color: #1d352b;
+    font-size: 10px;
+    font-weight: 700;
+}
+
+/* WHATSAPP DAN TELEPON — TANPA EFEK PUDAR */
+.s2-worker-actions {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 33px;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.s2-worker-actions button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 0;
+    height: 33px;
+    padding: 0 7px;
+
+    border: 1px solid #193e2f;
+    border-radius: 7px;
+    background: #193e2f;
+    color: #ffffff;
+
+    font: inherit;
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 1;
+}
+
+.s2-worker-actions button:disabled {
+    opacity: 1;
+    cursor: not-allowed;
+}
+
+.s2-worker-actions .s2-phone {
+    border-color: #e9eae6;
+    background: #ffffff;
+    color: #193e2f;
+}
+
+.s2-worker-actions .s2-icon {
+    width: 15px;
+    height: 15px;
+}
+
+/* JUDUL TAHAPAN */
+.s2-tracking-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding-top: 20px;
+    border-top: 1px solid #e9eae6;
+}
+
+.s2-tracking-heading h3 {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.s2-tracking-heading p {
+    color: #758078;
+    font-size: 10px;
+}
+
+.s2-tracking-heading strong {
+    color: #193e2f;
+    font-weight: 700;
+}
+
+/* POSISI TAHAPAN MENGIKUTI PART 1 */
+.s2-progress {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    margin: 19px 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.s2-progress li {
+    position: relative;
+    min-width: 0;
+    padding-right: 12px;
+    text-align: left;
+}
+
+/* GARIS DASAR */
+.s2-progress li::after {
+    content: "";
+    position: absolute;
+    top: 12px;
+    left: 14px;
+    right: -14px;
+    height: 4px;
+    border-radius: 999px;
+    background: #e9eae6;
+}
+
+.s2-progress li.done::after,
+.s2-progress li.current::after {
+    background: #193e2f;
+}
+
+.s2-progress li:last-child::after {
+    content: "";
+    right: 20px;
+    background: #e9eae6;
+}
+
+/* HANYA SAMPAI TITIK DIKONFIRMASI */
+.s2-progress li.done::after {
+    background: #193e2f;
+}
+
+/* LINGKARAN DAN ANGKA */
+.s2-dot {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    margin-bottom: 8px;
+    border-radius: 50%;
+    background: #e9eae6;
+    color: #758078;
+    font-size: 12px;
+    line-height: 1;
+}
+
+/* CEKLIS PUTIH */
+.s2-progress .done .s2-dot,
+.s2-progress .current .s2-dot {
+    background: #1e3a2f;
+    color: #fff;
+    box-shadow: 0 0 0 4px #fff;
+}
+
+.s2-progress .current .s2-dot {
+    box-shadow: 0 0 0 4px #e0ece4;
+}
+
+.s2-progress .s2-dot .s2-icon {
+    width: 13px;
+    height: 13px;
+    stroke-width: 2.5;
+}
+
+/* TEKS TAHAPAN */
+/* Nama tahap: mengikuti ukuran dan warna step 1. */
+.s2-progress strong {
+    display: block;
+    color: #758078;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* Tahap yang sudah dilewati dan sedang aktif. */
+.s2-progress .done strong,
+.s2-progress .current strong {
+    color: #193e2f;
+    font-weight: 700;
+}
+
+/* Waktu: mengikuti ukuran step 1. */
+.s2-progress small {
+    display: block;
+    margin-top: 2px;
+    color: #758078;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.s2-note {
+    margin-top: 14px !important;
+    color: #758078;
+    font-size: 10px;
+    line-height: 1.7;
+}
+
+/* RESPONSIF MENGIKUTI PART 1 */
+@media (max-width: 1000px) {
+    .s2-order-header {
+        align-items: flex-start;
+    }
+
+    .s2-order-title h2 {
+        font-size: 27px;
+    }
+
+    .s2-arrival {
+        max-width: 285px;
+    }
+
+    .s2-overview {
+        gap: 10px;
+    }
+
+    .s2-overview-item {
+        padding: 13px;
+    }
+
+    .s2-order-title .s2-pill {
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 850px) {
+    .s2-order-header {
+        flex-direction: column;
+        gap: 14px;
+    }
+
+    .s2-arrival {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .s2-card {
+        padding: 19px 16px;
+    }
+
+    .s2-overview {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+        margin: 18px 0;
+    }
+
+    .s2-tracking-heading {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .s2-progress {
+        overflow-x: auto;
+        grid-template-columns: repeat(5, 125px);
+        padding: 5px 4px 12px;
+    }
+}
+
+@media (max-width: 560px) {
+    .s2-order-title h2 {
+        font-size: 24px;
+    }
+
+    .s2-overview-item strong {
+        font-size: 12px;
+    }
+
+    .s2-overview-item .s2-label {
+        font-size: 9px;
+    }
+
+    .s2-overview-item p {
+        font-size: 10px;
+    }
+}
+
+/* LEBAR KOLOM SAMA DENGAN PART 1 */
+.h2-columns {
+    display: grid;
+    grid-template-columns: minmax(0, 1.42fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 24px;
+}
+
+.h2-stack {
+    display: grid;
+    align-content: start;
+    gap: 20px;
+    min-width: 0;
+}
+
+/* PANEL RIWAYAT */
+.h2-history {
+    min-width: 0;
+    padding: 20px;
+
+    border: 1px solid #e9eae6;
+    border-radius: 16px;
+    background: #ffffff;
+    color: #1d352b;
+    box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+
+    font: 400 13px/1.5 "Plus Jakarta Sans", sans-serif;
+    font-feature-settings: normal;
+    -webkit-font-smoothing: auto;
+}
+
+/* JUDUL DAN AUTO-SYNC */
+.h2-history-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #e9eae6;
+}
+
+.h2-history-heading h2 {
+    margin: 0 0 4px;
+    color: #193e2f;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -.2px;
+}
+
+.h2-history-heading p {
+    margin: 0;
+    color: #758078;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.h2-history-sync {
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 5px;
+
+    padding: 4px 10px;
+    border: 0;
+    border-radius: 30px;
+    background: #e8eee5;
+    color: #193e2f;
+
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.4;
+}
+
+.h2-history-sync > span:first-child {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #009c73;
+}
+
+/* GARIS TIMELINE */
+.h2-timeline {
+    margin: 0;
+    padding: 0 0 0 9px;
+    list-style: none;
+}
+
+.h2-timeline li {
+    position: relative;
+    margin: 0;
+    padding: 0 0 23px 11px;
+    border-left: 2px solid #e9eae6;
+}
+
+.h2-timeline li:last-child {
+    padding-bottom: 0;
+}
+
+/* Semua aktivitas memakai ceklis hijau yang sama. */
+.h2-timeline li::before,
+.h2-timeline li.payment-event::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -10px;
+
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    transform: none;
+
+    background: transparent
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Ccircle cx='12' cy='12' r='11' fill='%23193e2f' stroke='white' stroke-width='2'/%3E%3Cpath d='m7 12 3.5 3.5L17 9' fill='none' stroke='white' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E")
+        center / contain no-repeat;
+}
+
+.h2-timeline li::after {
+    content: none;
+}
+
+/* SEMUA KARTU MEMAKAI WARNA PART 1 */
+.h2-activity {
+    padding: 14px;
+    border: 1px solid #e9eae6;
+    border-radius: 11px;
+    background: #F8F5F0;
+    box-shadow: none;
+}
+
+.h2-activity-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 8px;
+}
+
+.h2-activity h3 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0;
+
+    color: #193e2f;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.h2-activity time {
+    flex-shrink: 0;
+    padding: 2px 6px;
+
+    border: 1px solid #e9eae6;
+    border-radius: 3px;
+    background: #ffffff;
+    color: #758078;
+
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+.h2-activity p {
+    margin: 0;
+    color: #758078;
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 1.8;
+    white-space: normal;
+    overflow-wrap: anywhere;
+}
+
+.h2-activity p strong {
+    color: #193e2f;
+    font-weight: 700;
+}
+
+.h2-verified {
+    color: #009c73;
+    font-size: 13px;
+    font-weight: 400;
+}
+
+/* ID TRANSAKSI */
+.h2-transaction {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    max-width: 100%;
+
+    margin-top: 9px;
+    padding: 4px 8px;
+
+    border: 1px solid #e9eae6;
+    border-radius: 3px;
+    background: #ffffff;
+    color: #758078;
+
+    font-family: ui-monospace, monospace;
+    font-size: 9px;
+    line-height: 1.4;
+}
+
+.h2-transaction span {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.h2-file-icon {
+    flex-shrink: 0;
+    font-size: 12px;
+}
+
+/* HUB OPERASIONAL */
+.h2-hub {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    margin-top: 9px;
+
+    color: #758078;
+    font-size: 9px;
+    line-height: 1.5;
+}
+
+.h2-icon {
+    display: block;
+    flex-shrink: 0;
+    width: 12px;
+    height: 12px;
+    margin-top: 1px;
+
+    fill: none;
+    stroke: #193e2f;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* CATATAN SIMULASI */
+.h2-demo-note {
+    margin: 14px 0 0;
+    color: #758078;
+    font-size: 9px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+@media (max-width: 850px) {
+    .h2-columns {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 560px) {
+    .h2-history {
+        padding: 16px;
+    }
+
+    .h2-history-heading {
+        flex-wrap: wrap;
+        gap: 9px;
+    }
+
+    .h2-history-heading h2 {
+        font-size: 15px;
+    }
+
+    .h2-activity {
+        padding: 12px;
+    }
+
+    .h2-activity-top {
+        flex-wrap: wrap;
+    }
+}
+
+/* KOLOM KANAN STEP 2 — MENGIKUTI STEP 1 */
+.p2-side {
+    --green: #193e2f;
+    --green-light: #e8eee5;
+    --pink: #FAE9E9;
+    --cream: #F8F5F0;
+    --text: #1d352b;
+    --muted: #758078;
+    --border: #e9eae6;
+    --white: #ffffff;
+
+    display: grid;
+    align-content: start;
+    gap: 24px;
+    min-width: 0;
+
+    font: 400 13px/1.5 "Plus Jakarta Sans", sans-serif;
+    color: var(--text);
+    font-feature-settings: normal;
+    -webkit-font-smoothing: auto;
+}
+
+.p2-side p,
+.p2-side h2,
+.p2-side h3 {
+    margin: 0;
+}
+
+.p2-side .card {
+    min-width: 0;
+    border: 1px solid var(--border);
+    background: white;
+    box-shadow: 0 2px 3px rgb(25 62 47 / 3%);
+}
+
+.p2-side .panel {
+    padding: 20px;
+    border-radius: 17px;
+}
+
+.p2-side svg.icon {
+    display: block;
+    flex-shrink: 0;
+    width: 19px;
+    height: 19px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.7;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* JUDUL KARTU */
+.p2-side .section-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 18px;
+    padding-bottom: 18px;
+    border-bottom: 1px solid var(--border);
+}
+
+.p2-side .section-title {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    min-width: 0;
+}
+
+.p2-side .section-title > .icon {
+    width: 21px;
+    height: 21px;
+}
+
+.p2-side .section-heading h2 {
+    color: var(--green);
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: -.2px;
+}
+
+.p2-side .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    flex-shrink: 0;
+    padding: 4px 10px;
+    border-radius: 25px;
+    background: var(--green-light);
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+/* CUSTOMER DAN ALAMAT */
+.p2-side .detail-label {
+    display: block;
+    margin: 0 0 6px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.4;
+    letter-spacing: .4px;
+}
+
+.p2-side .customer-name {
+    display: block;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.p2-side .contact-text {
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.6;
+}
+
+.p2-side .address-label {
+    margin-top: 20px;
+}
+
+.p2-side .home-address-link {
+    display: block;
+}
+
+.p2-side .address {
+    color: var(--text);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-wrap: anywhere;
+}
+
+/* CATATAN PATOKAN */
+.p2-side .landmark {
+    display: flex;
+    align-items: flex-start;
+    gap: 11px;
+    margin-top: 18px;
+    padding: 15px;
+
+    border: 1px solid color-mix(
+        in srgb,
+        var(--pink) 80%,
+        #804b51
+    );
+    border-radius: 12px;
+
+    background: color-mix(
+        in srgb,
+        var(--pink) 24%,
+        var(--cream)
+    );
+}
+
+.p2-side .landmark > .icon {
+    flex-shrink: 0;
+    width: 17px;
+    height: 17px;
+    margin-top: 3px;
+    color: #927b51;
+}
+
+.p2-side .landmark p {
+    margin: 0;
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
+.p2-side .landmark strong {
+    color: var(--green);
+    font-weight: 700;
+}
+
+/* BARIS TAGIHAN */
+.p2-side #billItems .bill-line {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+}
+
+.p2-side #billItems .bill-line:first-child {
+    padding-top: 0;
+}
+
+.p2-side .bill-line > div {
+    min-width: 0;
+}
+
+.p2-side .bill-line strong {
+    color: var(--green);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.p2-side .bill-line p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 1.7;
+}
+
+.p2-side .bill-line > b {
+    flex-shrink: 0;
+    color: var(--green);
+    font-size: 13px;
+    font-weight: 700;
+    line-height: 1.5;
+    white-space: nowrap;
+}
+
+.p2-side .discount-row {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.p2-side .discount-row strong {
+    flex-shrink: 0;
+    color: #2c893b;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+/* TOTAL DAN WAKTU TRANSAKSI */
+.p2-side .bill-total {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 20px;
+    padding-top: 22px;
+}
+
+.p2-side .payment-total {
+    min-width: 0;
+}
+
+.p2-side .total-label {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: 0;
+    text-transform: none;
+}
+
+.p2-side #billTotal {
+    display: block;
+    color: var(--green);
+    font-size: 26px;
+    font-weight: 800;
+    line-height: 1.2;
+    letter-spacing: -.4px;
+}
+
+.p2-side .transaction-time {
+    max-width: 180px;
+    text-align: right;
+}
+
+.p2-side .transaction-time > span {
+    display: block;
+    margin-bottom: 5px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.5;
+}
+
+.p2-side .transaction-time strong {
+    display: block;
+    color: var(--green);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.5;
+}
+
+/* RESIK CARE — VERSI PADAT SAMA DENGAN STEP 1 */
+.p2-side .resik-care {
+    width: 100%;
+    min-width: 0;
+    padding: 18px;
+
+    border: 1px solid #E8DFD8;
+    border-radius: 16px;
+    background: #FAF7F2;
+    color: #1E3A2F;
+    box-shadow: 0 1px 2px rgb(0 0 0 / 5%);
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+}
+
+.p2-side .resik-care .resik-care-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+    color: #1E3A2F;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 20px;
+    letter-spacing: normal;
+}
+
+.p2-side .resik-care-title > i {
+    flex-shrink: 0;
+    color: #1E5638;
+    font-size: 14px;
+}
+
+.p2-side .resik-care .resik-care-description {
+    margin: 8px 0 0;
+    color: #5F7368;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.5;
+    letter-spacing: normal;
+    overflow-wrap: anywhere;
+}
+
+.p2-side .resik-care .resik-care-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+
+    width: 100%;
+    margin-top: 10px;
+    padding: 9px 12px;
+
+    border: 1px solid #BDE5CB;
+    border-radius: 12px;
+    background: #E8F5EC;
+    color: #1E5638;
+
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 16px;
+    letter-spacing: normal;
+    text-align: center;
+    text-decoration: none;
+    white-space: normal;
+    transition: background-color 150ms ease;
+}
+
+.p2-side .resik-care .resik-care-button:hover {
+    background: #DCF1E2;
+}
+
+.p2-side .resik-care-button > i {
+    flex-shrink: 0;
+    color: #1E5638;
+    font-size: 14px;
+}
+
+@media (max-width: 560px) {
+    .p2-side {
+        gap: 18px;
+    }
+
+    .p2-side .panel {
+        padding: 19px;
+    }
+
+    .p2-side .section-heading h2 {
+        font-size: 16px;
+    }
+
+    .p2-side .section-heading .pill {
+        font-size: 10px;
+    }
+
+    .p2-side .bill-line strong,
+    .p2-side .bill-line > b {
+        font-size: 13px;
+    }
+
+    .p2-side #billTotal {
+        font-size: 25px;
+    }
+
+    .p2-side .transaction-time strong {
+        font-size: 12px;
+    }
+
+    .p2-side .total-label,
+    .p2-side .transaction-time > span {
+        font-size: 11px;
+    }
+}
+
+
+/* =====================================
+   CTA - SAMA DENGAN BERANDA
+===================================== */
+
+.cta {
+    background: #193e2f;
+    color: white;
+    padding: 35px 24px;
+    line-height: 1.5;
+    font-family: 'Inter', Arial, sans-serif;
+}
+
+.cta-inner {
+    max-width: 1120px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+.cta h2 {
+    margin: 0 0 8px;
+    color: white;
+    font-size: 24px;
+    font-weight: 700;
+    line-height: 1.5;
+}
+
+.cta p {
+    margin: 0;
+    color: #c5d3c9;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.btn-cta {
+    display: inline-block;
+    flex-shrink: 0;
+    padding: 14px 24px;
+    border-radius: 10px;
+    background: #fff0e9;
+    color: #193e2f;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+    text-decoration: none;
+}
+
+/* =====================================
+   FOOTER - SAMA DENGAN BERANDA
+===================================== */
+
+.footer {
+    background: #fbede7;
+    padding: 40px 24px 18px;
+    color: #1d352b;
+    font-family: 'Inter', Arial, sans-serif;
+    line-height: 1.5;
+    text-align: left;
+}
+
+.footer-grid {
+    max-width: 1120px;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr 1fr 1fr;
+    gap: 35px;
+}
+
+/* LOGO FOOTER */
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    color: #193e2f;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.footer-logo-image {
+    display: block;
+    width: auto;
+    height: 32px;
+    max-width: 100%;
+    object-fit: contain;
+    object-position: left center;
+}
+
+.footer-brand .logo-text {
+    font-family: 'Baloo 2', sans-serif;
+    font-size: 20px;
+    font-weight: 800;
+    white-space: nowrap;
+}
+
+.footer-brand .logo-griya {
+    color: #292929;
+}
+
+.footer-brand .logo-resik {
+    color: #789477;
+}
+
+/* HEADING DAN TEKS FOOTER */
+
+.footer-grid h3 {
+    margin: 0 0 13px;
+    color: #193e2f;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.footer-grid p,
+.footer-grid li,
+.footer-grid a {
+    color: #77716c;
+    font-size: 12px;
+    line-height: 1.9;
+}
+
+.footer-grid ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.footer-grid a {
+    text-decoration: none;
+}
+
+.footer-grid a:hover {
+    color: #193e2f;
+}
+
+/* WHATSAPP */
+
+.footer-grid .whatsapp {
+    display: inline-block;
+    color: #193e2f;
+    font-weight: 700;
+    margin-top: 5px;
+}
+
+/* FOOTER BOTTOM */
+
+.footer-bottom {
+    max-width: 1120px;
+    margin: 28px auto 0;
+    padding-top: 17px;
+    border-top: 1px solid #eadbd5;
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.footer-bottom p,
+.footer-bottom a {
+    margin: 0;
+    color: #89817b;
+    font-size: 10px;
+}
+
+.footer-links {
+    display: flex;
+    gap: 18px;
+}
+
+.footer-links a {
+    text-decoration: none;
+}
+
+/* =====================================
+   RESPONSIVE CTA DAN FOOTER
+===================================== */
+
+@media (max-width: 700px) {
+    .footer-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 25px;
+    }
+
+    .footer-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+@media (max-width: 560px) {
+    .cta-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 25px;
+    }
+}
+
+@media (max-width: 450px) {
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+    </style>
+</head>
+
+<body class="font-sans antialiased bg-[#F7F4EE] min-h-screen flex flex-col">
+
+    <!-- ===================================== -->
+    <!-- HEADER -->
+    <!-- ===================================== -->
+
+    <header class="gr-header">
+    <nav class="gr-nav" aria-label="Navigasi utama">
+
+        <!-- LOGO -->
+        <a class="gr-brand" href="Beranda after login.html">
+            <img
+                src="../images/Logo griya Resik.png"
+                alt="Logo GriyaResik"
+            >
+
+            <span class="gr-brand-text">
+                <span class="gr-brand-griya">Griya</span><span class="gr-brand-resik">Resik</span>
+            </span>
+        </a>
+
+        <!-- MENU -->
+        <div class="gr-nav-menu">
+            <a href="Beranda after login.html">
+                Beranda
+            </a>
+
+            <a href="Layanan.html">
+                Layanan
+            </a>
+
+            <a href="booking.html">
+                Booking
+            </a>
+
+            <a
+                href="my-bookings%201.html"
+                class="active"
+                aria-current="page"
+            >
+                Status Pemesanan
+            </a>
+        </div>
+
+        <!-- PENGATURAN AKUN -->
+        <a href="profile.html" class="gr-account">
+            <svg
+                class="gr-account-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <circle cx="12" cy="7" r="4"/>
+                <path d="M4 21v-2a8 8 0 0 1 16 0v2Z"/>
+            </svg>
+
+            Pengaturan Akun
+        </a>
+
+    </nav>
+</header>
+
+    <!-- ===================================== -->
+    <!-- KONTEN UTAMA -->
+    <!-- ===================================== -->
+
+    <main class="booking-main flex-grow py-8 space-y-7">
+
+        <!-- ================================= -->
+        <!-- RINGKASAN PESANAN DAN PROGRESS -->
+        <!-- ================================= -->
+
+        <section class="s2-card" aria-label="Ringkasan pesanan">
+
+    <!-- NOMOR PESANAN, STATUS, DAN JADWAL -->
+    <div class="s2-order-header">
+        <div class="s2-order-title">
+            <h2 id="bookingCode">—</h2>
+
+            <span class="s2-pill s2-status">
+                Pesanan Dikonfirmasi · Simulasi
+            </span>
+
+            <span id="packageBadge" class="s2-pill s2-package">
+                —
+            </span>
+        </div>
+
+        <div class="s2-arrival">
+            <svg
+                class="s2-icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 7v5l3 2"/>
+            </svg>
+
+            <span>
+                <span class="s2-muted">Jadwal: </span>
+                <strong id="scheduledAt">—</strong>
+            </span>
+        </div>
+    </div>
+
+    <!-- EMPAT KARTU INFORMASI -->
+    <div class="s2-overview">
+
+        <!-- PAKET LAYANAN -->
+        <div class="s2-overview-item">
+            <span class="s2-label">PAKET LAYANAN</span>
+            <strong id="packageName">—</strong>
+            <p id="roomSummary">—</p>
+        </div>
+
+        <!-- AREA TUJUAN -->
+        <div class="s2-overview-item">
+            <span class="s2-label">AREA TUJUAN</span>
+            <strong id="areaName">—</strong>
+            <p id="areaSummary">—</p>
+        </div>
+
+        <!-- MITRA BERTUGAS -->
+        <div class="s2-overview-item">
+            <span class="s2-label">MITRA BERTUGAS</span>
+
+            <div class="s2-worker-name">
+                <strong id="workerName">Siti Rahmawati</strong>
+
+                <span class="s2-rating">
+                    <span id="workerRating">4.9</span> ★
+                </span>
+            </div>
+
+            <p id="workerCode">
+                Mitra simulasi · ID: DEMO-1102
+            </p>
+        </div>
+
+        <!-- AKSI CEPAT MITRA -->
+        <div class="s2-overview-item">
+            <span class="s2-label">AKSI CEPAT MITRA</span>
+
+            <div class="s2-worker-actions">
+                <button
+                    id="workerWhatsApp"
+                    type="button"
+                    disabled
+                    title="Belum tersedia untuk mitra simulasi"
+                >
+                    <svg
+                        class="s2-icon"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="M20 11.5a8 8 0 0 1-11.5 7.2L4 20l1.3-4.5A8 8 0 1 1 20 11.5Z"/>
+                        <path d="M9 8c0 3 2 5 5 6l1-2-2-1-1 1-2-2 1-1-1-2Z"/>
+                    </svg>
+
+                    WhatsApp
+                </button>
+
+                <button
+                    id="workerPhone"
+                    class="s2-phone"
+                    type="button"
+                    disabled
+                    aria-label="Telepon mitra"
+                    title="Belum tersedia untuk mitra simulasi"
+                >
+                    <svg
+                        class="s2-icon"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                    >
+                        <path d="m7 3 3 5-2 2c1 3 3 5 6 6l2-2 5 3-1 4C10 22 2 14 3 4Z"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JUDUL TAHAPAN -->
+    <div class="s2-tracking-heading">
+        <h3>TAHAPAN LAYANAN HARI INI</h3>
+
+        <p>
+            Terakhir diperbarui:
+            <strong id="lastUpdated">—</strong>
+        </p>
+    </div>
+
+    <!-- TAHAPAN: GARIS HIJAU SAMPAI DIKONFIRMASI -->
+    <ol
+        class="s2-progress"
+        aria-label="Tahapan layanan simulasi"
+    >
+        <li class="done">
+            <span class="s2-dot">
+                <svg
+                    class="s2-icon"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path d="m5 12 4 4L19 6"/>
+                </svg>
+            </span>
+
+            <strong>Pesanan Dibuat</strong>
+            <small id="progressCreated">Waktu belum tercatat</small>
+        </li>
+
+        <li class="current" aria-current="step">
+            <span class="s2-dot">
+                <svg
+                    class="s2-icon"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path d="m5 12 4 4L19 6"/>
+                </svg>
+            </span>
+
+            <strong>Dikonfirmasi</strong>
+            <small id="progressConfirmed">—</small>
+        </li>
+
+        <li>
+            <span class="s2-dot">3</span>
+            <strong>Menuju Lokasi</strong>
+            <small id="progressTravel">—</small>
+        </li>
+
+        <li>
+            <span class="s2-dot">4</span>
+            <strong>Pengerjaan</strong>
+            <small id="progressWorking">—</small>
+        </li>
+
+        <li>
+            <span class="s2-dot">5</span>
+            <strong>Selesai &amp; Review</strong>
+            <small id="progressCompleted">—</small>
+        </li>
+    </ol>
+
+    <p id="step2Note" class="s2-note" hidden>        Pratinjau tahap 2. Konfirmasi dan mitra masih simulasi;
+        data customer mengikuti booking.
+    </p>
+</section>
+
+        <!-- ===================================== -->
+        <!-- DUA KOLOM UTAMA -->
+        <!-- ===================================== -->
+
+        <div class="h2-columns">
+
+            <!-- ================================= -->
+            <!-- KOLOM KIRI -->
+            <!-- ================================= -->
+
+        <div class="h2-stack">
+                <!-- ============================= -->
+                <!-- RIWAYAT PELACAKAN AKTIVITAS -->
+                <!-- ============================= -->
+
+                <section class="h2-history" aria-labelledby="h2HistoryTitle">
+    <div class="h2-history-heading">
+        <div>
+            <h2 id="h2HistoryTitle">
+                Riwayat Pelacakan Aktivitas
+            </h2>
+
+            <p>Catatan real-time sistem pemrosesan pesanan</p>
+        </div>
+
+        <span
+            class="h2-history-sync"
+            title="Pratinjau lokal; belum tersambung ke backend"
+        >
+            <span aria-hidden="true"></span>
+            <span id="syncStatus">Auto-Sync Aktif</span>
+        </span>
+    </div>
+
+    <ol
+        id="s2HistoryTimeline"
+        class="h2-timeline"
+        aria-label="Riwayat aktivitas pesanan"
+    ></ol>
+
+    <p class="h2-demo-note">
+        Mode simulasi: contoh konfirmasi, verifikasi pembayaran,
+        waktu yang belum tercatat, dan hub operasional.
+        Tidak mengubah status pembayaran asli.
+    </p>
+</section>
+
+                <!-- ================================= -->
+                <!-- PANDUAN PERSIAPAN HUNIAN -->
+                <!-- ================================= -->
+
+                <section class="bg-white rounded-2xl p-6 sm:p-7 border border-[#E8DFD8] shadow-sm">
+
+                    <div class="flex items-center gap-3 mb-1">
+
+                        <div class="w-8 h-8 rounded-lg bg-[#EAF4EE] text-[#1E5638] flex items-center justify-center text-sm">
+
+                            <i class="fa-solid fa-list-check"></i>
+                        </div>
+
+                        <div>
+                            <h3 class="text-base font-bold text-[#1E3A2F]">
+                                Panduan Persiapan Hunian
+                            </h3>
+
+                            <p class="text-xs text-[#6F8278]">
+                                Tiga langkah ringkas demi kenyamanan dan kelancaran proses sanitasi
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-5">
+
+                        <!-- PANDUAN 1 -->
+                        <div class="bg-[#FBF9F5] p-4 rounded-xl border border-[#EDE5DA] flex flex-col justify-start">
+
+                            <span class="w-6 h-6 rounded-md bg-[#1E3A2F] text-white text-xs font-bold flex items-center justify-center mb-3">
+                                1
+                            </span>
+
+                            <h4 class="text-xs font-bold text-[#1E3A2F] mb-1.5">
+                                Akses Air &amp; Listrik
+                            </h4>
+
+                            <p class="text-[11px] leading-relaxed text-[#5F7268]">
+                                Pastikan kran air serta aliran daya listrik utama aktif untuk pengoperasian mesin steam hidro-ekstraktor.
+                            </p>
+                        </div>
+
+                        <!-- PANDUAN 2 -->
+                        <div class="bg-[#FBF9F5] p-4 rounded-xl border border-[#EDE5DA] flex flex-col justify-start">
+
+                            <span class="w-6 h-6 rounded-md bg-[#1E3A2F] text-white text-xs font-bold flex items-center justify-center mb-3">
+                                2
+                            </span>
+
+                            <h4 class="text-xs font-bold text-[#1E3A2F] mb-1.5">
+                                Amankan Berkas Berharga
+                            </h4>
+
+                            <p class="text-[11px] leading-relaxed text-[#5F7268]">
+                                Simpan perhiasan, dokumen resmi, dan piranti elektronik sensitif di dalam laci atau brankas terkunci.
+                            </p>
+                        </div>
+
+                        <!-- PANDUAN 3 -->
+                        <div class="bg-[#FBF9F5] p-4 rounded-xl border border-[#EDE5DA] flex flex-col justify-start">
+
+                            <span class="w-6 h-6 rounded-md bg-[#1E3A2F] text-white text-xs font-bold flex items-center justify-center mb-3">
+                                3
+                            </span>
+
+                            <h4 class="text-xs font-bold text-[#1E3A2F] mb-1.5">
+                                Kondisikan Peliharaan
+                            </h4>
+
+                            <p class="text-[11px] leading-relaxed text-[#5F7268]">
+                                Tempatkan anabul atau hewan peliharaan di area khusus sementara agar tidak terpapar aroma pembersih alami.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+            </div>
+
+            <div class="p2-side">
+
+    <!-- LOKASI HUNIAN -->
+    <section class="card panel">
+        <div class="section-heading">
+            <div class="section-title">
+                <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <path d="M20 10c0 5-8 11-8 11S4 15 4 10a8 8 0 1 1 16 0Z"/>
+                    <circle cx="12" cy="10" r="2.5"/>
+                </svg>
+
+                <h2>Lokasi Hunian</h2>
+            </div>
+
+            <span class="pill">Tujuan Terdaftar</span>
+        </div>
+
+        <span class="detail-label">PEMESAN</span>
+
+        <strong
+            class="customer-name"
+            id="customerName"
+        ></strong>
+
+        <p
+            class="contact-text"
+            id="customerPhone"
+        ></p>
+
+        <span class="detail-label address-label">
+            ALAMAT LENGKAP
+        </span>
+
+        <a
+            id="mapLink"
+            class="home-address-link"
+            target="_blank"
+            rel="noopener noreferrer"
+            title="Buka alamat di Google Maps"
+        >
+            <p
+                class="address"
+                id="customerAddress"
+            ></p>
+        </a>
+
+        <div class="landmark">
+            <svg
+                class="icon"
+                viewBox="0 0 24 24"
+                aria-hidden="true"
+            >
+                <circle cx="12" cy="12" r="9"/>
+                <path d="M12 11v6M12 7h.01"/>
+            </svg>
+
+            <p>
+                <strong>Catatan Patokan:</strong>
+                <span id="customerLandmark"></span>
+            </p>
+        </div>
+    </section>
+
+    <!-- RINCIAN PEMESANAN -->
+    <section class="card panel">
+        <div class="section-heading">
+            <div class="section-title">
+                <svg
+                    class="icon"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                >
+                    <rect x="5" y="4" width="14" height="18" rx="2"/>
+                    <path d="M9 4V2h6v2M9 9h6M9 13h6M9 17h4"/>
+                </svg>
+
+                <h2>Rincian Pemesanan</h2>
+            </div>
+
+            <span
+                class="pill payment-badge"
+                id="paymentBadge"
+            ></span>
+        </div>
+
+        <div id="billItems"></div>
+
+        <div class="discount-row">
+            <span>Diskon Promosi Hunian Baru</span>
+            <strong id="discountAmount">- Rp. 0</strong>
+        </div>
+
+        <div class="bill-total">
+            <div class="payment-total">
+                <span class="total-label">
+                    Total Pembayaran
+                </span>
+
+                <strong id="billTotal"></strong>
+            </div>
+
+            <div class="transaction-time">
+                <span id="transactionTimeLabel">
+                    Waktu Transaksi
+                </span>
+
+                <strong id="paymentTimestamp"></strong>
+            </div>
+        </div>
+
+        <p id="paymentNotice" hidden></p>
+    </section>
+
+    <!-- PUSAT KENDALI RESIK CARE -->
+    <section class="resik-care">
+        <h3 class="resik-care-title">
+            <i class="fa-solid fa-headset" aria-hidden="true"></i>
+            <span>Pusat Kendali Resik Care</span>
+        </h3>
+
+        <p class="resik-care-description">
+            Perlu penyesuaian instruksi pembersihan atau konfirmasi
+            akses gerbang perumahan? Tim Concierge kami siap melayani Anda.
+        </p>
+
+        <a
+            id="supportLink"
+            class="resik-care-button"
+            href="https://wa.me/62881026380060"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
+            <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+            <span>Chat WhatsApp CS GriyaResik</span>
+        </a>
+    </section>
+
+    </div>
+        </div>
+    </main>
+
+    <!-- ===================================== -->
+    <!-- BANNER CTA -->
+    <!-- ===================================== -->
+
+<!-- CTA - SAMA DENGAN BERANDA -->
+<section class="cta">
+    <div class="cta-inner">
+        <div>
+            <h2>Siap Rasakan Rumah yang Lebih Segar?</h2>
+            <p>
+                Booking dalam 2 menit, mitra kebersihan profesional
+                kami siap datang tepat waktu.
+            </p>
+        </div>
+
+        <a href="booking.html" class="btn-cta">
+            Jadwalkan Sekarang
+        </a>
+    </div>
+</section>
+
+    <!-- ===================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================== -->
+
+
+<!-- =====================================
+     FOOTER - SAMA DENGAN BERANDA
+===================================== -->
+
+<footer class="footer">
+    <div class="footer-grid">
+
+        <!-- BRAND -->
+        <div>
+            <div class="footer-brand">
+                <img
+                    class="footer-logo-image"
+                    src="../images/Logo griya Resik.png"
+                    alt=""
+                >
+
+                <span class="logo-text">
+                    <span class="logo-griya">Griya</span><span class="logo-resik">Resik</span>
+                </span>
+            </div>
+
+            <p>
+                Solusi praktis dan terpercaya untuk hunian yang bersih,
+                rapi, dan menyehatkan bagi seluruh keluarga di Indonesia.
+            </p>
+        </div>
+
+        <!-- LAYANAN UTAMA -->
+        <div>
+            <h3>LAYANAN UTAMA</h3>
+
+            <ul>
+                <li>
+                    <a href="Layanan.html#roomGrid">
+                        Basic Home Cleaning
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Layanan.html#roomGrid">
+                        Standard Room Cleaning
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Layanan.html#roomGrid">
+                        Deep Cleaning Menyeluruh
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Layanan.html#customForm">
+                        Ruangan Lainnya (Custom)
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- OPERASIONAL -->
+        <div>
+            <h3>OPERASIONAL</h3>
+
+            <p>Senin–Minggu: 07.00–19.00 WIB</p>
+
+            <p><strong>Pusat Bantuan WhatsApp:</strong></p>
+
+            <a
+                class="whatsapp"
+                href="https://wa.me/62881026380060"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                +62 881-0263-80060
+            </a>
+        </div>
+
+        <!-- WILAYAH LAYANAN -->
+        <div>
+            <h3>WILAYAH LAYANAN</h3>
+
+            <p>
+                Tersedia di Jabodetabek, Bandung, Surabaya,
+                dan sekitarnya.
+            </p>
+
+            <p>● Siap Melayani 7 Hari Seminggu</p>
+        </div>
+
+    </div>
+
+    <!-- FOOTER BOTTOM -->
+    <div class="footer-bottom">
+        <p>
+            © <span id="footerYear">2025</span> GriyaResik Indonesia.
+            Seluruh hak cipta dilindungi undang-undang.
+        </p>
+
+        <div class="footer-links">
+            <a href="#">Syarat &amp; Ketentuan</a>
+            <a href="#">Kebijakan Privasi</a>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
