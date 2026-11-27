@@ -106,6 +106,7 @@ Sudah terhubung ke database:
 - register/login email, JWT, bcrypt
 - login Google (kode verifikasi ada; perlu ditinjau keamanan account linking)
 - Client ID Google dibaca frontend dari `GET /api/config`; `config.js` hanya menyimpan fallback publik
+- CORS membatasi origin; `localhost`/`127.0.0.1` tetap diizinkan, origin lain daftarkan di `ALLOWED_ORIGINS`
 - katalog layanan dan add-on
 - CRUD admin untuk customer, worker, layanan, add-on
 - profil customer dan upload foto

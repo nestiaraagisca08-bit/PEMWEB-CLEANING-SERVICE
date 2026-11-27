@@ -4,7 +4,38 @@ const path = require("path");
 
 const app = express();
 
-app.use(cors());
+// CORS dibatasi, tetapi origin lokal (localhost/127.0.0.1) tetap diizinkan
+// pada port berapa pun supaya development dan uji tidak putus.
+const extraOrigins = (process.env.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map(origin => origin.trim())
+    .filter(Boolean);
+
+function isLocalOrigin(origin) {
+    try {
+        return ["localhost", "127.0.0.1", "::1"].includes(
+            new URL(origin).hostname
+        );
+    } catch (error) {
+        return false;
+    }
+}
+
+app.use(
+    cors({
+        origin(origin, callback) {
+            if (
+                !origin ||
+                isLocalOrigin(origin) ||
+                extraOrigins.includes(origin)
+            ) {
+                return callback(null, true);
+            }
+
+            return callback(null, false);
+        }
+    })
+);
 app.use(express.json());
 
 // Upload harus sebelum static root
